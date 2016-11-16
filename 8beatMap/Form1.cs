@@ -159,10 +159,11 @@ namespace _8beatMap
             if (tick == 0) return Notedata.NoteType.Hold;
             if ((chart.Ticks[tick - 1].Notes[note] == Notedata.NoteType.Hold ||
                 chart.Ticks[tick - 1].Notes[note] == Notedata.NoteType.SimulHoldStart ||
+                chart.Ticks[tick - 1].Notes[note] == Notedata.NoteType.SimulHoldRelease ||
                 chart.Ticks[tick - 1].Notes[note] == Notedata.NoteType.SwipeLeftStartEnd ||
                 chart.Ticks[tick - 1].Notes[note] == Notedata.NoteType.SwipeRightStartEnd) &&
                 chart.Ticks[tick + 1].Notes[note] != Notedata.NoteType.None) return Notedata.NoteType.ExtendHoldMid;
-            else return Notedata.NoteType.Hold;
+            else return chart.Ticks[tick].Notes[note];
         }
 
         private void RedrawAllNoteIcons()
@@ -286,7 +287,7 @@ namespace _8beatMap
                 {
                     if (chart.Ticks[i].Notes[j] != Notedata.NoteType.None)
                     {
-                        if (chart.Ticks[i].Notes[j] == Notedata.NoteType.Hold)
+                        if (chart.Ticks[i].Notes[j] == Notedata.NoteType.Hold || chart.Ticks[i].Notes[j] == Notedata.NoteType.SimulHoldRelease)
                         {
                             Notes.Add(new NoteDataInfo(Array.IndexOf(chart.Ticks, chart.Ticks[i]), j, FindHoldType(i, j)));
                         }
