@@ -26,6 +26,8 @@ namespace _8beatMap
             HoldEndFlickLeft = 11,
             FlickRight = 12,
             FlickLeft = 13,
+            SwipeChangeDirR2L = 14,
+            SwipeChangeDirL2R = 15,
 
             ExtendHoldMid = 20
         }
@@ -44,6 +46,9 @@ namespace _8beatMap
 
             SwipeRightStartEnd = NoteType.SwipeRightStartEnd,
             SwipeRightMid = NoteType.SwipeRightMid,
+
+            SwipeChangeDirL2R = NoteType.SwipeChangeDirL2R,
+            SwipeChangeDirR2L = NoteType.SwipeChangeDirR2L,
 
             FlickLeft = NoteType.FlickLeft,
             HoldEndFlickLeft = NoteType.HoldEndFlickLeft,

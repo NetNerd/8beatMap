@@ -324,6 +324,7 @@
             // 
             // ImgSaveBtn
             // 
+            this.ImgSaveBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.ImgSaveBtn.Location = new System.Drawing.Point(438, 115);
             this.ImgSaveBtn.Name = "ImgSaveBtn";
             this.ImgSaveBtn.Size = new System.Drawing.Size(75, 23);
@@ -334,17 +335,19 @@
             // 
             // NoteTypeSelector
             // 
+            this.NoteTypeSelector.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.NoteTypeSelector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.NoteTypeSelector.FormattingEnabled = true;
-            this.NoteTypeSelector.Location = new System.Drawing.Point(513, 259);
+            this.NoteTypeSelector.Location = new System.Drawing.Point(488, 259);
             this.NoteTypeSelector.Name = "NoteTypeSelector";
-            this.NoteTypeSelector.Size = new System.Drawing.Size(99, 21);
+            this.NoteTypeSelector.Size = new System.Drawing.Size(124, 21);
             this.NoteTypeSelector.TabIndex = 20;
             // 
             // label4
             // 
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(395, 262);
+            this.label4.Location = new System.Drawing.Point(374, 262);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(97, 13);
             this.label4.TabIndex = 21;
@@ -378,7 +381,7 @@
             this.Controls.Add(this.ChartPanel3);
             this.Controls.Add(this.ChartPanel2);
             this.Controls.Add(this.ChartPanel);
-            this.MinimumSize = new System.Drawing.Size(500, 480);
+            this.MinimumSize = new System.Drawing.Size(580, 480);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Resize += new System.EventHandler(this.Form1_Resize);

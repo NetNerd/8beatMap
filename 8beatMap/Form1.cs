@@ -44,17 +44,20 @@ namespace _8beatMap
                 case Notedata.NoteType.FlickLeft:
                 case Notedata.NoteType.HoldEndFlickLeft: noteCol = Color.FromArgb(0x80, 0, 0xa0); break;
                 case Notedata.NoteType.SwipeLeftStartEnd: noteCol = Color.DarkViolet; break;
-                case Notedata.NoteType.SwipeLeftMid: noteCol = Color.Violet; break;
+                case Notedata.NoteType.SwipeLeftMid:
+                case Notedata.NoteType.SwipeChangeDirR2L: noteCol = Color.Violet; break;
                 case Notedata.NoteType.FlickRight:
                 case Notedata.NoteType.HoldEndFlickRight: noteCol = Color.FromArgb(0xcc, 0x88, 0); break;
                 case Notedata.NoteType.SwipeRightStartEnd: noteCol = Color.DarkOrange; break;
-                case Notedata.NoteType.SwipeRightMid: noteCol = Color.Gold; break;
+                case Notedata.NoteType.SwipeRightMid:
+                case Notedata.NoteType.SwipeChangeDirL2R: noteCol = Color.Gold; break;
                 case Notedata.NoteType.ExtendHoldMid: noteCol = Color.LightGray; break;
             }
             int Top = PanelHeight - Tick * TickHeight - IconHeight;
             PictureBox NoteBox = new PictureBox { Left = Lane * LaneWidth + (LaneWidth - IconWidth) / 2, Top = Top, Width = IconWidth, Height = IconHeight, BackColor = noteCol };
 
-            if (Type == Notedata.NoteType.HoldEndFlickLeft || Type == Notedata.NoteType.HoldEndFlickRight || Type == Notedata.NoteType.SimulHoldRelease)
+            if (Type == Notedata.NoteType.HoldEndFlickLeft || Type == Notedata.NoteType.HoldEndFlickRight || Type == Notedata.NoteType.SimulHoldRelease
+                || Type == Notedata.NoteType.SwipeChangeDirL2R || Type == Notedata.NoteType.SwipeChangeDirR2L)
                 NoteBox.BorderStyle = BorderStyle.Fixed3D;
 
             NoteBox.MouseDown += new System.Windows.Forms.MouseEventHandler(NoteBox_Click);
