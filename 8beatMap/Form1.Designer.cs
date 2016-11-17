@@ -66,8 +66,7 @@
             // 
             // ChartPanel
             // 
-            this.ChartPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.ChartPanel.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.ChartPanel.BackColor = System.Drawing.SystemColors.ControlLight;
             this.ChartPanel.Location = new System.Drawing.Point(0, 0);
             this.ChartPanel.Name = "ChartPanel";
@@ -77,8 +76,7 @@
             // 
             // ChartPanel2
             // 
-            this.ChartPanel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.ChartPanel2.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.ChartPanel2.BackColor = System.Drawing.SystemColors.ControlLight;
             this.ChartPanel2.Location = new System.Drawing.Point(0, 100);
             this.ChartPanel2.Name = "ChartPanel2";
@@ -183,8 +181,7 @@
             // 
             // ChartPanel3
             // 
-            this.ChartPanel3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.ChartPanel3.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.ChartPanel3.BackColor = System.Drawing.SystemColors.ControlLight;
             this.ChartPanel3.Location = new System.Drawing.Point(0, 200);
             this.ChartPanel3.Name = "ChartPanel3";
@@ -271,8 +268,7 @@
             // 
             // ChartPanel4
             // 
-            this.ChartPanel4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.ChartPanel4.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.ChartPanel4.BackColor = System.Drawing.SystemColors.ControlLight;
             this.ChartPanel4.Location = new System.Drawing.Point(0, 300);
             this.ChartPanel4.Name = "ChartPanel4";
@@ -427,7 +423,7 @@
             this.Controls.Add(this.ChartPanel3);
             this.Controls.Add(this.ChartPanel2);
             this.Controls.Add(this.ChartPanel);
-            this.MinimumSize = new System.Drawing.Size(580, 480);
+            this.MinimumSize = new System.Drawing.Size(580, 450);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Resize += new System.EventHandler(this.Form1_Resize);

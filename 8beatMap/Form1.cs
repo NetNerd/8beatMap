@@ -590,6 +590,7 @@ namespace _8beatMap
         {
             TickHeight = (int)ZoomBox.Value;
             IconHeight = TickHeight;
+            ResizeScrollbar();
             ChangePanelHeight(2304 * TickHeight);
             RedrawAllNoteIcons();
         }
@@ -619,23 +620,27 @@ namespace _8beatMap
 
         private void ImgSaveBtn_Click(object sender, EventArgs e)
         {
-            float scaledivX = LaneWidth / 2;
+            float scaledivX = LaneWidth / 2; // these are the final pixel dimensions of each note in the image
             float scaledivY = TickHeight / 1;
-            Bitmap img = new Bitmap((int)(LaneWidth * 8/scaledivX), (int)(chart.Length * TickHeight / scaledivY));
+            Bitmap img = new Bitmap((int)(LaneWidth * 8 * 8/scaledivX + 7), (int)(PanelHeight / scaledivY / 2));
             Graphics grfx = Graphics.FromImage(img);
             Bitmap tmpimg = new Bitmap(LaneWidth * 8, PanelHeight);
 
             ChartPanel.DrawToBitmap(tmpimg, new Rectangle(0, 0, LaneWidth * 8, PanelHeight));
-            grfx.DrawImage(tmpimg, 0, img.Height - PanelHeight / scaledivY, LaneWidth * 8/scaledivX, PanelHeight / scaledivY);
+            grfx.DrawImage(tmpimg, 0, -PanelHeight / scaledivY / 2, LaneWidth * 8/scaledivX, PanelHeight / scaledivY);
+            grfx.DrawImage(tmpimg, LaneWidth * 8 * 1 / scaledivX + 1, 0, LaneWidth * 8 / scaledivX, PanelHeight / scaledivY);
 
             ChartPanel2.DrawToBitmap(tmpimg, new Rectangle(0, 0, LaneWidth * 8, PanelHeight));
-            grfx.DrawImage(tmpimg, 0, img.Height - PanelHeight * 2/scaledivY, LaneWidth * 8/scaledivX, PanelHeight / scaledivY);
+            grfx.DrawImage(tmpimg, LaneWidth * 8 * 2 / scaledivX + 2, -PanelHeight / scaledivY / 2, LaneWidth * 8 / scaledivX, PanelHeight / scaledivY);
+            grfx.DrawImage(tmpimg, LaneWidth * 8 * 3 / scaledivX + 3, 0, LaneWidth * 8 / scaledivX, PanelHeight / scaledivY);
 
             ChartPanel3.DrawToBitmap(tmpimg, new Rectangle(0, 0, LaneWidth * 8, PanelHeight));
-            grfx.DrawImage(tmpimg, 0, img.Height - PanelHeight * 3/scaledivY, LaneWidth * 8/scaledivX, PanelHeight / scaledivY);
+            grfx.DrawImage(tmpimg, LaneWidth * 8 * 4 / scaledivX + 4, -PanelHeight / scaledivY / 2, LaneWidth * 8 / scaledivX, PanelHeight / scaledivY);
+            grfx.DrawImage(tmpimg, LaneWidth * 8 * 5 / scaledivX + 5, 0, LaneWidth * 8 / scaledivX, PanelHeight / scaledivY);
 
             ChartPanel4.DrawToBitmap(tmpimg, new Rectangle(0, 0, LaneWidth * 8, PanelHeight));
-            grfx.DrawImage(tmpimg, 0, img.Height - PanelHeight * 4/scaledivY, LaneWidth * 8/scaledivX, PanelHeight / scaledivY);
+            grfx.DrawImage(tmpimg, LaneWidth * 8 * 6 / scaledivX + 6, -PanelHeight / scaledivY / 2, LaneWidth * 8 / scaledivX, PanelHeight / scaledivY);
+            grfx.DrawImage(tmpimg, LaneWidth * 8 * 7 / scaledivX + 7, 0, LaneWidth * 8 / scaledivX, PanelHeight / scaledivY);
 
             img.Save("imgout.png");
 
