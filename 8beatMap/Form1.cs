@@ -392,11 +392,11 @@ namespace _8beatMap
                 try {
                     MusicFileReader = new NAudio.Wave.MediaFoundationReader(Path);
                 }
-                catch { MessageBox.Show("Unable to load music file."); }
+                catch { MessageBox.Show("Unable to load music file."); return; }
 
                 WaveOut.DesiredLatency = 100;
-                    WaveOut.NumberOfBuffers = 8;
-                    WaveOut.Init(MusicFileReader);
+                WaveOut.NumberOfBuffers = 8;
+                WaveOut.Init(MusicFileReader);
             }
         }
 
@@ -642,6 +642,35 @@ namespace _8beatMap
             tmpimg.Dispose();
             grfx.Dispose();
             img.Dispose();
+        }
+
+        private void NoteShiftBtn_Click(object sender, EventArgs e)
+        {
+            if (NoteShiftBox.Value > 0)
+            {
+                List<Notedata.Tick> NewTicks = chart.Ticks.ToList();
+                NewTicks.RemoveRange(chart.Length - (int)NoteShiftBox.Value, (int)NoteShiftBox.Value);
+                NewTicks.InsertRange(0, new Notedata.Tick[(int)NoteShiftBox.Value]);
+                chart.Ticks = NewTicks.ToArray();
+
+                ResizeScrollbar();
+                RedrawAllNoteIcons();
+            }
+
+            else if (NoteShiftBox.Value < 0)
+            {
+                List<Notedata.Tick> NewTicks = chart.Ticks.ToList();
+                NewTicks.RemoveRange(0, - (int)NoteShiftBox.Value);
+                NewTicks.AddRange(new Notedata.Tick[- (int)NoteShiftBox.Value]);
+                chart.Ticks = NewTicks.ToArray();
+
+                ResizeScrollbar();
+                RedrawAllNoteIcons();
+            }
+
+            NoteShiftBox.Value = 0;
+
+
         }
     }
 }

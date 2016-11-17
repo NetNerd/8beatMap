@@ -54,10 +54,14 @@
             this.ImgSaveBtn = new System.Windows.Forms.Button();
             this.NoteTypeSelector = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.NoteShiftBox = new System.Windows.Forms.NumericUpDown();
+            this.NoteShiftBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.BPMbox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.newplayhead)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ZoomBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ResizeBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NoteShiftBox)).BeginInit();
             this.SuspendLayout();
             // 
             // ChartPanel
@@ -97,7 +101,7 @@
             // BPMbox
             // 
             this.BPMbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.BPMbox.Location = new System.Drawing.Point(562, 428);
+            this.BPMbox.Location = new System.Drawing.Point(562, 338);
             this.BPMbox.Maximum = new decimal(new int[] {
             500,
             0,
@@ -117,7 +121,7 @@
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(509, 430);
+            this.label1.Location = new System.Drawing.Point(510, 340);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(33, 13);
             this.label1.TabIndex = 3;
@@ -126,7 +130,7 @@
             // PlayBtn
             // 
             this.PlayBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.PlayBtn.Location = new System.Drawing.Point(454, 467);
+            this.PlayBtn.Location = new System.Drawing.Point(456, 398);
             this.PlayBtn.Name = "PlayBtn";
             this.PlayBtn.Size = new System.Drawing.Size(75, 23);
             this.PlayBtn.TabIndex = 4;
@@ -137,7 +141,7 @@
             // StopBtn
             // 
             this.StopBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.StopBtn.Location = new System.Drawing.Point(537, 467);
+            this.StopBtn.Location = new System.Drawing.Point(537, 398);
             this.StopBtn.Name = "StopBtn";
             this.StopBtn.Size = new System.Drawing.Size(75, 23);
             this.StopBtn.TabIndex = 5;
@@ -278,8 +282,8 @@
             // 
             // OpenBtn
             // 
-            this.OpenBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.OpenBtn.Location = new System.Drawing.Point(537, 115);
+            this.OpenBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.OpenBtn.Location = new System.Drawing.Point(537, 438);
             this.OpenBtn.Name = "OpenBtn";
             this.OpenBtn.Size = new System.Drawing.Size(75, 23);
             this.OpenBtn.TabIndex = 16;
@@ -293,8 +297,8 @@
             // 
             // OpenMusicButton
             // 
-            this.OpenMusicButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.OpenMusicButton.Location = new System.Drawing.Point(537, 191);
+            this.OpenMusicButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.OpenMusicButton.Location = new System.Drawing.Point(537, 467);
             this.OpenMusicButton.Name = "OpenMusicButton";
             this.OpenMusicButton.Size = new System.Drawing.Size(75, 23);
             this.OpenMusicButton.TabIndex = 17;
@@ -308,8 +312,8 @@
             // 
             // SaveChartBtn
             // 
-            this.SaveChartBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.SaveChartBtn.Location = new System.Drawing.Point(537, 144);
+            this.SaveChartBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.SaveChartBtn.Location = new System.Drawing.Point(456, 438);
             this.SaveChartBtn.Name = "SaveChartBtn";
             this.SaveChartBtn.Size = new System.Drawing.Size(75, 23);
             this.SaveChartBtn.TabIndex = 18;
@@ -324,8 +328,8 @@
             // 
             // ImgSaveBtn
             // 
-            this.ImgSaveBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ImgSaveBtn.Location = new System.Drawing.Point(438, 115);
+            this.ImgSaveBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.ImgSaveBtn.Location = new System.Drawing.Point(456, 467);
             this.ImgSaveBtn.Name = "ImgSaveBtn";
             this.ImgSaveBtn.Size = new System.Drawing.Size(75, 23);
             this.ImgSaveBtn.TabIndex = 19;
@@ -338,7 +342,7 @@
             this.NoteTypeSelector.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.NoteTypeSelector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.NoteTypeSelector.FormattingEnabled = true;
-            this.NoteTypeSelector.Location = new System.Drawing.Point(488, 259);
+            this.NoteTypeSelector.Location = new System.Drawing.Point(488, 147);
             this.NoteTypeSelector.Name = "NoteTypeSelector";
             this.NoteTypeSelector.Size = new System.Drawing.Size(124, 21);
             this.NoteTypeSelector.TabIndex = 20;
@@ -347,17 +351,59 @@
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(374, 262);
+            this.label4.Location = new System.Drawing.Point(374, 150);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(97, 13);
             this.label4.TabIndex = 21;
             this.label4.Text = "Note type to place:";
+            // 
+            // label5
+            // 
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(382, 75);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(76, 13);
+            this.label5.TabIndex = 24;
+            this.label5.Text = "Shift All Notes:";
+            // 
+            // NoteShiftBox
+            // 
+            this.NoteShiftBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.NoteShiftBox.Location = new System.Drawing.Point(473, 73);
+            this.NoteShiftBox.Maximum = new decimal(new int[] {
+            48,
+            0,
+            0,
+            0});
+            this.NoteShiftBox.Minimum = new decimal(new int[] {
+            48,
+            0,
+            0,
+            -2147483648});
+            this.NoteShiftBox.Name = "NoteShiftBox";
+            this.NoteShiftBox.Size = new System.Drawing.Size(56, 20);
+            this.NoteShiftBox.TabIndex = 23;
+            // 
+            // NoteShiftBtn
+            // 
+            this.NoteShiftBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.NoteShiftBtn.Location = new System.Drawing.Point(537, 70);
+            this.NoteShiftBtn.Name = "NoteShiftBtn";
+            this.NoteShiftBtn.Size = new System.Drawing.Size(75, 23);
+            this.NoteShiftBtn.TabIndex = 22;
+            this.NoteShiftBtn.Text = "Apply (Slow)";
+            this.NoteShiftBtn.UseVisualStyleBackColor = true;
+            this.NoteShiftBtn.Click += new System.EventHandler(this.NoteShiftBtn_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(624, 502);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.NoteShiftBox);
+            this.Controls.Add(this.NoteShiftBtn);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.NoteTypeSelector);
             this.Controls.Add(this.ImgSaveBtn);
@@ -389,6 +435,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.newplayhead)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ZoomBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ResizeBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NoteShiftBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -422,6 +469,9 @@
         private System.Windows.Forms.Button ImgSaveBtn;
         private System.Windows.Forms.ComboBox NoteTypeSelector;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.NumericUpDown NoteShiftBox;
+        private System.Windows.Forms.Button NoteShiftBtn;
     }
 }
 
