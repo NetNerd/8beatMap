@@ -199,7 +199,7 @@
             0,
             0});
             this.ZoomBox.Minimum = new decimal(new int[] {
-            4,
+            5,
             0,
             0,
             0});
