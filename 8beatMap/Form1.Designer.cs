@@ -52,6 +52,8 @@
             this.SaveChartBtn = new System.Windows.Forms.Button();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.ImgSaveBtn = new System.Windows.Forms.Button();
+            this.NoteTypeSelector = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.BPMbox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.newplayhead)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ZoomBox)).BeginInit();
@@ -292,7 +294,7 @@
             // OpenMusicButton
             // 
             this.OpenMusicButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.OpenMusicButton.Location = new System.Drawing.Point(537, 200);
+            this.OpenMusicButton.Location = new System.Drawing.Point(537, 191);
             this.OpenMusicButton.Name = "OpenMusicButton";
             this.OpenMusicButton.Size = new System.Drawing.Size(75, 23);
             this.OpenMusicButton.TabIndex = 17;
@@ -330,11 +332,31 @@
             this.ImgSaveBtn.UseVisualStyleBackColor = true;
             this.ImgSaveBtn.Click += new System.EventHandler(this.ImgSaveBtn_Click);
             // 
+            // NoteTypeSelector
+            // 
+            this.NoteTypeSelector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.NoteTypeSelector.FormattingEnabled = true;
+            this.NoteTypeSelector.Location = new System.Drawing.Point(513, 259);
+            this.NoteTypeSelector.Name = "NoteTypeSelector";
+            this.NoteTypeSelector.Size = new System.Drawing.Size(99, 21);
+            this.NoteTypeSelector.TabIndex = 20;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(395, 262);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(97, 13);
+            this.label4.TabIndex = 21;
+            this.label4.Text = "Note type to place:";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(624, 502);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.NoteTypeSelector);
             this.Controls.Add(this.ImgSaveBtn);
             this.Controls.Add(this.SaveChartBtn);
             this.Controls.Add(this.OpenMusicButton);
@@ -356,7 +378,7 @@
             this.Controls.Add(this.ChartPanel3);
             this.Controls.Add(this.ChartPanel2);
             this.Controls.Add(this.ChartPanel);
-            this.MinimumSize = new System.Drawing.Size(500, 320);
+            this.MinimumSize = new System.Drawing.Size(500, 480);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Resize += new System.EventHandler(this.Form1_Resize);
@@ -395,6 +417,8 @@
         private System.Windows.Forms.Button SaveChartBtn;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.Button ImgSaveBtn;
+        private System.Windows.Forms.ComboBox NoteTypeSelector;
+        private System.Windows.Forms.Label label4;
     }
 }
 

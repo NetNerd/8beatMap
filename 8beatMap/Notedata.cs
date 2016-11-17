@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 
 namespace _8beatMap
 {
-    class Notedata
+    static class Notedata
     {
         public enum NoteType
         {
@@ -28,6 +28,28 @@ namespace _8beatMap
             FlickLeft = 13,
 
             ExtendHoldMid = 20
+        }
+
+        public enum UserVisibleNoteType
+        {
+            Tap = NoteType.Tap,
+            SimulTap = NoteType.SimulTap,
+
+            Hold = NoteType.Hold,
+            SimulHoldStart = NoteType.SimulHoldStart,
+            SimulHoldRelease = NoteType.SimulHoldRelease,
+
+            SwipeLeftStartEnd = NoteType.SwipeLeftStartEnd,
+            SwipeLeftMid = NoteType.SwipeLeftMid,
+
+            SwipeRightStartEnd = NoteType.SwipeRightStartEnd,
+            SwipeRightMid = NoteType.SwipeRightMid,
+
+            FlickLeft = NoteType.FlickLeft,
+            HoldEndFlickLeft = NoteType.HoldEndFlickLeft,
+
+            FlickRight = NoteType.FlickRight,
+            HoldEndFlickRight = NoteType.HoldEndFlickRight
         }
 
 

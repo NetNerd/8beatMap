@@ -139,16 +139,16 @@ namespace _8beatMap
             ChartPanel4.Controls.AddRange(icons4.ToArray());
         }
 
-        private Notedata.NoteType FindHoldType(int tick, int note)
+        private Notedata.NoteType FindHoldType(int tick, int lane)
         {
             if (tick == 0) return Notedata.NoteType.Hold;
-            if ((chart.Ticks[tick - 1].Notes[note] == Notedata.NoteType.Hold ||
-                chart.Ticks[tick - 1].Notes[note] == Notedata.NoteType.SimulHoldStart ||
-                chart.Ticks[tick - 1].Notes[note] == Notedata.NoteType.SimulHoldRelease ||
-                chart.Ticks[tick - 1].Notes[note] == Notedata.NoteType.SwipeLeftStartEnd ||
-                chart.Ticks[tick - 1].Notes[note] == Notedata.NoteType.SwipeRightStartEnd) &&
-                chart.Ticks[tick + 1].Notes[note] != Notedata.NoteType.None) return Notedata.NoteType.ExtendHoldMid;
-            else return chart.Ticks[tick].Notes[note];
+            if ((chart.Ticks[tick - 1].Notes[lane] == Notedata.NoteType.Hold ||
+                chart.Ticks[tick - 1].Notes[lane] == Notedata.NoteType.SimulHoldStart ||
+                chart.Ticks[tick - 1].Notes[lane] == Notedata.NoteType.SimulHoldRelease ||
+                chart.Ticks[tick - 1].Notes[lane] == Notedata.NoteType.SwipeLeftStartEnd ||
+                chart.Ticks[tick - 1].Notes[lane] == Notedata.NoteType.SwipeRightStartEnd) &&
+                chart.Ticks[tick + 1].Notes[lane] != Notedata.NoteType.None) return Notedata.NoteType.ExtendHoldMid;
+            else return chart.Ticks[tick].Notes[lane];
         }
 
         private void RedrawAllNoteIcons()
@@ -402,6 +402,8 @@ namespace _8beatMap
         {
             InitializeComponent();
 
+            NoteTypeSelector.DataSource = Enum.GetValues(typeof(Notedata.UserVisibleNoteType));
+
             ResizeScrollbar();
             RedrawAllNoteIcons();
 
@@ -433,7 +435,7 @@ namespace _8beatMap
             // PositionPlayhead(( - e.NewValue - IconHeight/2) / TickHeight + chart.Length);
             PositionPanel(chart.Length - e.NewValue / TickHeight);
             if (MusicFileReader != null)
-                try { MusicFileReader.CurrentTime = ConvertTicksToTime(CurrentTick); } finally { }
+                try { MusicFileReader.CurrentTime = ConvertTicksToTime(CurrentTick); } catch { }
         }
 
         private void PlayBtn_Click(object sender, EventArgs e)
@@ -473,33 +475,64 @@ namespace _8beatMap
             PositionPanel(CurrentTick);
         }
 
-        private void ProcessClick(int Tick, int Lane, MouseButtons MouseButton)
+        private void ProcessClick(int Tick, int Lane, MouseButtons MouseButton, Notedata.NoteType NewNote)
         {
             Console.WriteLine(Lane + ", " + Tick);
 
             if (MouseButton == MouseButtons.Left)
             {
-                chart.Ticks[Tick].Notes[Lane] = Notedata.NoteType.Tap;
+
+
+                chart.Ticks[Tick].Notes[Lane] = NewNote;
 
                 PictureBox Icn = chart.Ticks[Tick].NoteIcons[Lane];
 
-                if (Icn != null)
+                try { Icn.Parent.Controls.Remove(Icn); } catch { }
+
+
+                if (NewNote == Notedata.NoteType.None)
                 {
-                    Icn.Parent.Controls.Remove(Icn);
+                    ProcessClick(Tick, Lane, MouseButtons.Right, NewNote);
+                    return;
                 }
 
-                AddSingleNoteIcon(Tick, Lane, Notedata.NoteType.Tap);
+                if (NewNote == Notedata.NoteType.Hold || NewNote == Notedata.NoteType.SimulHoldRelease)
+                    AddSingleNoteIcon(Tick, Lane, FindHoldType(Tick, Lane));
+                else
+                    AddSingleNoteIcon(Tick, Lane, NewNote);
+
+                if (NewNote == Notedata.NoteType.Hold || NewNote == Notedata.NoteType.SimulHoldRelease ||
+                    NewNote == Notedata.NoteType.HoldEndFlickLeft || NewNote == Notedata.NoteType.HoldEndFlickRight)
+                {
+                    Notedata.NoteType NewNote2 = chart.Ticks[Tick-1].Notes[Lane];
+                    if (NewNote2 == Notedata.NoteType.Hold || NewNote2 == Notedata.NoteType.SimulHoldRelease)
+                        ProcessClick(Tick - 1, Lane, MouseButtons.Left, NewNote2);
+                }
+
             }
+
             else if (MouseButton == MouseButtons.Right)
             {
+                Notedata.NoteType OldNote = chart.Ticks[Tick].Notes[Lane];
+                
                 chart.Ticks[Tick].Notes[Lane] = Notedata.NoteType.None;
+                
+                if (OldNote == Notedata.NoteType.Hold || OldNote == Notedata.NoteType.SimulHoldRelease ||
+                    OldNote == Notedata.NoteType.SimulHoldStart ||
+                    OldNote == Notedata.NoteType.HoldEndFlickLeft || OldNote == Notedata.NoteType.HoldEndFlickRight)
+                {
+                    Notedata.NoteType OldNote2 = chart.Ticks[Tick-1].Notes[Lane];
+                    if (OldNote2 == Notedata.NoteType.Hold || OldNote2 == Notedata.NoteType.SimulHoldRelease)
+                        ProcessClick(Tick - 1, Lane, MouseButtons.Left, OldNote2);
 
+                    OldNote2 = chart.Ticks[Tick+1].Notes[Lane];
+                    if (OldNote2 == Notedata.NoteType.Hold || OldNote2 == Notedata.NoteType.SimulHoldRelease)
+                        ProcessClick(Tick + 1, Lane, MouseButtons.Left, OldNote2);
+                }
+                
                 PictureBox Icn = chart.Ticks[Tick].NoteIcons[Lane];
 
-                if (Icn != null)
-                {
-                    Icn.Parent.Controls.Remove(Icn);
-                }
+                try { Icn.Parent.Controls.Remove(Icn); } catch { }
 
             }
         }
@@ -520,7 +553,7 @@ namespace _8beatMap
             else
                 Tick = (int)ConvertYCoordToTick(ChartPanel4.PointToClient(MousePosition).Y) + 3 * PanelHeight / TickHeight;
 
-            ProcessClick(Tick, Lane, e.Button);
+            ProcessClick(Tick, Lane, e.Button, (Notedata.NoteType)NoteTypeSelector.SelectedValue);
         }
 
         private void ChartPanel_Click(object sender, MouseEventArgs e)
@@ -537,7 +570,7 @@ namespace _8beatMap
             else
                 Tick = (int)ConvertYCoordToTick(ChartPanel4.PointToClient(MousePosition).Y) + 3 * PanelHeight / TickHeight;
 
-            ProcessClick(Tick, Lane, e.Button);
+            ProcessClick(Tick, Lane, e.Button, (Notedata.NoteType)NoteTypeSelector.SelectedValue);
         }
 
 
