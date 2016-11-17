@@ -67,7 +67,7 @@
             this.ChartPanel.Name = "ChartPanel";
             this.ChartPanel.Size = new System.Drawing.Size(288, 23040);
             this.ChartPanel.TabIndex = 0;
-            this.ChartPanel.Click += new System.EventHandler(this.ChartPanel_Click);
+            this.ChartPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ChartPanel_Click);
             // 
             // ChartPanel2
             // 
@@ -78,7 +78,7 @@
             this.ChartPanel2.Name = "ChartPanel2";
             this.ChartPanel2.Size = new System.Drawing.Size(288, 23040);
             this.ChartPanel2.TabIndex = 1;
-            this.ChartPanel2.Click += new System.EventHandler(this.ChartPanel_Click);
+            this.ChartPanel2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ChartPanel_Click);
             // 
             // ChartScrollBar
             // 
@@ -184,7 +184,7 @@
             this.ChartPanel3.Name = "ChartPanel3";
             this.ChartPanel3.Size = new System.Drawing.Size(288, 23040);
             this.ChartPanel3.TabIndex = 9;
-            this.ChartPanel3.Click += new System.EventHandler(this.ChartPanel_Click);
+            this.ChartPanel3.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ChartPanel_Click);
             // 
             // ZoomBox
             // 
@@ -272,6 +272,7 @@
             this.ChartPanel4.Name = "ChartPanel4";
             this.ChartPanel4.Size = new System.Drawing.Size(288, 23040);
             this.ChartPanel4.TabIndex = 15;
+            this.ChartPanel4.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ChartPanel_Click);
             // 
             // OpenBtn
             // 
@@ -338,13 +339,11 @@
             this.Controls.Add(this.SaveChartBtn);
             this.Controls.Add(this.OpenMusicButton);
             this.Controls.Add(this.OpenBtn);
-            this.Controls.Add(this.ChartPanel4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.ResizeBox);
             this.Controls.Add(this.ResizeBtn);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.ZoomBox);
-            this.Controls.Add(this.ChartPanel3);
             this.Controls.Add(this.ZoomBtn);
             this.Controls.Add(this.PauseOnSeek);
             this.Controls.Add(this.newplayhead);
@@ -353,6 +352,8 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.BPMbox);
             this.Controls.Add(this.ChartScrollBar);
+            this.Controls.Add(this.ChartPanel4);
+            this.Controls.Add(this.ChartPanel3);
             this.Controls.Add(this.ChartPanel2);
             this.Controls.Add(this.ChartPanel);
             this.MinimumSize = new System.Drawing.Size(500, 320);

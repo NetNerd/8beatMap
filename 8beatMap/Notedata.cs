@@ -30,29 +30,6 @@ namespace _8beatMap
             ExtendHoldMid = 20
         }
 
-        public struct Note
-        {
-            public NoteType Type;
-
-            private int LaneNum;
-            public int Lane
-            {
-                get { return LaneNum; }
-                set
-                {
-                    if (0 < value && value < 9) LaneNum = value;
-                    else throw new ArgumentOutOfRangeException();
-                }
-            }
-
-
-            public Note(NoteType NoteType, int Lane)
-            {
-                Type = NoteType;
-                LaneNum = Lane;
-            }
-        }
-
 
         public struct Tick
         {
@@ -69,13 +46,37 @@ namespace _8beatMap
                     return NoteArray;
                 }
 
+                //set
+                //{
+                //    if (NoteArray == null)
+                //    {
+                //        NoteArray = new NoteType[8];
+                //    }
+                //    NoteArray = value;
+                //}
+            }
+
+
+            private System.Windows.Forms.PictureBox[] NoteIconArray;
+
+            public System.Windows.Forms.PictureBox[] NoteIcons
+            {
+                get
+                {
+                    if (NoteIconArray == null)
+                    {
+                        NoteIconArray = new System.Windows.Forms.PictureBox[8];
+                    }
+                    return NoteIconArray;
+                }
+
                 set
                 {
-                    if (NoteArray == null)
+                    if (NoteIconArray == null)
                     {
-                        NoteArray = new NoteType[8];
+                        NoteIconArray = new System.Windows.Forms.PictureBox[8];
                     }
-                    NoteArray = value;
+                    NoteIconArray = value;
                 }
             }
 
@@ -127,23 +128,14 @@ namespace _8beatMap
             public string BAR;
             public string BEAT;
 
-            string b1;
-            string b2;
-            string b3;
-            string b4;
-            string b5;
-            string b6;
-            string b7;
-            string b8;
-
-            public string BUTTON1 { get { if (b1 == "") return "0"; else return b1; } set { b1 = value.Trim(); } }
-            public string BUTTON2 { get { if (b2 == "") return "0"; else return b2; } set { b2 = value.Trim(); } }
-            public string BUTTON3 { get { if (b3 == "") return "0"; else return b3; } set { b3 = value.Trim(); } }
-            public string BUTTON4 { get { if (b4 == "") return "0"; else return b4; } set { b4 = value.Trim(); } }
-            public string BUTTON5 { get { if (b5 == "") return "0"; else return b5; } set { b5 = value.Trim(); } }
-            public string BUTTON6 { get { if (b6 == "") return "0"; else return b6; } set { b6 = value.Trim(); } }
-            public string BUTTON7 { get { if (b7 == "") return "0"; else return b7; } set { b7 = value.Trim(); } }
-            public string BUTTON8 { get { if (b8 == "") return "0"; else return b8; } set { b8 = value.Trim(); } }
+            public string BUTTON1;
+            public string BUTTON2;
+            public string BUTTON3;
+            public string BUTTON4;
+            public string BUTTON5;
+            public string BUTTON6;
+            public string BUTTON7;
+            public string BUTTON8;
         }
 
         class JsonTick_Export
@@ -166,6 +158,13 @@ namespace _8beatMap
             return int.Parse(tickObj[Index].BAR) * 48 + int.Parse(tickObj[Index].BEAT);
         }
 
+        private static int SafeParseInt(string str)
+        {
+            int i;
+            int.TryParse(str, out i);
+            return i;
+        }
+
         public static Chart ConvertJsonToChart(string json)
         {
             var tickObj = JsonConvert.DeserializeObject<JsonTick_Import[]>(json);
@@ -176,14 +175,14 @@ namespace _8beatMap
 
             for (int i = 1; i < tickObj.Length; i++)
             {
-                chart.Ticks[tickObjTickNumber(tickObj, i)].SetNote((NoteType)int.Parse(tickObj[i].BUTTON1), 0);
-                chart.Ticks[tickObjTickNumber(tickObj, i)].SetNote((NoteType)int.Parse(tickObj[i].BUTTON2), 1);
-                chart.Ticks[tickObjTickNumber(tickObj, i)].SetNote((NoteType)int.Parse(tickObj[i].BUTTON3), 2);
-                chart.Ticks[tickObjTickNumber(tickObj, i)].SetNote((NoteType)int.Parse(tickObj[i].BUTTON4), 3);
-                chart.Ticks[tickObjTickNumber(tickObj, i)].SetNote((NoteType)int.Parse(tickObj[i].BUTTON5), 4);
-                chart.Ticks[tickObjTickNumber(tickObj, i)].SetNote((NoteType)int.Parse(tickObj[i].BUTTON6), 5);
-                chart.Ticks[tickObjTickNumber(tickObj, i)].SetNote((NoteType)int.Parse(tickObj[i].BUTTON7), 6);
-                chart.Ticks[tickObjTickNumber(tickObj, i)].SetNote((NoteType)int.Parse(tickObj[i].BUTTON8), 7);
+                chart.Ticks[tickObjTickNumber(tickObj, i)].SetNote((NoteType)SafeParseInt(tickObj[i].BUTTON1), 0);
+                chart.Ticks[tickObjTickNumber(tickObj, i)].SetNote((NoteType)SafeParseInt(tickObj[i].BUTTON2), 1);
+                chart.Ticks[tickObjTickNumber(tickObj, i)].SetNote((NoteType)SafeParseInt(tickObj[i].BUTTON3), 2);
+                chart.Ticks[tickObjTickNumber(tickObj, i)].SetNote((NoteType)SafeParseInt(tickObj[i].BUTTON4), 3);
+                chart.Ticks[tickObjTickNumber(tickObj, i)].SetNote((NoteType)SafeParseInt(tickObj[i].BUTTON5), 4);
+                chart.Ticks[tickObjTickNumber(tickObj, i)].SetNote((NoteType)SafeParseInt(tickObj[i].BUTTON6), 5);
+                chart.Ticks[tickObjTickNumber(tickObj, i)].SetNote((NoteType)SafeParseInt(tickObj[i].BUTTON7), 6);
+                chart.Ticks[tickObjTickNumber(tickObj, i)].SetNote((NoteType)SafeParseInt(tickObj[i].BUTTON8), 7);
             }
 
             return chart;
