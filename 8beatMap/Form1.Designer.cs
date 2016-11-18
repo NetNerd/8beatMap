@@ -57,6 +57,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.NoteShiftBox = new System.Windows.Forms.NumericUpDown();
             this.NoteShiftBtn = new System.Windows.Forms.Button();
+            this.NoteSoundBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.BPMbox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.newplayhead)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ZoomBox)).BeginInit();
@@ -166,6 +167,7 @@
             this.PauseOnSeek.Size = new System.Drawing.Size(99, 17);
             this.PauseOnSeek.TabIndex = 7;
             this.PauseOnSeek.Text = "Pause on Seek";
+            this.PauseOnSeek.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.PauseOnSeek.UseVisualStyleBackColor = true;
             // 
             // ZoomBtn
@@ -392,11 +394,25 @@
             this.NoteShiftBtn.UseVisualStyleBackColor = true;
             this.NoteShiftBtn.Click += new System.EventHandler(this.NoteShiftBtn_Click);
             // 
+            // NoteSoundBox
+            // 
+            this.NoteSoundBox.AutoSize = true;
+            this.NoteSoundBox.Checked = true;
+            this.NoteSoundBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.NoteSoundBox.Location = new System.Drawing.Point(501, 200);
+            this.NoteSoundBox.Name = "NoteSoundBox";
+            this.NoteSoundBox.Size = new System.Drawing.Size(111, 17);
+            this.NoteSoundBox.TabIndex = 25;
+            this.NoteSoundBox.Text = "Play Note Sounds";
+            this.NoteSoundBox.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.NoteSoundBox.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(624, 502);
+            this.Controls.Add(this.NoteSoundBox);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.NoteShiftBox);
             this.Controls.Add(this.NoteShiftBtn);
@@ -468,6 +484,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.NumericUpDown NoteShiftBox;
         private System.Windows.Forms.Button NoteShiftBtn;
+        private System.Windows.Forms.CheckBox NoteSoundBox;
     }
 }
 
