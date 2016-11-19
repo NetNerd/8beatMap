@@ -442,6 +442,7 @@
             this.MinimumSize = new System.Drawing.Size(580, 450);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Resize += new System.EventHandler(this.Form1_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.BPMbox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.newplayhead)).EndInit();

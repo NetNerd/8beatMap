@@ -751,5 +751,17 @@ namespace _8beatMap
 
 
         }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.ApplicationExitCall)
+                return;
+
+            else
+            {
+                if (MessageBox.Show("Are you sure you want to exit? Make sure you save your work first.", null, MessageBoxButtons.YesNo) == DialogResult.No)
+                    e.Cancel = true;
+            }
+        }
     }
 }
