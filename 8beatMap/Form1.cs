@@ -25,12 +25,12 @@ namespace _8beatMap
         private double CurrentTick = 0;
         private int LastTick = 0;
 
-        private Timer playTimer = new Timer() { Interval = 10 };
+        private Timer playTimer = new Timer() { Interval = 5 };
         
-        WaveOutEvent WaveOut = new WaveOutEvent();
+        WaveOutEvent WaveOut = new WaveOutEvent { DesiredLatency = 100, NumberOfBuffers = 12 };
         MediaFoundationReader MusicFileReader;
 
-        WaveOutEvent NoteSoundWaveOut = new WaveOutEvent();
+        WaveOutEvent NoteSoundWaveOut = new WaveOutEvent { DesiredLatency = 170, NumberOfBuffers = 4 };
         static NAudio.Wave.SampleProviders.SignalGenerator NoteSoundSig = new NAudio.Wave.SampleProviders.SignalGenerator { Frequency = 1000, Gain = 0.5, Type = NAudio.Wave.SampleProviders.SignalGeneratorType.Square };
         NAudio.Wave.SampleProviders.OffsetSampleProvider NoteSoundTrim;
 
@@ -382,10 +382,10 @@ namespace _8beatMap
                 }
                 ResizeBox.Value = chart.Length / 48;
                 CurrentTick = 0;
+                BPMbox.Value = (decimal)chart.BPM;
                 ResizeScrollbar();
                 RedrawAllNoteIcons();
 
-                BPMbox.Value = (decimal)chart.BPM;
             }
         }
 
@@ -400,9 +400,7 @@ namespace _8beatMap
                     MusicFileReader = new MediaFoundationReader(Path);
                 }
                 catch { MessageBox.Show("Unable to load music file."); return; }
-
-                WaveOut.DesiredLatency = 100;
-                WaveOut.NumberOfBuffers = 10;
+                
                 WaveOut.Init(MusicFileReader);
             }
         }
@@ -436,7 +434,7 @@ namespace _8beatMap
             //}
             //chart.Ticks[32].SetNote(Notedata.NoteType.Hold, 7);
             
-            playTimer.Tick += playtimer_Tick;            
+            playTimer.Tick += playtimer_Tick;
         }
 
         private void ChartScrollBar_Scroll(object sender, ScrollEventArgs e)
@@ -487,7 +485,7 @@ namespace _8beatMap
                                 NoteSoundWaveOut.Stop();
                                 NoteSoundTrim = new NAudio.Wave.SampleProviders.OffsetSampleProvider(NoteSoundSig);
                                 NoteSoundTrim.Take = TimeSpan.FromMilliseconds(20);
-                                NoteSoundTrim.DelayBy = TimeSpan.FromMilliseconds(45);
+                                //NoteSoundTrim.DelayBy = TimeSpan.FromMilliseconds(45);
                                 NoteSoundWaveOut.Init(NoteSoundTrim);
                                 NoteSoundWaveOut.Play();
                                 return;
@@ -759,7 +757,7 @@ namespace _8beatMap
 
             else
             {
-                if (MessageBox.Show("Are you sure you want to exit? Make sure you save your work first.", null, MessageBoxButtons.YesNo) == DialogResult.No)
+                if (MessageBox.Show("Are you sure you want to exit? Make sure you save your work first.", "Warning", MessageBoxButtons.YesNo) == DialogResult.No)
                     e.Cancel = true;
             }
         }
