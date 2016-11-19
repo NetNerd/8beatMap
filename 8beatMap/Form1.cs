@@ -149,16 +149,20 @@ namespace _8beatMap
             ChartPanel4.Controls.AddRange(icons4.ToArray());
         }
 
-        private Notedata.NoteType FindHoldType(int tick, int lane)
+        private Notedata.NoteType FindVisualNoteType(int tick, int lane)
         {
-            if (tick == 0) return Notedata.NoteType.Hold;
-            if ((chart.Ticks[tick - 1].Notes[lane] == Notedata.NoteType.Hold ||
-                chart.Ticks[tick - 1].Notes[lane] == Notedata.NoteType.SimulHoldStart ||
-                chart.Ticks[tick - 1].Notes[lane] == Notedata.NoteType.SimulHoldRelease ||
-                chart.Ticks[tick - 1].Notes[lane] == Notedata.NoteType.SwipeLeftStartEnd ||
-                chart.Ticks[tick - 1].Notes[lane] == Notedata.NoteType.SwipeRightStartEnd) &&
-                chart.Ticks[tick + 1].Notes[lane] != Notedata.NoteType.None) return Notedata.NoteType.ExtendHoldMid;
-            else return chart.Ticks[tick].Notes[lane];
+            if (chart.Ticks[tick].Notes[lane] == Notedata.NoteType.Hold || chart.Ticks[tick].Notes[lane] == Notedata.NoteType.SimulHoldRelease)
+            {
+                if (tick == 0) return Notedata.NoteType.Hold;
+                if ((chart.Ticks[tick - 1].Notes[lane] == Notedata.NoteType.Hold ||
+                    chart.Ticks[tick - 1].Notes[lane] == Notedata.NoteType.SimulHoldStart ||
+                    chart.Ticks[tick - 1].Notes[lane] == Notedata.NoteType.SimulHoldRelease ||
+                    chart.Ticks[tick - 1].Notes[lane] == Notedata.NoteType.SwipeLeftStartEnd ||
+                    chart.Ticks[tick - 1].Notes[lane] == Notedata.NoteType.SwipeRightStartEnd) &&
+                    chart.Ticks[tick + 1].Notes[lane] != Notedata.NoteType.None)
+                    return Notedata.NoteType.ExtendHoldMid;
+            }
+            return chart.Ticks[tick].Notes[lane];
         }
 
         private void RedrawAllNoteIcons()
@@ -282,11 +286,7 @@ namespace _8beatMap
                 {
                     if (chart.Ticks[i].Notes[j] != Notedata.NoteType.None)
                     {
-                        if (chart.Ticks[i].Notes[j] == Notedata.NoteType.Hold || chart.Ticks[i].Notes[j] == Notedata.NoteType.SimulHoldRelease)
-                        {
-                            Notes.Add(new NoteDataInfo(i, j, FindHoldType(i, j)));
-                        }
-                        else Notes.Add(new NoteDataInfo(i, j, chart.Ticks[i].Notes[j]));
+                        Notes.Add(new NoteDataInfo(i, j, FindVisualNoteType(i, j)));
                     }
                 }
             }
@@ -479,7 +479,7 @@ namespace _8beatMap
                     {
                         for (int j = 0; j < 8; j++)
                         {
-                            Notedata.NoteType note = FindHoldType(i, j);
+                            Notedata.NoteType note = FindVisualNoteType(i, j);
 
                             if (note != Notedata.NoteType.None && note != Notedata.NoteType.ExtendHoldMid &&
                                 note != Notedata.NoteType.SwipeLeftMid && note != Notedata.NoteType.SwipeRightMid)
@@ -517,12 +517,12 @@ namespace _8beatMap
         {
             Console.WriteLine(Lane + ", " + Tick);
 
-            if (Tick == -1)
+            if (Tick == -1 || Tick >= chart.Length)
                 return;
 
             if (MouseButton == MouseButtons.Left)
             {
-                if (chart.Ticks[Tick].Notes[Lane] != NewNote)
+                if (FindVisualNoteType(Tick, Lane) != NewNote)
                 {
                     chart.Ticks[Tick].Notes[Lane] = NewNote;
 
@@ -537,10 +537,7 @@ namespace _8beatMap
                         return;
                     }
 
-                    if (NewNote == Notedata.NoteType.Hold || NewNote == Notedata.NoteType.SimulHoldRelease)
-                        AddSingleNoteIcon(Tick, Lane, FindHoldType(Tick, Lane));
-                    else
-                        AddSingleNoteIcon(Tick, Lane, NewNote);
+                    AddSingleNoteIcon(Tick, Lane, FindVisualNoteType(Tick, Lane));
 
                     if (NewNote == Notedata.NoteType.Hold || NewNote == Notedata.NoteType.SimulHoldRelease ||
                         NewNote == Notedata.NoteType.HoldEndFlickLeft || NewNote == Notedata.NoteType.HoldEndFlickRight)
