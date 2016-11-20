@@ -537,8 +537,9 @@ namespace _8beatMap
 
                     AddSingleNoteIcon(Tick, Lane, FindVisualNoteType(Tick, Lane));
 
-                    if (NewNote == Notedata.NoteType.Hold || NewNote == Notedata.NoteType.SimulHoldRelease ||
+                    if ((NewNote == Notedata.NoteType.Hold || NewNote == Notedata.NoteType.SimulHoldRelease ||
                         NewNote == Notedata.NoteType.HoldEndFlickLeft || NewNote == Notedata.NoteType.HoldEndFlickRight)
+                        && Tick > 0)
                     {
                         Notedata.NoteType NewNote2 = chart.Ticks[Tick-1].Notes[Lane];
                         if (NewNote2 == Notedata.NoteType.Hold || NewNote2 == Notedata.NoteType.SimulHoldRelease)
@@ -558,13 +559,19 @@ namespace _8beatMap
                     OldNote == Notedata.NoteType.SimulHoldStart ||
                     OldNote == Notedata.NoteType.HoldEndFlickLeft || OldNote == Notedata.NoteType.HoldEndFlickRight)
                 {
-                    Notedata.NoteType OldNote2 = chart.Ticks[Tick-1].Notes[Lane];
-                    if (OldNote2 == Notedata.NoteType.Hold || OldNote2 == Notedata.NoteType.SimulHoldRelease)
-                        ProcessClick(Tick - 1, Lane, MouseButtons.Left, OldNote2, true);
+                    if (Tick > 0)
+                    {
+                        Notedata.NoteType OldNote2 = chart.Ticks[Tick - 1].Notes[Lane];
+                        if (OldNote2 == Notedata.NoteType.Hold || OldNote2 == Notedata.NoteType.SimulHoldRelease)
+                            ProcessClick(Tick - 1, Lane, MouseButtons.Left, OldNote2, true);
+                    }
 
-                    OldNote2 = chart.Ticks[Tick+1].Notes[Lane];
-                    if (OldNote2 == Notedata.NoteType.Hold || OldNote2 == Notedata.NoteType.SimulHoldRelease)
-                        ProcessClick(Tick + 1, Lane, MouseButtons.Left, OldNote2, true);
+                    if (Tick < chart.Length - 1)
+                    {
+                        Notedata.NoteType OldNote2 = chart.Ticks[Tick + 1].Notes[Lane];
+                        if (OldNote2 == Notedata.NoteType.Hold || OldNote2 == Notedata.NoteType.SimulHoldRelease)
+                            ProcessClick(Tick + 1, Lane, MouseButtons.Left, OldNote2, true);
+                    }
                 }
                 
                 PictureBox Icn = chart.Ticks[Tick].NoteIcons[Lane];
