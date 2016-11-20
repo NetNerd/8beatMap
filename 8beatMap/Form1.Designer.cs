@@ -58,6 +58,7 @@
             this.NoteShiftBox = new System.Windows.Forms.NumericUpDown();
             this.NoteShiftBtn = new System.Windows.Forms.Button();
             this.NoteSoundBox = new System.Windows.Forms.CheckBox();
+            this.NoteCountButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.BPMbox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.newplayhead)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ZoomBox)).BeginInit();
@@ -396,10 +397,11 @@
             // 
             // NoteSoundBox
             // 
+            this.NoteSoundBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.NoteSoundBox.AutoSize = true;
             this.NoteSoundBox.Checked = true;
             this.NoteSoundBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.NoteSoundBox.Location = new System.Drawing.Point(501, 200);
+            this.NoteSoundBox.Location = new System.Drawing.Point(501, 300);
             this.NoteSoundBox.Name = "NoteSoundBox";
             this.NoteSoundBox.Size = new System.Drawing.Size(111, 17);
             this.NoteSoundBox.TabIndex = 25;
@@ -407,11 +409,23 @@
             this.NoteSoundBox.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.NoteSoundBox.UseVisualStyleBackColor = true;
             // 
+            // NoteCountButton
+            // 
+            this.NoteCountButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.NoteCountButton.Location = new System.Drawing.Point(537, 188);
+            this.NoteCountButton.Name = "NoteCountButton";
+            this.NoteCountButton.Size = new System.Drawing.Size(75, 23);
+            this.NoteCountButton.TabIndex = 26;
+            this.NoteCountButton.Text = "Note Count";
+            this.NoteCountButton.UseVisualStyleBackColor = true;
+            this.NoteCountButton.Click += new System.EventHandler(this.NoteCountButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(624, 502);
+            this.Controls.Add(this.NoteCountButton);
             this.Controls.Add(this.NoteSoundBox);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.NoteShiftBox);
@@ -486,6 +500,7 @@
         private System.Windows.Forms.NumericUpDown NoteShiftBox;
         private System.Windows.Forms.Button NoteShiftBtn;
         private System.Windows.Forms.CheckBox NoteSoundBox;
+        private System.Windows.Forms.Button NoteCountButton;
     }
 }
 

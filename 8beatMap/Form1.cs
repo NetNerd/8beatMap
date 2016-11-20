@@ -769,5 +769,23 @@ namespace _8beatMap
                     e.Cancel = true;
             }
         }
+
+        private void NoteCountButton_Click(object sender, EventArgs e)
+        {
+            int NoteCount = 0;
+
+            for (int i = 0; i < chart.Length; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    Notedata.NoteType NoteType = FindVisualNoteType(i, j);
+                    if (NoteType != Notedata.NoteType.None && NoteType != Notedata.NoteType.ExtendHoldMid &&
+                        NoteType != Notedata.NoteType.SwipeLeftMid && NoteType != Notedata.NoteType.SwipeRightMid)
+                        NoteCount++;
+                }
+            }
+
+            MessageBox.Show("The beatmap contains " + NoteCount + " notes.");
+        }
     }
 }
