@@ -153,7 +153,7 @@ namespace _8beatMap
         {
             if (chart.Ticks[tick].Notes[lane] == Notedata.NoteType.Hold || chart.Ticks[tick].Notes[lane] == Notedata.NoteType.SimulHoldRelease)
             {
-                if (tick == 0) return Notedata.NoteType.Hold;
+                if (tick == 0 || tick == chart.Length - 1) return chart.Ticks[tick].Notes[lane];
                 if ((chart.Ticks[tick - 1].Notes[lane] == Notedata.NoteType.Hold ||
                     chart.Ticks[tick - 1].Notes[lane] == Notedata.NoteType.SimulHoldStart ||
                     chart.Ticks[tick - 1].Notes[lane] == Notedata.NoteType.SimulHoldRelease ||
