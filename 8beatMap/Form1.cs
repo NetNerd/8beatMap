@@ -37,7 +37,9 @@ namespace _8beatMap
 
         private PictureBox MakeNoteBox(int Tick, int Lane, Notedata.NoteType Type)
         {
-            Color noteCol = Color.Transparent;
+            Color noteCol = Color.LightGray;
+            Color ArrowCol = Color.Transparent;
+            int ArrowDir = 0;
 
             switch (Type)
             {
@@ -45,22 +47,31 @@ namespace _8beatMap
                 case Notedata.NoteType.Hold: noteCol = Color.LimeGreen; break;
                 case Notedata.NoteType.SimulTap:
                 case Notedata.NoteType.SimulHoldStart:
-                case Notedata.NoteType.SimulHoldRelease: noteCol = Color.DeepPink; ; break;
+                case Notedata.NoteType.SimulHoldRelease: noteCol = Color.DeepPink; break;
                 case Notedata.NoteType.FlickLeft:
-                case Notedata.NoteType.HoldEndFlickLeft: noteCol = Color.FromArgb(0x80, 0, 0xa0); break;
-                case Notedata.NoteType.SwipeLeftStartEnd: noteCol = Color.DarkViolet; break;
+                case Notedata.NoteType.HoldEndFlickLeft: ArrowCol = Color.FromArgb(0x70, 0, 0x78); ArrowDir = -1; break;
+                case Notedata.NoteType.SwipeLeftStartEnd: ArrowCol = Color.DarkViolet; ArrowDir = -1; break;
                 case Notedata.NoteType.SwipeLeftMid:
-                case Notedata.NoteType.SwipeChangeDirR2L: noteCol = Color.Violet; break;
+                case Notedata.NoteType.SwipeChangeDirR2L: ArrowCol = Color.Violet; ArrowDir = -1; break;
                 case Notedata.NoteType.FlickRight:
-                case Notedata.NoteType.HoldEndFlickRight: noteCol = Color.FromArgb(0xcc, 0x88, 0); break;
-                case Notedata.NoteType.SwipeRightStartEnd: noteCol = Color.DarkOrange; break;
+                case Notedata.NoteType.HoldEndFlickRight: ArrowCol = Color.FromArgb(0xcc, 0x88, 0); ArrowDir = 1; break;
+                case Notedata.NoteType.SwipeRightStartEnd: ArrowCol = Color.DarkOrange; ArrowDir = 1; break;
                 case Notedata.NoteType.SwipeRightMid:
-                case Notedata.NoteType.SwipeChangeDirL2R: noteCol = Color.Gold; break;
+                case Notedata.NoteType.SwipeChangeDirL2R: ArrowCol = Color.Gold; ArrowDir = 1; break;
                 case Notedata.NoteType.ExtendHoldMid: noteCol = Color.LightGray; break;
             }
 
+            Image Bmp = new Bitmap(17, 17);
+            Graphics Grfx = Graphics.FromImage(Bmp);
+
+            if (ArrowDir == -1)
+                Grfx.FillPolygon(new SolidBrush(ArrowCol), new Point[] { new Point(16, 0), new Point(16, 16), new Point(0, 8) });
+            else if (ArrowDir == 1)
+                Grfx.FillPolygon(new SolidBrush(ArrowCol), new Point[] { new Point(0, 0), new Point(0, 16), new Point(16, 8) });
+
+
             int Top = PanelHeight - Tick * TickHeight - IconHeight;
-            PictureBox NoteBox = new PictureBox { Left = Lane * LaneWidth + (LaneWidth - IconWidth) / 2, Top = Top, Width = IconWidth, Height = IconHeight, BackColor = noteCol };
+            PictureBox NoteBox = new PictureBox { Left = Lane * LaneWidth + (LaneWidth - IconWidth) / 2, Top = Top, Width = IconWidth, Height = IconHeight, BackColor = noteCol, Image = Bmp, SizeMode = PictureBoxSizeMode.StretchImage };
 
             if (Type == Notedata.NoteType.HoldEndFlickLeft || Type == Notedata.NoteType.HoldEndFlickRight || Type == Notedata.NoteType.SimulHoldRelease
                 || Type == Notedata.NoteType.SwipeChangeDirL2R || Type == Notedata.NoteType.SwipeChangeDirR2L)
