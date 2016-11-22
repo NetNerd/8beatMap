@@ -25,9 +25,9 @@ namespace _8beatMap
         private double CurrentTick = 0;
         private int LastTick = 0;
 
-        private Timer playTimer = new Timer() { Interval = 5 };
+        private Timer playTimer = new Timer() { Interval = 4 };
         
-        WaveOutEvent WaveOut = new WaveOutEvent { DesiredLatency = 100, NumberOfBuffers = 12 };
+        WaveOutEvent WaveOut = new WaveOutEvent { DesiredLatency = 100, NumberOfBuffers = 16 };
         MediaFoundationReader MusicFileReader;
 
         WaveOutEvent NoteSoundWaveOut = new WaveOutEvent { DesiredLatency = 125, NumberOfBuffers = 4 };
