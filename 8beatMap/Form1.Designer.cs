@@ -59,6 +59,7 @@
             this.NoteShiftBtn = new System.Windows.Forms.Button();
             this.NoteSoundBox = new System.Windows.Forms.CheckBox();
             this.NoteCountButton = new System.Windows.Forms.Button();
+            this.AutoSimulBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.BPMbox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.newplayhead)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ZoomBox)).BeginInit();
@@ -420,11 +421,22 @@
             this.NoteCountButton.UseVisualStyleBackColor = true;
             this.NoteCountButton.Click += new System.EventHandler(this.NoteCountButton_Click);
             // 
+            // AutoSimulBtn
+            // 
+            this.AutoSimulBtn.Location = new System.Drawing.Point(400, 222);
+            this.AutoSimulBtn.Name = "AutoSimulBtn";
+            this.AutoSimulBtn.Size = new System.Drawing.Size(114, 23);
+            this.AutoSimulBtn.TabIndex = 27;
+            this.AutoSimulBtn.Text = "Auto SimulNotes";
+            this.AutoSimulBtn.UseVisualStyleBackColor = true;
+            this.AutoSimulBtn.Click += new System.EventHandler(this.AutoSimulBtn_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(624, 502);
+            this.Controls.Add(this.AutoSimulBtn);
             this.Controls.Add(this.NoteCountButton);
             this.Controls.Add(this.NoteSoundBox);
             this.Controls.Add(this.label5);
@@ -501,6 +513,7 @@
         private System.Windows.Forms.Button NoteShiftBtn;
         private System.Windows.Forms.CheckBox NoteSoundBox;
         private System.Windows.Forms.Button NoteCountButton;
+        private System.Windows.Forms.Button AutoSimulBtn;
     }
 }
 

@@ -828,5 +828,65 @@ namespace _8beatMap
 
             MessageBox.Show("The beatmap contains " + NoteCount + " notes.");
         }
+
+        private void AutoSimulBtn_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < chart.Length; i++)
+            {
+                int SimulNum = 0;
+                for (int j = 0; j < 8; j++)
+                {
+                    Notedata.NoteType NoteType = FindVisualNoteType(i, j);
+                    if (NoteType == Notedata.NoteType.Tap || NoteType == Notedata.NoteType.Hold ||
+                        NoteType == Notedata.NoteType.SimulHoldStart || NoteType == Notedata.NoteType.SimulHoldRelease)
+                        SimulNum++;
+                }
+
+                if (SimulNum > 1)
+                {
+                    for (int j = 0; j < 8; j++)
+                    {
+                        Notedata.NoteType NoteType = FindVisualNoteType(i, j);
+                        if (NoteType == Notedata.NoteType.Tap)
+                            chart.Ticks[i].Notes[j] = Notedata.NoteType.SimulTap;
+                        else if (NoteType == Notedata.NoteType.Hold || NoteType == Notedata.NoteType.SimulHoldStart
+                        || NoteType == Notedata.NoteType.SimulHoldRelease)
+                        {
+                            if (chart.Ticks[i + 1].Notes[j] == Notedata.NoteType.Hold || chart.Ticks[i + 1].Notes[j] == Notedata.NoteType.SimulHoldRelease)
+                                chart.Ticks[i].Notes[j] = Notedata.NoteType.SimulHoldStart;
+                            else
+                                chart.Ticks[i].Notes[j] = Notedata.NoteType.SimulHoldRelease;
+                        }
+
+                        if (NoteType == Notedata.NoteType.Tap || NoteType == Notedata.NoteType.Hold ||
+                        NoteType == Notedata.NoteType.SimulHoldStart || NoteType == Notedata.NoteType.SimulHoldRelease)
+                        {
+                            PictureBox Icn = chart.Ticks[i].NoteIcons[j];
+                            try { Icn.Parent.Controls.Remove(Icn); } catch { }
+                            AddSingleNoteIcon(i, j, FindVisualNoteType(i, j));
+                        }
+                    }
+                }
+                else
+                {
+                    for (int j = 0; j < 8; j++)
+                    {
+                        Notedata.NoteType NoteType = FindVisualNoteType(i, j);
+                        if (NoteType == Notedata.NoteType.SimulTap)
+                            chart.Ticks[i].Notes[j] = Notedata.NoteType.Tap;
+                        else if (NoteType == Notedata.NoteType.SimulHoldStart || NoteType == Notedata.NoteType.SimulHoldRelease)
+                            chart.Ticks[i].Notes[j] = Notedata.NoteType.Hold;
+
+                        if (NoteType == Notedata.NoteType.Tap || NoteType == Notedata.NoteType.Hold ||
+                        NoteType == Notedata.NoteType.SimulHoldStart || NoteType == Notedata.NoteType.SimulHoldRelease)
+                        {
+                            PictureBox Icn = chart.Ticks[i].NoteIcons[j];
+                            try { Icn.Parent.Controls.Remove(Icn); } catch { }
+                            AddSingleNoteIcon(i, j, FindVisualNoteType(i, j));
+                        }
+                    }
+                }
+            }
+        }
     }
 }
