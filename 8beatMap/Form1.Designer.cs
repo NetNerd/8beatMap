@@ -342,7 +342,7 @@
             this.NoteTypeSelector.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.NoteTypeSelector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.NoteTypeSelector.FormattingEnabled = true;
-            this.NoteTypeSelector.Location = new System.Drawing.Point(488, 147);
+            this.NoteTypeSelector.Location = new System.Drawing.Point(488, 126);
             this.NoteTypeSelector.Name = "NoteTypeSelector";
             this.NoteTypeSelector.Size = new System.Drawing.Size(124, 21);
             this.NoteTypeSelector.TabIndex = 20;
@@ -351,7 +351,7 @@
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(374, 150);
+            this.label4.Location = new System.Drawing.Point(374, 129);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(97, 13);
             this.label4.TabIndex = 21;
@@ -413,7 +413,7 @@
             // NoteCountButton
             // 
             this.NoteCountButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.NoteCountButton.Location = new System.Drawing.Point(537, 188);
+            this.NoteCountButton.Location = new System.Drawing.Point(537, 167);
             this.NoteCountButton.Name = "NoteCountButton";
             this.NoteCountButton.Size = new System.Drawing.Size(75, 23);
             this.NoteCountButton.TabIndex = 26;
@@ -423,7 +423,8 @@
             // 
             // AutoSimulBtn
             // 
-            this.AutoSimulBtn.Location = new System.Drawing.Point(400, 222);
+            this.AutoSimulBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.AutoSimulBtn.Location = new System.Drawing.Point(498, 196);
             this.AutoSimulBtn.Name = "AutoSimulBtn";
             this.AutoSimulBtn.Size = new System.Drawing.Size(114, 23);
             this.AutoSimulBtn.TabIndex = 27;
@@ -465,7 +466,7 @@
             this.Controls.Add(this.ChartPanel3);
             this.Controls.Add(this.ChartPanel2);
             this.Controls.Add(this.ChartPanel);
-            this.MinimumSize = new System.Drawing.Size(580, 450);
+            this.MinimumSize = new System.Drawing.Size(580, 490);
             this.Name = "Form1";
             this.Text = "8beatMap";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
