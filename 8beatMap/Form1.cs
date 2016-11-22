@@ -30,9 +30,10 @@ namespace _8beatMap
         WaveOutEvent WaveOut = new WaveOutEvent { DesiredLatency = 100, NumberOfBuffers = 12 };
         MediaFoundationReader MusicFileReader;
 
-        WaveOutEvent NoteSoundWaveOut = new WaveOutEvent { DesiredLatency = 170, NumberOfBuffers = 4 };
+        WaveOutEvent NoteSoundWaveOut = new WaveOutEvent { DesiredLatency = 125, NumberOfBuffers = 4 };
         static NAudio.Wave.SampleProviders.SignalGenerator NoteSoundSig = new NAudio.Wave.SampleProviders.SignalGenerator { Frequency = 1000, Gain = 0.5, Type = NAudio.Wave.SampleProviders.SignalGeneratorType.Square };
         NAudio.Wave.SampleProviders.OffsetSampleProvider NoteSoundTrim;
+        NAudio.Wave.SampleProviders.MixingSampleProvider NoteSoundMixer = new NAudio.Wave.SampleProviders.MixingSampleProvider(WaveFormat.CreateIeeeFloatWaveFormat(44100, 2)) { ReadFully = true };
         
 
         private PictureBox MakeNoteBox(int Tick, int Lane, Notedata.NoteType Type)
@@ -428,6 +429,9 @@ namespace _8beatMap
 
             NoteTypeSelector.DataSource = Enum.GetValues(typeof(Notedata.UserVisibleNoteType));
 
+            NoteSoundWaveOut.Init(NoteSoundMixer);
+            NoteSoundWaveOut.Play();
+
             ResizeScrollbar();
             RedrawAllNoteIcons();
 
@@ -498,12 +502,9 @@ namespace _8beatMap
                             if (note != Notedata.NoteType.None && note != Notedata.NoteType.ExtendHoldMid &&
                                 note != Notedata.NoteType.SwipeLeftMid && note != Notedata.NoteType.SwipeRightMid)
                             {
-                                NoteSoundWaveOut.Stop();
                                 NoteSoundTrim = new NAudio.Wave.SampleProviders.OffsetSampleProvider(NoteSoundSig);
                                 NoteSoundTrim.Take = TimeSpan.FromMilliseconds(20);
-                                //NoteSoundTrim.DelayBy = TimeSpan.FromMilliseconds(45);
-                                NoteSoundWaveOut.Init(NoteSoundTrim);
-                                NoteSoundWaveOut.Play();
+                                NoteSoundMixer.AddMixerInput(NoteSoundTrim);
                                 return;
                             }
                         }
