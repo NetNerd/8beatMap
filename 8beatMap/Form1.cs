@@ -33,6 +33,7 @@ namespace _8beatMap
         WaveOutEvent NoteSoundWaveOut = new WaveOutEvent { DesiredLatency = 170, NumberOfBuffers = 4 };
         static NAudio.Wave.SampleProviders.SignalGenerator NoteSoundSig = new NAudio.Wave.SampleProviders.SignalGenerator { Frequency = 1000, Gain = 0.5, Type = NAudio.Wave.SampleProviders.SignalGeneratorType.Square };
         NAudio.Wave.SampleProviders.OffsetSampleProvider NoteSoundTrim;
+        
 
         private PictureBox MakeNoteBox(int Tick, int Lane, Notedata.NoteType Type)
         {
@@ -57,12 +58,16 @@ namespace _8beatMap
                 case Notedata.NoteType.SwipeChangeDirL2R: noteCol = Color.Gold; break;
                 case Notedata.NoteType.ExtendHoldMid: noteCol = Color.LightGray; break;
             }
+
             int Top = PanelHeight - Tick * TickHeight - IconHeight;
             PictureBox NoteBox = new PictureBox { Left = Lane * LaneWidth + (LaneWidth - IconWidth) / 2, Top = Top, Width = IconWidth, Height = IconHeight, BackColor = noteCol };
 
             if (Type == Notedata.NoteType.HoldEndFlickLeft || Type == Notedata.NoteType.HoldEndFlickRight || Type == Notedata.NoteType.SimulHoldRelease
                 || Type == Notedata.NoteType.SwipeChangeDirL2R || Type == Notedata.NoteType.SwipeChangeDirR2L)
                 NoteBox.BorderStyle = BorderStyle.Fixed3D;
+            else
+                NoteBox.BorderStyle = BorderStyle.None;
+
             
             NoteBox.MouseDown += new System.Windows.Forms.MouseEventHandler(NoteBox_Click);
             
@@ -511,7 +516,7 @@ namespace _8beatMap
             PositionPanel(CurrentTick);
         }
 
-        private void ProcessClick(int Tick, int Lane, MouseButtons MouseButton, Notedata.NoteType NewNote, bool Cascade)
+        private void ProcessClick(int Tick, int Lane, MouseButtons MouseButton, Notedata.NoteType NewNote)
         {
             Console.WriteLine(Lane + ", " + Tick);
 
@@ -520,30 +525,57 @@ namespace _8beatMap
 
             if (MouseButton == MouseButtons.Left)
             {
-                if (FindVisualNoteType(Tick, Lane) != NewNote || Cascade == true)
+                if (FindVisualNoteType(Tick, Lane) != NewNote)
                 {
                     chart.Ticks[Tick].Notes[Lane] = NewNote;
 
                     PictureBox Icn = chart.Ticks[Tick].NoteIcons[Lane];
 
-                    try { Icn.Parent.Controls.Remove(Icn); } catch { }
-
-
+                    
                     if (NewNote == Notedata.NoteType.None)
                     {
-                        ProcessClick(Tick, Lane, MouseButtons.Right, NewNote, true);
+                        ProcessClick(Tick, Lane, MouseButtons.Right, NewNote);
                         return;
                     }
 
+
+                    try { Icn.Parent.Controls.Remove(Icn); } catch { }
                     AddSingleNoteIcon(Tick, Lane, FindVisualNoteType(Tick, Lane));
 
-                    if ((NewNote == Notedata.NoteType.Hold || NewNote == Notedata.NoteType.SimulHoldRelease ||
-                        NewNote == Notedata.NoteType.HoldEndFlickLeft || NewNote == Notedata.NoteType.HoldEndFlickRight)
-                        && Tick > 0)
+                    //if ((NewNote == Notedata.NoteType.Hold || NewNote == Notedata.NoteType.SimulHoldRelease ||
+                    //    NewNote == Notedata.NoteType.HoldEndFlickLeft || NewNote == Notedata.NoteType.HoldEndFlickRight)
+                    //    && Tick > 0)
+                    //{
+                    //    Notedata.NoteType NewNote2 = chart.Ticks[Tick-1].Notes[Lane];
+                    //    if (NewNote2 == Notedata.NoteType.Hold || NewNote2 == Notedata.NoteType.SimulHoldRelease)
+                    //        ProcessClick(Tick - 1, Lane, MouseButtons.Left, NewNote2, true);
+                    //}
+
+                    if (NewNote == Notedata.NoteType.Hold || NewNote == Notedata.NoteType.SimulHoldRelease ||
+                    NewNote == Notedata.NoteType.HoldEndFlickLeft || NewNote == Notedata.NoteType.HoldEndFlickRight)
                     {
-                        Notedata.NoteType NewNote2 = chart.Ticks[Tick-1].Notes[Lane];
-                        if (NewNote2 == Notedata.NoteType.Hold || NewNote2 == Notedata.NoteType.SimulHoldRelease)
-                            ProcessClick(Tick - 1, Lane, MouseButtons.Left, NewNote2, true);
+                        int i = Tick - 1;
+                        if (i < 0)
+                            i = 0;
+                        while (chart.Ticks[i].Notes[Lane] == Notedata.NoteType.Hold || chart.Ticks[i].Notes[Lane] == Notedata.NoteType.SimulHoldRelease)
+                        {
+                            i--;
+                            if (i < 0)
+                                break;
+                        }
+
+                        i++;
+
+                        while (chart.Ticks[i].Notes[Lane] == Notedata.NoteType.Hold || chart.Ticks[i].Notes[Lane] == Notedata.NoteType.SimulHoldRelease)
+                        {
+                            PictureBox Icn2 = chart.Ticks[i].NoteIcons[Lane];
+                            try { Icn2.Parent.Controls.Remove(Icn2); } catch { }
+                            AddSingleNoteIcon(i, Lane, FindVisualNoteType(i, Lane));
+
+                            i++;
+                            if (i >= chart.Length)
+                                break;
+                        }
                     }
                 }
 
@@ -563,14 +595,23 @@ namespace _8beatMap
                     {
                         Notedata.NoteType OldNote2 = chart.Ticks[Tick - 1].Notes[Lane];
                         if (OldNote2 == Notedata.NoteType.Hold || OldNote2 == Notedata.NoteType.SimulHoldRelease)
-                            ProcessClick(Tick - 1, Lane, MouseButtons.Left, OldNote2, true);
-                    }
+                        {
+                            PictureBox Icn2 = chart.Ticks[Tick - 1].NoteIcons[Lane];
+                            try { Icn2.Parent.Controls.Remove(Icn2); } catch { }
+                            AddSingleNoteIcon(Tick - 1, Lane, FindVisualNoteType(Tick - 1, Lane));
+                        }
+                        }
 
                     if (Tick < chart.Length - 1)
                     {
                         Notedata.NoteType OldNote2 = chart.Ticks[Tick + 1].Notes[Lane];
                         if (OldNote2 == Notedata.NoteType.Hold || OldNote2 == Notedata.NoteType.SimulHoldRelease)
-                            ProcessClick(Tick + 1, Lane, MouseButtons.Left, OldNote2, true);
+                        {
+                            PictureBox Icn2 = chart.Ticks[Tick + 1].NoteIcons[Lane];
+                            try { Icn2.Parent.Controls.Remove(Icn2); } catch { }
+                            AddSingleNoteIcon(Tick + 1, Lane, FindVisualNoteType(Tick + 1, Lane));
+
+                        }
                     }
                 }
                 
@@ -597,7 +638,7 @@ namespace _8beatMap
             else if (sendCtl.Parent == ChartPanel4)
                 Tick = (int)ConvertYCoordToTick(ChartPanel4.PointToClient(MousePosition).Y) + 3 * PanelHeight / TickHeight;
 
-            ProcessClick(Tick, Lane, e.Button, (Notedata.NoteType)NoteTypeSelector.SelectedValue, false);
+            ProcessClick(Tick, Lane, e.Button, (Notedata.NoteType)NoteTypeSelector.SelectedValue);
         }
 
         private void NoteBox_MouseLeave(object sender, EventArgs e)
@@ -626,7 +667,7 @@ namespace _8beatMap
                 else if (sendCtl.Parent == ChartPanel4)
                     Tick = (int)ConvertYCoordToTick(ChartPanel4.PointToClient(MousePosition).Y + YOffset) + 3 * PanelHeight / TickHeight;
 
-                ProcessClick(Tick, Lane, MouseButtons, (Notedata.NoteType)NoteTypeSelector.SelectedValue, false);
+                ProcessClick(Tick, Lane, MouseButtons, (Notedata.NoteType)NoteTypeSelector.SelectedValue);
             }
         }
 
@@ -653,7 +694,7 @@ namespace _8beatMap
             else if (sender == ChartPanel4)
                 Tick = (int)ConvertYCoordToTick(ChartPanel4.PointToClient(MousePosition).Y) + 3 * PanelHeight / TickHeight;
 
-            ProcessClick(Tick, Lane, e.Button, (Notedata.NoteType)NoteTypeSelector.SelectedValue, false);
+            ProcessClick(Tick, Lane, e.Button, (Notedata.NoteType)NoteTypeSelector.SelectedValue);
         }
 
 
