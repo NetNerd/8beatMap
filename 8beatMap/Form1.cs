@@ -837,7 +837,7 @@ namespace _8beatMap
                 for (int j = 0; j < 8; j++)
                 {
                     Notedata.NoteType NoteType = FindVisualNoteType(i, j);
-                    if (NoteType == Notedata.NoteType.Tap || NoteType == Notedata.NoteType.Hold ||
+                    if (NoteType == Notedata.NoteType.Tap || NoteType == Notedata.NoteType.SimulTap || NoteType == Notedata.NoteType.Hold ||
                         NoteType == Notedata.NoteType.SimulHoldStart || NoteType == Notedata.NoteType.SimulHoldRelease)
                         SimulNum++;
                 }
@@ -877,8 +877,7 @@ namespace _8beatMap
                         else if (NoteType == Notedata.NoteType.SimulHoldStart || NoteType == Notedata.NoteType.SimulHoldRelease)
                             chart.Ticks[i].Notes[j] = Notedata.NoteType.Hold;
 
-                        if (NoteType == Notedata.NoteType.Tap || NoteType == Notedata.NoteType.Hold ||
-                        NoteType == Notedata.NoteType.SimulHoldStart || NoteType == Notedata.NoteType.SimulHoldRelease)
+                        if (NoteType == Notedata.NoteType.SimulTap || NoteType == Notedata.NoteType.SimulHoldStart || NoteType == Notedata.NoteType.SimulHoldRelease)
                         {
                             PictureBox Icn = chart.Ticks[i].NoteIcons[j];
                             try { Icn.Parent.Controls.Remove(Icn); } catch { }
