@@ -849,8 +849,8 @@ namespace _8beatMap
                 for (int j = 0; j < 8; j++)
                 {
                     Notedata.NoteType NoteType = FindVisualNoteType(i, j);
-                    if (NoteType == Notedata.NoteType.Tap || NoteType == Notedata.NoteType.SimulTap || NoteType == Notedata.NoteType.Hold ||
-                        NoteType == Notedata.NoteType.SimulHoldStart || NoteType == Notedata.NoteType.SimulHoldRelease)
+                    if (NoteType != Notedata.NoteType.None && NoteType != Notedata.NoteType.ExtendHoldMid &&
+                        NoteType != Notedata.NoteType.SwipeLeftMid && NoteType != Notedata.NoteType.SwipeRightMid)
                         SimulNum++;
                 }
 
@@ -864,7 +864,7 @@ namespace _8beatMap
                         else if (NoteType == Notedata.NoteType.Hold || NoteType == Notedata.NoteType.SimulHoldStart
                         || NoteType == Notedata.NoteType.SimulHoldRelease)
                         {
-                            if (chart.Ticks[i + 1].Notes[j] == Notedata.NoteType.Hold || chart.Ticks[i + 1].Notes[j] == Notedata.NoteType.SimulHoldRelease)
+                            if (i+1 < chart.Length && (chart.Ticks[i + 1].Notes[j] == Notedata.NoteType.Hold || chart.Ticks[i + 1].Notes[j] == Notedata.NoteType.SimulHoldRelease))
                                 chart.Ticks[i].Notes[j] = Notedata.NoteType.SimulHoldStart;
                             else
                                 chart.Ticks[i].Notes[j] = Notedata.NoteType.SimulHoldRelease;
