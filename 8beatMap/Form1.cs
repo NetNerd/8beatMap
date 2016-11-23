@@ -30,7 +30,7 @@ namespace _8beatMap
         WaveOutEvent WaveOut = new WaveOutEvent { DesiredLatency = 100, NumberOfBuffers = 16 };
         MediaFoundationReader MusicFileReader;
 
-        WaveOutEvent NoteSoundWaveOut = new WaveOutEvent { DesiredLatency = 125, NumberOfBuffers = 4 };
+        WaveOutEvent NoteSoundWaveOut = new WaveOutEvent { DesiredLatency = 110, NumberOfBuffers = 4 };
         static NAudio.Wave.SampleProviders.SignalGenerator NoteSoundSig = new NAudio.Wave.SampleProviders.SignalGenerator { Frequency = 1000, Gain = 0.5, Type = NAudio.Wave.SampleProviders.SignalGeneratorType.Square };
         NAudio.Wave.SampleProviders.OffsetSampleProvider NoteSoundTrim;
         NAudio.Wave.SampleProviders.MixingSampleProvider NoteSoundMixer = new NAudio.Wave.SampleProviders.MixingSampleProvider(WaveFormat.CreateIeeeFloatWaveFormat(44100, 2)) { ReadFully = true };
@@ -453,7 +453,7 @@ namespace _8beatMap
             //    chart.Ticks[i+1].SetNote(Notedata.NoteType.Hold, 7);
             //}
             //chart.Ticks[32].SetNote(Notedata.NoteType.Hold, 7);
-            
+
             playTimer.Tick += playtimer_Tick;
         }
 
@@ -515,7 +515,6 @@ namespace _8beatMap
 
         private void BPMbox_ValueChanged(object sender, EventArgs e)
         {
-            // playTimer.Interval = (int)ConvertTicksToTime(1).TotalMilliseconds;
             chart.BPM = (double)BPMbox.Value;
             ResizeScrollbar();
             if (MusicFileReader != null)
