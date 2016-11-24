@@ -844,34 +844,31 @@ namespace _8beatMap
         {
             for (int i = 0; i < chart.Length; i++)
             {
-                int SimulNum = 0;
+                int SimulNum_Tap = 0;
+                int SimulNum_Hold = 0;
+
                 for (int j = 0; j < 8; j++)
                 {
+                    // taps get drawn as simulnotes when swipes or flicks are present, but holds don't
                     Notedata.NoteType NoteType = FindVisualNoteType(i, j);
                     if (NoteType != Notedata.NoteType.None && NoteType != Notedata.NoteType.ExtendHoldMid &&
                         NoteType != Notedata.NoteType.SwipeLeftMid && NoteType != Notedata.NoteType.SwipeRightMid)
-                        SimulNum++;
+                        SimulNum_Tap++;
+
+                    if (NoteType == Notedata.NoteType.Tap || NoteType == Notedata.NoteType.SimulTap ||
+                        NoteType == Notedata.NoteType.Hold || NoteType == Notedata.NoteType.SimulHoldStart || NoteType == Notedata.NoteType.SimulHoldRelease)
+                        SimulNum_Hold++;
                 }
 
-                if (SimulNum > 1)
+                if (SimulNum_Tap > 1)
                 {
                     for (int j = 0; j < 8; j++)
                     {
                         Notedata.NoteType NoteType = FindVisualNoteType(i, j);
                         if (NoteType == Notedata.NoteType.Tap)
+                        {
                             chart.Ticks[i].Notes[j] = Notedata.NoteType.SimulTap;
-                        else if (NoteType == Notedata.NoteType.Hold || NoteType == Notedata.NoteType.SimulHoldStart
-                        || NoteType == Notedata.NoteType.SimulHoldRelease)
-                        {
-                            if (i+1 < chart.Length && (chart.Ticks[i + 1].Notes[j] == Notedata.NoteType.Hold || chart.Ticks[i + 1].Notes[j] == Notedata.NoteType.SimulHoldRelease))
-                                chart.Ticks[i].Notes[j] = Notedata.NoteType.SimulHoldStart;
-                            else
-                                chart.Ticks[i].Notes[j] = Notedata.NoteType.SimulHoldRelease;
-                        }
-
-                        if (NoteType == Notedata.NoteType.Tap || NoteType == Notedata.NoteType.Hold ||
-                        NoteType == Notedata.NoteType.SimulHoldStart || NoteType == Notedata.NoteType.SimulHoldRelease)
-                        {
+                            
                             PictureBox Icn = chart.Ticks[i].NoteIcons[j];
                             try { Icn.Parent.Controls.Remove(Icn); } catch { }
                             AddSingleNoteIcon(i, j, FindVisualNoteType(i, j));
@@ -884,12 +881,44 @@ namespace _8beatMap
                     {
                         Notedata.NoteType NoteType = FindVisualNoteType(i, j);
                         if (NoteType == Notedata.NoteType.SimulTap)
+                        {
                             chart.Ticks[i].Notes[j] = Notedata.NoteType.Tap;
-                        else if (NoteType == Notedata.NoteType.SimulHoldStart || NoteType == Notedata.NoteType.SimulHoldRelease)
+
+                            PictureBox Icn = chart.Ticks[i].NoteIcons[j];
+                            try { Icn.Parent.Controls.Remove(Icn); } catch { }
+                            AddSingleNoteIcon(i, j, FindVisualNoteType(i, j));
+                        }
+                    }
+                }
+
+                if (SimulNum_Hold > 1)
+                {
+                    for (int j = 0; j < 8; j++)
+                    {
+                        Notedata.NoteType NoteType = FindVisualNoteType(i, j);
+                        if (NoteType == Notedata.NoteType.Hold || NoteType == Notedata.NoteType.SimulHoldStart
+                        || NoteType == Notedata.NoteType.SimulHoldRelease)
+                        {
+                            if (i + 1 < chart.Length && (chart.Ticks[i + 1].Notes[j] == Notedata.NoteType.Hold || chart.Ticks[i + 1].Notes[j] == Notedata.NoteType.SimulHoldRelease))
+                                chart.Ticks[i].Notes[j] = Notedata.NoteType.SimulHoldStart;
+                            else
+                                chart.Ticks[i].Notes[j] = Notedata.NoteType.SimulHoldRelease;
+
+                            PictureBox Icn = chart.Ticks[i].NoteIcons[j];
+                            try { Icn.Parent.Controls.Remove(Icn); } catch { }
+                            AddSingleNoteIcon(i, j, FindVisualNoteType(i, j));
+                        }
+                    }
+                }
+                else
+                {
+                    for (int j = 0; j < 8; j++)
+                    {
+                        Notedata.NoteType NoteType = FindVisualNoteType(i, j);
+                        if (NoteType == Notedata.NoteType.SimulHoldStart || NoteType == Notedata.NoteType.SimulHoldRelease)
+                        {
                             chart.Ticks[i].Notes[j] = Notedata.NoteType.Hold;
 
-                        if (NoteType == Notedata.NoteType.SimulTap || NoteType == Notedata.NoteType.SimulHoldStart || NoteType == Notedata.NoteType.SimulHoldRelease)
-                        {
                             PictureBox Icn = chart.Ticks[i].NoteIcons[j];
                             try { Icn.Parent.Controls.Remove(Icn); } catch { }
                             AddSingleNoteIcon(i, j, FindVisualNoteType(i, j));
