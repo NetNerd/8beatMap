@@ -67,6 +67,7 @@
     <Compile Include="Notedata.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Dialogs.ja.resx" />
     <EmbeddedResource Include="Dialogs.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Dialogs.Designer.cs</LastGenOutput>
