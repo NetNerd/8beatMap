@@ -136,7 +136,7 @@ Set it in the BPM box for notes to move at the right speed.</value>
   <data name="NoteCountMessage" xml:space="preserve">
     <value>The chart contains {0} notes.</value>
   </data>
-  <data name="PlaybackNoMuiscError" xml:space="preserve">
+  <data name="PlaybackNoMusicError" xml:space="preserve">
     <value>A music file must be loaded for playback to work.</value>
   </data>
 </root>

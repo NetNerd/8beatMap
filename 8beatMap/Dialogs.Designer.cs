@@ -118,9 +118,9 @@ namespace _8beatMap {
         /// <summary>
         ///   Looks up a localized string similar to A music file must be loaded for playback to work..
         /// </summary>
-        internal static string PlaybackNoMuiscError {
+        internal static string PlaybackNoMusicError {
             get {
-                return ResourceManager.GetString("PlaybackNoMuiscError", resourceCulture);
+                return ResourceManager.GetString("PlaybackNoMusicError", resourceCulture);
             }
         }
     }
