@@ -423,11 +423,20 @@ namespace _8beatMap
         }
 
 
+        private void AddNoteTypes()
+        {
+            if (System.Threading.Thread.CurrentThread.CurrentUICulture == System.Globalization.CultureInfo.GetCultureInfo("ja"))
+                NoteTypeSelector.DataSource = Enum.GetValues(typeof(Notedata.UserVisibleNoteType_Nihongo));
+            else
+                NoteTypeSelector.DataSource = Enum.GetValues(typeof(Notedata.UserVisibleNoteType));
+        }
+
+
         public Form1()
         {
             InitializeComponent();
 
-            NoteTypeSelector.DataSource = Enum.GetValues(typeof(Notedata.UserVisibleNoteType));
+            AddNoteTypes();
 
             NoteSoundWaveOut.Init(NoteSoundMixer);
             NoteSoundWaveOut.Play();
@@ -746,7 +755,7 @@ namespace _8beatMap
 
         private void OpenMusicButton_Click(object sender, EventArgs e)
         {
-            if (openFileDialog2.ShowDialog() == DialogResult.OK) ;
+            if (openFileDialog2.ShowDialog() == DialogResult.OK)
                 LoadMusic(openFileDialog2.FileName);
         }
 
@@ -926,6 +935,23 @@ namespace _8beatMap
                     }
                 }
             }
+        }
+
+        private void LangChangeBtn_Click(object sender, EventArgs e)
+        {
+            StopPlayback();
+            System.Threading.Thread.Sleep(50);
+
+            if (System.Threading.Thread.CurrentThread.CurrentUICulture == System.Globalization.CultureInfo.GetCultureInfo("ja"))
+                System.Threading.Thread.CurrentThread.CurrentUICulture = System.Globalization.CultureInfo.GetCultureInfo("en");
+            else
+                System.Threading.Thread.CurrentThread.CurrentUICulture = System.Globalization.CultureInfo.GetCultureInfo("ja");
+
+            ComponentResourceManager resources = new ComponentResourceManager(typeof(Form1));
+            foreach (Control Ctrl in Controls)
+                resources.ApplyResources(Ctrl, Ctrl.Name);
+
+            AddNoteTypes();
         }
     }
 }

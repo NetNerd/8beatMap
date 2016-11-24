@@ -57,6 +57,31 @@ namespace _8beatMap
             HoldEndFlickRight = NoteType.HoldEndFlickRight
         }
 
+        public enum UserVisibleNoteType_Nihongo
+        {
+            押す = NoteType.Tap,
+            同時に押す = NoteType.SimulTap,
+
+            長い押す = NoteType.Hold,
+            同時に長い押すの最初 = NoteType.SimulHoldStart,
+            同時に長い押すの最後 = NoteType.SimulHoldRelease,
+
+            左へスワイプの端 = NoteType.SwipeLeftStartEnd,
+            左へスワイプの真ん中で = NoteType.SwipeLeftMid,
+
+            右へスワイプの端 = NoteType.SwipeRightStartEnd,
+            右へスワイプの真ん中で = NoteType.SwipeRightMid,
+
+            左へスワイプから右に変わる = NoteType.SwipeChangeDirL2R,
+            右へスワイプから左に変わる = NoteType.SwipeChangeDirR2L,
+
+            左へフリック = NoteType.FlickLeft,
+            長い押すの最後での左へフリック = NoteType.HoldEndFlickLeft,
+
+            右へフリック = NoteType.FlickRight,
+            長い押すの最後での右へフリック = NoteType.HoldEndFlickRight
+        }
+
 
         public struct Tick
         {
