@@ -14,6 +14,7 @@ namespace _8beatMap
 {
     public partial class Form1 : Form
     {
+        System.Resources.ResourceManager DialogResMgr = new System.Resources.ResourceManager("_8beatMap.Dialogs", System.Reflection.Assembly.GetEntryAssembly());
 
         Notedata.Chart chart = new Notedata.Chart(32 * 48, 120);
         private int TickHeight = 10;
@@ -390,11 +391,11 @@ namespace _8beatMap
                 try {
                     chart = Notedata.ConvertJsonToChart(System.IO.File.ReadAllText(Path));
                 }
-                catch { MessageBox.Show("Unable to load chart."); }
+                catch { MessageBox.Show(DialogResMgr.GetString("ChartLoadError")); }
 
                 if (chart.BPM == 1)
                 {
-                    MessageBox.Show("Unable to detect BPM (charts from the game don't contain this info). \n Set it in the BPM box for notes to move at the right speed.");
+                    MessageBox.Show(DialogResMgr.GetString("ChartLoadNoBPM"));
                     chart.BPM = 120;
                 }
                 ResizeBox.Value = chart.Length / 48;
@@ -416,7 +417,7 @@ namespace _8beatMap
                 try {
                     MusicFileReader = new MediaFoundationReader(Path);
                 }
-                catch { MessageBox.Show("Unable to load music file."); return; }
+                catch { MessageBox.Show(DialogResMgr.GetString("MusicLoadError")); return; }
                 
                 WaveOut.Init(MusicFileReader);
             }
@@ -481,7 +482,7 @@ namespace _8beatMap
                 StartPlayback();
             else
             {
-                MessageBox.Show("A music file must be loaded for playback to work.");
+                MessageBox.Show(DialogResMgr.GetString("PlaybackNoMusicError"));
             }
         }
 
@@ -826,7 +827,7 @@ namespace _8beatMap
 
             else
             {
-                if (MessageBox.Show("Are you sure you want to exit? Make sure you save your work first.", "Warning", MessageBoxButtons.YesNo) == DialogResult.No)
+                if (MessageBox.Show(DialogResMgr.GetString("ExitMessage"), DialogResMgr.GetString("ExitCaption"), MessageBoxButtons.YesNo) == DialogResult.No)
                     e.Cancel = true;
             }
         }
@@ -846,7 +847,7 @@ namespace _8beatMap
                 }
             }
 
-            MessageBox.Show("The beatmap contains " + NoteCount + " notes.");
+            MessageBox.Show(String.Format(DialogResMgr.GetString("NoteCountMessage"), NoteCount));
         }
 
         private void AutoSimulBtn_Click(object sender, EventArgs e)
@@ -942,7 +943,8 @@ namespace _8beatMap
             StopPlayback();
             System.Threading.Thread.Sleep(50);
 
-            if (System.Threading.Thread.CurrentThread.CurrentUICulture == System.Globalization.CultureInfo.GetCultureInfo("ja"))
+            if (System.Threading.Thread.CurrentThread.CurrentUICulture == System.Globalization.CultureInfo.GetCultureInfo("ja") ||
+                System.Threading.Thread.CurrentThread.CurrentUICulture == System.Globalization.CultureInfo.GetCultureInfo("ja-JP"))
                 System.Threading.Thread.CurrentThread.CurrentUICulture = System.Globalization.CultureInfo.GetCultureInfo("en");
             else
                 System.Threading.Thread.CurrentThread.CurrentUICulture = System.Globalization.CultureInfo.GetCultureInfo("ja");
