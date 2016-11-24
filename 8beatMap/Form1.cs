@@ -940,9 +940,6 @@ namespace _8beatMap
 
         private void LangChangeBtn_Click(object sender, EventArgs e)
         {
-            StopPlayback();
-            System.Threading.Thread.Sleep(50);
-
             if (System.Threading.Thread.CurrentThread.CurrentUICulture == System.Globalization.CultureInfo.GetCultureInfo("ja") ||
                 System.Threading.Thread.CurrentThread.CurrentUICulture == System.Globalization.CultureInfo.GetCultureInfo("ja-JP"))
                 System.Threading.Thread.CurrentThread.CurrentUICulture = System.Globalization.CultureInfo.GetCultureInfo("en");
@@ -954,6 +951,8 @@ namespace _8beatMap
                 resources.ApplyResources(Ctrl, Ctrl.Name);
 
             AddNoteTypes();
+
+            PositionPanel(CurrentTick);
         }
     }
 }
