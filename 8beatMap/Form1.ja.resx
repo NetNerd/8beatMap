@@ -137,19 +137,25 @@
     <value>アプライ</value>
   </data>
   <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>415, 17</value>
+    <value>358, 17</value>
+  </data>
+  <data name="label2.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>100, 0</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>43, 13</value>
+    <value>100, 13</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
     <value>ズーム：</value>
   </data>
   <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>389, 46</value>
+    <value>358, 46</value>
+  </data>
+  <data name="label3.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>100, 0</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>69, 13</value>
+    <value>100, 13</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
     <value>長さ（縦線）：</value>
@@ -175,20 +181,23 @@
   <data name="NoteTypeSelector.Size" type="System.Drawing.Size, System.Drawing">
     <value>173, 21</value>
   </data>
-  <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>360, 129</value>
+  <data name="label4.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>85, 0</value>
   </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>73, 13</value>
+    <value>85, 13</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
     <value>音符のタイプ：</value>
   </data>
   <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>368, 75</value>
+    <value>358, 75</value>
+  </data>
+  <data name="label5.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>100, 0</value>
   </data>
   <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>90, 13</value>
+    <value>100, 13</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
     <value>全音符を動かす：</value>
