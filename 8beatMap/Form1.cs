@@ -946,9 +946,13 @@ namespace _8beatMap
             else
                 System.Threading.Thread.CurrentThread.CurrentUICulture = System.Globalization.CultureInfo.GetCultureInfo("ja");
 
+
+            SuspendLayout();
             ComponentResourceManager resources = new ComponentResourceManager(typeof(Form1));
             foreach (Control Ctrl in Controls)
                 resources.ApplyResources(Ctrl, Ctrl.Name);
+            resources.ApplyResources(this, "$this");
+            ResumeLayout();
 
             AddNoteTypes();
 
