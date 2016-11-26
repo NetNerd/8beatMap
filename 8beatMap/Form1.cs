@@ -451,7 +451,7 @@ namespace _8beatMap
 
             AddNoteTypes();
 
-
+            ActiveControl = ZoomLbl;
 
             NoteSoundWaveOut.Init(NoteSoundMixer);
             NoteSoundWaveOut.Play();
