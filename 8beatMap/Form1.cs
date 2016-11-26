@@ -426,10 +426,22 @@ namespace _8beatMap
 
         private void AddNoteTypes()
         {
+            NoteTypeSelector.Items.Clear();
+
             if (System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName == "ja")
-                NoteTypeSelector.DataSource = Enum.GetValues(typeof(Notedata.UserVisibleNoteType_Nihongo));
+                //NoteTypeSelector.DataSource = Enum.GetValues(typeof(Notedata.UserVisibleNoteType_Nihongo));
+                foreach (Notedata.NoteType type in Enum.GetValues(typeof(Notedata.UserVisibleNoteType_Nihongo)))
+                {
+                    NoteTypeSelector.Items.Add(type);
+                }
             else
-                NoteTypeSelector.DataSource = Enum.GetValues(typeof(Notedata.UserVisibleNoteType));
+                // NoteTypeSelector.DataSource = Enum.GetValues(typeof(Notedata.UserVisibleNoteType));
+                foreach (Notedata.NoteType type in Enum.GetValues(typeof(Notedata.UserVisibleNoteType)))
+                {
+                    NoteTypeSelector.Items.Add(type);
+                }
+
+            NoteTypeSelector.SelectedIndex = 0;
         }
 
 
@@ -659,7 +671,7 @@ namespace _8beatMap
             else if (sendCtl.Parent == ChartPanel4)
                 Tick = (int)ConvertYCoordToTick(ChartPanel4.PointToClient(MousePosition).Y) + 3 * PanelHeight / TickHeight;
 
-            ProcessClick(Tick, Lane, e.Button, (Notedata.NoteType)NoteTypeSelector.SelectedValue);
+            ProcessClick(Tick, Lane, e.Button, (Notedata.NoteType)NoteTypeSelector.SelectedItem);
         }
 
         private void NoteBox_MouseLeave(object sender, EventArgs e)
@@ -688,7 +700,7 @@ namespace _8beatMap
                 else if (sendCtl.Parent == ChartPanel4)
                     Tick = (int)ConvertYCoordToTick(ChartPanel4.PointToClient(MousePosition).Y + YOffset) + 3 * PanelHeight / TickHeight;
 
-                ProcessClick(Tick, Lane, MouseButtons, (Notedata.NoteType)NoteTypeSelector.SelectedValue);
+                ProcessClick(Tick, Lane, MouseButtons, (Notedata.NoteType)NoteTypeSelector.SelectedItem);
             }
         }
 
@@ -715,7 +727,7 @@ namespace _8beatMap
             else if (sender == ChartPanel4)
                 Tick = (int)ConvertYCoordToTick(ChartPanel4.PointToClient(MousePosition).Y) + 3 * PanelHeight / TickHeight;
 
-            ProcessClick(Tick, Lane, e.Button, (Notedata.NoteType)NoteTypeSelector.SelectedValue);
+            ProcessClick(Tick, Lane, e.Button, (Notedata.NoteType)NoteTypeSelector.SelectedItem);
         }
 
 
@@ -956,6 +968,19 @@ namespace _8beatMap
             AddNoteTypes();
 
             PositionPanel(CurrentTick);
+        }
+
+        private void Form1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            try
+            {
+                char key = e.KeyChar;
+                if (Char.IsDigit(key))
+                    NoteTypeSelector.SelectedItem = (Notedata.NoteType)Enum.Parse(typeof(Notedata.NoteShortcutKeys), "_" + key);
+                else
+                    NoteTypeSelector.SelectedItem = (Notedata.NoteType)Enum.Parse(typeof(Notedata.NoteShortcutKeys), key.ToString().ToUpper());
+            }
+            catch { }
         }
     }
 }

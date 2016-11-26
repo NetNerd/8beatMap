@@ -82,6 +82,28 @@ namespace _8beatMap
             長い押すの最後での右へフリック = NoteType.HoldEndFlickRight
         }
 
+        public enum NoteShortcutKeys
+        {
+            _1 = NoteType.Tap,
+            Q = NoteType.SimulTap,
+
+            _2 = NoteType.Hold,
+            W = NoteType.SimulHoldStart,
+            S = NoteType.SimulHoldRelease,
+
+            _3 = NoteType.FlickLeft,
+            E = NoteType.HoldEndFlickLeft,
+            _4 = NoteType.FlickRight,
+            R = NoteType.HoldEndFlickRight,
+
+            _5 = NoteType.SwipeLeftStartEnd,
+            T = NoteType.SwipeLeftMid,
+            G = NoteType.SwipeChangeDirR2L,
+            _6 = NoteType.SwipeRightStartEnd,
+            Y = NoteType.SwipeRightMid,
+            H = NoteType.SwipeChangeDirL2R
+        }
+
 
         public struct Tick
         {
