@@ -33,7 +33,7 @@
             this.ChartPanel2 = new System.Windows.Forms.Panel();
             this.ChartScrollBar = new System.Windows.Forms.VScrollBar();
             this.BPMbox = new System.Windows.Forms.NumericUpDown();
-            this.label1 = new System.Windows.Forms.Label();
+            this.BPMLbl = new System.Windows.Forms.Label();
             this.PlayBtn = new System.Windows.Forms.Button();
             this.StopBtn = new System.Windows.Forms.Button();
             this.newplayhead = new System.Windows.Forms.PictureBox();
@@ -41,8 +41,8 @@
             this.ZoomBtn = new System.Windows.Forms.Button();
             this.ChartPanel3 = new System.Windows.Forms.Panel();
             this.ZoomBox = new System.Windows.Forms.NumericUpDown();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.ZoomLbl = new System.Windows.Forms.Label();
+            this.ResizeLbl = new System.Windows.Forms.Label();
             this.ResizeBox = new System.Windows.Forms.NumericUpDown();
             this.ResizeBtn = new System.Windows.Forms.Button();
             this.ChartPanel4 = new System.Windows.Forms.Panel();
@@ -54,8 +54,8 @@
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.ImgSaveBtn = new System.Windows.Forms.Button();
             this.NoteTypeSelector = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
+            this.NoteTypeLbl = new System.Windows.Forms.Label();
+            this.NoteShiftLbl = new System.Windows.Forms.Label();
             this.NoteShiftBox = new System.Windows.Forms.NumericUpDown();
             this.NoteShiftBtn = new System.Windows.Forms.Button();
             this.NoteSoundBox = new System.Windows.Forms.CheckBox();
@@ -107,10 +107,10 @@
             0});
             this.BPMbox.ValueChanged += new System.EventHandler(this.BPMbox_ValueChanged);
             // 
-            // label1
+            // BPMLbl
             // 
-            resources.ApplyResources(this.label1, "label1");
-            this.label1.Name = "label1";
+            resources.ApplyResources(this.BPMLbl, "BPMLbl");
+            this.BPMLbl.Name = "BPMLbl";
             // 
             // PlayBtn
             // 
@@ -173,15 +173,15 @@
             0,
             0});
             // 
-            // label2
+            // ZoomLbl
             // 
-            resources.ApplyResources(this.label2, "label2");
-            this.label2.Name = "label2";
+            resources.ApplyResources(this.ZoomLbl, "ZoomLbl");
+            this.ZoomLbl.Name = "ZoomLbl";
             // 
-            // label3
+            // ResizeLbl
             // 
-            resources.ApplyResources(this.label3, "label3");
-            this.label3.Name = "label3";
+            resources.ApplyResources(this.ResizeLbl, "ResizeLbl");
+            this.ResizeLbl.Name = "ResizeLbl";
             // 
             // ResizeBox
             // 
@@ -265,15 +265,15 @@
             this.NoteTypeSelector.FormattingEnabled = true;
             this.NoteTypeSelector.Name = "NoteTypeSelector";
             // 
-            // label4
+            // NoteTypeLbl
             // 
-            resources.ApplyResources(this.label4, "label4");
-            this.label4.Name = "label4";
+            resources.ApplyResources(this.NoteTypeLbl, "NoteTypeLbl");
+            this.NoteTypeLbl.Name = "NoteTypeLbl";
             // 
-            // label5
+            // NoteShiftLbl
             // 
-            resources.ApplyResources(this.label5, "label5");
-            this.label5.Name = "label5";
+            resources.ApplyResources(this.NoteShiftLbl, "NoteShiftLbl");
+            this.NoteShiftLbl.Name = "NoteShiftLbl";
             // 
             // NoteShiftBox
             // 
@@ -334,26 +334,26 @@
             this.Controls.Add(this.AutoSimulBtn);
             this.Controls.Add(this.NoteCountButton);
             this.Controls.Add(this.NoteSoundBox);
-            this.Controls.Add(this.label5);
+            this.Controls.Add(this.NoteShiftLbl);
             this.Controls.Add(this.NoteShiftBox);
             this.Controls.Add(this.NoteShiftBtn);
-            this.Controls.Add(this.label4);
+            this.Controls.Add(this.NoteTypeLbl);
             this.Controls.Add(this.NoteTypeSelector);
             this.Controls.Add(this.ImgSaveBtn);
             this.Controls.Add(this.SaveChartBtn);
             this.Controls.Add(this.OpenMusicButton);
             this.Controls.Add(this.OpenBtn);
-            this.Controls.Add(this.label3);
+            this.Controls.Add(this.ResizeLbl);
             this.Controls.Add(this.ResizeBox);
             this.Controls.Add(this.ResizeBtn);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.ZoomLbl);
             this.Controls.Add(this.ZoomBox);
             this.Controls.Add(this.ZoomBtn);
             this.Controls.Add(this.PauseOnSeek);
             this.Controls.Add(this.newplayhead);
             this.Controls.Add(this.StopBtn);
             this.Controls.Add(this.PlayBtn);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.BPMLbl);
             this.Controls.Add(this.BPMbox);
             this.Controls.Add(this.ChartScrollBar);
             this.Controls.Add(this.ChartPanel4);
@@ -380,7 +380,7 @@
         private System.Windows.Forms.Panel ChartPanel;
         private System.Windows.Forms.VScrollBar ChartScrollBar;
         private System.Windows.Forms.NumericUpDown BPMbox;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label BPMLbl;
         private System.Windows.Forms.Button PlayBtn;
         private System.Windows.Forms.Button StopBtn;
         private System.Windows.Forms.PictureBox newplayhead;
@@ -388,9 +388,9 @@
         private System.Windows.Forms.CheckBox PauseOnSeek;
         private System.Windows.Forms.Panel ChartPanel3;
         private System.Windows.Forms.NumericUpDown ZoomBox;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label ZoomLbl;
         private System.Windows.Forms.Button ZoomBtn;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label ResizeLbl;
         private System.Windows.Forms.NumericUpDown ResizeBox;
         private System.Windows.Forms.Button ResizeBtn;
         private System.Windows.Forms.Panel ChartPanel4;
@@ -402,8 +402,8 @@
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.Button ImgSaveBtn;
         private System.Windows.Forms.ComboBox NoteTypeSelector;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label NoteTypeLbl;
+        private System.Windows.Forms.Label NoteShiftLbl;
         private System.Windows.Forms.NumericUpDown NoteShiftBox;
         private System.Windows.Forms.Button NoteShiftBtn;
         private System.Windows.Forms.CheckBox NoteSoundBox;

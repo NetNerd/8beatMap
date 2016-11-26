@@ -216,34 +216,34 @@
   <data name="&gt;&gt;BPMbox.ZOrder" xml:space="preserve">
     <value>24</value>
   </data>
-  <data name="label1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+  <data name="BPMLbl.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
   </data>
-  <data name="label1.AutoSize" type="System.Boolean, mscorlib">
+  <data name="BPMLbl.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="BPMLbl.Location" type="System.Drawing.Point, System.Drawing">
     <value>510, 340</value>
   </data>
-  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="BPMLbl.Size" type="System.Drawing.Size, System.Drawing">
     <value>33, 13</value>
   </data>
-  <data name="label1.TabIndex" type="System.Int32, mscorlib">
+  <data name="BPMLbl.TabIndex" type="System.Int32, mscorlib">
     <value>40</value>
   </data>
-  <data name="label1.Text" xml:space="preserve">
+  <data name="BPMLbl.Text" xml:space="preserve">
     <value>BPM:</value>
   </data>
-  <data name="&gt;&gt;label1.Name" xml:space="preserve">
-    <value>label1</value>
+  <data name="&gt;&gt;BPMLbl.Name" xml:space="preserve">
+    <value>BPMLbl</value>
   </data>
-  <data name="&gt;&gt;label1.Type" xml:space="preserve">
+  <data name="&gt;&gt;BPMLbl.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
+  <data name="&gt;&gt;BPMLbl.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;BPMLbl.ZOrder" xml:space="preserve">
     <value>23</value>
   </data>
   <data name="PlayBtn.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
@@ -432,76 +432,76 @@
   <data name="&gt;&gt;ZoomBox.ZOrder" xml:space="preserve">
     <value>17</value>
   </data>
-  <data name="label2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+  <data name="ZoomLbl.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
   </data>
-  <data name="label2.AutoSize" type="System.Boolean, mscorlib">
+  <data name="ZoomLbl.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="ZoomLbl.Location" type="System.Drawing.Point, System.Drawing">
     <value>368, 17</value>
   </data>
-  <data name="label2.MinimumSize" type="System.Drawing.Size, System.Drawing">
+  <data name="ZoomLbl.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>90, 0</value>
   </data>
-  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="ZoomLbl.Size" type="System.Drawing.Size, System.Drawing">
     <value>90, 13</value>
   </data>
-  <data name="label2.TabIndex" type="System.Int32, mscorlib">
+  <data name="ZoomLbl.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
   </data>
-  <data name="label2.Text" xml:space="preserve">
+  <data name="ZoomLbl.Text" xml:space="preserve">
     <value>Zoom:</value>
   </data>
-  <data name="label2.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+  <data name="ZoomLbl.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleRight</value>
   </data>
-  <data name="&gt;&gt;label2.Name" xml:space="preserve">
-    <value>label2</value>
+  <data name="&gt;&gt;ZoomLbl.Name" xml:space="preserve">
+    <value>ZoomLbl</value>
   </data>
-  <data name="&gt;&gt;label2.Type" xml:space="preserve">
+  <data name="&gt;&gt;ZoomLbl.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
+  <data name="&gt;&gt;ZoomLbl.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;ZoomLbl.ZOrder" xml:space="preserve">
     <value>16</value>
   </data>
-  <data name="label3.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+  <data name="ResizeLbl.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
   </data>
-  <data name="label3.AutoSize" type="System.Boolean, mscorlib">
+  <data name="ResizeLbl.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="ResizeLbl.Location" type="System.Drawing.Point, System.Drawing">
     <value>368, 46</value>
   </data>
-  <data name="label3.MinimumSize" type="System.Drawing.Size, System.Drawing">
+  <data name="ResizeLbl.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>90, 0</value>
   </data>
-  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="ResizeLbl.Size" type="System.Drawing.Size, System.Drawing">
     <value>90, 13</value>
   </data>
-  <data name="label3.TabIndex" type="System.Int32, mscorlib">
+  <data name="ResizeLbl.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
   </data>
-  <data name="label3.Text" xml:space="preserve">
+  <data name="ResizeLbl.Text" xml:space="preserve">
     <value>Length (Bars):</value>
   </data>
-  <data name="label3.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+  <data name="ResizeLbl.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleRight</value>
   </data>
-  <data name="&gt;&gt;label3.Name" xml:space="preserve">
-    <value>label3</value>
+  <data name="&gt;&gt;ResizeLbl.Name" xml:space="preserve">
+    <value>ResizeLbl</value>
   </data>
-  <data name="&gt;&gt;label3.Type" xml:space="preserve">
+  <data name="&gt;&gt;ResizeLbl.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
+  <data name="&gt;&gt;ResizeLbl.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;ResizeLbl.ZOrder" xml:space="preserve">
     <value>13</value>
   </data>
   <data name="ResizeBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
@@ -729,76 +729,76 @@
   <data name="&gt;&gt;NoteTypeSelector.ZOrder" xml:space="preserve">
     <value>8</value>
   </data>
-  <data name="label4.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+  <data name="NoteTypeLbl.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
   </data>
-  <data name="label4.AutoSize" type="System.Boolean, mscorlib">
+  <data name="NoteTypeLbl.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="NoteTypeLbl.Location" type="System.Drawing.Point, System.Drawing">
     <value>348, 129</value>
   </data>
-  <data name="label4.MinimumSize" type="System.Drawing.Size, System.Drawing">
+  <data name="NoteTypeLbl.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>110, 0</value>
   </data>
-  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="NoteTypeLbl.Size" type="System.Drawing.Size, System.Drawing">
     <value>110, 13</value>
   </data>
-  <data name="label4.TabIndex" type="System.Int32, mscorlib">
+  <data name="NoteTypeLbl.TabIndex" type="System.Int32, mscorlib">
     <value>25</value>
   </data>
-  <data name="label4.Text" xml:space="preserve">
+  <data name="NoteTypeLbl.Text" xml:space="preserve">
     <value>Note type to place:</value>
   </data>
-  <data name="label4.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+  <data name="NoteTypeLbl.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleRight</value>
   </data>
-  <data name="&gt;&gt;label4.Name" xml:space="preserve">
-    <value>label4</value>
+  <data name="&gt;&gt;NoteTypeLbl.Name" xml:space="preserve">
+    <value>NoteTypeLbl</value>
   </data>
-  <data name="&gt;&gt;label4.Type" xml:space="preserve">
+  <data name="&gt;&gt;NoteTypeLbl.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label4.Parent" xml:space="preserve">
+  <data name="&gt;&gt;NoteTypeLbl.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;NoteTypeLbl.ZOrder" xml:space="preserve">
     <value>7</value>
   </data>
-  <data name="label5.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+  <data name="NoteShiftLbl.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
   </data>
-  <data name="label5.AutoSize" type="System.Boolean, mscorlib">
+  <data name="NoteShiftLbl.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="NoteShiftLbl.Location" type="System.Drawing.Point, System.Drawing">
     <value>368, 75</value>
   </data>
-  <data name="label5.MinimumSize" type="System.Drawing.Size, System.Drawing">
+  <data name="NoteShiftLbl.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>90, 0</value>
   </data>
-  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="NoteShiftLbl.Size" type="System.Drawing.Size, System.Drawing">
     <value>90, 13</value>
   </data>
-  <data name="label5.TabIndex" type="System.Int32, mscorlib">
+  <data name="NoteShiftLbl.TabIndex" type="System.Int32, mscorlib">
     <value>16</value>
   </data>
-  <data name="label5.Text" xml:space="preserve">
+  <data name="NoteShiftLbl.Text" xml:space="preserve">
     <value>Shift All Notes:</value>
   </data>
-  <data name="label5.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+  <data name="NoteShiftLbl.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleRight</value>
   </data>
-  <data name="&gt;&gt;label5.Name" xml:space="preserve">
-    <value>label5</value>
+  <data name="&gt;&gt;NoteShiftLbl.Name" xml:space="preserve">
+    <value>NoteShiftLbl</value>
   </data>
-  <data name="&gt;&gt;label5.Type" xml:space="preserve">
+  <data name="&gt;&gt;NoteShiftLbl.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label5.Parent" xml:space="preserve">
+  <data name="&gt;&gt;NoteShiftLbl.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;NoteShiftLbl.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
   <data name="NoteShiftBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">

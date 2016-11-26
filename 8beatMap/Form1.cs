@@ -451,6 +451,8 @@ namespace _8beatMap
 
             AddNoteTypes();
 
+
+
             NoteSoundWaveOut.Init(NoteSoundMixer);
             NoteSoundWaveOut.Play();
 
