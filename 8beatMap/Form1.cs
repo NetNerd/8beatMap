@@ -430,13 +430,13 @@ namespace _8beatMap
 
             if (System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName == "ja")
                 //NoteTypeSelector.DataSource = Enum.GetValues(typeof(Notedata.UserVisibleNoteType_Nihongo));
-                foreach (Notedata.NoteType type in Enum.GetValues(typeof(Notedata.UserVisibleNoteType_Nihongo)))
+                foreach (Notedata.UserVisibleNoteType_Nihongo type in Enum.GetValues(typeof(Notedata.UserVisibleNoteType_Nihongo)))
                 {
                     NoteTypeSelector.Items.Add(type);
                 }
             else
                 // NoteTypeSelector.DataSource = Enum.GetValues(typeof(Notedata.UserVisibleNoteType));
-                foreach (Notedata.NoteType type in Enum.GetValues(typeof(Notedata.UserVisibleNoteType)))
+                foreach (Notedata.UserVisibleNoteType type in Enum.GetValues(typeof(Notedata.UserVisibleNoteType)))
                 {
                     NoteTypeSelector.Items.Add(type);
                 }
