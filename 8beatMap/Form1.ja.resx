@@ -136,28 +136,28 @@
   <data name="ZoomBtn.Text" xml:space="preserve">
     <value>アプライ</value>
   </data>
-  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="ZoomLbl.Location" type="System.Drawing.Point, System.Drawing">
     <value>358, 17</value>
   </data>
-  <data name="label2.MinimumSize" type="System.Drawing.Size, System.Drawing">
+  <data name="ZoomLbl.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>100, 0</value>
   </data>
-  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="ZoomLbl.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 13</value>
   </data>
-  <data name="label2.Text" xml:space="preserve">
+  <data name="ZoomLbl.Text" xml:space="preserve">
     <value>ズーム：</value>
   </data>
-  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="ResizeLbl.Location" type="System.Drawing.Point, System.Drawing">
     <value>358, 46</value>
   </data>
-  <data name="label3.MinimumSize" type="System.Drawing.Size, System.Drawing">
+  <data name="ResizeLbl.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>100, 0</value>
   </data>
-  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="ResizeLbl.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 13</value>
   </data>
-  <data name="label3.Text" xml:space="preserve">
+  <data name="ResizeLbl.Text" xml:space="preserve">
     <value>長さ（縦線）：</value>
   </data>
   <data name="ResizeBtn.Text" xml:space="preserve">
@@ -181,25 +181,25 @@
   <data name="NoteTypeSelector.Size" type="System.Drawing.Size, System.Drawing">
     <value>173, 21</value>
   </data>
-  <data name="label4.MinimumSize" type="System.Drawing.Size, System.Drawing">
+  <data name="NoteTypeLbl.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>85, 0</value>
   </data>
-  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="NoteTypeLbl.Size" type="System.Drawing.Size, System.Drawing">
     <value>85, 13</value>
   </data>
-  <data name="label4.Text" xml:space="preserve">
+  <data name="NoteTypeLbl.Text" xml:space="preserve">
     <value>音符のタイプ：</value>
   </data>
-  <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="NoteShiftLbl.Location" type="System.Drawing.Point, System.Drawing">
     <value>358, 75</value>
   </data>
-  <data name="label5.MinimumSize" type="System.Drawing.Size, System.Drawing">
+  <data name="NoteShiftLbl.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>100, 0</value>
   </data>
-  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="NoteShiftLbl.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 13</value>
   </data>
-  <data name="label5.Text" xml:space="preserve">
+  <data name="NoteShiftLbl.Text" xml:space="preserve">
     <value>全音符を動かす：</value>
   </data>
   <data name="NoteShiftBtn.Text" xml:space="preserve">
