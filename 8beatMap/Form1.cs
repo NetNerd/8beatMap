@@ -966,9 +966,9 @@ namespace _8beatMap
 
             SuspendLayout();
             ComponentResourceManager resources = new ComponentResourceManager(typeof(Form1));
+            resources.ApplyResources(this, "$this");
             foreach (Control Ctrl in Controls)
                 resources.ApplyResources(Ctrl, Ctrl.Name);
-            resources.ApplyResources(this, "$this");
             ResumeLayout();
 
             AddNoteTypes();
