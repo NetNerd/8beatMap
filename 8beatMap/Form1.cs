@@ -63,13 +63,17 @@ namespace _8beatMap
                 case Notedata.NoteType.ExtendHoldMid: noteCol = Color.LightGray; break;
             }
 
-            Image Bmp = new Bitmap(17, 17);
+            Image Bmp = new Bitmap(IconWidth, IconHeight);
             Graphics Grfx = Graphics.FromImage(Bmp);
 
             if (ArrowDir == -1)
-                Grfx.FillPolygon(new SolidBrush(ArrowCol), new Point[] { new Point(16, 0), new Point(16, 16), new Point(0, 8) });
+                Grfx.FillPolygon(new SolidBrush(ArrowCol), new Point[] { new Point(IconWidth-1, 0), new Point(IconWidth-1, IconHeight-1), new Point(0, IconHeight/2) });
             else if (ArrowDir == 1)
-                Grfx.FillPolygon(new SolidBrush(ArrowCol), new Point[] { new Point(0, 0), new Point(0, 16), new Point(16, 8) });
+                Grfx.FillPolygon(new SolidBrush(ArrowCol), new Point[] { new Point(0, 0), new Point(0, IconHeight-1), new Point(IconWidth-1, IconHeight/2) });
+
+
+            if (Type == Notedata.NoteType.SimulHoldStart || Type == Notedata.NoteType.SimulHoldRelease)
+                Grfx.FillEllipse(Brushes.WhiteSmoke, IconWidth/2 - IconHeight/4 - 0.5f, IconHeight/4, IconHeight/2, IconHeight/2);
 
 
             int Top = PanelHeight - Tick * TickHeight - IconHeight;
