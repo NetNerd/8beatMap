@@ -978,9 +978,15 @@ namespace _8beatMap
             {
                 char key = e.KeyChar;
                 if (Char.IsDigit(key))
-                    NoteTypeSelector.SelectedItem = (Notedata.NoteType)Enum.Parse(typeof(Notedata.NoteShortcutKeys), "_" + key);
+                {
+                    NoteTypeSelector.SelectedItem = (Notedata.UserVisibleNoteType)Enum.Parse(typeof(Notedata.NoteShortcutKeys), "_" + key);
+                    NoteTypeSelector.SelectedItem = (Notedata.UserVisibleNoteType_Nihongo)Enum.Parse(typeof(Notedata.NoteShortcutKeys), "_" + key);
+                }
                 else
-                    NoteTypeSelector.SelectedItem = (Notedata.NoteType)Enum.Parse(typeof(Notedata.NoteShortcutKeys), key.ToString().ToUpper());
+                {
+                    NoteTypeSelector.SelectedItem = (Notedata.UserVisibleNoteType)Enum.Parse(typeof(Notedata.NoteShortcutKeys), key.ToString().ToUpper());
+                    NoteTypeSelector.SelectedItem = (Notedata.UserVisibleNoteType_Nihongo)Enum.Parse(typeof(Notedata.NoteShortcutKeys), key.ToString().ToUpper());
+                }
             }
             catch { }
         }
