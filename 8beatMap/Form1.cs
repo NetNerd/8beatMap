@@ -608,8 +608,13 @@ namespace _8beatMap
                         while (chart.Ticks[i].Notes[Lane] == Notedata.NoteType.Hold || chart.Ticks[i].Notes[Lane] == Notedata.NoteType.SimulHoldRelease)
                         {
                             PictureBox Icn2 = chart.Ticks[i].NoteIcons[Lane];
-                            try { Icn2.Parent.Controls.Remove(Icn2); } catch { }
-                            AddSingleNoteIcon(i, Lane, FindVisualNoteType(i, Lane));
+                            PictureBox Icn3 = MakeNoteBox(i, Lane, FindVisualNoteType(i, Lane));
+
+                            if (Icn2.BackColor != Icn3.BackColor)
+                            {
+                                try { Icn2.Parent.Controls.Remove(Icn2); } catch { }
+                                AddSingleNoteIcon(i, Lane, FindVisualNoteType(i, Lane));
+                            }
 
                             i++;
                             if (i >= chart.Length)
