@@ -332,9 +332,9 @@ namespace _8beatMap
             return TimeSpan.FromSeconds((5 * ticks / chart.BPM));
         }
 
-        private int ConvertTimeToTicks(TimeSpan time)
+        private double ConvertTimeToTicks(TimeSpan time)
         {
-            return (int)(time.TotalSeconds / (double)(5/BPMbox.Value));
+            return time.TotalSeconds / (double)(5/BPMbox.Value);
         }
 
 
@@ -355,7 +355,7 @@ namespace _8beatMap
             
             ChartScrollBar.Value = (int)(chart.Length * TickHeight - tick * TickHeight);
 
-            int p1Top = this.ClientSize.Height - PanelHeight + (int)tick * TickHeight - IconHeight / 2 - 2;
+            int p1Top = this.ClientSize.Height - PanelHeight + (int)(tick * TickHeight) - IconHeight / 2 - 2;
             ChartPanel.Top = p1Top;
             ChartPanel2.Top = p1Top - PanelHeight;
             ChartPanel3.Top = p1Top - PanelHeight * 2;
