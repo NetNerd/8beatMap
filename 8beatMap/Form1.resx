@@ -202,7 +202,7 @@
     <value>50, 20</value>
   </data>
   <data name="BPMbox.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
+    <value>41</value>
   </data>
   <data name="&gt;&gt;BPMbox.Name" xml:space="preserve">
     <value>BPMbox</value>
@@ -229,7 +229,7 @@
     <value>33, 13</value>
   </data>
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+    <value>40</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>BPM:</value>
@@ -256,7 +256,7 @@
     <value>75, 23</value>
   </data>
   <data name="PlayBtn.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
+    <value>46</value>
   </data>
   <data name="PlayBtn.Text" xml:space="preserve">
     <value>Play</value>
@@ -283,7 +283,7 @@
     <value>75, 23</value>
   </data>
   <data name="StopBtn.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
+    <value>47</value>
   </data>
   <data name="StopBtn.Text" xml:space="preserve">
     <value>Stop</value>
@@ -337,7 +337,7 @@
     <value>99, 17</value>
   </data>
   <data name="PauseOnSeek.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
+    <value>45</value>
   </data>
   <data name="PauseOnSeek.Text" xml:space="preserve">
     <value>Pause on Seek</value>
@@ -367,7 +367,7 @@
     <value>75, 23</value>
   </data>
   <data name="ZoomBtn.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
+    <value>12</value>
   </data>
   <data name="ZoomBtn.Text" xml:space="preserve">
     <value>Apply (Slow)</value>
@@ -394,7 +394,7 @@
     <value>288, 23040</value>
   </data>
   <data name="ChartPanel3.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
+    <value>2</value>
   </data>
   <data name="&gt;&gt;ChartPanel3.Name" xml:space="preserve">
     <value>ChartPanel3</value>
@@ -418,7 +418,7 @@
     <value>56, 20</value>
   </data>
   <data name="ZoomBox.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
+    <value>11</value>
   </data>
   <data name="&gt;&gt;ZoomBox.Name" xml:space="preserve">
     <value>ZoomBox</value>
@@ -448,7 +448,7 @@
     <value>90, 13</value>
   </data>
   <data name="label2.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
+    <value>10</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
     <value>Zoom:</value>
@@ -484,7 +484,7 @@
     <value>90, 13</value>
   </data>
   <data name="label3.TabIndex" type="System.Int32, mscorlib">
-    <value>14</value>
+    <value>13</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
     <value>Length (Bars):</value>
@@ -514,7 +514,7 @@
     <value>56, 20</value>
   </data>
   <data name="ResizeBox.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
+    <value>14</value>
   </data>
   <data name="&gt;&gt;ResizeBox.Name" xml:space="preserve">
     <value>ResizeBox</value>
@@ -538,7 +538,7 @@
     <value>75, 23</value>
   </data>
   <data name="ResizeBtn.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
+    <value>15</value>
   </data>
   <data name="ResizeBtn.Text" xml:space="preserve">
     <value>Apply (Slow)</value>
@@ -565,7 +565,7 @@
     <value>288, 23040</value>
   </data>
   <data name="ChartPanel4.TabIndex" type="System.Int32, mscorlib">
-    <value>15</value>
+    <value>3</value>
   </data>
   <data name="&gt;&gt;ChartPanel4.Name" xml:space="preserve">
     <value>ChartPanel4</value>
@@ -589,7 +589,7 @@
     <value>75, 23</value>
   </data>
   <data name="OpenBtn.TabIndex" type="System.Int32, mscorlib">
-    <value>16</value>
+    <value>51</value>
   </data>
   <data name="OpenBtn.Text" xml:space="preserve">
     <value>Load Chart</value>
@@ -622,7 +622,7 @@
     <value>75, 23</value>
   </data>
   <data name="OpenMusicButton.TabIndex" type="System.Int32, mscorlib">
-    <value>17</value>
+    <value>54</value>
   </data>
   <data name="OpenMusicButton.Text" xml:space="preserve">
     <value>Load Music</value>
@@ -655,7 +655,7 @@
     <value>75, 23</value>
   </data>
   <data name="SaveChartBtn.TabIndex" type="System.Int32, mscorlib">
-    <value>18</value>
+    <value>50</value>
   </data>
   <data name="SaveChartBtn.Text" xml:space="preserve">
     <value>Save Chart</value>
@@ -688,7 +688,7 @@
     <value>75, 23</value>
   </data>
   <data name="ImgSaveBtn.TabIndex" type="System.Int32, mscorlib">
-    <value>19</value>
+    <value>53</value>
   </data>
   <data name="ImgSaveBtn.Text" xml:space="preserve">
     <value>Save Image</value>
@@ -715,7 +715,7 @@
     <value>139, 21</value>
   </data>
   <data name="NoteTypeSelector.TabIndex" type="System.Int32, mscorlib">
-    <value>20</value>
+    <value>26</value>
   </data>
   <data name="&gt;&gt;NoteTypeSelector.Name" xml:space="preserve">
     <value>NoteTypeSelector</value>
@@ -745,7 +745,7 @@
     <value>110, 13</value>
   </data>
   <data name="label4.TabIndex" type="System.Int32, mscorlib">
-    <value>21</value>
+    <value>25</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
     <value>Note type to place:</value>
@@ -781,7 +781,7 @@
     <value>90, 13</value>
   </data>
   <data name="label5.TabIndex" type="System.Int32, mscorlib">
-    <value>24</value>
+    <value>16</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
     <value>Shift All Notes:</value>
@@ -811,7 +811,7 @@
     <value>56, 20</value>
   </data>
   <data name="NoteShiftBox.TabIndex" type="System.Int32, mscorlib">
-    <value>23</value>
+    <value>17</value>
   </data>
   <data name="&gt;&gt;NoteShiftBox.Name" xml:space="preserve">
     <value>NoteShiftBox</value>
@@ -835,7 +835,7 @@
     <value>75, 23</value>
   </data>
   <data name="NoteShiftBtn.TabIndex" type="System.Int32, mscorlib">
-    <value>22</value>
+    <value>18</value>
   </data>
   <data name="NoteShiftBtn.Text" xml:space="preserve">
     <value>Apply (Slow)</value>
@@ -865,7 +865,7 @@
     <value>111, 17</value>
   </data>
   <data name="NoteSoundBox.TabIndex" type="System.Int32, mscorlib">
-    <value>25</value>
+    <value>35</value>
   </data>
   <data name="NoteSoundBox.Text" xml:space="preserve">
     <value>Play Note Sounds</value>
@@ -895,7 +895,7 @@
     <value>75, 23</value>
   </data>
   <data name="NoteCountButton.TabIndex" type="System.Int32, mscorlib">
-    <value>26</value>
+    <value>30</value>
   </data>
   <data name="NoteCountButton.Text" xml:space="preserve">
     <value>Note Count</value>
@@ -922,7 +922,7 @@
     <value>114, 23</value>
   </data>
   <data name="AutoSimulBtn.TabIndex" type="System.Int32, mscorlib">
-    <value>27</value>
+    <value>31</value>
   </data>
   <data name="AutoSimulBtn.Text" xml:space="preserve">
     <value>Auto SimulNotes</value>
@@ -949,7 +949,7 @@
     <value>65, 23</value>
   </data>
   <data name="LangChangeBtn.TabIndex" type="System.Int32, mscorlib">
-    <value>28</value>
+    <value>52</value>
   </data>
   <data name="LangChangeBtn.Text" xml:space="preserve">
     <value>日本語</value>
