@@ -514,7 +514,7 @@ namespace _8beatMap
         {
             PositionPanel(ConvertTimeToTicks(MusicFileReader.CurrentTime));
 
-            if (CurrentTick != LastTick)
+            if ((int)CurrentTick != LastTick)
             {
                 int ltick = LastTick;
                 LastTick = (int)CurrentTick;
