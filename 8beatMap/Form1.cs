@@ -345,7 +345,7 @@ namespace _8beatMap
         private void ResizeScrollbar()
         {
             ChartScrollBar.Minimum = 0;
-            ChartScrollBar.Maximum = (int)(1.015 * chart.Length * TickHeight + IconHeight / 2);
+            ChartScrollBar.Maximum = (int)(chart.Length * TickHeight + IconHeight / 2 + 110);
         }
 
         private void PositionPanel(double tick)

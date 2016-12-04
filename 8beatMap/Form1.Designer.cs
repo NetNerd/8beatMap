@@ -192,7 +192,7 @@
             0,
             0});
             this.ResizeBox.Minimum = new decimal(new int[] {
-            4,
+            1,
             0,
             0,
             0});
