@@ -33,7 +33,7 @@ TYPE：「master_title」からの「TYPE」です
 「musicID.acb」：音楽
 　　作り方は「DereTore」で。　（https://github.com/OpenCGSS/DereTore）
 　　　　※「ADX2 LE」からの「hcaenc_lite.dll」も要る。　（http://www.adx2le.com/download/index.html）
-　　　　※外人のために、グーグルで「CriAtomPlayer sdk」に探してる。多いの人もアップした。
+　　　　※外人のために、グーグルで「CriAtomPlayer sdk」に探す。多いの人もうアップした。
 　　.wavファイルのネームを「musicID.wav」に変わる。
 　　.wavとhcaenc_lite.dllとacb.batをDereToreのフォルダーに置く。
 　　.wavをacb.batにドラッグする。
