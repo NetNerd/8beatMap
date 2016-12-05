@@ -6,6 +6,7 @@ It doesn't have a lot of features, but it seems to be pretty easy to use.
 
 
 
+
 使うことについて　(Usage Notes):
 
 
@@ -33,6 +34,12 @@ It doesn't have a lot of features, but it seems to be pretty easy to use.
 
 
 
+譜面のファイルフォーマットは「.dec.json」。　ゲームと同じでも復号したです（「dec」は「decrypt／デクリプト」から）。
+今、暗号化されるのプログラムはないけど私に送るで僕が暗号化する場合はあります。
+　　※「master_title」と「master_music」と「master_mission」のテンプレート（「meta_templates」フォルダーで）も含めましてください
+
+
+
 
 Use the left mouse button to place notes and the right one to delete them.
 
@@ -55,3 +62,9 @@ Special note types:
 --The zoom, length, and note shift functions are a bit buggy. Please save before using them.
 --Currently, the "save image" button saves to "imgout.png" in the same folder as the program.
 --Note sound timing may be a little wrong (though it seems mostly good to me).
+
+
+
+The file format for beatmaps is ".dec.json". It's the same type as the game but decrypted (the "dec" comes from "decrypt").
+Currently, there's no encryption program, but if you send them to me I might be able to encrypt them.
+　　--please include the master_title, master_music, and master_mission templates (in the "meta_templates" folder) too

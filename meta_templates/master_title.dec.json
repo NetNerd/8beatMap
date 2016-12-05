@@ -1,0 +1,4 @@
+[
+{"ID":"ID","LEVEL":"難易度","TITLE":"タイトル","TYPE":"タイプ","UP":"曲マッチ度上昇値","DISC_LV":"ディスクレベル","NODE_SPEED":"ノードスピード","BPM":"テンポ","MUSIC":"音","BG":"背景","STAMINA":"スタミナ","EXP":"獲得経験値","TALK":"獲得おしゃべりPt","MISSION":"ミッションID","REWARD":"報酬ID","OPEN_RANK":"ランク開放","OPEN_STORY":"ストーリー開放","OPEN_MUSIC_ID":"楽器ID開放","OPEN_MUSIC_LEVEL":"楽器レベル開放","ITEM_SCORE_EVENT":"イベントアイテムID","POINT_SCORE_EVENT":"イベントポイントID","POINT_EXCHANGE_EVENT":"交換イベントポイントID"},
+{"ID":9999,"LEVEL":4,"TITLE":"ファンタジア","TYPE":0,"UP":25,"DISC_LV":16,"NODE_SPEED":0.9,"BPM":168,"MUSIC":"music9999","BG":"bg_live_1.png","STAMINA":20,"EXP":88,"TALK":15,"MISSION":9999,"REWARD":4,"OPEN_RANK":0,"OPEN_STORY":0,"OPEN_MUSIC_ID":0,"OPEN_MUSIC_LEVEL":0,"ITEM_SCORE_EVENT":4,"POINT_SCORE_EVENT":4,"POINT_EXCHANGE_EVENT":4}
+]
