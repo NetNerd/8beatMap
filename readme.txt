@@ -6,7 +6,7 @@ It doesn't have a lot of features, but it seems to be pretty easy to use.
 
 
 
-使うことについて　(Usage Notes)
+使うことについて　(Usage Notes):
 
 
 音符を置くは左マウスボタンで。　デリートは右ボタンで。
@@ -30,7 +30,6 @@ It doesn't have a lot of features, but it seems to be pretty easy to use.
 ※ズームと長さと音符を動かすの機能にはちょっとバグがあります。用いるの前に保存してください。
 ※今、絵を保存はプログラムのフォルダーで「imgout.png」。
 ※音符の音のタイミングは違う場合があります（でもたいていはいいと思います）。
-
 
 
 
