@@ -35,7 +35,7 @@ It doesn't have a lot of features, but it seems to be pretty easy to use.
 
 
 譜面のファイルフォーマットは「.dec.json」。　ゲームと同じでも復号したです（「dec」は「decrypt／デクリプト」から）。
-今、暗号化されるのプログラムはないけど私に送るで僕が暗号化する場合はあります。
+暗号化されるのプログラムは解放しないけど私に送るで僕が暗号化する場合はあります。
 　　※「master_title」と「master_music」と「master_mission」のテンプレート（「meta_templates」フォルダーで）も含めましてください
 
 

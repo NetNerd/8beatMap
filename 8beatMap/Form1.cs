@@ -875,6 +875,12 @@ namespace _8beatMap
 
         private void AutoSimulBtn_Click(object sender, EventArgs e)
         {
+            ChartPanel.Top = 0;
+            ChartPanel2.Top = 0;
+            ChartPanel3.Top = 0;
+            ChartPanel4.Top = 0;
+
+
             for (int i = 0; i < chart.Length; i++)
             {
                 int SimulNum_Tap = 0;
@@ -959,6 +965,8 @@ namespace _8beatMap
                     }
                 }
             }
+
+            PositionPanel(CurrentTick);
         }
 
         private void LangChangeBtn_Click(object sender, EventArgs e)

@@ -3,7 +3,7 @@ ID：ナンバー。なんでもいいけど大きなナンバー（5000～10000
 LEVEL：1=EASY、2=NORMAL...　でもそのファイルにはMOTHERではない（普通の曲に限界はEXPERT）
 TITLE：曲名
 TYPE：0=オール、1=キュート、2=クール、3=ファイン
-DISC_LV：難度
+DISC_LV：音楽Lv.（難度の数字）
 BPM：BPM
 MUSIC：「music」にIDを追加
 MISSION：IDと同じはいい（多い難度の場合で多いMISSIONナンバーを使う）
