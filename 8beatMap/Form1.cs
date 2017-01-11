@@ -201,31 +201,47 @@ namespace _8beatMap
             // ChartPanel.Controls.Add(playHead);
 
 
-            List<PictureBox> grid = new List<PictureBox>();
-            List<PictureBox> grid2 = new List<PictureBox>();
-            List<PictureBox> grid3 = new List<PictureBox>();
-            List<PictureBox> grid4 = new List<PictureBox>();
+            List<Control> grid = new List<Control>();
+            List<Control> grid2 = new List<Control>();
+            List<Control> grid3 = new List<Control>();
+            List<Control> grid4 = new List<Control>();
 
             for (int i = 0; i < chart.Length / 48; i++)
             {
                 int Top = PanelHeight - i * 48 * TickHeight - 1;
                 PictureBox GridLine = new PictureBox { Left = 0, Top = Top, Width = LaneWidth * 8, Height = 3, BackColor = Color.SlateGray };
+                Label BarMarker = new Label { Text = (i + 1).ToString(),
+                    Font = new System.Drawing.Font("Arial", 6),
+                    TextAlign = ContentAlignment.MiddleRight,
+                    Top = Top - 4, Left = LaneWidth * 8 - (i + 1).ToString().Count() * 4 - 5,
+                    Height = 10, Width = (i + 1).ToString().Count() * 4 + 6
+                };
+                BarMarker.MouseDown += new MouseEventHandler(NoteBox_Click);
 
                 if (Top >= 0)
+                {
+                    grid.Add(BarMarker);
                     grid.Add(GridLine);
+                }
                 else if (Top >= 0 - PanelHeight)
                 {
                     GridLine.Top += PanelHeight;
+                    BarMarker.Top += PanelHeight;
+                    grid2.Add(BarMarker);
                     grid2.Add(GridLine);
                 }
                 else if (Top >= 0 - PanelHeight * 2)
                 {
                     GridLine.Top += PanelHeight * 2;
+                    BarMarker.Top += PanelHeight * 2;
+                    grid3.Add(BarMarker);
                     grid3.Add(GridLine);
                 }
                 else
                 {
                     GridLine.Top += PanelHeight * 3;
+                    BarMarker.Top += PanelHeight * 3;
+                    grid4.Add(BarMarker);
                     grid4.Add(GridLine);
                 }
             }
