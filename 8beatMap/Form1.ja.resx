@@ -158,7 +158,7 @@
     <value>100, 13</value>
   </data>
   <data name="ResizeLbl.Text" xml:space="preserve">
-    <value>長さ（縦線）：</value>
+    <value>長さ（小節）：</value>
   </data>
   <data name="ResizeBtn.Text" xml:space="preserve">
     <value>アプライ</value>
