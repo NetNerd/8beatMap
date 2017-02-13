@@ -29,8 +29,6 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            this.ChartPanel = new System.Windows.Forms.Panel();
-            this.ChartPanel2 = new System.Windows.Forms.Panel();
             this.ChartScrollBar = new System.Windows.Forms.VScrollBar();
             this.BPMbox = new System.Windows.Forms.NumericUpDown();
             this.BPMLbl = new System.Windows.Forms.Label();
@@ -39,13 +37,11 @@
             this.newplayhead = new System.Windows.Forms.PictureBox();
             this.PauseOnSeek = new System.Windows.Forms.CheckBox();
             this.ZoomBtn = new System.Windows.Forms.Button();
-            this.ChartPanel3 = new System.Windows.Forms.Panel();
             this.ZoomBox = new System.Windows.Forms.NumericUpDown();
             this.ZoomLbl = new System.Windows.Forms.Label();
             this.ResizeLbl = new System.Windows.Forms.Label();
             this.ResizeBox = new System.Windows.Forms.NumericUpDown();
             this.ResizeBtn = new System.Windows.Forms.Button();
-            this.ChartPanel4 = new System.Windows.Forms.Panel();
             this.OpenBtn = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.OpenMusicButton = new System.Windows.Forms.Button();
@@ -62,26 +58,14 @@
             this.NoteCountButton = new System.Windows.Forms.Button();
             this.AutoSimulBtn = new System.Windows.Forms.Button();
             this.LangChangeBtn = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.BPMbox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.newplayhead)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ZoomBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ResizeBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NoteShiftBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // ChartPanel
-            // 
-            resources.ApplyResources(this.ChartPanel, "ChartPanel");
-            this.ChartPanel.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.ChartPanel.Name = "ChartPanel";
-            this.ChartPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ChartPanel_Click);
-            // 
-            // ChartPanel2
-            // 
-            resources.ApplyResources(this.ChartPanel2, "ChartPanel2");
-            this.ChartPanel2.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.ChartPanel2.Name = "ChartPanel2";
-            this.ChartPanel2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ChartPanel_Click);
             // 
             // ChartScrollBar
             // 
@@ -146,13 +130,6 @@
             this.ZoomBtn.UseVisualStyleBackColor = true;
             this.ZoomBtn.Click += new System.EventHandler(this.ZoomBtn_Click);
             // 
-            // ChartPanel3
-            // 
-            resources.ApplyResources(this.ChartPanel3, "ChartPanel3");
-            this.ChartPanel3.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.ChartPanel3.Name = "ChartPanel3";
-            this.ChartPanel3.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ChartPanel_Click);
-            // 
             // ZoomBox
             // 
             resources.ApplyResources(this.ZoomBox, "ZoomBox");
@@ -209,13 +186,6 @@
             this.ResizeBtn.Name = "ResizeBtn";
             this.ResizeBtn.UseVisualStyleBackColor = true;
             this.ResizeBtn.Click += new System.EventHandler(this.ResizeBtn_Click);
-            // 
-            // ChartPanel4
-            // 
-            resources.ApplyResources(this.ChartPanel4, "ChartPanel4");
-            this.ChartPanel4.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.ChartPanel4.Name = "ChartPanel4";
-            this.ChartPanel4.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ChartPanel_Click);
             // 
             // OpenBtn
             // 
@@ -326,11 +296,19 @@
             this.LangChangeBtn.UseVisualStyleBackColor = true;
             this.LangChangeBtn.Click += new System.EventHandler(this.LangChangeBtn_Click);
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.SystemColors.ControlLight;
+            resources.ApplyResources(this.pictureBox1, "pictureBox1");
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.TabStop = false;
+            // 
             // Form1
             // 
             resources.ApplyResources(this, "$this");
             this.Font = new System.Drawing.Font(System.Drawing.SystemFonts.MessageBoxFont.FontFamily, 8.8f);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.LangChangeBtn);
             this.Controls.Add(this.AutoSimulBtn);
             this.Controls.Add(this.NoteCountButton);
@@ -357,10 +335,6 @@
             this.Controls.Add(this.BPMLbl);
             this.Controls.Add(this.BPMbox);
             this.Controls.Add(this.ChartScrollBar);
-            this.Controls.Add(this.ChartPanel4);
-            this.Controls.Add(this.ChartPanel3);
-            this.Controls.Add(this.ChartPanel2);
-            this.Controls.Add(this.ChartPanel);
             this.KeyPreview = true;
             this.Name = "Form1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
@@ -371,6 +345,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.ZoomBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ResizeBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NoteShiftBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -411,6 +386,7 @@
         private System.Windows.Forms.Button NoteCountButton;
         private System.Windows.Forms.Button AutoSimulBtn;
         private System.Windows.Forms.Button LangChangeBtn;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
 

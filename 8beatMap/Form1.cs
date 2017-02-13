@@ -21,8 +21,6 @@ namespace _8beatMap
         private int LaneWidth = 36;
         private int IconWidth = 20;
         private int IconHeight = 10;
-        private int PanelHeight = 23040; // max is 2304 ticks per panel (total 9216) or 48 bars (total 192)
-                                         // 192 bars is close to 6:30 at 120bpm, so it should be enough for most stuff
         private double CurrentTick = 0;
         private int LastTick = 0;
 
@@ -37,88 +35,6 @@ namespace _8beatMap
         NAudio.Wave.SampleProviders.MixingSampleProvider NoteSoundMixer = new NAudio.Wave.SampleProviders.MixingSampleProvider(WaveFormat.CreateIeeeFloatWaveFormat(44100, 2)) { ReadFully = true };
         
 
-        private PictureBox MakeNoteBox(int Tick, int Lane, Notedata.NoteType Type)
-        {
-            Color noteCol = Color.LightGray;
-            Color ArrowCol = Color.Transparent;
-            int ArrowDir = 0;
-
-            switch (Type)
-            {
-                case Notedata.NoteType.Tap: noteCol = Color.Blue; break;
-                case Notedata.NoteType.Hold: noteCol = Color.LimeGreen; break;
-                case Notedata.NoteType.SimulTap:
-                case Notedata.NoteType.SimulHoldStart:
-                case Notedata.NoteType.SimulHoldRelease: noteCol = Color.DeepPink; break;
-                case Notedata.NoteType.FlickLeft:
-                case Notedata.NoteType.HoldEndFlickLeft: ArrowCol = Color.FromArgb(0x70, 0, 0x78); ArrowDir = -1; break;
-                case Notedata.NoteType.SwipeLeftStartEnd: ArrowCol = Color.DarkViolet; ArrowDir = -1; break;
-                case Notedata.NoteType.SwipeLeftMid:
-                case Notedata.NoteType.SwipeChangeDirR2L: ArrowCol = Color.Violet; ArrowDir = -1; break;
-                case Notedata.NoteType.FlickRight:
-                case Notedata.NoteType.HoldEndFlickRight: ArrowCol = Color.FromArgb(0xcc, 0x88, 0); ArrowDir = 1; break;
-                case Notedata.NoteType.SwipeRightStartEnd: ArrowCol = Color.DarkOrange; ArrowDir = 1; break;
-                case Notedata.NoteType.SwipeRightMid:
-                case Notedata.NoteType.SwipeChangeDirL2R: ArrowCol = Color.Gold; ArrowDir = 1; break;
-                case Notedata.NoteType.ExtendHoldMid: noteCol = Color.LightGray; break;
-            }
-
-            Image Bmp = new Bitmap(IconWidth, IconHeight);
-            Graphics Grfx = Graphics.FromImage(Bmp);
-
-            if (ArrowDir == -1)
-                Grfx.FillPolygon(new SolidBrush(ArrowCol), new Point[] { new Point(IconWidth-1, 0), new Point(IconWidth-1, IconHeight-1), new Point(0, IconHeight/2) });
-            else if (ArrowDir == 1)
-                Grfx.FillPolygon(new SolidBrush(ArrowCol), new Point[] { new Point(0, 0), new Point(0, IconHeight-1), new Point(IconWidth-1, IconHeight/2) });
-
-
-            if (Type == Notedata.NoteType.SimulHoldStart || Type == Notedata.NoteType.SimulHoldRelease)
-                Grfx.FillEllipse(Brushes.WhiteSmoke, IconWidth/2 - IconHeight/4 - 0.5f, IconHeight/4, IconHeight/2, IconHeight/2);
-
-
-            int Top = PanelHeight - Tick * TickHeight - IconHeight;
-            PictureBox NoteBox = new PictureBox { Left = Lane * LaneWidth + (LaneWidth - IconWidth) / 2, Top = Top, Width = IconWidth, Height = IconHeight, BackColor = noteCol, Image = Bmp, SizeMode = PictureBoxSizeMode.StretchImage };
-
-            if (Type == Notedata.NoteType.HoldEndFlickLeft || Type == Notedata.NoteType.HoldEndFlickRight || Type == Notedata.NoteType.SimulHoldRelease
-                || Type == Notedata.NoteType.SwipeChangeDirL2R || Type == Notedata.NoteType.SwipeChangeDirR2L)
-                NoteBox.BorderStyle = BorderStyle.Fixed3D;
-            else
-                NoteBox.BorderStyle = BorderStyle.None;
-
-            
-            NoteBox.MouseDown += new System.Windows.Forms.MouseEventHandler(NoteBox_Click);
-            
-            NoteBox.MouseEnter += new EventHandler(NoteBox_MouseEnter);
-            NoteBox.MouseLeave += new EventHandler(NoteBox_MouseLeave);
-
-            return NoteBox;
-        }
-
-        private void AddSingleNoteIcon(int Tick, int Lane, Notedata.NoteType Type)
-        {
-            PictureBox NoteBox = MakeNoteBox(Tick, Lane, Type);
-
-            chart.Ticks[Tick].NoteIcons[Lane] = NoteBox;
-            
-            if (NoteBox.Top >= 0)
-                ChartPanel.Controls.Add(NoteBox);
-            else if (NoteBox.Top >= 0 - PanelHeight)
-            {
-                NoteBox.Top += PanelHeight;
-                ChartPanel2.Controls.Add(NoteBox);
-            }
-            else if (NoteBox.Top >= 0 - PanelHeight * 2)
-            {
-                NoteBox.Top += PanelHeight * 2;
-                ChartPanel3.Controls.Add(NoteBox);
-            }
-            else
-            {
-                NoteBox.Top += PanelHeight * 3;
-                ChartPanel4.Controls.Add(NoteBox);
-            }
-        }
-
         private struct NoteDataInfo
         {
             public int Tick;
@@ -131,44 +47,6 @@ namespace _8beatMap
                 this.Lane = Lane;
                 this.Type = Type;
             }
-        }
-
-        private void AddNoteIcons(NoteDataInfo[] Data)
-        {
-            List<PictureBox> icons = new List<PictureBox>();
-            List<PictureBox> icons2 = new List<PictureBox>();
-            List<PictureBox> icons3 = new List<PictureBox>();
-            List<PictureBox> icons4 = new List<PictureBox>();
-
-            foreach (NoteDataInfo notedata in Data)
-            {
-                PictureBox NoteBox = MakeNoteBox(notedata.Tick, notedata.Lane, notedata.Type);
-
-                chart.Ticks[notedata.Tick].NoteIcons[notedata.Lane] = NoteBox;
-
-                if (NoteBox.Top >= 0)
-                    icons.Add(NoteBox);
-                else if (NoteBox.Top >= 0 - PanelHeight)
-                {
-                    NoteBox.Top += PanelHeight;
-                    icons2.Add(NoteBox);
-                }
-                else if (NoteBox.Top >= 0 - PanelHeight * 2)
-                {
-                    NoteBox.Top += PanelHeight * 2;
-                    icons3.Add(NoteBox);
-                }
-                else
-                {
-                    NoteBox.Top += PanelHeight * 3;
-                    icons4.Add(NoteBox);
-                }
-            }
-
-            ChartPanel.Controls.AddRange(icons.ToArray());
-            ChartPanel2.Controls.AddRange(icons2.ToArray());
-            ChartPanel3.Controls.AddRange(icons3.ToArray());
-            ChartPanel4.Controls.AddRange(icons4.ToArray());
         }
 
         private Notedata.NoteType FindVisualNoteType(int tick, int lane)
@@ -187,151 +65,83 @@ namespace _8beatMap
             return chart.Ticks[tick].Notes[lane];
         }
 
-        private void RedrawAllNoteIcons()
+        
+        Image GetChartImage(int width, int height, double startTick, int tickHeight, int iconWidth, int iconHeight)
         {
-            ChartPanel.Top = 0;
-            ChartPanel2.Top = 0;
-            ChartPanel3.Top = 0;
-            ChartPanel4.Top = 0;
+            Image Bmp = new Bitmap(width, height);
+            Graphics Grfx = Graphics.FromImage(Bmp);
 
-            ChartPanel.Controls.Clear();
-            ChartPanel2.Controls.Clear();
-            ChartPanel3.Controls.Clear();
-            ChartPanel4.Controls.Clear();
-            // ChartPanel.Controls.Add(playHead);
-
-
-            List<Control> grid = new List<Control>();
-            List<Control> grid2 = new List<Control>();
-            List<Control> grid3 = new List<Control>();
-            List<Control> grid4 = new List<Control>();
-
-            for (int i = 0; i < chart.Length / 48; i++)
-            {
-                int Top = PanelHeight - i * 48 * TickHeight - 1;
-                PictureBox GridLine = new PictureBox { Left = 0, Top = Top, Width = LaneWidth * 8, Height = 3, BackColor = Color.SlateGray };
-                Label BarMarker = new Label { Text = (i + 1).ToString(),
-                    Font = new System.Drawing.Font("Arial", 6),
-                    TextAlign = ContentAlignment.MiddleRight,
-                    Top = Top - 4, Left = LaneWidth * 8 - (i + 1).ToString().Count() * 4 - 5,
-                    Height = 10, Width = (i + 1).ToString().Count() * 4 + 6
-                };
-                BarMarker.MouseDown += new MouseEventHandler(NoteBox_Click);
-
-                if (Top >= 0)
-                {
-                    grid.Add(BarMarker);
-                    grid.Add(GridLine);
-                }
-                else if (Top >= 0 - PanelHeight)
-                {
-                    GridLine.Top += PanelHeight;
-                    BarMarker.Top += PanelHeight;
-                    grid2.Add(BarMarker);
-                    grid2.Add(GridLine);
-                }
-                else if (Top >= 0 - PanelHeight * 2)
-                {
-                    GridLine.Top += PanelHeight * 2;
-                    BarMarker.Top += PanelHeight * 2;
-                    grid3.Add(BarMarker);
-                    grid3.Add(GridLine);
-                }
-                else
-                {
-                    GridLine.Top += PanelHeight * 3;
-                    BarMarker.Top += PanelHeight * 3;
-                    grid4.Add(BarMarker);
-                    grid4.Add(GridLine);
-                }
-            }
-
-
-            for (int i = 0; i < chart.Length / 12; i++)
-            {
-                int Top = PanelHeight - i * 12 * TickHeight;
-                PictureBox GridLine = new PictureBox { Left = 0, Top = Top, Width = LaneWidth * 8, Height = 1, BackColor = Color.LightSlateGray };
-
-                if (Top >= 0)
-                    grid.Add(GridLine);
-                else if (Top >= 0 - PanelHeight)
-                {
-                    GridLine.Top += PanelHeight;
-                    grid2.Add(GridLine);
-                }
-                else if (Top >= 0 - PanelHeight * 2)
-                {
-                    GridLine.Top += PanelHeight * 2;
-                    grid3.Add(GridLine);
-                }
-                else
-                {
-                    GridLine.Top += PanelHeight * 3;
-                    grid4.Add(GridLine);
-                }
-            }
-
-            for (int i = 0; i < chart.Length / 6; i++)
-            {
-                int Top = PanelHeight - i * 6 * TickHeight;
-                PictureBox GridLine = new PictureBox { Left = 0, Top = Top, Width = LaneWidth * 8, Height = 1, BackColor = Color.LightGray };
-
-                if (Top >= 0)
-                    grid.Add(GridLine);
-                else if (Top >= 0 - PanelHeight)
-                {
-                    GridLine.Top += PanelHeight;
-                    grid2.Add(GridLine);
-                }
-                else if (Top >= 0 - PanelHeight * 2)
-                {
-                    GridLine.Top += PanelHeight * 2;
-                    grid3.Add(GridLine);
-                }
-                else
-                {
-                    GridLine.Top += PanelHeight * 3;
-                    grid4.Add(GridLine);
-                }
-            }
-
+            Grfx.FillRectangle(new SolidBrush(SystemColors.ControlLight), 0, 0, width, height);
 
             for (int i = 1; i < 8; i++)
             {
-                PictureBox GridLine1 = new PictureBox { Left = i * LaneWidth, Top = 0, Width = 1, Height = PanelHeight, BackColor = Color.LightGray };
-                PictureBox GridLine2 = new PictureBox { Left = i * LaneWidth, Top = 0, Width = 1, Height = PanelHeight, BackColor = Color.LightGray };
-                PictureBox GridLine3 = new PictureBox { Left = i * LaneWidth, Top = 0, Width = 1, Height = PanelHeight, BackColor = Color.LightGray };
-                PictureBox GridLine4 = new PictureBox { Left = i * LaneWidth, Top = 0, Width = 1, Height = PanelHeight, BackColor = Color.LightGray };
-
-                grid.Add(GridLine1);
-                grid2.Add(GridLine2);
-                grid3.Add(GridLine3);
-                grid4.Add(GridLine4);
+                Grfx.FillRectangle(new SolidBrush(Color.LightGray), i*width/8, 0, 1, height);
             }
 
-            ChartPanel.Controls.AddRange(grid.ToArray());
-            ChartPanel2.Controls.AddRange(grid2.ToArray());
-            ChartPanel3.Controls.AddRange(grid3.ToArray());
-            ChartPanel4.Controls.AddRange(grid4.ToArray());
-
-
-
-            List<NoteDataInfo> Notes = new List<NoteDataInfo>();
-
-            for (int i = 0; i < chart.Length; i++)
+            for (int i = (int)startTick;i < startTick+height/tickHeight; i++)
             {
+                if(i % 48 == 0)
+                {
+                    Grfx.FillRectangle(new SolidBrush(Color.SlateGray), 0, height - (float)(i - startTick + 0.5) * tickHeight - 1, width, 3);
+                    Grfx.DrawString((i / 48 + 1).ToString(), new System.Drawing.Font("Arial", 6.5f), new SolidBrush(Color.DarkSlateGray), 0, height - (float)(i - startTick + 0.5) * tickHeight - 11);
+                }
+                else if(i % 12 == 0)
+                {
+                    Grfx.FillRectangle(new SolidBrush(Color.LightSlateGray), 0, height - (float)(i - startTick + 0.5) * tickHeight, width, 1);
+                }
+                else if (i % 6 == 0)
+                {
+                    Grfx.FillRectangle(new SolidBrush(Color.LightGray), 0, height - (float)(i - startTick + 0.5) * tickHeight, width, 1);
+                }
+
                 for (int j = 0; j < 8; j++)
                 {
+                    Color noteCol = Color.LightGray;
+                    Color ArrowCol = Color.Transparent;
+                    int ArrowDir = 0;
+
+                    Notedata.NoteType Type = FindVisualNoteType(i, j);
+
+                    switch (Type)
+                    {
+                        case Notedata.NoteType.Tap: noteCol = Color.Blue; break;
+                        case Notedata.NoteType.Hold: noteCol = Color.LimeGreen; break;
+                        case Notedata.NoteType.SimulTap:
+                        case Notedata.NoteType.SimulHoldStart:
+                        case Notedata.NoteType.SimulHoldRelease: noteCol = Color.DeepPink; break;
+                        case Notedata.NoteType.FlickLeft:
+                        case Notedata.NoteType.HoldEndFlickLeft: ArrowCol = Color.FromArgb(0x70, 0, 0x78); ArrowDir = -1; break;
+                        case Notedata.NoteType.SwipeLeftStartEnd: ArrowCol = Color.DarkViolet; ArrowDir = -1; break;
+                        case Notedata.NoteType.SwipeLeftMid:
+                        case Notedata.NoteType.SwipeChangeDirR2L: ArrowCol = Color.Violet; ArrowDir = -1; break;
+                        case Notedata.NoteType.FlickRight:
+                        case Notedata.NoteType.HoldEndFlickRight: ArrowCol = Color.FromArgb(0xcc, 0x88, 0); ArrowDir = 1; break;
+                        case Notedata.NoteType.SwipeRightStartEnd: ArrowCol = Color.DarkOrange; ArrowDir = 1; break;
+                        case Notedata.NoteType.SwipeRightMid:
+                        case Notedata.NoteType.SwipeChangeDirL2R: ArrowCol = Color.Gold; ArrowDir = 1; break;
+                        case Notedata.NoteType.ExtendHoldMid: noteCol = Color.LightGray; break;
+                    }
+
                     if (chart.Ticks[i].Notes[j] != Notedata.NoteType.None)
                     {
-                        Notes.Add(new NoteDataInfo(i, j, FindVisualNoteType(i, j)));
+                        int iconX = (int)((j + 0.5) * width / 8 - iconWidth / 2);
+                        int iconY = (int)(height - (float)(i - startTick + 1.5) * tickHeight);
+
+                        Grfx.FillRectangle(new SolidBrush(noteCol), iconX, iconY, iconWidth, iconHeight);
+                        if (ArrowDir == -1)
+                            Grfx.FillPolygon(new SolidBrush(ArrowCol), new Point[] { new Point(iconX + IconWidth - 1, iconY + 0), new Point(iconX + IconWidth - 1, iconY + IconHeight - 1), new Point(iconX + 0, iconY + IconHeight / 2) });
+                        else if (ArrowDir == 1)
+                            Grfx.FillPolygon(new SolidBrush(ArrowCol), new Point[] { new Point(iconX + 0, iconY + 0), new Point(iconX + 0, iconY + IconHeight - 1), new Point(iconX + IconWidth - 1, iconY + IconHeight / 2) });
                     }
                 }
             }
 
-            AddNoteIcons(Notes.ToArray());
+            return Bmp;
+        }
 
-            PositionPanel(CurrentTick);
+        private void UpdateChart()
+        {
+            pictureBox1.Image = GetChartImage(pictureBox1.Width, pictureBox1.Height, CurrentTick, TickHeight, IconWidth, IconHeight);
         }
 
         private int ConvertXCoordToNote(int X)
@@ -342,7 +152,7 @@ namespace _8beatMap
         private double ConvertYCoordToTick(int Y)
         {
             // return (-Y - IconHeight / 2) / TickHeight + chart.Length;
-            return (PanelHeight - Y - 1) / TickHeight;
+            return (pictureBox1.Height - Y - 1) / TickHeight;
         }
 
 
@@ -364,30 +174,12 @@ namespace _8beatMap
             ChartScrollBar.Maximum = (int)(chart.Length * TickHeight + IconHeight / 2 + 110);
         }
 
-        private void PositionPanel(double tick)
-        {
-            if (tick < 0) tick = 0;
-            if (tick >= chart.Length) tick = chart.Length - 1;
-
-            CurrentTick = tick;
-            // playHead.Left = 0;
-            // playHead.Top = chart.Length * TickHeight - tick * TickHeight + 2;
-            
-            ChartScrollBar.Value = (int)(chart.Length * TickHeight - tick * TickHeight);
-
-            int p1Top = this.ClientSize.Height - PanelHeight + (int)(tick * TickHeight) - IconHeight / 2 - 2;
-            ChartPanel.Top = p1Top;
-            ChartPanel2.Top = p1Top - PanelHeight;
-            ChartPanel3.Top = p1Top - PanelHeight * 2;
-            ChartPanel4.Top = p1Top - PanelHeight * 3;
-        }
-
 
         private void ResizeChart(int NewLen)
         {
             chart.Length = NewLen;
             ResizeScrollbar();
-            RedrawAllNoteIcons();
+            UpdateChart();
         }
 
 
@@ -422,7 +214,7 @@ namespace _8beatMap
                 CurrentTick = 0;
                 BPMbox.Value = (decimal)chart.BPM;
                 ResizeScrollbar();
-                RedrawAllNoteIcons();
+                UpdateChart();
 
             }
         }
@@ -477,7 +269,7 @@ namespace _8beatMap
             NoteSoundWaveOut.Play();
 
             ResizeScrollbar();
-            RedrawAllNoteIcons();
+            UpdateChart();
 
             //chart.Ticks[0].SetNote(Notedata.NoteType.Hold, 7) ;
             //for (int i = 0; i < 32; i++)
@@ -504,8 +296,7 @@ namespace _8beatMap
         private void ChartScrollBar_Scroll(object sender, ScrollEventArgs e)
         {
             if (PauseOnSeek.Checked) StopPlayback();
-            // PositionPlayhead(( - e.NewValue - IconHeight/2) / TickHeight + chart.Length);
-            PositionPanel(chart.Length - e.NewValue / TickHeight);
+            UpdateChart();
             if (MusicFileReader != null)
                 try { MusicFileReader.CurrentTime = ConvertTicksToTime(CurrentTick); } catch { }
         }
@@ -528,7 +319,7 @@ namespace _8beatMap
 
         private void playtimer_Tick(object sender, EventArgs e)
         {
-            PositionPanel(ConvertTimeToTicks(MusicFileReader.CurrentTime));
+            UpdateChart();
 
             if ((int)CurrentTick != LastTick)
             {
@@ -562,13 +353,13 @@ namespace _8beatMap
             chart.BPM = (double)BPMbox.Value;
             ResizeScrollbar();
             if (MusicFileReader != null)
-                PositionPanel(ConvertTimeToTicks(MusicFileReader.CurrentTime));
+                UpdateChart();
         }
 
         private void Form1_Resize(object sender, EventArgs e)
         {
             ResizeScrollbar();
-            PositionPanel(CurrentTick);
+            UpdateChart();
         }
 
         private void ProcessClick(int Tick, int Lane, MouseButtons MouseButton, Notedata.NoteType NewNote)
@@ -584,8 +375,6 @@ namespace _8beatMap
                 {
                     chart.Ticks[Tick].Notes[Lane] = NewNote;
 
-                    PictureBox Icn = chart.Ticks[Tick].NoteIcons[Lane];
-
                     
                     if (NewNote == Notedata.NoteType.None)
                     {
@@ -593,50 +382,7 @@ namespace _8beatMap
                         return;
                     }
 
-
-                    try { Icn.Parent.Controls.Remove(Icn); } catch { }
-                    AddSingleNoteIcon(Tick, Lane, FindVisualNoteType(Tick, Lane));
-
-                    //if ((NewNote == Notedata.NoteType.Hold || NewNote == Notedata.NoteType.SimulHoldRelease ||
-                    //    NewNote == Notedata.NoteType.HoldEndFlickLeft || NewNote == Notedata.NoteType.HoldEndFlickRight)
-                    //    && Tick > 0)
-                    //{
-                    //    Notedata.NoteType NewNote2 = chart.Ticks[Tick-1].Notes[Lane];
-                    //    if (NewNote2 == Notedata.NoteType.Hold || NewNote2 == Notedata.NoteType.SimulHoldRelease)
-                    //        ProcessClick(Tick - 1, Lane, MouseButtons.Left, NewNote2, true);
-                    //}
-
-                    if (NewNote == Notedata.NoteType.Hold || NewNote == Notedata.NoteType.SimulHoldRelease ||
-                    NewNote == Notedata.NoteType.HoldEndFlickLeft || NewNote == Notedata.NoteType.HoldEndFlickRight)
-                    {
-                        int i = Tick - 1;
-                        if (i < 0)
-                            i = 0;
-                        while (chart.Ticks[i].Notes[Lane] == Notedata.NoteType.Hold || chart.Ticks[i].Notes[Lane] == Notedata.NoteType.SimulHoldRelease)
-                        {
-                            i--;
-                            if (i < 0)
-                                break;
-                        }
-
-                        i++;
-
-                        while (chart.Ticks[i].Notes[Lane] == Notedata.NoteType.Hold || chart.Ticks[i].Notes[Lane] == Notedata.NoteType.SimulHoldRelease)
-                        {
-                            PictureBox Icn2 = chart.Ticks[i].NoteIcons[Lane];
-                            PictureBox Icn3 = MakeNoteBox(i, Lane, FindVisualNoteType(i, Lane));
-
-                            if (Icn2.BackColor != Icn3.BackColor)
-                            {
-                                try { Icn2.Parent.Controls.Remove(Icn2); } catch { }
-                                AddSingleNoteIcon(i, Lane, FindVisualNoteType(i, Lane));
-                            }
-
-                            i++;
-                            if (i >= chart.Length)
-                                break;
-                        }
-                    }
+                    UpdateChart();
                 }
 
             }
@@ -647,124 +393,20 @@ namespace _8beatMap
                 
                 chart.Ticks[Tick].Notes[Lane] = Notedata.NoteType.None;
                 
-                if (OldNote == Notedata.NoteType.Hold || OldNote == Notedata.NoteType.SimulHoldRelease ||
-                    OldNote == Notedata.NoteType.SimulHoldStart ||
-                    OldNote == Notedata.NoteType.HoldEndFlickLeft || OldNote == Notedata.NoteType.HoldEndFlickRight)
-                {
-                    if (Tick > 0)
-                    {
-                        Notedata.NoteType OldNote2 = chart.Ticks[Tick - 1].Notes[Lane];
-                        if (OldNote2 == Notedata.NoteType.Hold || OldNote2 == Notedata.NoteType.SimulHoldRelease)
-                        {
-                            PictureBox Icn2 = chart.Ticks[Tick - 1].NoteIcons[Lane];
-                            try { Icn2.Parent.Controls.Remove(Icn2); } catch { }
-                            AddSingleNoteIcon(Tick - 1, Lane, FindVisualNoteType(Tick - 1, Lane));
-                        }
-                        }
-
-                    if (Tick < chart.Length - 1)
-                    {
-                        Notedata.NoteType OldNote2 = chart.Ticks[Tick + 1].Notes[Lane];
-                        if (OldNote2 == Notedata.NoteType.Hold || OldNote2 == Notedata.NoteType.SimulHoldRelease)
-                        {
-                            PictureBox Icn2 = chart.Ticks[Tick + 1].NoteIcons[Lane];
-                            try { Icn2.Parent.Controls.Remove(Icn2); } catch { }
-                            AddSingleNoteIcon(Tick + 1, Lane, FindVisualNoteType(Tick + 1, Lane));
-
-                        }
-                    }
-                }
-                
-                PictureBox Icn = chart.Ticks[Tick].NoteIcons[Lane];
-
-                try { Icn.Parent.Controls.Remove(Icn); } catch { }
+                UpdateChart();
             }
         }
 
-        private void NoteBox_Click(object sender, MouseEventArgs e)
+        private void Chart_Click(object sender, MouseEventArgs e)
         {
             Control sendCtl = (Control)sender;
             sendCtl.Capture = false;
 
-            int Lane = ConvertXCoordToNote(ChartPanel.PointToClient(MousePosition).X);
-
-            int Tick = -1;
-            if (sendCtl.Parent == ChartPanel)
-                Tick = (int)ConvertYCoordToTick(ChartPanel.PointToClient(MousePosition).Y);
-            else if (sendCtl.Parent == ChartPanel2)
-                Tick = (int)ConvertYCoordToTick(ChartPanel2.PointToClient(MousePosition).Y) + PanelHeight / TickHeight;
-            else if (sendCtl.Parent == ChartPanel3)
-                Tick = (int)ConvertYCoordToTick(ChartPanel3.PointToClient(MousePosition).Y) + 2 * PanelHeight / TickHeight;
-            else if (sendCtl.Parent == ChartPanel4)
-                Tick = (int)ConvertYCoordToTick(ChartPanel4.PointToClient(MousePosition).Y) + 3 * PanelHeight / TickHeight;
+            int Lane = ConvertXCoordToNote(pictureBox1.PointToClient(MousePosition).X);
+            
+            int Tick = (int)ConvertYCoordToTick(pictureBox1.PointToClient(MousePosition).Y);
 
             ProcessClick(Tick, Lane, e.Button, (Notedata.NoteType)NoteTypeSelector.SelectedItem);
-        }
-
-        private void NoteBox_MouseLeave(object sender, EventArgs e)
-        {
-            if (MouseButtons != MouseButtons.None)
-            {
-                Control sendCtl = (Control)sender;
-                sendCtl.Capture = false;
-
-                int Lane = ConvertXCoordToNote(ChartPanel.PointToClient(MousePosition).X);
-
-                int YOffset;
-
-                if (sendCtl.PointToClient(MousePosition).Y < TickHeight / 2)
-                    YOffset = -TickHeight / 2;
-                else
-                    YOffset = TickHeight / 2;
-
-                int Tick = -1;
-                if (sendCtl.Parent == ChartPanel)
-                    Tick = (int)ConvertYCoordToTick(ChartPanel.PointToClient(MousePosition).Y + YOffset);
-                else if (sendCtl.Parent == ChartPanel2)
-                    Tick = (int)ConvertYCoordToTick(ChartPanel2.PointToClient(MousePosition).Y + YOffset) + PanelHeight / TickHeight;
-                else if (sendCtl.Parent == ChartPanel3)
-                    Tick = (int)ConvertYCoordToTick(ChartPanel3.PointToClient(MousePosition).Y + YOffset) + 2 * PanelHeight / TickHeight;
-                else if (sendCtl.Parent == ChartPanel4)
-                    Tick = (int)ConvertYCoordToTick(ChartPanel4.PointToClient(MousePosition).Y + YOffset) + 3 * PanelHeight / TickHeight;
-
-                ProcessClick(Tick, Lane, MouseButtons, (Notedata.NoteType)NoteTypeSelector.SelectedItem);
-            }
-        }
-
-        private void NoteBox_MouseEnter(object sender, EventArgs e)
-        {
-            if (MouseButtons != MouseButtons.None)
-                NoteBox_Click(sender, new MouseEventArgs(MouseButtons, 1, 0, 0, 0));
-        }
-
-        private void ChartPanel_Click(object sender, MouseEventArgs e)
-        {
-            Control sendCtl = (Control)sender;
-            sendCtl.Capture = false;
-
-            int Lane = ConvertXCoordToNote(ChartPanel.PointToClient(MousePosition).X);
-
-            int Tick = -1;
-            if (sender == ChartPanel)
-                Tick = (int)ConvertYCoordToTick(ChartPanel.PointToClient(MousePosition).Y);
-            else if (sender == ChartPanel2)
-                Tick = (int)ConvertYCoordToTick(ChartPanel2.PointToClient(MousePosition).Y) + PanelHeight / TickHeight;
-            else if (sender == ChartPanel3)
-                Tick = (int)ConvertYCoordToTick(ChartPanel3.PointToClient(MousePosition).Y) + 2 * PanelHeight / TickHeight;
-            else if (sender == ChartPanel4)
-                Tick = (int)ConvertYCoordToTick(ChartPanel4.PointToClient(MousePosition).Y) + 3 * PanelHeight / TickHeight;
-
-            ProcessClick(Tick, Lane, e.Button, (Notedata.NoteType)NoteTypeSelector.SelectedItem);
-        }
-
-
-        private void ChangePanelHeight(int NewHeight)
-        {
-            ChartPanel.Height = NewHeight;
-            ChartPanel2.Height = NewHeight;
-            ChartPanel3.Height = NewHeight;
-            ChartPanel4.Height = NewHeight;
-            PanelHeight = NewHeight;
         }
 
         private void ZoomBtn_Click(object sender, EventArgs e)
@@ -772,8 +414,7 @@ namespace _8beatMap
             TickHeight = (int)ZoomBox.Value;
             IconHeight = TickHeight;
             ResizeScrollbar();
-            ChangePanelHeight(2304 * TickHeight);
-            RedrawAllNoteIcons();
+            UpdateChart();
         }
 
         private void ResizeBtn_Click(object sender, EventArgs e)
@@ -801,7 +442,7 @@ namespace _8beatMap
 
         private void ImgSaveBtn_Click(object sender, EventArgs e)
         {
-            float scaledivX = LaneWidth / 2; // these are the final pixel dimensions of each note in the image
+            /* float scaledivX = LaneWidth / 2; // these are the final pixel dimensions of each note in the image
             float scaledivY = TickHeight / 1;
             Bitmap img = new Bitmap((int)(LaneWidth * 8 * 8/scaledivX + 7), (int)(PanelHeight / scaledivY / 2));
             Graphics grfx = Graphics.FromImage(img);
@@ -827,7 +468,7 @@ namespace _8beatMap
 
             tmpimg.Dispose();
             grfx.Dispose();
-            img.Dispose();
+            img.Dispose(); */
         }
 
         private void NoteShiftBtn_Click(object sender, EventArgs e)
@@ -840,7 +481,7 @@ namespace _8beatMap
                 chart.Ticks = NewTicks.ToArray();
 
                 ResizeScrollbar();
-                RedrawAllNoteIcons();
+                UpdateChart();
             }
 
             else if (NoteShiftBox.Value < 0)
@@ -851,7 +492,7 @@ namespace _8beatMap
                 chart.Ticks = NewTicks.ToArray();
 
                 ResizeScrollbar();
-                RedrawAllNoteIcons();
+                UpdateChart();
             }
 
             NoteShiftBox.Value = 0;
@@ -923,10 +564,8 @@ namespace _8beatMap
                         if (NoteType == Notedata.NoteType.Tap)
                         {
                             chart.Ticks[i].Notes[j] = Notedata.NoteType.SimulTap;
-                            
-                            PictureBox Icn = chart.Ticks[i].NoteIcons[j];
-                            try { Icn.Parent.Controls.Remove(Icn); } catch { }
-                            AddSingleNoteIcon(i, j, FindVisualNoteType(i, j));
+
+                            UpdateChart();
                         }
                     }
                 }
@@ -939,9 +578,7 @@ namespace _8beatMap
                         {
                             chart.Ticks[i].Notes[j] = Notedata.NoteType.Tap;
 
-                            PictureBox Icn = chart.Ticks[i].NoteIcons[j];
-                            try { Icn.Parent.Controls.Remove(Icn); } catch { }
-                            AddSingleNoteIcon(i, j, FindVisualNoteType(i, j));
+                            UpdateChart();
                         }
                     }
                 }
@@ -959,9 +596,7 @@ namespace _8beatMap
                             else
                                 chart.Ticks[i].Notes[j] = Notedata.NoteType.SimulHoldRelease;
 
-                            PictureBox Icn = chart.Ticks[i].NoteIcons[j];
-                            try { Icn.Parent.Controls.Remove(Icn); } catch { }
-                            AddSingleNoteIcon(i, j, FindVisualNoteType(i, j));
+                            UpdateChart();
                         }
                     }
                 }
@@ -974,15 +609,11 @@ namespace _8beatMap
                         {
                             chart.Ticks[i].Notes[j] = Notedata.NoteType.Hold;
 
-                            PictureBox Icn = chart.Ticks[i].NoteIcons[j];
-                            try { Icn.Parent.Controls.Remove(Icn); } catch { }
-                            AddSingleNoteIcon(i, j, FindVisualNoteType(i, j));
+                            UpdateChart();
                         }
                     }
                 }
             }
-
-            PositionPanel(CurrentTick);
         }
 
         private void LangChangeBtn_Click(object sender, EventArgs e)
@@ -1001,8 +632,6 @@ namespace _8beatMap
             ResumeLayout();
 
             AddNoteTypes();
-
-            PositionPanel(CurrentTick);
         }
 
         private void Form1_KeyPress(object sender, KeyPressEventArgs e)
