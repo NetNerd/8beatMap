@@ -520,7 +520,7 @@
     <value>158, 17</value>
   </metadata>
   <data name="openFileDialog2.Filter" xml:space="preserve">
-    <value>Audio Files|*.wav;*.mp3;*.m4a|All Files|*.*</value>
+    <value>Wav Files|*.wav|All Files|*.*</value>
   </data>
   <data name="SaveChartBtn.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>

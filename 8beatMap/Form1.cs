@@ -26,7 +26,7 @@ namespace _8beatMap
         private Timer playTimer = new Timer() { Interval = 4 };
         
         WaveOutEvent WaveOut = new WaveOutEvent { DesiredLatency = 100, NumberOfBuffers = 16 };
-        MediaFoundationReader MusicFileReader;
+        WaveFileReader WaveFileReader;
 
         WaveOutEvent NoteSoundWaveOut = new WaveOutEvent { DesiredLatency = 110, NumberOfBuffers = 4 };
         static NAudio.Wave.SampleProviders.SignalGenerator NoteSoundSig = new NAudio.Wave.SampleProviders.SignalGenerator { Frequency = 1000, Gain = 0.5, Type = NAudio.Wave.SampleProviders.SignalGeneratorType.Square };
@@ -248,11 +248,11 @@ namespace _8beatMap
                 WaveOut.Stop();
 
                 try {
-                    MusicFileReader = new MediaFoundationReader(Path);
+                    WaveFileReader = new WaveFileReader(Path);
                 }
                 catch { MessageBox.Show(DialogResMgr.GetString("MusicLoadError")); return; }
                 
-                WaveOut.Init(MusicFileReader);
+                WaveOut.Init(WaveFileReader);
             }
         }
 
@@ -322,13 +322,13 @@ namespace _8beatMap
             if (PauseOnSeek.Checked) StopPlayback();
             SetCurrTick(chart.Length - e.NewValue / TickHeight);
             UpdateChart();
-            if (MusicFileReader != null)
-                try { MusicFileReader.CurrentTime = ConvertTicksToTime(CurrentTick); } catch { }
+            if (WaveFileReader != null)
+                try { WaveFileReader.CurrentTime = ConvertTicksToTime(CurrentTick); } catch { }
         }
 
         private void PlayBtn_Click(object sender, EventArgs e)
         {
-            if (MusicFileReader != null)
+            if (WaveFileReader != null)
                 StartPlayback();
             else
             {
@@ -344,7 +344,7 @@ namespace _8beatMap
 
         private void playtimer_Tick(object sender, EventArgs e)
         {
-            SetCurrTick(ConvertTimeToTicks(MusicFileReader.CurrentTime));
+            SetCurrTick(ConvertTimeToTicks(WaveFileReader.CurrentTime));
             UpdateChart();
 
             if ((int)CurrentTick != LastTick)
@@ -378,16 +378,16 @@ namespace _8beatMap
         {
             chart.BPM = (double)BPMbox.Value;
             ResizeScrollbar();
-            if (MusicFileReader != null)
+            if (WaveFileReader != null)
             {
-                SetCurrTick(ConvertTimeToTicks(MusicFileReader.CurrentTime));
+                SetCurrTick(ConvertTimeToTicks(WaveFileReader.CurrentTime));
                 UpdateChart();
             }
         }
 
         private void Form1_Resize(object sender, EventArgs e)
         {
-            ResizeScrollbar();
+            pictureBox1.Height = Height - pictureBox1.Location.Y / 2;
             UpdateChart();
         }
 
