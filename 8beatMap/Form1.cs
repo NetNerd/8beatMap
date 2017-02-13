@@ -86,11 +86,9 @@ namespace _8beatMap
             float halfIconWidth = iconWidth / 2;
             int halfIconHeight = iconHeight / 2;
             
-            int[] swipeEnds = new int[chart.Length];
-            for (int i = 0; i < chart.Length; i++)
-                swipeEnds[i] = -1;
+            byte[] swipeEnds = new byte[chart.Length * 8];
 
-            for (int i = (int)startTick - 16; i < startTick+height/tickHeight; i++)
+            for (int i = (int)startTick - 32; i < startTick+height/tickHeight; i++)
             {
                if (i >= chart.Length) break;
                if (i < 0) i = 0;
@@ -103,11 +101,12 @@ namespace _8beatMap
 
                     Notedata.NoteType Type = FindVisualNoteType(i, j);
 
-                    if ((Type == Notedata.NoteType.SwipeRightStartEnd | Type == Notedata.NoteType.SwipeChangeDirL2R) && !(swipeEnds[i] == j))
+                    if ((Type == Notedata.NoteType.SwipeRightStartEnd | Type == Notedata.NoteType.SwipeChangeDirL2R) && !(swipeEnds[i*8+j] == 1))
                     {
                         bool found = false;
                         for (int k = i + 1; k < i + 30; k++)
                         {
+                            if (k >= chart.Length) break;
                             for (int l = j + 1; l < 8; l++)
                             {
                                 if (chart.Ticks[k].Notes[l] == Notedata.NoteType.SwipeRightStartEnd | chart.Ticks[k].Notes[l] == Notedata.NoteType.SwipeChangeDirR2L)
@@ -115,7 +114,7 @@ namespace _8beatMap
                                     found = true;
                                     Grfx.DrawLine(Pens.Black, (float)(j + 0.5) * laneWidth, height - (float)(i - startTick + 1) * tickHeight, (float)(l + 0.5) * laneWidth, height - (float)(k - startTick + 1) * tickHeight);
                                     if (chart.Ticks[k].Notes[l] == Notedata.NoteType.SwipeRightStartEnd)
-                                        swipeEnds[k] = l;
+                                        swipeEnds[k * 8 + l] = 1;
                                     break;
                                 }
                             }
@@ -124,11 +123,12 @@ namespace _8beatMap
                         }
                     }
 
-                    if ((Type == Notedata.NoteType.SwipeLeftStartEnd | Type == Notedata.NoteType.SwipeChangeDirR2L) && !(swipeEnds[i] == j))
+                    if ((Type == Notedata.NoteType.SwipeLeftStartEnd | Type == Notedata.NoteType.SwipeChangeDirR2L) && !(swipeEnds[i * 8 + j] == 1))
                     {
                         bool found = false;
                         for (int k = i + 1; k < i + 30; k++)
                         {
+                            if (k >= chart.Length) break;
                             for (int l = j - 1; l >= 0; l--)
                             {
                                 if (chart.Ticks[k].Notes[l] == Notedata.NoteType.SwipeLeftStartEnd | chart.Ticks[k].Notes[l] == Notedata.NoteType.SwipeChangeDirL2R)
@@ -136,7 +136,7 @@ namespace _8beatMap
                                     found = true;
                                     Grfx.DrawLine(Pens.Black, (float)(j + 0.5) * laneWidth, height - (float)(i - startTick + 1) * tickHeight, (float)(l + 0.5) * laneWidth, height - (float)(k - startTick + 1) * tickHeight);
                                     if (chart.Ticks[k].Notes[l] == Notedata.NoteType.SwipeLeftStartEnd)
-                                        swipeEnds[k] = l;
+                                        swipeEnds[k * 8 + l] = 1;
                                     break;
                                 }
                             }
