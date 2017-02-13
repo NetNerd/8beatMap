@@ -22,6 +22,7 @@ namespace _8beatMap
         private int IconHeight = 10;
         private double CurrentTick = 0;
         private int LastTick = 0;
+        
 
         private Timer playTimer = new Timer() { Interval = 4 };
         
@@ -387,8 +388,13 @@ namespace _8beatMap
 
         private void Form1_Resize(object sender, EventArgs e)
         {
-            pictureBox1.Height = Height - pictureBox1.Location.Y / 2;
-            UpdateChart();
+            if (pictureBox1.Height != Height)
+            {
+                pictureBox1.Height = Height;
+                Image bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+                pictureBox1.Image = bmp;
+                UpdateChart();
+            }
         }
 
         private void ProcessClick(int Tick, int Lane, MouseButtons MouseButton, Notedata.NoteType NewNote)
