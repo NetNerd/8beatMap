@@ -173,7 +173,7 @@ namespace _8beatMap
 
         private double ConvertYCoordToTick(int Y)
         {
-            return (pictureBox1.Location.Y + pictureBox1.Height - Y - 1) / TickHeight + CurrentTick;
+            return (pictureBox1.Location.Y + pictureBox1.Height - Y - TickHeight/2) / TickHeight + CurrentTick;
         }
 
 
@@ -406,17 +406,15 @@ namespace _8beatMap
 
             if (MouseButton == MouseButtons.Left)
             {
-                if (FindVisualNoteType(Tick, Lane) != NewNote)
+                if (chart.Ticks[Tick].Notes[Lane] != NewNote)
                 {
-                    chart.Ticks[Tick].Notes[Lane] = NewNote;
-
-                    
                     if (NewNote == Notedata.NoteType.None)
                     {
                         ProcessClick(Tick, Lane, MouseButtons.Right, NewNote);
                         return;
                     }
 
+                    chart.Ticks[Tick].Notes[Lane] = NewNote;
                     UpdateChart();
                 }
 
@@ -424,11 +422,11 @@ namespace _8beatMap
 
             else if (MouseButton == MouseButtons.Right)
             {
-                Notedata.NoteType OldNote = chart.Ticks[Tick].Notes[Lane];
-                
-                chart.Ticks[Tick].Notes[Lane] = Notedata.NoteType.None;
-                
-                UpdateChart();
+                if (chart.Ticks[Tick].Notes[Lane] != Notedata.NoteType.None)
+                {
+                    chart.Ticks[Tick].Notes[Lane] = Notedata.NoteType.None;
+                    UpdateChart();
+                }
             }
         }
 
@@ -438,10 +436,20 @@ namespace _8beatMap
             sendCtl.Capture = false;
 
             int Lane = ConvertXCoordToNote(e.X);
-            
             int Tick = (int)ConvertYCoordToTick(e.Y);
 
             ProcessClick(Tick, Lane, e.Button, (Notedata.NoteType)NoteTypeSelector.SelectedItem);
+        }
+
+        private void Chart_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left | e.Button == MouseButtons.Right)
+            {
+                int Lane = ConvertXCoordToNote(e.X);
+                int Tick = (int)ConvertYCoordToTick(e.Y);
+
+                ProcessClick(Tick, Lane, e.Button, (Notedata.NoteType)NoteTypeSelector.SelectedItem);
+            }
         }
 
         private void ZoomBox_ValueChanged(object sender, EventArgs e)
