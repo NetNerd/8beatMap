@@ -302,13 +302,13 @@
             resources.ApplyResources(this.pictureBox1, "pictureBox1");
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Chart_Click);
             // 
             // Form1
             // 
             resources.ApplyResources(this, "$this");
             this.Font = new System.Drawing.Font(System.Drawing.SystemFonts.MessageBoxFont.FontFamily, 8.8f);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.LangChangeBtn);
             this.Controls.Add(this.AutoSimulBtn);
             this.Controls.Add(this.NoteCountButton);
@@ -335,6 +335,7 @@
             this.Controls.Add(this.BPMLbl);
             this.Controls.Add(this.BPMbox);
             this.Controls.Add(this.ChartScrollBar);
+            this.Controls.Add(this.pictureBox1);
             this.KeyPreview = true;
             this.Name = "Form1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);

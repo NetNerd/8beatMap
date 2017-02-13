@@ -18,7 +18,6 @@ namespace _8beatMap
 
         Notedata.Chart chart = new Notedata.Chart(32 * 48, 120);
         private int TickHeight = 10;
-        private int LaneWidth = 36;
         private int IconWidth = 20;
         private int IconHeight = 10;
         private double CurrentTick = 0;
@@ -68,7 +67,7 @@ namespace _8beatMap
         
         Image GetChartImage(int width, int height, double startTick, int tickHeight, int iconWidth, int iconHeight)
         {
-            Image Bmp = new Bitmap(width, height);
+            Image Bmp = pictureBox1.Image;
             Graphics Grfx = Graphics.FromImage(Bmp);
 
             Grfx.FillRectangle(new SolidBrush(SystemColors.ControlLight), 0, 0, width, height);
@@ -136,7 +135,18 @@ namespace _8beatMap
                 }
             }
 
+            Grfx.Dispose();
             return Bmp;
+        }
+
+        private void SetCurrTick(double tick)
+        {
+            if (tick < 0) tick = 0;
+            if (tick >= chart.Length) tick = chart.Length - 1;
+
+            CurrentTick = tick;
+
+            ChartScrollBar.Value = (int)(chart.Length * TickHeight - tick * TickHeight);
         }
 
         private void UpdateChart()
@@ -146,13 +156,12 @@ namespace _8beatMap
 
         private int ConvertXCoordToNote(int X)
         {
-            return (X / LaneWidth);
+            return ((X - pictureBox1.Location.X) / (pictureBox1.Width/8));
         }
 
         private double ConvertYCoordToTick(int Y)
         {
-            // return (-Y - IconHeight / 2) / TickHeight + chart.Length;
-            return (pictureBox1.Height - Y - 1) / TickHeight;
+            return (pictureBox1.Location.Y + pictureBox1.Height - Y - 1) / TickHeight + CurrentTick;
         }
 
 
@@ -261,6 +270,8 @@ namespace _8beatMap
         {
             InitializeComponent();
 
+            pictureBox1.Image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+
             AddNoteTypes();
 
             ActiveControl = ZoomLbl;
@@ -296,6 +307,7 @@ namespace _8beatMap
         private void ChartScrollBar_Scroll(object sender, ScrollEventArgs e)
         {
             if (PauseOnSeek.Checked) StopPlayback();
+            SetCurrTick(chart.Length - e.NewValue / TickHeight);
             UpdateChart();
             if (MusicFileReader != null)
                 try { MusicFileReader.CurrentTime = ConvertTicksToTime(CurrentTick); } catch { }
@@ -319,6 +331,7 @@ namespace _8beatMap
 
         private void playtimer_Tick(object sender, EventArgs e)
         {
+            SetCurrTick(ConvertTimeToTicks(MusicFileReader.CurrentTime));
             UpdateChart();
 
             if ((int)CurrentTick != LastTick)
@@ -353,7 +366,10 @@ namespace _8beatMap
             chart.BPM = (double)BPMbox.Value;
             ResizeScrollbar();
             if (MusicFileReader != null)
+            {
+                SetCurrTick(ConvertTimeToTicks(MusicFileReader.CurrentTime));
                 UpdateChart();
+            }
         }
 
         private void Form1_Resize(object sender, EventArgs e)
@@ -402,9 +418,9 @@ namespace _8beatMap
             Control sendCtl = (Control)sender;
             sendCtl.Capture = false;
 
-            int Lane = ConvertXCoordToNote(pictureBox1.PointToClient(MousePosition).X);
+            int Lane = ConvertXCoordToNote(e.X);
             
-            int Tick = (int)ConvertYCoordToTick(pictureBox1.PointToClient(MousePosition).Y);
+            int Tick = (int)ConvertYCoordToTick(e.Y);
 
             ProcessClick(Tick, Lane, e.Button, (Notedata.NoteType)NoteTypeSelector.SelectedItem);
         }
