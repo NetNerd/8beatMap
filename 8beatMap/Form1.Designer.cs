@@ -36,7 +36,6 @@
             this.StopBtn = new System.Windows.Forms.Button();
             this.newplayhead = new System.Windows.Forms.PictureBox();
             this.PauseOnSeek = new System.Windows.Forms.CheckBox();
-            this.ZoomBtn = new System.Windows.Forms.Button();
             this.ZoomBox = new System.Windows.Forms.NumericUpDown();
             this.ZoomLbl = new System.Windows.Forms.Label();
             this.ResizeLbl = new System.Windows.Forms.Label();
@@ -123,18 +122,11 @@
             this.PauseOnSeek.Name = "PauseOnSeek";
             this.PauseOnSeek.UseVisualStyleBackColor = true;
             // 
-            // ZoomBtn
-            // 
-            resources.ApplyResources(this.ZoomBtn, "ZoomBtn");
-            this.ZoomBtn.Name = "ZoomBtn";
-            this.ZoomBtn.UseVisualStyleBackColor = true;
-            this.ZoomBtn.Click += new System.EventHandler(this.ZoomBtn_Click);
-            // 
             // ZoomBox
             // 
             resources.ApplyResources(this.ZoomBox, "ZoomBox");
             this.ZoomBox.Maximum = new decimal(new int[] {
-            14,
+            16,
             0,
             0,
             0});
@@ -149,6 +141,7 @@
             0,
             0,
             0});
+            this.ZoomBox.ValueChanged += new System.EventHandler(this.ZoomBox_ValueChanged);
             // 
             // ZoomLbl
             // 
@@ -164,7 +157,7 @@
             // 
             resources.ApplyResources(this.ResizeBox, "ResizeBox");
             this.ResizeBox.Maximum = new decimal(new int[] {
-            192,
+            300,
             0,
             0,
             0});
@@ -327,7 +320,6 @@
             this.Controls.Add(this.ResizeBtn);
             this.Controls.Add(this.ZoomLbl);
             this.Controls.Add(this.ZoomBox);
-            this.Controls.Add(this.ZoomBtn);
             this.Controls.Add(this.PauseOnSeek);
             this.Controls.Add(this.newplayhead);
             this.Controls.Add(this.StopBtn);
@@ -353,24 +345,19 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Panel ChartPanel;
+        
         private System.Windows.Forms.VScrollBar ChartScrollBar;
         private System.Windows.Forms.NumericUpDown BPMbox;
         private System.Windows.Forms.Label BPMLbl;
         private System.Windows.Forms.Button PlayBtn;
         private System.Windows.Forms.Button StopBtn;
         private System.Windows.Forms.PictureBox newplayhead;
-        private System.Windows.Forms.Panel ChartPanel2;
         private System.Windows.Forms.CheckBox PauseOnSeek;
-        private System.Windows.Forms.Panel ChartPanel3;
         private System.Windows.Forms.NumericUpDown ZoomBox;
         private System.Windows.Forms.Label ZoomLbl;
-        private System.Windows.Forms.Button ZoomBtn;
         private System.Windows.Forms.Label ResizeLbl;
         private System.Windows.Forms.NumericUpDown ResizeBox;
         private System.Windows.Forms.Button ResizeBtn;
-        private System.Windows.Forms.Panel ChartPanel4;
         private System.Windows.Forms.Button OpenBtn;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Button OpenMusicButton;

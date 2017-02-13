@@ -309,33 +309,6 @@
   <data name="&gt;&gt;PauseOnSeek.ZOrder" xml:space="preserve">
     <value>19</value>
   </data>
-  <data name="ZoomBtn.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="ZoomBtn.Location" type="System.Drawing.Point, System.Drawing">
-    <value>537, 12</value>
-  </data>
-  <data name="ZoomBtn.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
-  </data>
-  <data name="ZoomBtn.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
-  </data>
-  <data name="ZoomBtn.Text" xml:space="preserve">
-    <value>Apply (Slow)</value>
-  </data>
-  <data name="&gt;&gt;ZoomBtn.Name" xml:space="preserve">
-    <value>ZoomBtn</value>
-  </data>
-  <data name="&gt;&gt;ZoomBtn.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ZoomBtn.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;ZoomBtn.ZOrder" xml:space="preserve">
-    <value>18</value>
-  </data>
   <data name="ZoomBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
   </data>
@@ -469,7 +442,7 @@
     <value>15</value>
   </data>
   <data name="ResizeBtn.Text" xml:space="preserve">
-    <value>Apply (Slow)</value>
+    <value>Apply</value>
   </data>
   <data name="&gt;&gt;ResizeBtn.Name" xml:space="preserve">
     <value>ResizeBtn</value>
@@ -742,7 +715,7 @@
     <value>18</value>
   </data>
   <data name="NoteShiftBtn.Text" xml:space="preserve">
-    <value>Apply (Slow)</value>
+    <value>Apply</value>
   </data>
   <data name="&gt;&gt;NoteShiftBtn.Name" xml:space="preserve">
     <value>NoteShiftBtn</value>

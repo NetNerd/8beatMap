@@ -50,6 +50,8 @@ namespace _8beatMap
 
         private Notedata.NoteType FindVisualNoteType(int tick, int lane)
         {
+            if (tick >= chart.Length) return Notedata.NoteType.None;
+
             if (chart.Ticks[tick].Notes[lane] == Notedata.NoteType.Hold || chart.Ticks[tick].Notes[lane] == Notedata.NoteType.SimulHoldRelease)
             {
                 if (tick == 0 || tick == chart.Length - 1) return chart.Ticks[tick].Notes[lane];
@@ -77,23 +79,17 @@ namespace _8beatMap
                 Grfx.FillRectangle(new SolidBrush(Color.LightGray), i*width/8, 0, 1, height);
             }
 
+
+
+            float laneWidth = width / 8;
+            float halfIconWidth = iconWidth / 2;
+            int halfIconHeight = iconHeight / 2;
+
             for (int i = (int)startTick;i < startTick+height/tickHeight; i++)
             {
-                if(i % 48 == 0)
-                {
-                    Grfx.FillRectangle(new SolidBrush(Color.SlateGray), 0, height - (float)(i - startTick + 0.5) * tickHeight - 1, width, 3);
-                    Grfx.DrawString((i / 48 + 1).ToString(), new System.Drawing.Font("Arial", 6.5f), new SolidBrush(Color.DarkSlateGray), 0, height - (float)(i - startTick + 0.5) * tickHeight - 11);
-                }
-                else if(i % 12 == 0)
-                {
-                    Grfx.FillRectangle(new SolidBrush(Color.LightSlateGray), 0, height - (float)(i - startTick + 0.5) * tickHeight, width, 1);
-                }
-                else if (i % 6 == 0)
-                {
-                    Grfx.FillRectangle(new SolidBrush(Color.LightGray), 0, height - (float)(i - startTick + 0.5) * tickHeight, width, 1);
-                }
+               if (i >= chart.Length) break;
 
-                for (int j = 0; j < 8; j++)
+               for (int j = 0; j < 8; j++)
                 {
                     Color noteCol = Color.LightGray;
                     Color ArrowCol = Color.Transparent;
@@ -121,17 +117,32 @@ namespace _8beatMap
                         case Notedata.NoteType.ExtendHoldMid: noteCol = Color.LightGray; break;
                     }
 
+
                     if (chart.Ticks[i].Notes[j] != Notedata.NoteType.None)
                     {
-                        int iconX = (int)((j + 0.5) * width / 8 - iconWidth / 2);
+                        int iconX = (int)((j + 0.5) * laneWidth - halfIconWidth);
                         int iconY = (int)(height - (float)(i - startTick + 1.5) * tickHeight);
 
                         Grfx.FillRectangle(new SolidBrush(noteCol), iconX, iconY, iconWidth, iconHeight);
                         if (ArrowDir == -1)
-                            Grfx.FillPolygon(new SolidBrush(ArrowCol), new Point[] { new Point(iconX + IconWidth - 1, iconY + 0), new Point(iconX + IconWidth - 1, iconY + IconHeight - 1), new Point(iconX + 0, iconY + IconHeight / 2) });
+                            Grfx.FillPolygon(new SolidBrush(ArrowCol), new Point[] { new Point(iconX + IconWidth - 1, iconY + 0), new Point(iconX + IconWidth - 1, iconY + IconHeight - 1), new Point(iconX + 0, iconY + halfIconHeight) });
                         else if (ArrowDir == 1)
-                            Grfx.FillPolygon(new SolidBrush(ArrowCol), new Point[] { new Point(iconX + 0, iconY + 0), new Point(iconX + 0, iconY + IconHeight - 1), new Point(iconX + IconWidth - 1, iconY + IconHeight / 2) });
+                            Grfx.FillPolygon(new SolidBrush(ArrowCol), new Point[] { new Point(iconX + 0, iconY + 0), new Point(iconX + 0, iconY + IconHeight - 1), new Point(iconX + IconWidth - 1, iconY + halfIconHeight) });
                     }
+                }
+
+                if (i % 48 == 0)
+                {
+                    Grfx.FillRectangle(new SolidBrush(Color.SlateGray), 0, height - (float)(i - startTick + 0.5) * tickHeight - 1, width, 3);
+                    Grfx.DrawString((i / 48 + 1).ToString(), new System.Drawing.Font("Arial", 6.5f), new SolidBrush(Color.DarkSlateGray), 0, height - (float)(i - startTick + 0.5) * tickHeight - 11);
+                }
+                else if (i % 12 == 0)
+                {
+                    Grfx.FillRectangle(new SolidBrush(Color.LightSlateGray), 0, height - (float)(i - startTick + 0.5) * tickHeight, width, 1);
+                }
+                else if (i % 6 == 0)
+                {
+                    Grfx.FillRectangle(new SolidBrush(Color.LightGray), 0, height - (float)(i - startTick + 0.5) * tickHeight, width, 1);
                 }
             }
 
@@ -188,6 +199,7 @@ namespace _8beatMap
         {
             chart.Length = NewLen;
             ResizeScrollbar();
+            SetCurrTick(CurrentTick);
             UpdateChart();
         }
 
@@ -220,9 +232,9 @@ namespace _8beatMap
                     chart.BPM = 120;
                 }
                 ResizeBox.Value = chart.Length / 48;
-                CurrentTick = 0;
                 BPMbox.Value = (decimal)chart.BPM;
                 ResizeScrollbar();
+                SetCurrTick(0);
                 UpdateChart();
 
             }
@@ -280,6 +292,7 @@ namespace _8beatMap
             NoteSoundWaveOut.Play();
 
             ResizeScrollbar();
+            SetCurrTick(0);
             UpdateChart();
 
             //chart.Ticks[0].SetNote(Notedata.NoteType.Hold, 7) ;
@@ -425,7 +438,7 @@ namespace _8beatMap
             ProcessClick(Tick, Lane, e.Button, (Notedata.NoteType)NoteTypeSelector.SelectedItem);
         }
 
-        private void ZoomBtn_Click(object sender, EventArgs e)
+        private void ZoomBox_ValueChanged(object sender, EventArgs e)
         {
             TickHeight = (int)ZoomBox.Value;
             IconHeight = TickHeight;
@@ -436,6 +449,7 @@ namespace _8beatMap
         private void ResizeBtn_Click(object sender, EventArgs e)
         {
             ResizeChart((int)ResizeBox.Value * 48);
+            
         }
 
         private void OpenBtn_Click(object sender, EventArgs e)
@@ -548,12 +562,6 @@ namespace _8beatMap
 
         private void AutoSimulBtn_Click(object sender, EventArgs e)
         {
-            ChartPanel.Top = 0;
-            ChartPanel2.Top = 0;
-            ChartPanel3.Top = 0;
-            ChartPanel4.Top = 0;
-
-
             for (int i = 0; i < chart.Length; i++)
             {
                 int SimulNum_Tap = 0;
