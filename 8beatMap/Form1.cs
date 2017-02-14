@@ -153,7 +153,7 @@ namespace _8beatMap
                             int l = j + 1;
                                 if (chart.Ticks[k].Notes[l] == Notedata.NoteType.SwipeRightStartEnd | chart.Ticks[k].Notes[l] == Notedata.NoteType.SwipeRightMid | chart.Ticks[k].Notes[l] == Notedata.NoteType.SwipeChangeDirR2L)
                                 {
-                                    Grfx.DrawLine(Pens.Black, (float)(j + 0.5) * laneWidth, height - (float)(i - startTick + 1) * tickHeight, (float)(l + 0.5) * laneWidth, height - (float)(k - startTick + 1) * tickHeight);
+                                    Grfx.DrawLine(new Pen(Color.LightGray, iconWidth/3), (float)(j + 0.5) * laneWidth, height - (float)(i - startTick + 1) * tickHeight, (float)(l + 0.5) * laneWidth, height - (float)(k - startTick + 1) * tickHeight);
                                     break;
                                 }
                         }
@@ -167,12 +167,12 @@ namespace _8beatMap
                             int l = j - 1;
                                 if (chart.Ticks[k].Notes[l] == Notedata.NoteType.SwipeLeftStartEnd | chart.Ticks[k].Notes[l] == Notedata.NoteType.SwipeLeftMid | chart.Ticks[k].Notes[l] == Notedata.NoteType.SwipeChangeDirL2R)
                                 {
-                                    Grfx.DrawLine(Pens.Black, (float)(j + 0.5) * laneWidth, height - (float)(i - startTick + 1) * tickHeight, (float)(l + 0.5) * laneWidth, height - (float)(k - startTick + 1) * tickHeight);
+                                    Grfx.DrawLine(new Pen(Color.LightGray, iconWidth/3), (float)(j + 0.5) * laneWidth, height - (float)(i - startTick + 1) * tickHeight, (float)(l + 0.5) * laneWidth, height - (float)(k - startTick + 1) * tickHeight);
                                     break;
                                 }
                         }
                     }
-
+                    
                     switch (Type)
                     {
                         case Notedata.NoteType.Tap: noteCol = Color.Blue; break;
@@ -201,9 +201,9 @@ namespace _8beatMap
 
                         Grfx.FillRectangle(new SolidBrush(noteCol), iconX, iconY, iconWidth, iconHeight);
                         if (ArrowDir == -1)
-                            Grfx.FillPolygon(new SolidBrush(ArrowCol), new Point[] { new Point(iconX + IconWidth - 1, iconY + 0), new Point(iconX + IconWidth - 1, iconY + IconHeight - 1), new Point(iconX + 0, iconY + halfIconHeight) });
+                            Grfx.FillPolygon(new SolidBrush(ArrowCol), new Point[] { new Point(iconX + iconWidth - 1, iconY + 0), new Point(iconX + iconWidth - 1, iconY + iconHeight - 1), new Point(iconX + 0, iconY + halfIconHeight) });
                         else if (ArrowDir == 1)
-                            Grfx.FillPolygon(new SolidBrush(ArrowCol), new Point[] { new Point(iconX + 0, iconY + 0), new Point(iconX + 0, iconY + IconHeight - 1), new Point(iconX + IconWidth - 1, iconY + halfIconHeight) });
+                            Grfx.FillPolygon(new SolidBrush(ArrowCol), new Point[] { new Point(iconX + 0, iconY + 0), new Point(iconX + 0, iconY + iconHeight - 1), new Point(iconX + iconWidth - 1, iconY + halfIconHeight) });
                     }
                 }
 
