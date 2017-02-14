@@ -114,16 +114,20 @@ namespace _8beatMap
         }
 
 
-        Image GetChartImage(int width, int height, double startTick, int tickHeight, int iconWidth, int iconHeight)
+        Image GetChartImage(int width, int height, double startTick, int tickHeight, int iconWidth, int iconHeight, bool NoClearBG, bool NoGrid, Image startImage)
         {
-            Image Bmp = pictureBox1.Image;
+            Image Bmp = startImage;
             Graphics Grfx = Graphics.FromImage(Bmp);
 
-            Grfx.FillRectangle(new SolidBrush(SystemColors.ControlLight), 0, 0, width, height);
+            if (!NoClearBG)
+                Grfx.FillRectangle(new SolidBrush(SystemColors.ControlLight), 0, 0, width, height);
 
-            for (int i = 1; i < 8; i++)
+            if (!NoGrid)
             {
-                Grfx.FillRectangle(new SolidBrush(Color.LightGray), i*width/8, 0, 1, height);
+                for (int i = 1; i < 8; i++)
+                {
+                    Grfx.FillRectangle(new SolidBrush(Color.LightGray), i * width / 8, 0, 1, height);
+                }
             }
 
 
@@ -207,18 +211,21 @@ namespace _8beatMap
                     }
                 }
 
-                if (i % 48 == 0)
+                if (!NoGrid)
                 {
-                    Grfx.FillRectangle(new SolidBrush(Color.SlateGray), 0, height - (float)(i - startTick + 0.5) * tickHeight - 3, width, 3);
-                    Grfx.DrawString((i / 48 + 1).ToString(), new System.Drawing.Font("Arial", 6.5f), new SolidBrush(Color.DarkSlateGray), 0, height - (float)(i - startTick + 0.5) * tickHeight - 13);
-                }
-                else if (i % 12 == 0)
-                {
-                    Grfx.FillRectangle(new SolidBrush(Color.LightSlateGray), 0, height - (float)(i - startTick + 0.5) * tickHeight - 2, width, 1);
-                }
-                else if (i % 6 == 0)
-                {
-                    Grfx.FillRectangle(new SolidBrush(Color.LightGray), 0, height - (float)(i - startTick + 0.5) * tickHeight - 2, width, 1);
+                    if (i % 48 == 0)
+                    {
+                        Grfx.FillRectangle(new SolidBrush(Color.SlateGray), 0, height - (float)(i - startTick + 0.5) * tickHeight - 3, width, 3);
+                        Grfx.DrawString((i / 48 + 1).ToString(), new System.Drawing.Font("Arial", 6.5f), new SolidBrush(Color.DarkSlateGray), 0, height - (float)(i - startTick + 0.5) * tickHeight - 13);
+                    }
+                    else if (i % 12 == 0)
+                    {
+                        Grfx.FillRectangle(new SolidBrush(Color.LightSlateGray), 0, height - (float)(i - startTick + 0.5) * tickHeight - 2, width, 1);
+                    }
+                    else if (i % 6 == 0)
+                    {
+                        Grfx.FillRectangle(new SolidBrush(Color.LightGray), 0, height - (float)(i - startTick + 0.5) * tickHeight - 2, width, 1);
+                    }
                 }
             }
 
@@ -238,7 +245,7 @@ namespace _8beatMap
 
         private void UpdateChart()
         {
-            pictureBox1.Image = GetChartImage(pictureBox1.Width, pictureBox1.Height, CurrentTick, TickHeight, IconWidth, IconHeight);
+            pictureBox1.Image = GetChartImage(pictureBox1.Width, pictureBox1.Height, CurrentTick, TickHeight, IconWidth, IconHeight, false, false, pictureBox1.Image);
         }
 
         private int ConvertXCoordToNote(int X)
@@ -372,25 +379,6 @@ namespace _8beatMap
             SetCurrTick(0);
             FixSwipes();
             UpdateChart();
-
-            //chart.Ticks[0].SetNote(Notedata.NoteType.Hold, 7) ;
-            //for (int i = 0; i < 32; i++)
-            //{
-            //    chart.Ticks[i * 48].SetNote(Notedata.NoteType.SimulTap, 3);
-            //    chart.Ticks[i * 48].SetNote(Notedata.NoteType.SimulTap, 4);
-
-            //    chart.Ticks[i * 48 + 12].SetNote(Notedata.NoteType.SimulTap, 2);
-            //    chart.Ticks[i * 48 + 12].SetNote(Notedata.NoteType.SimulTap, 5);
-
-            //    chart.Ticks[i * 48 + 24].SetNote(Notedata.NoteType.FlickRight, 1);
-            //    chart.Ticks[i * 48 + 24].SetNote(Notedata.NoteType.FlickLeft, 6);
-
-            //    chart.Ticks[i * 48 + 36].SetNote(Notedata.NoteType.Hold, 0);
-            //    chart.Ticks[i * 48 + 36].SetNote(Notedata.NoteType.Tap, 7);
-
-            //    chart.Ticks[i+1].SetNote(Notedata.NoteType.Hold, 7);
-            //}
-            //chart.Ticks[32].SetNote(Notedata.NoteType.Hold, 7);
 
             playTimer.Tick += playtimer_Tick;
         }
