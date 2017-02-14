@@ -67,7 +67,53 @@ namespace _8beatMap
             return chart.Ticks[tick].Notes[lane];
         }
 
-        
+
+        byte[] swipeEnds;
+
+        private void FixSwipes()
+        {
+            swipeEnds = new byte[chart.Length * 8];
+
+            for (int i = 0; i < chart.Length; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    Notedata.NoteType Type = chart.Ticks[i].Notes[j];
+
+                    if ((Type == Notedata.NoteType.SwipeRightStartEnd | Type == Notedata.NoteType.SwipeRightMid | Type == Notedata.NoteType.SwipeChangeDirL2R) && (swipeEnds[i * 8 + j] == 0))
+                    {
+                        for (int k = i + 1; k < i + 24; k++)
+                        {
+                            if (k >= chart.Length) break;
+                            int l = j + 1;
+                            if (l > 7) break;
+                            if (chart.Ticks[k].Notes[l] == Notedata.NoteType.SwipeRightStartEnd)
+                            {
+                                swipeEnds[k * 8 + l] = 1;
+                                break;
+                            }
+                        }
+                    }
+
+                    if ((Type == Notedata.NoteType.SwipeLeftStartEnd | Type == Notedata.NoteType.SwipeLeftMid | Type == Notedata.NoteType.SwipeChangeDirR2L) && (swipeEnds[i * 8 + j] == 0))
+                    {
+                        for (int k = i + 1; k < i + 24; k++)
+                        {
+                            if (k >= chart.Length) break;
+                            int l = j - 1;
+                            if (l < 0) break;
+                            if (chart.Ticks[k].Notes[l] == Notedata.NoteType.SwipeLeftStartEnd)
+                            {
+                                swipeEnds[k * 8 + l] = 1;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
         Image GetChartImage(int width, int height, double startTick, int tickHeight, int iconWidth, int iconHeight)
         {
             Image Bmp = pictureBox1.Image;
@@ -85,10 +131,8 @@ namespace _8beatMap
             float laneWidth = width / 8;
             float halfIconWidth = iconWidth / 2;
             int halfIconHeight = iconHeight / 2;
-            
-            byte[] swipeEnds = new byte[chart.Length * 8];
 
-            for (int i = (int)startTick - 32; i < startTick+height/tickHeight; i++)
+            for (int i = (int)startTick; i < startTick+height/tickHeight; i++)
             {
                if (i >= chart.Length) break;
                if (i < 0) i = 0;
@@ -101,47 +145,31 @@ namespace _8beatMap
 
                     Notedata.NoteType Type = FindVisualNoteType(i, j);
 
-                    if ((Type == Notedata.NoteType.SwipeRightStartEnd | Type == Notedata.NoteType.SwipeChangeDirL2R) && !(swipeEnds[i*8+j] == 1))
+                    if ((Type == Notedata.NoteType.SwipeRightStartEnd | Type == Notedata.NoteType.SwipeRightMid | Type == Notedata.NoteType.SwipeChangeDirL2R) && (swipeEnds[i*8+j] == 0))
                     {
-                        bool found = false;
-                        for (int k = i + 1; k < i + 30; k++)
+                        for (int k = i + 1; k < i + 24; k++)
                         {
                             if (k >= chart.Length) break;
-                            for (int l = j + 1; l < 8; l++)
-                            {
-                                if (chart.Ticks[k].Notes[l] == Notedata.NoteType.SwipeRightStartEnd | chart.Ticks[k].Notes[l] == Notedata.NoteType.SwipeChangeDirR2L)
+                            int l = j + 1;
+                                if (chart.Ticks[k].Notes[l] == Notedata.NoteType.SwipeRightStartEnd | chart.Ticks[k].Notes[l] == Notedata.NoteType.SwipeRightMid | chart.Ticks[k].Notes[l] == Notedata.NoteType.SwipeChangeDirR2L)
                                 {
-                                    found = true;
                                     Grfx.DrawLine(Pens.Black, (float)(j + 0.5) * laneWidth, height - (float)(i - startTick + 1) * tickHeight, (float)(l + 0.5) * laneWidth, height - (float)(k - startTick + 1) * tickHeight);
-                                    if (chart.Ticks[k].Notes[l] == Notedata.NoteType.SwipeRightStartEnd)
-                                        swipeEnds[k * 8 + l] = 1;
                                     break;
                                 }
-                            }
-                            if (found == true)
-                                break;
                         }
                     }
 
-                    if ((Type == Notedata.NoteType.SwipeLeftStartEnd | Type == Notedata.NoteType.SwipeChangeDirR2L) && !(swipeEnds[i * 8 + j] == 1))
+                    if ((Type == Notedata.NoteType.SwipeLeftStartEnd | Type == Notedata.NoteType.SwipeLeftMid | Type == Notedata.NoteType.SwipeChangeDirR2L) && (swipeEnds[i * 8 + j] == 0))
                     {
-                        bool found = false;
-                        for (int k = i + 1; k < i + 30; k++)
+                        for (int k = i + 1; k < i + 24; k++)
                         {
                             if (k >= chart.Length) break;
-                            for (int l = j - 1; l >= 0; l--)
-                            {
-                                if (chart.Ticks[k].Notes[l] == Notedata.NoteType.SwipeLeftStartEnd | chart.Ticks[k].Notes[l] == Notedata.NoteType.SwipeChangeDirL2R)
+                            int l = j - 1;
+                                if (chart.Ticks[k].Notes[l] == Notedata.NoteType.SwipeLeftStartEnd | chart.Ticks[k].Notes[l] == Notedata.NoteType.SwipeLeftMid | chart.Ticks[k].Notes[l] == Notedata.NoteType.SwipeChangeDirL2R)
                                 {
-                                    found = true;
                                     Grfx.DrawLine(Pens.Black, (float)(j + 0.5) * laneWidth, height - (float)(i - startTick + 1) * tickHeight, (float)(l + 0.5) * laneWidth, height - (float)(k - startTick + 1) * tickHeight);
-                                    if (chart.Ticks[k].Notes[l] == Notedata.NoteType.SwipeLeftStartEnd)
-                                        swipeEnds[k * 8 + l] = 1;
                                     break;
                                 }
-                            }
-                            if (found == true)
-                                break;
                         }
                     }
 
@@ -283,6 +311,7 @@ namespace _8beatMap
                 BPMbox.Value = (decimal)chart.BPM;
                 ResizeScrollbar();
                 SetCurrTick(0);
+                FixSwipes();
                 UpdateChart();
 
             }
@@ -341,6 +370,7 @@ namespace _8beatMap
 
             ResizeScrollbar();
             SetCurrTick(0);
+            FixSwipes();
             UpdateChart();
 
             //chart.Ticks[0].SetNote(Notedata.NoteType.Hold, 7) ;
@@ -462,6 +492,7 @@ namespace _8beatMap
                     }
 
                     chart.Ticks[Tick].Notes[Lane] = NewNote;
+                    FixSwipes();
                     UpdateChart();
                 }
 
@@ -472,6 +503,7 @@ namespace _8beatMap
                 if (chart.Ticks[Tick].Notes[Lane] != Notedata.NoteType.None)
                 {
                     chart.Ticks[Tick].Notes[Lane] = Notedata.NoteType.None;
+                    FixSwipes();
                     UpdateChart();
                 }
             }
@@ -510,7 +542,8 @@ namespace _8beatMap
         private void ResizeBtn_Click(object sender, EventArgs e)
         {
             ResizeChart((int)ResizeBox.Value * 48);
-            
+            FixSwipes();
+            UpdateChart();
         }
 
         private void OpenBtn_Click(object sender, EventArgs e)
@@ -572,6 +605,7 @@ namespace _8beatMap
                 chart.Ticks = NewTicks.ToArray();
 
                 ResizeScrollbar();
+                FixSwipes();
                 UpdateChart();
             }
 
@@ -583,6 +617,7 @@ namespace _8beatMap
                 chart.Ticks = NewTicks.ToArray();
 
                 ResizeScrollbar();
+                FixSwipes();
                 UpdateChart();
             }
 
