@@ -132,7 +132,7 @@ namespace _8beatMap
             float halfIconWidth = iconWidth / 2;
             int halfIconHeight = iconHeight / 2;
 
-            for (int i = (int)startTick; i < startTick+height/tickHeight; i++)
+            for (int i = (int)startTick - 24; i < startTick+height/tickHeight; i++)
             {
                if (i >= chart.Length) break;
                if (i < 0) i = 0;
@@ -153,7 +153,7 @@ namespace _8beatMap
                             int l = j + 1;
                                 if (chart.Ticks[k].Notes[l] == Notedata.NoteType.SwipeRightStartEnd | chart.Ticks[k].Notes[l] == Notedata.NoteType.SwipeRightMid | chart.Ticks[k].Notes[l] == Notedata.NoteType.SwipeChangeDirR2L)
                                 {
-                                    Grfx.DrawLine(new Pen(Color.LightGray, iconWidth/3), (float)(j + 0.5) * laneWidth, height - (float)(i - startTick + 1) * tickHeight, (float)(l + 0.5) * laneWidth, height - (float)(k - startTick + 1) * tickHeight);
+                                    Grfx.DrawLine(new Pen(Color.LightGray, iconWidth/3), (float)(j + 0.5) * laneWidth, height - (float)(i - startTick + 1) * tickHeight - 2, (float)(l + 0.5) * laneWidth, height - (float)(k - startTick + 1) * tickHeight - 2);
                                     break;
                                 }
                         }
@@ -167,7 +167,7 @@ namespace _8beatMap
                             int l = j - 1;
                                 if (chart.Ticks[k].Notes[l] == Notedata.NoteType.SwipeLeftStartEnd | chart.Ticks[k].Notes[l] == Notedata.NoteType.SwipeLeftMid | chart.Ticks[k].Notes[l] == Notedata.NoteType.SwipeChangeDirL2R)
                                 {
-                                    Grfx.DrawLine(new Pen(Color.LightGray, iconWidth/3), (float)(j + 0.5) * laneWidth, height - (float)(i - startTick + 1) * tickHeight, (float)(l + 0.5) * laneWidth, height - (float)(k - startTick + 1) * tickHeight);
+                                    Grfx.DrawLine(new Pen(Color.LightGray, iconWidth/3), (float)(j + 0.5) * laneWidth, height - (float)(i - startTick + 1) * tickHeight - 2, (float)(l + 0.5) * laneWidth, height - (float)(k - startTick + 1) * tickHeight - 2);
                                     break;
                                 }
                         }
@@ -197,7 +197,7 @@ namespace _8beatMap
                     if (chart.Ticks[i].Notes[j] != Notedata.NoteType.None)
                     {
                         int iconX = (int)((j + 0.5) * laneWidth - halfIconWidth);
-                        int iconY = (int)(height - (float)(i - startTick + 1.5) * tickHeight);
+                        int iconY = (int)(height - (float)(i - startTick + 1.5) * tickHeight - 2);
 
                         Grfx.FillRectangle(new SolidBrush(noteCol), iconX, iconY, iconWidth, iconHeight);
                         if (ArrowDir == -1)
@@ -209,16 +209,16 @@ namespace _8beatMap
 
                 if (i % 48 == 0)
                 {
-                    Grfx.FillRectangle(new SolidBrush(Color.SlateGray), 0, height - (float)(i - startTick + 0.5) * tickHeight - 1, width, 3);
-                    Grfx.DrawString((i / 48 + 1).ToString(), new System.Drawing.Font("Arial", 6.5f), new SolidBrush(Color.DarkSlateGray), 0, height - (float)(i - startTick + 0.5) * tickHeight - 11);
+                    Grfx.FillRectangle(new SolidBrush(Color.SlateGray), 0, height - (float)(i - startTick + 0.5) * tickHeight - 3, width, 3);
+                    Grfx.DrawString((i / 48 + 1).ToString(), new System.Drawing.Font("Arial", 6.5f), new SolidBrush(Color.DarkSlateGray), 0, height - (float)(i - startTick + 0.5) * tickHeight - 13);
                 }
                 else if (i % 12 == 0)
                 {
-                    Grfx.FillRectangle(new SolidBrush(Color.LightSlateGray), 0, height - (float)(i - startTick + 0.5) * tickHeight, width, 1);
+                    Grfx.FillRectangle(new SolidBrush(Color.LightSlateGray), 0, height - (float)(i - startTick + 0.5) * tickHeight - 2, width, 1);
                 }
                 else if (i % 6 == 0)
                 {
-                    Grfx.FillRectangle(new SolidBrush(Color.LightGray), 0, height - (float)(i - startTick + 0.5) * tickHeight, width, 1);
+                    Grfx.FillRectangle(new SolidBrush(Color.LightGray), 0, height - (float)(i - startTick + 0.5) * tickHeight - 2, width, 1);
                 }
             }
 
@@ -467,7 +467,7 @@ namespace _8beatMap
         {
             if (pictureBox1.Height != Height)
             {
-                pictureBox1.Height = Height;
+                pictureBox1.Height = ClientSize.Height;
                 Image bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
                 pictureBox1.Image = bmp;
                 UpdateChart();
