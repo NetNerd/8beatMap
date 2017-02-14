@@ -132,29 +132,7 @@ namespace _8beatMap
 
 
             private System.Windows.Forms.PictureBox[] NoteIconArray;
-
-            public System.Windows.Forms.PictureBox[] NoteIcons
-            {
-                get
-                {
-                    if (NoteIconArray == null)
-                    {
-                        NoteIconArray = new System.Windows.Forms.PictureBox[8];
-                    }
-                    return NoteIconArray;
-                }
-
-                set
-                {
-                    if (NoteIconArray == null)
-                    {
-                        NoteIconArray = new System.Windows.Forms.PictureBox[8];
-                    }
-                    NoteIconArray = value;
-                }
-            }
-
-
+            
 
             public void SetNote(NoteType Note, int Lane)
             {
