@@ -155,7 +155,8 @@ namespace _8beatMap
                         {
                             if (k >= chart.Length) break;
                             int l = j + 1;
-                                if (chart.Ticks[k].Notes[l] == Notedata.NoteType.SwipeRightStartEnd | chart.Ticks[k].Notes[l] == Notedata.NoteType.SwipeRightMid | chart.Ticks[k].Notes[l] == Notedata.NoteType.SwipeChangeDirR2L)
+                            if (l > 7) break;
+                            if (chart.Ticks[k].Notes[l] == Notedata.NoteType.SwipeRightStartEnd | chart.Ticks[k].Notes[l] == Notedata.NoteType.SwipeRightMid | chart.Ticks[k].Notes[l] == Notedata.NoteType.SwipeChangeDirR2L)
                                 {
                                     Grfx.DrawLine(new Pen(Color.LightGray, iconWidth/3), (float)(j + 0.5) * laneWidth, height - (float)(i - startTick + 1) * tickHeight - 2, (float)(l + 0.5) * laneWidth, height - (float)(k - startTick + 1) * tickHeight - 2);
                                     break;
@@ -169,7 +170,8 @@ namespace _8beatMap
                         {
                             if (k >= chart.Length) break;
                             int l = j - 1;
-                                if (chart.Ticks[k].Notes[l] == Notedata.NoteType.SwipeLeftStartEnd | chart.Ticks[k].Notes[l] == Notedata.NoteType.SwipeLeftMid | chart.Ticks[k].Notes[l] == Notedata.NoteType.SwipeChangeDirL2R)
+                            if (l < 0) break;
+                            if (chart.Ticks[k].Notes[l] == Notedata.NoteType.SwipeLeftStartEnd | chart.Ticks[k].Notes[l] == Notedata.NoteType.SwipeLeftMid | chart.Ticks[k].Notes[l] == Notedata.NoteType.SwipeChangeDirL2R)
                                 {
                                     Grfx.DrawLine(new Pen(Color.LightGray, iconWidth/3), (float)(j + 0.5) * laneWidth, height - (float)(i - startTick + 1) * tickHeight - 2, (float)(l + 0.5) * laneWidth, height - (float)(k - startTick + 1) * tickHeight - 2);
                                     break;
