@@ -120,7 +120,7 @@ namespace _8beatMap
             Graphics Grfx = Graphics.FromImage(Bmp);
 
             if (!NoClearBG)
-                Grfx.FillRectangle(new SolidBrush(SystemColors.ControlLight), 0, 0, width, height);
+                Grfx.Clear(SystemColors.ControlLight);
 
             if (!NoGrid)
             {
@@ -203,7 +203,7 @@ namespace _8beatMap
                     if (chart.Ticks[i].Notes[j] != Notedata.NoteType.None)
                     {
                         int iconX = (int)((j + 0.5) * laneWidth - halfIconWidth);
-                        int iconY = (int)(height - (float)(i - startTick + 1.5) * tickHeight - 2);
+                        int iconY = (int)Math.Ceiling(height - (i - startTick + 1.5) * tickHeight - 2);
 
                         Grfx.FillRectangle(new SolidBrush(noteCol), iconX, iconY, iconWidth, iconHeight);
                         if (ArrowDir == -1)
@@ -257,7 +257,7 @@ namespace _8beatMap
 
         private double ConvertYCoordToTick(int Y)
         {
-            return (pictureBox1.Location.Y + pictureBox1.Height - Y - TickHeight/2) / TickHeight + CurrentTick;
+            return (pictureBox1.Location.Y + pictureBox1.Height - Y - 2 + CurrentTick%1 - TickHeight/2) / TickHeight + CurrentTick;
         }
 
 
