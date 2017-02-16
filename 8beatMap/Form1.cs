@@ -247,7 +247,7 @@ namespace _8beatMap
         {
             Image Bmp = startImage;
             Graphics Grfx = Graphics.FromImage(Bmp);
-            Image HoldBmp = new Bitmap(startImage);
+            Image HoldBmp = (Image)startImage.Clone();
             Graphics HoldGrfx = Graphics.FromImage(HoldBmp);
 
             int width = Bmp.Width;
@@ -260,7 +260,9 @@ namespace _8beatMap
             int iconSize = (int)(128 * scalefactor);
 
             Grfx.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceCopy;
+            Grfx.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
             HoldGrfx.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceCopy;
+            HoldGrfx.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
             Grfx.Clear(BgCol);
             HoldGrfx.Clear(Color.Transparent);
 
