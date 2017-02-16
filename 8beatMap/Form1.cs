@@ -114,13 +114,12 @@ namespace _8beatMap
         }
 
 
-        Image GetChartImage(int width, int height, double startTick, int tickHeight, int iconWidth, int iconHeight, bool NoClearBG, bool NoGrid, Image startImage)
+        Image GetChartImage(int width, int height, double startTick, int tickHeight, int iconWidth, int iconHeight, Color BgCol, bool NoGrid, Image startImage)
         {
             Image Bmp = startImage;
             Graphics Grfx = Graphics.FromImage(Bmp);
-
-            if (!NoClearBG)
-                Grfx.Clear(SystemColors.ControlLight);
+            
+            Grfx.Clear(BgCol);
 
             if (!NoGrid)
             {
@@ -247,7 +246,7 @@ namespace _8beatMap
 
         private void UpdateChart()
         {
-            pictureBox1.Image = GetChartImage(pictureBox1.Width, pictureBox1.Height, CurrentTick, TickHeight, IconWidth, IconHeight, false, false, pictureBox1.Image);
+            pictureBox1.Image = GetChartImage(pictureBox1.Width, pictureBox1.Height, CurrentTick, TickHeight, IconWidth, IconHeight, SystemColors.ControlLight, false, pictureBox1.Image);
         }
 
         private int ConvertXCoordToNote(int X)
