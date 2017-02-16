@@ -128,11 +128,7 @@ namespace _8beatMap
                 //    }
                 //    NoteArray = value;
                 //}
-            }
-
-
-            private System.Windows.Forms.PictureBox[] NoteIconArray;
-            
+            }            
 
             public void SetNote(NoteType Note, int Lane)
             {
