@@ -114,11 +114,15 @@ namespace _8beatMap
         }
 
 
-        Image GetChartImage(int width, int height, double startTick, int tickHeight, int iconWidth, int iconHeight, Color BgCol, bool NoGrid, Image startImage)
+        Image GetChartImage(double startTick, int tickHeight, int iconWidth, int iconHeight, Color BgCol, bool NoGrid, Image startImage)
         {
             Image Bmp = startImage;
             Graphics Grfx = Graphics.FromImage(Bmp);
-            
+
+            int width = Bmp.Width;
+            int height = Bmp.Height;
+
+            Grfx.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceCopy;
             Grfx.Clear(BgCol);
 
             if (!NoGrid)
@@ -217,7 +221,7 @@ namespace _8beatMap
                     if (i % 48 == 0)
                     {
                         Grfx.FillRectangle(new SolidBrush(Color.SlateGray), 0, height - (float)(i - startTick + 0.5) * tickHeight - 3, width, 3);
-                        Grfx.DrawString((i / 48 + 1).ToString(), new System.Drawing.Font("Arial", 6.5f), new SolidBrush(Color.DarkSlateGray), 0, height - (float)(i - startTick + 0.5) * tickHeight - 13);
+                        //Grfx.DrawString((i / 48 + 1).ToString(), new System.Drawing.Font("Arial", 6.5f), new SolidBrush(Color.DarkSlateGray), 0, height - (float)(i - startTick + 0.5) * tickHeight - 13);
                     }
                     else if (i % 12 == 0)
                     {
@@ -229,6 +233,133 @@ namespace _8beatMap
                     }
                 }
             }
+
+            Grfx.Dispose();
+            return Bmp;
+        }
+
+        PointF GetPointAlongLine(PointF start, PointF end, float distance)
+        {
+            return new PointF(start.X + (end.X-start.X)*distance, start.Y + (end.Y-start.Y)*distance);
+        }
+
+        Image GetGameCloneImage(double startTick, int numTicksVisible, Color BgCol, Image startImage)
+        {
+            Image Bmp = startImage;
+            Graphics Grfx = Graphics.FromImage(Bmp);
+            Image HoldBmp = new Bitmap(startImage);
+            Graphics HoldGrfx = Graphics.FromImage(HoldBmp);
+
+            int width = Bmp.Width;
+            int height = Bmp.Height;
+            float scalefactor = (float)width / 1136;
+
+            PointF[] NodeStartLocs = { new PointF(223*scalefactor, 77*scalefactor), new PointF(320*scalefactor, 100*scalefactor), new PointF(419*scalefactor, 114*scalefactor), new PointF(519*scalefactor, 119*scalefactor), new PointF(617*scalefactor, 119*scalefactor), new PointF(717*scalefactor, 114*scalefactor), new PointF(816*scalefactor, 100*scalefactor), new PointF(923*scalefactor, 77*scalefactor) };
+            PointF[] NodeEndLocs = { new PointF(75*scalefactor, height-156*scalefactor), new PointF(213*scalefactor, height-120*scalefactor), new PointF(354*scalefactor, height-98*scalefactor), new PointF(497*scalefactor, height-88*scalefactor), new PointF(639*scalefactor, height-88*scalefactor), new PointF(782*scalefactor, height-98*scalefactor), new PointF(923*scalefactor, height-120*scalefactor), new PointF(1061*scalefactor, height-156*scalefactor) };
+
+            int iconSize = (int)(128 * scalefactor);
+
+            Grfx.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceCopy;
+            HoldGrfx.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceCopy;
+            Grfx.Clear(BgCol);
+            HoldGrfx.Clear(Color.Transparent);
+
+
+            Image spr_HoldLocus = Image.FromFile("nodeimg/Locus.png");
+            Image spr_SwipeLocus = Image.FromFile("nodeimg/Locus2.png");
+
+            //for (int i = (int)startTick - 24; i < startTick + numTicksVisible + 24; i++)
+            for (int i = (int)startTick + numTicksVisible + 24; i > (int)startTick - 3; i--)
+            {
+                if (i >= chart.Length) i = chart.Length;
+                if (i < 0) break;
+
+                for (int j = 7; j > -1; j--)
+                {
+                    Notedata.NoteType Type = FindVisualNoteType(i, j);
+
+                    if ((Type == Notedata.NoteType.SwipeRightStartEnd | Type == Notedata.NoteType.SwipeRightMid | Type == Notedata.NoteType.SwipeChangeDirL2R) && (swipeEnds[i * 8 + j] == 0))
+                    {
+                        for (int k = i + 1; k < i + 24; k++)
+                        {
+                            if (k >= chart.Length) break;
+                            int l = j + 1;
+                            if (l > 7) break;
+                            if (chart.Ticks[k].Notes[l] == Notedata.NoteType.SwipeRightStartEnd | chart.Ticks[k].Notes[l] == Notedata.NoteType.SwipeRightMid | chart.Ticks[k].Notes[l] == Notedata.NoteType.SwipeChangeDirR2L)
+                            {
+                                /*PointF iPoint = GetPointAlongLine(NodeStartLocs[j], NodeEndLocs[j], (float)(numTicksVisible - i + startTick) / numTicksVisible);
+                                PointF kPoint = GetPointAlongLine(NodeStartLocs[l], NodeEndLocs[l], (float)(numTicksVisible - k + startTick) / numTicksVisible);
+                                Grfx.DrawImage(spr_SwipeLocus, new PointF[] { iPoint, kPoint, new PointF(iPoint.X, iPoint.Y+iconSize/2) }, new Rectangle(0, 0, spr_SwipeLocus.Width-1, spr_SwipeLocus.Height), GraphicsUnit.Pixel);
+                                Grfx.FillPolygon(Brushes.Transparent, new PointF[] { new PointF(iPoint.X, iPoint.Y+iconSize/2 * (float)(numTicksVisible - i + startTick) / numTicksVisible),
+                                   new PointF(kPoint.X, kPoint.Y+iconSize/2 * (float)(numTicksVisible - k + startTick) / numTicksVisible),
+                                   new PointF(kPoint.X, kPoint.Y+iconSize/2), new PointF(iPoint.X, iPoint.Y+iconSize/2)});*/
+                                float iDist = (float)(numTicksVisible - i + startTick) / numTicksVisible;
+                                float kDist = (float)(numTicksVisible - k + startTick) / numTicksVisible;
+                                float iSize = iconSize / 4 * iDist;
+                                float kSize = iconSize / 4 * kDist;
+                                PointF iPoint = GetPointAlongLine(NodeStartLocs[j], NodeEndLocs[j], iDist);
+                                PointF kPoint = GetPointAlongLine(NodeStartLocs[l], NodeEndLocs[l], kDist);
+                                Grfx.DrawImage(spr_SwipeLocus, new PointF[] { new PointF(iPoint.X, iPoint.Y - iSize), new PointF(kPoint.X, kPoint.Y - kSize), new PointF(iPoint.X, iPoint.Y - iSize + iconSize / 2) }, new Rectangle(0, 0, spr_SwipeLocus.Width - 1, spr_SwipeLocus.Height), GraphicsUnit.Pixel);
+                                Grfx.FillPolygon(Brushes.Transparent, new PointF[] { new PointF(iPoint.X, iPoint.Y + iSize),
+                                   new PointF(kPoint.X, kPoint.Y + kSize),
+                                   new PointF(kPoint.X, kPoint.Y-kSize+iconSize/2), new PointF(iPoint.X, iPoint.Y-iSize+iconSize/2)});
+
+                                break;
+                            }
+                        }
+                    }
+
+                    if ((Type == Notedata.NoteType.SwipeLeftStartEnd | Type == Notedata.NoteType.SwipeLeftMid | Type == Notedata.NoteType.SwipeChangeDirR2L) && (swipeEnds[i * 8 + j] == 0))
+                    {
+                        for (int k = i + 1; k < i + 24; k++)
+                        {
+                            if (k >= chart.Length) break;
+                            int l = j - 1;
+                            if (l < 0) break;
+                            if (chart.Ticks[k].Notes[l] == Notedata.NoteType.SwipeLeftStartEnd | chart.Ticks[k].Notes[l] == Notedata.NoteType.SwipeLeftMid | chart.Ticks[k].Notes[l] == Notedata.NoteType.SwipeChangeDirL2R)
+                            {
+                                float iDist = (float)(numTicksVisible - i + startTick) / numTicksVisible;
+                                float kDist = (float)(numTicksVisible - k + startTick) / numTicksVisible;
+                                float iSize = iconSize / 4 * iDist;
+                                float kSize = iconSize / 4 * kDist;
+                                PointF iPoint = GetPointAlongLine(NodeStartLocs[j], NodeEndLocs[j], iDist);
+                                PointF kPoint = GetPointAlongLine(NodeStartLocs[l], NodeEndLocs[l], kDist);
+                                Grfx.DrawImage(spr_SwipeLocus, new PointF[] { new PointF(iPoint.X, iPoint.Y - iSize), new PointF(kPoint.X, kPoint.Y - kSize), new PointF(iPoint.X, iPoint.Y - iSize + iconSize / 2) }, new Rectangle(0, 0, spr_SwipeLocus.Width - 1, spr_SwipeLocus.Height), GraphicsUnit.Pixel);
+                                Grfx.FillPolygon(Brushes.Transparent, new PointF[] { new PointF(iPoint.X, iPoint.Y + iSize),
+                                   new PointF(kPoint.X, kPoint.Y + kSize),
+                                   new PointF(kPoint.X, kPoint.Y-kSize+iconSize/2), new PointF(iPoint.X, iPoint.Y-iSize+iconSize/2)});
+
+                                break;
+                            }
+                        }
+                    }
+
+                    if (Type == Notedata.NoteType.ExtendHoldMid && (i == (int)startTick - 2 | FindVisualNoteType(i - 1, j) != Notedata.NoteType.ExtendHoldMid))
+                    {
+                        int start = i;
+                        if (start < startTick) start = (int)startTick;
+                        int end = i;
+                        while (FindVisualNoteType(end, j) == Notedata.NoteType.ExtendHoldMid) end++;
+                        if (end <= start) break;
+
+                        float sDist = (float)(numTicksVisible - start + 1 + startTick) / numTicksVisible;
+                        float eDist = (float)(numTicksVisible - end - 1 + startTick) / numTicksVisible;
+                        float sSize = iconSize / 2 * sDist;
+                        float eSize = iconSize / 2 * eDist;
+                        PointF sPoint = GetPointAlongLine(NodeStartLocs[j], NodeEndLocs[j], sDist);
+                        PointF ePoint = GetPointAlongLine(NodeStartLocs[j], NodeEndLocs[j], eDist);
+                        HoldGrfx.DrawImage(spr_HoldLocus, new PointF[] { new PointF(sPoint.X + sSize, sPoint.Y), new PointF(sPoint.X + sSize - iconSize, sPoint.Y), new PointF(ePoint.X + eSize, ePoint.Y) }, new Rectangle(0, 0, spr_HoldLocus.Width, spr_HoldLocus.Height - 1), GraphicsUnit.Pixel);
+                        HoldGrfx.FillPolygon(Brushes.Transparent, new PointF[] { new PointF(sPoint.X - sSize, sPoint.Y), new PointF(ePoint.X - eSize, ePoint.Y),
+                           new PointF(ePoint.X + eSize -iconSize, ePoint.Y), new PointF(sPoint.X  + sSize - iconSize, sPoint.Y)});
+                    }
+
+                }
+            }
+            
+            Grfx.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceOver;
+            Grfx.DrawImage(HoldBmp, 0, 0);
+            HoldGrfx.Dispose();
+            HoldBmp.Dispose();
 
             Grfx.Dispose();
             return Bmp;
@@ -246,7 +377,8 @@ namespace _8beatMap
 
         private void UpdateChart()
         {
-            pictureBox1.Image = GetChartImage(pictureBox1.Width, pictureBox1.Height, CurrentTick, TickHeight, IconWidth, IconHeight, SystemColors.ControlLight, false, pictureBox1.Image);
+            pictureBox1.Image = GetChartImage(CurrentTick, TickHeight, IconWidth, IconHeight, SystemColors.ControlLight, false, pictureBox1.Image);
+            GameClone.Image = GetGameCloneImage(CurrentTick, 48, Color.Transparent, GameClone.Image);
         }
 
         private int ConvertXCoordToNote(int X)
@@ -362,10 +494,15 @@ namespace _8beatMap
             NoteTypeSelector.SelectedIndex = 0;
         }
 
-
+        PictureBox GameClone = new PictureBox{ Image = new Bitmap(853, 480), Size = new Size(853, 480), Location = new Point(0, 0) };
         public Form1()
         {
             InitializeComponent();
+
+            Form Form2 = new Form();
+            Form2.ClientSize = new Size(853, 480);
+            Form2.Controls.Add(GameClone);
+            Form2.Show();
 
             pictureBox1.Image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
 
