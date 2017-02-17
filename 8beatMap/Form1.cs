@@ -482,7 +482,8 @@ namespace _8beatMap
         private void UpdateChart()
         {
             pictureBox1.Image = GetChartImage(CurrentTick, TickHeight, IconWidth, IconHeight, SystemColors.ControlLight, false, pictureBox1.Image);
-            GameClone.Image = GetGameCloneImage(CurrentTick, 24, Color.Transparent, GameClone.Image);
+            if(Form2.Visible)
+                GameClone.Image = GetGameCloneImage(CurrentTick, 24, Color.Transparent, GameClone.Image);
         }
 
         private int ConvertXCoordToNote(int X)
@@ -598,16 +599,16 @@ namespace _8beatMap
             NoteTypeSelector.SelectedIndex = 0;
         }
 
-        PictureBox GameClone = new PictureBox{ Image = new Bitmap(853, 480), Size = new Size(853, 480), Location = new Point(0, 0) };
+        PictureBox GameClone = new PictureBox{ Image = new Bitmap(853, 480), Size = new Size(853, 480), Location = new Point(0, 0), BackColor = Color.Black };
+        Form Form2 = new Form() { ClientSize = new Size(853, 480) };
         public Form1()
         {
             InitializeComponent();
 
-            Form Form2 = new Form();
-            Form2.ClientSize = new Size(853, 480);
+
+
             Form2.Controls.Add(GameClone);
             Form2.Show();
-
 
             try
             {
