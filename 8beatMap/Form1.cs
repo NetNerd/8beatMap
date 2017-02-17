@@ -394,11 +394,12 @@ namespace _8beatMap
             HoldBmp.Dispose();
 
 
-            
-            for (int i = (int)(startTick - ConvertTimeToTicks(new TimeSpan(1000000))); i <= (int)startTick + numTicksVisible; i++)
+
+            //for (int i = (int)(startTick - ConvertTimeToTicks(new TimeSpan(1000000))); i <= (int)startTick + numTicksVisible; i++)
+            for (int i = (int)startTick + numTicksVisible; i >= (int)(startTick - ConvertTimeToTicks(new TimeSpan(1000000))); i--)
             {
-                if (i > chart.Length) break;
-                if (i < 0) i = 0;
+                if (i > chart.Length) i = chart.Length;
+                if (i < 0) break;
 
                 for (int j = 7; j > -1; j--)
                 {
