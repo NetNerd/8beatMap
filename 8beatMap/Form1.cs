@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using NAudio.Wave;
-
+using System.Drawing.Imaging;
 
 namespace _8beatMap
 {
@@ -252,6 +252,7 @@ namespace _8beatMap
         Image spr_SwipeRightIcon_Simul;
         Image spr_SwipeLeftIcon;
         Image spr_SwipeLeftIcon_Simul;
+        Image spr_HitEffect;
         Image spr_Chara1;
         Image spr_Chara2;
         Image spr_Chara3;
@@ -284,6 +285,10 @@ namespace _8beatMap
             Grfx.Clear(BgCol);
             HoldGrfx.Clear(Color.Transparent);
 
+            ColorMatrix transpMatrix = new ColorMatrix();
+            transpMatrix.Matrix33 = 0.7f;
+            ImageAttributes transpAttr = new ImageAttributes();
+            transpAttr.SetColorMatrix(transpMatrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
 
             Grfx.DrawImage(spr_Chara1, NodeEndLocs[0].X - iconSize / 2, NodeEndLocs[0].Y - iconSize / 2, iconSize, iconSize);
             Grfx.DrawImage(spr_Chara2, NodeEndLocs[1].X - iconSize / 2, NodeEndLocs[1].Y - iconSize / 2, iconSize, iconSize);
@@ -326,7 +331,7 @@ namespace _8beatMap
                                 float kSize = iconSize / 4 * kDist;
                                 PointF iPoint = GetPointAlongLine(NodeStartLocs[j], NodeEndLocs[j], iDist);
                                 PointF kPoint = GetPointAlongLine(NodeStartLocs[l], NodeEndLocs[l], kDist);
-                                Grfx.DrawImage(spr_SwipeLocus, new PointF[] { new PointF(iPoint.X, iPoint.Y - iSize), new PointF(kPoint.X, kPoint.Y - kSize), new PointF(iPoint.X, iPoint.Y - iSize + iconSize / 2) }, new Rectangle(0, 0, spr_SwipeLocus.Width - 1, spr_SwipeLocus.Height), GraphicsUnit.Pixel);
+                                Grfx.DrawImage(spr_SwipeLocus, new PointF[] { new PointF(iPoint.X, iPoint.Y - iSize), new PointF(kPoint.X, kPoint.Y - kSize), new PointF(iPoint.X, iPoint.Y - iSize + iconSize / 2) }, new Rectangle(0, 0, spr_SwipeLocus.Width - 1, spr_SwipeLocus.Height), GraphicsUnit.Pixel, transpAttr);
                                 Grfx.FillPolygon(Brushes.Transparent, new PointF[] { new PointF(iPoint.X, iPoint.Y + iSize),
                                    new PointF(kPoint.X, kPoint.Y + kSize),
                                    new PointF(kPoint.X, kPoint.Y-kSize+iconSize/2), new PointF(iPoint.X, iPoint.Y-iSize+iconSize/2)});
@@ -351,7 +356,7 @@ namespace _8beatMap
                                 float kSize = iconSize / 4 * kDist;
                                 PointF iPoint = GetPointAlongLine(NodeStartLocs[j], NodeEndLocs[j], iDist);
                                 PointF kPoint = GetPointAlongLine(NodeStartLocs[l], NodeEndLocs[l], kDist);
-                                Grfx.DrawImage(spr_SwipeLocus, new PointF[] { new PointF(iPoint.X, iPoint.Y - iSize), new PointF(kPoint.X, kPoint.Y - kSize), new PointF(iPoint.X, iPoint.Y - iSize + iconSize / 2) }, new Rectangle(0, 0, spr_SwipeLocus.Width - 1, spr_SwipeLocus.Height), GraphicsUnit.Pixel);
+                                Grfx.DrawImage(spr_SwipeLocus, new PointF[] { new PointF(iPoint.X, iPoint.Y - iSize), new PointF(kPoint.X, kPoint.Y - kSize), new PointF(iPoint.X, iPoint.Y - iSize + iconSize / 2) }, new Rectangle(0, 0, spr_SwipeLocus.Width - 1, spr_SwipeLocus.Height), GraphicsUnit.Pixel, transpAttr);
                                 Grfx.FillPolygon(Brushes.Transparent, new PointF[] { new PointF(iPoint.X, iPoint.Y + iSize),
                                    new PointF(kPoint.X, kPoint.Y + kSize),
                                    new PointF(kPoint.X, kPoint.Y-kSize+iconSize/2), new PointF(iPoint.X, iPoint.Y-iSize+iconSize/2)});
@@ -375,7 +380,7 @@ namespace _8beatMap
                         float eSize = iconSize / 2 * eDist;
                         PointF sPoint = GetPointAlongLine(NodeStartLocs[j], NodeEndLocs[j], sDist);
                         PointF ePoint = GetPointAlongLine(NodeStartLocs[j], NodeEndLocs[j], eDist);
-                        HoldGrfx.DrawImage(spr_HoldLocus, new PointF[] { new PointF(sPoint.X + sSize, sPoint.Y), new PointF(sPoint.X + sSize - iconSize, sPoint.Y), new PointF(ePoint.X + eSize, ePoint.Y) }, new Rectangle(0, 0, spr_HoldLocus.Width, spr_HoldLocus.Height - 1), GraphicsUnit.Pixel);
+                        HoldGrfx.DrawImage(spr_HoldLocus, new PointF[] { new PointF(sPoint.X + sSize, sPoint.Y), new PointF(sPoint.X + sSize - iconSize, sPoint.Y), new PointF(ePoint.X + eSize, ePoint.Y) }, new Rectangle(0, 0, spr_HoldLocus.Width, spr_HoldLocus.Height - 1), GraphicsUnit.Pixel, transpAttr);
                         HoldGrfx.FillPolygon(Brushes.Transparent, new PointF[] { new PointF(sPoint.X - sSize, sPoint.Y), new PointF(ePoint.X - eSize, ePoint.Y),
                            new PointF(ePoint.X + eSize -iconSize, ePoint.Y), new PointF(sPoint.X  + sSize - iconSize, sPoint.Y)});
                     }
@@ -390,7 +395,7 @@ namespace _8beatMap
 
 
             
-            for (int i = (int)startTick; i <= (int)startTick + numTicksVisible; i++)
+            for (int i = (int)(startTick - ConvertTimeToTicks(new TimeSpan(1000000))); i <= (int)startTick + numTicksVisible; i++)
             {
                 if (i > chart.Length) break;
                 if (i < 0) i = 0;
@@ -401,53 +406,61 @@ namespace _8beatMap
 
                     if (Type == Notedata.NoteType.None | Type == Notedata.NoteType.ExtendHoldMid) continue;
 
-                    Image NoteImg;
-
-                    switch (Type)
+                    if (i >= (int)startTick)
                     {
-                        case Notedata.NoteType.Tap: NoteImg = spr_TapIcon; break;
-                        case Notedata.NoteType.Hold: NoteImg = spr_HoldIcon; break;
-                        case Notedata.NoteType.SimulTap:
-                        case Notedata.NoteType.SimulHoldStart:
-                        case Notedata.NoteType.SimulHoldRelease: NoteImg = spr_SimulIcon; break;
-                        case Notedata.NoteType.FlickLeft:
-                        case Notedata.NoteType.HoldEndFlickLeft:
-                        case Notedata.NoteType.SwipeLeftStartEnd:
-                        case Notedata.NoteType.SwipeLeftMid:
-                        case Notedata.NoteType.SwipeChangeDirR2L:
-                            NoteImg = spr_SwipeLeftIcon;
-                            for (int k = 7; k > -1; k--)
-                            {
-                                if (chart.Ticks[i].Notes[k] == Notedata.NoteType.SimulTap | chart.Ticks[i].Notes[k] == Notedata.NoteType.SimulHoldStart | chart.Ticks[i].Notes[k] == Notedata.NoteType.SimulHoldRelease)
+                        Image NoteImg;
+
+                        switch (Type)
+                        {
+                            case Notedata.NoteType.Tap: NoteImg = spr_TapIcon; break;
+                            case Notedata.NoteType.Hold: NoteImg = spr_HoldIcon; break;
+                            case Notedata.NoteType.SimulTap:
+                            case Notedata.NoteType.SimulHoldStart:
+                            case Notedata.NoteType.SimulHoldRelease: NoteImg = spr_SimulIcon; break;
+                            case Notedata.NoteType.FlickLeft:
+                            case Notedata.NoteType.HoldEndFlickLeft:
+                            case Notedata.NoteType.SwipeLeftStartEnd:
+                            case Notedata.NoteType.SwipeLeftMid:
+                            case Notedata.NoteType.SwipeChangeDirR2L:
+                                NoteImg = spr_SwipeLeftIcon;
+                                for (int k = 7; k > -1; k--)
                                 {
-                                    NoteImg = spr_SwipeLeftIcon_Simul;
-                                    break;
+                                    if (chart.Ticks[i].Notes[k] == Notedata.NoteType.SimulTap | chart.Ticks[i].Notes[k] == Notedata.NoteType.SimulHoldStart | chart.Ticks[i].Notes[k] == Notedata.NoteType.SimulHoldRelease)
+                                    {
+                                        NoteImg = spr_SwipeLeftIcon_Simul;
+                                        break;
+                                    }
                                 }
-                            }
-                            break;
-                        case Notedata.NoteType.FlickRight:
-                        case Notedata.NoteType.HoldEndFlickRight:
-                        case Notedata.NoteType.SwipeRightStartEnd:
-                        case Notedata.NoteType.SwipeRightMid:
-                        case Notedata.NoteType.SwipeChangeDirL2R:
-                            NoteImg = spr_SwipeRightIcon;
-                            for (int k = 7; k > -1; k--)
-                            {
-                                if (chart.Ticks[i].Notes[k] == Notedata.NoteType.SimulTap | chart.Ticks[i].Notes[k] == Notedata.NoteType.SimulHoldStart | chart.Ticks[i].Notes[k] == Notedata.NoteType.SimulHoldRelease)
+                                break;
+                            case Notedata.NoteType.FlickRight:
+                            case Notedata.NoteType.HoldEndFlickRight:
+                            case Notedata.NoteType.SwipeRightStartEnd:
+                            case Notedata.NoteType.SwipeRightMid:
+                            case Notedata.NoteType.SwipeChangeDirL2R:
+                                NoteImg = spr_SwipeRightIcon;
+                                for (int k = 7; k > -1; k--)
                                 {
-                                    NoteImg = spr_SwipeRightIcon_Simul;
-                                    break;
+                                    if (chart.Ticks[i].Notes[k] == Notedata.NoteType.SimulTap | chart.Ticks[i].Notes[k] == Notedata.NoteType.SimulHoldStart | chart.Ticks[i].Notes[k] == Notedata.NoteType.SimulHoldRelease)
+                                    {
+                                        NoteImg = spr_SwipeRightIcon_Simul;
+                                        break;
+                                    }
                                 }
-                            }
-                            break;
-                        default: NoteImg = new Bitmap(1, 1); break;
+                                break;
+                            default: NoteImg = new Bitmap(1, 1); break;
+                        }
+
+                        float icnDist = (float)(numTicksVisible - i + startTick) / numTicksVisible;
+                        PointF icnPoint = GetPointAlongLine(NodeStartLocs[j], NodeEndLocs[j], icnDist);
+                        float icnSize = iconSize * 1.375f * icnDist;
+                        Grfx.DrawImage(NoteImg, icnPoint.X - icnSize / 2, icnPoint.Y - icnSize / 2, icnSize, icnSize);
+
                     }
-
-                    float icnDist = (float)(numTicksVisible - i + startTick) / numTicksVisible;
-                    PointF icnPoint = GetPointAlongLine(NodeStartLocs[j], NodeEndLocs[j], icnDist);
-                    float icnSize = iconSize*1.375f * icnDist;
-                    Grfx.DrawImage(NoteImg, icnPoint.X-icnSize/2, icnPoint.Y-icnSize/2, icnSize, icnSize);
-
+                    else
+                    {
+                        int effectSize = (int)(((startTick - i) / ConvertTimeToTicks(new TimeSpan(1000000)) + 1) * iconSize);
+                        Grfx.DrawImage(spr_HitEffect, NodeEndLocs[j].X-effectSize/2, NodeEndLocs[j].Y-effectSize/2, effectSize, effectSize);
+                    }
                 }
             }
 
@@ -606,6 +619,7 @@ namespace _8beatMap
                 spr_SwipeRightIcon_Simul = Image.FromFile("nodeimg/node_4_3.png");
                 spr_SwipeLeftIcon = Image.FromFile("nodeimg/node_6.png");
                 spr_SwipeLeftIcon_Simul = Image.FromFile("nodeimg/node_6_3.png");
+                spr_HitEffect = Image.FromFile("nodeimg/node_effect.png");
                 spr_Chara1 = Image.FromFile("charaimg/1.png");
                 spr_Chara2 = Image.FromFile("charaimg/2.png");
                 spr_Chara3 = Image.FromFile("charaimg/3.png");
@@ -626,6 +640,7 @@ namespace _8beatMap
                 spr_SwipeRightIcon_Simul = new Bitmap(1, 1);
                 spr_SwipeLeftIcon = new Bitmap(1, 1);
                 spr_SwipeLeftIcon_Simul = new Bitmap(1, 1);
+                spr_HitEffect = new Bitmap(1, 1);
                 spr_Chara1 = new Bitmap(1, 1);
                 spr_Chara2 = new Bitmap(1, 1);
                 spr_Chara3 = new Bitmap(1, 1);
