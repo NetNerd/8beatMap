@@ -372,7 +372,7 @@ namespace _8beatMap
                         if (start <= startTick) start = (int)startTick + 1;
                         int end = i;
                         while (FindVisualNoteType(end, j) == Notedata.NoteType.ExtendHoldMid) end++;
-                        if (end <= start) break;
+                        if (end <= start) continue;
 
                         float sDist = (float)(numTicksVisible - start + 1 + startTick) / numTicksVisible;
                         float eDist = (float)(numTicksVisible - end + startTick) / numTicksVisible;
