@@ -290,6 +290,17 @@ namespace _8beatMap
             ImageAttributes transpAttr = new ImageAttributes();
             transpAttr.SetColorMatrix(transpMatrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
 
+
+
+            int EffectTime = 1000000;
+            int EffectFadeTime = 390000;
+            double EffectTicks = ConvertTimeToTicks(new TimeSpan(EffectTime));
+            double EffectFadeTicks = ConvertTimeToTicks(new TimeSpan(EffectFadeTime));
+
+            ColorMatrix effectTranspMatrix = new ColorMatrix();
+            ImageAttributes effectTranspAttr = new ImageAttributes();
+
+
             Grfx.DrawImage(spr_Chara1, NodeEndLocs[0].X - iconSize / 2, NodeEndLocs[0].Y - iconSize / 2, iconSize, iconSize);
             Grfx.DrawImage(spr_Chara2, NodeEndLocs[1].X - iconSize / 2, NodeEndLocs[1].Y - iconSize / 2, iconSize, iconSize);
             Grfx.DrawImage(spr_Chara3, NodeEndLocs[2].X - iconSize / 2, NodeEndLocs[2].Y - iconSize / 2, iconSize, iconSize);
@@ -392,11 +403,10 @@ namespace _8beatMap
             Grfx.DrawImage(HoldBmp, 0, 0);
             HoldGrfx.Dispose();
             HoldBmp.Dispose();
-
-
+            
 
             //for (int i = (int)(startTick - ConvertTimeToTicks(new TimeSpan(1000000))); i <= (int)startTick + numTicksVisible; i++)
-            for (int i = (int)startTick + numTicksVisible; i >= (int)(startTick - ConvertTimeToTicks(new TimeSpan(1000000))); i--)
+            for (int i = (int)startTick + numTicksVisible; i >= (int)(startTick - EffectTicks - EffectFadeTicks - 1); i--)
             {
                 if (i > chart.Length) i = chart.Length;
                 if (i < 0) break;
@@ -457,10 +467,20 @@ namespace _8beatMap
                         Grfx.DrawImage(NoteImg, icnPoint.X - icnSize / 2, icnPoint.Y - icnSize / 2, icnSize, icnSize);
 
                     }
-                    else
+                    else if (i >= (int)(startTick - EffectTicks - 1))
                     {
-                        int effectSize = (int)(((startTick - i) / ConvertTimeToTicks(new TimeSpan(1000000)) + 1) * iconSize);
+                        int effectSize = (int)(((startTick - i - 1) / EffectTicks + 1) * iconSize * 1.375f);
                         Grfx.DrawImage(spr_HitEffect, NodeEndLocs[j].X-effectSize/2, NodeEndLocs[j].Y-effectSize/2, effectSize, effectSize);
+                    }
+                    else if (i >= (int)(startTick - EffectTicks - EffectFadeTicks - 1))
+                    {
+                        int effectSize = (int)(iconSize * 2.75);
+                        float effectOpacity = 1 - (float)((startTick - EffectTicks - i - 1) / EffectFadeTicks * 0.8f);
+
+                        effectTranspMatrix.Matrix33 = effectOpacity;
+                        effectTranspAttr.SetColorMatrix(effectTranspMatrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
+
+                        Grfx.DrawImage(spr_HitEffect, new Rectangle((int)NodeEndLocs[j].X - effectSize / 2, (int)NodeEndLocs[j].Y - effectSize / 2, effectSize, effectSize), 0, 0, spr_HitEffect.Width, spr_HitEffect.Height, GraphicsUnit.Pixel, effectTranspAttr);
                     }
                 }
             }
