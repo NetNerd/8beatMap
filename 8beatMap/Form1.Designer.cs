@@ -297,6 +297,7 @@
             this.pictureBox1.TabStop = false;
             this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Chart_Click);
             this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Chart_MouseMove);
+            this.pictureBox1.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.Chart_MouseWheel);
             // 
             // Form1
             // 

@@ -775,7 +775,10 @@ namespace _8beatMap
         {
             Console.WriteLine(Lane + ", " + Tick);
 
-            if (Tick == -1 || Tick >= chart.Length)
+            if (Tick == -1 | Tick >= chart.Length)
+                return;
+
+            if (Lane < 0 | Lane > 7)
                 return;
 
             if (MouseButton == MouseButtons.Left)
@@ -811,6 +814,8 @@ namespace _8beatMap
             Control sendCtl = (Control)sender;
             sendCtl.Capture = false;
 
+            pictureBox1.Focus();
+
             int Lane = ConvertXCoordToNote(e.X);
             int Tick = (int)ConvertYCoordToTick(e.Y);
 
@@ -827,6 +832,13 @@ namespace _8beatMap
                 ProcessClick(Tick, Lane, e.Button, (Notedata.NoteType)NoteTypeSelector.SelectedItem);
             }
         }
+
+        private void Chart_MouseWheel(object sender, MouseEventArgs e)
+        {
+            SetCurrTick(CurrentTick + e.Delta / 15);
+            UpdateChart();
+        }
+
 
         private void ZoomBox_ValueChanged(object sender, EventArgs e)
         {
