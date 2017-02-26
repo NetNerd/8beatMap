@@ -239,9 +239,9 @@ namespace _8beatMap
             return Bmp;
         }
 
-        PointF GetPointAlongLine(PointF start, PointF end, float distance)
+        Point GetPointAlongLine(Point start, Point end, float distance)
         {
-            return new PointF(start.X + (end.X - start.X) * distance, start.Y + (end.Y - start.Y) * distance);
+            return new Point(start.X + (int)((end.X - start.X) * distance), start.Y + (int)((end.Y - start.Y) * distance));
         }
 
         Image spr_HoldLocus;
@@ -263,11 +263,11 @@ namespace _8beatMap
         Image spr_Chara7;
         Image spr_Chara8;
 
-        Image GetGameCloneImage(double startTick, int numTicksVisible, Color BgCol, Image startImage)
+        Image GetGameCloneImage(double startTick, int numTicksVisible, Color BgCol, Size size)
         {
-            Image Bmp = startImage;
+            Image Bmp = new Bitmap (size.Width, size.Height, PixelFormat.Format32bppArgb);
             Graphics Grfx = Graphics.FromImage(Bmp);
-            Image HoldBmp = (Image)startImage.Clone();
+            Image HoldBmp = new Bitmap(size.Width, size.Height, PixelFormat.Format32bppArgb);
             Graphics HoldGrfx = Graphics.FromImage(HoldBmp);
 
 
@@ -275,8 +275,8 @@ namespace _8beatMap
             int height = Bmp.Height;
             float scalefactor = (float)width / 1136;
 
-            PointF[] NodeStartLocs = { new PointF(223*scalefactor, 77*scalefactor), new PointF(320*scalefactor, 100*scalefactor), new PointF(419*scalefactor, 114*scalefactor), new PointF(519*scalefactor, 119*scalefactor), new PointF(617*scalefactor, 119*scalefactor), new PointF(717*scalefactor, 114*scalefactor), new PointF(816*scalefactor, 100*scalefactor), new PointF(923*scalefactor, 77*scalefactor) };
-            PointF[] NodeEndLocs = { new PointF(75*scalefactor, height-156*scalefactor), new PointF(213*scalefactor, height-120*scalefactor), new PointF(354*scalefactor, height-98*scalefactor), new PointF(497*scalefactor, height-88*scalefactor), new PointF(639*scalefactor, height-88*scalefactor), new PointF(782*scalefactor, height-98*scalefactor), new PointF(923*scalefactor, height-120*scalefactor), new PointF(1061*scalefactor, height-156*scalefactor) };
+            Point[] NodeStartLocs = { new Point((int)(223*scalefactor), (int)(77*scalefactor)), new Point((int)(320*scalefactor), (int)(100*scalefactor)), new Point((int)(419*scalefactor), (int)(114*scalefactor)), new Point((int)(519*scalefactor), (int)(119*scalefactor)), new Point((int)(617*scalefactor), (int)(119*scalefactor)), new Point((int)(717*scalefactor), (int)(114*scalefactor)), new Point((int)(816*scalefactor), (int)(100*scalefactor)), new Point((int)(923*scalefactor), (int)(77*scalefactor)) };
+            Point[] NodeEndLocs = { new Point((int)(75*scalefactor), (int)(height-156*scalefactor)), new Point((int)(213*scalefactor), (int)(height-120*scalefactor)), new Point((int)(354*scalefactor), (int)(height-98*scalefactor)), new Point((int)(497*scalefactor), (int)(height-88*scalefactor)), new Point((int)(639*scalefactor), (int)(height-88*scalefactor)), new Point((int)(782*scalefactor), (int)(height-98*scalefactor)), new Point((int)(923*scalefactor), (int)(height-120*scalefactor)), new Point((int)(1061*scalefactor), (int)(height-156*scalefactor)) };
 
             int iconSize = (int)(128 * scalefactor);
 
@@ -324,7 +324,8 @@ namespace _8beatMap
                     Notedata.NoteType Type = FindVisualNoteType(i, j);
                     
 
-                    if ((Type == Notedata.NoteType.SwipeRightStartEnd | Type == Notedata.NoteType.SwipeRightMid | Type == Notedata.NoteType.SwipeChangeDirL2R) && (swipeEnds[i * 8 + j] == 0))
+                    if ((Type == Notedata.NoteType.SwipeRightStartEnd | Type == Notedata.NoteType.SwipeRightMid | Type == Notedata.NoteType.SwipeChangeDirL2R
+                        | Type == Notedata.NoteType.SwipeLeftStartEnd | Type == Notedata.NoteType.SwipeLeftMid | Type == Notedata.NoteType.SwipeChangeDirR2L) && (swipeEnds[i * 8 + j] == 0))
                     {
                         Point swipeEndPoint = swipeEndpointNodes[i * 8 + j];
 
@@ -332,33 +333,14 @@ namespace _8beatMap
                         {
                             float iDist = (float)(numTicksVisible - i + startTick) / numTicksVisible;
                             float kDist = (float)(numTicksVisible - swipeEndPoint.X + startTick) / numTicksVisible;
-                            float iSize = iconSize / 4 * iDist;
-                            float kSize = iconSize / 4 * kDist;
-                            PointF iPoint = GetPointAlongLine(NodeStartLocs[j], NodeEndLocs[j], iDist);
-                            PointF kPoint = GetPointAlongLine(NodeStartLocs[swipeEndPoint.Y], NodeEndLocs[swipeEndPoint.Y], kDist);
-                            Grfx.DrawImage(spr_SwipeLocus, new PointF[] { new PointF(iPoint.X, iPoint.Y - iSize), new PointF(kPoint.X, kPoint.Y - kSize), new PointF(iPoint.X, iPoint.Y - iSize + iconSize / 2) }, new Rectangle(0, 0, spr_SwipeLocus.Width - 1, spr_SwipeLocus.Height), GraphicsUnit.Pixel, transpAttr);
-                            Grfx.FillPolygon(Brushes.Transparent, new PointF[] { new PointF(iPoint.X, iPoint.Y + iSize),
-                                new PointF(kPoint.X, kPoint.Y + kSize),
-                                new PointF(kPoint.X, kPoint.Y-kSize+iconSize/2), new PointF(iPoint.X, iPoint.Y-iSize+iconSize/2)});
-                        }
-                    }
-
-                    if ((Type == Notedata.NoteType.SwipeLeftStartEnd | Type == Notedata.NoteType.SwipeLeftMid | Type == Notedata.NoteType.SwipeChangeDirR2L) && (swipeEnds[i * 8 + j] == 0))
-                    {
-                        Point swipeEndPoint = swipeEndpointNodes[i * 8 + j];
-
-                        if (swipeEndPoint.X > i)
-                        {
-                            float iDist = (float)(numTicksVisible - i + startTick) / numTicksVisible;
-                            float kDist = (float)(numTicksVisible - swipeEndPoint.X + startTick) / numTicksVisible;
-                            float iSize = iconSize / 4 * iDist;
-                            float kSize = iconSize / 4 * kDist;
-                            PointF iPoint = GetPointAlongLine(NodeStartLocs[j], NodeEndLocs[j], iDist);
-                            PointF kPoint = GetPointAlongLine(NodeStartLocs[swipeEndPoint.Y], NodeEndLocs[swipeEndPoint.Y], kDist);
-                            Grfx.DrawImage(spr_SwipeLocus, new PointF[] { new PointF(iPoint.X, iPoint.Y - iSize), new PointF(kPoint.X, kPoint.Y - kSize), new PointF(iPoint.X, iPoint.Y - iSize + iconSize / 2) }, new Rectangle(0, 0, spr_SwipeLocus.Width - 1, spr_SwipeLocus.Height), GraphicsUnit.Pixel, transpAttr);
-                            Grfx.FillPolygon(Brushes.Transparent, new PointF[] { new PointF(iPoint.X, iPoint.Y + iSize),
-                                new PointF(kPoint.X, kPoint.Y + kSize),
-                                new PointF(kPoint.X, kPoint.Y-kSize+iconSize/2), new PointF(iPoint.X, iPoint.Y-iSize+iconSize/2)});
+                            int iSize = (int)(iconSize / 4 * iDist);
+                            int kSize = (int)(iconSize / 4 * kDist);
+                            Point iPoint = GetPointAlongLine(NodeStartLocs[j], NodeEndLocs[j], iDist);
+                            Point kPoint = GetPointAlongLine(NodeStartLocs[swipeEndPoint.Y], NodeEndLocs[swipeEndPoint.Y], kDist);
+                            Grfx.DrawImage(spr_SwipeLocus, new Point[] { new Point(iPoint.X, iPoint.Y - iSize), new Point(kPoint.X, kPoint.Y - kSize), new Point(iPoint.X, iPoint.Y - iSize + iconSize / 2) }, new Rectangle(0, 0, spr_SwipeLocus.Width - 1, spr_SwipeLocus.Height), GraphicsUnit.Pixel, transpAttr);
+                            Grfx.FillPolygon(Brushes.Transparent, new Point[] { new Point(iPoint.X, iPoint.Y + iSize),
+                                new Point(kPoint.X, kPoint.Y + kSize),
+                                new Point(kPoint.X, kPoint.Y-kSize+iconSize/2), new Point(iPoint.X, iPoint.Y-iSize+iconSize/2)});
                         }
                     }
 
@@ -372,23 +354,23 @@ namespace _8beatMap
 
                         float sDist = (float)(numTicksVisible - start + 1 + startTick) / numTicksVisible;
                         float eDist = (float)(numTicksVisible - end + startTick) / numTicksVisible;
-                        float sSize = iconSize / 2 * sDist;
-                        float eSize = iconSize / 2 * eDist;
-                        PointF sPoint = GetPointAlongLine(NodeStartLocs[j], NodeEndLocs[j], sDist);
-                        PointF ePoint = GetPointAlongLine(NodeStartLocs[j], NodeEndLocs[j], eDist);
-                        HoldGrfx.DrawImage(spr_HoldLocus, new PointF[] { new PointF(sPoint.X + sSize, sPoint.Y), new PointF(sPoint.X + sSize - iconSize, sPoint.Y), new PointF(ePoint.X + eSize, ePoint.Y) }, new Rectangle(0, 0, spr_HoldLocus.Width, spr_HoldLocus.Height - 1), GraphicsUnit.Pixel, transpAttr);
-                        HoldGrfx.FillPolygon(Brushes.Transparent, new PointF[] { new PointF(sPoint.X - sSize, sPoint.Y), new PointF(ePoint.X - eSize, ePoint.Y),
-                           new PointF(ePoint.X + eSize -iconSize, ePoint.Y), new PointF(sPoint.X  + sSize - iconSize, sPoint.Y)});
+                        int sSize = (int)(iconSize / 2 * sDist);
+                        int eSize = (int)(iconSize / 2 * eDist);
+                        Point sPoint = GetPointAlongLine(NodeStartLocs[j], NodeEndLocs[j], sDist);
+                        Point ePoint = GetPointAlongLine(NodeStartLocs[j], NodeEndLocs[j], eDist);
+                        HoldGrfx.DrawImage(spr_HoldLocus, new Point[] { new Point(sPoint.X + sSize, sPoint.Y), new Point(sPoint.X + sSize - iconSize, sPoint.Y), new Point(ePoint.X + eSize, ePoint.Y) }, new Rectangle(0, 0, spr_HoldLocus.Width, spr_HoldLocus.Height - 1), GraphicsUnit.Pixel, transpAttr);
+                        HoldGrfx.FillPolygon(Brushes.Transparent, new Point[] { new Point(sPoint.X - sSize, sPoint.Y), new Point(ePoint.X - eSize, ePoint.Y),
+                           new Point(ePoint.X + eSize -iconSize, ePoint.Y), new Point(sPoint.X  + sSize - iconSize, sPoint.Y)});
                     }
 
                 }
             }
-            
+
             Grfx.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceOver;
-            Grfx.DrawImage(HoldBmp, 0, 0);
+            Grfx.DrawImageUnscaled(HoldBmp, 0, 0);
             HoldGrfx.Dispose();
             HoldBmp.Dispose();
-            
+
 
             //for (int i = (int)(startTick - ConvertTimeToTicks(new TimeSpan(1000000))); i <= (int)startTick + numTicksVisible; i++)
             for (int i = (int)startTick + numTicksVisible; i >= (int)(startTick - EffectTicks - EffectFadeTicks - 1); i--)
@@ -447,8 +429,8 @@ namespace _8beatMap
                         }
 
                         float icnDist = (float)(numTicksVisible - i + startTick) / numTicksVisible;
-                        PointF icnPoint = GetPointAlongLine(NodeStartLocs[j], NodeEndLocs[j], icnDist);
-                        float icnSize = iconSize * 1.375f * icnDist;
+                        Point icnPoint = GetPointAlongLine(NodeStartLocs[j], NodeEndLocs[j], icnDist);
+                        int icnSize = (int)(iconSize * 1.375f * icnDist);
                         Grfx.DrawImage(NoteImg, icnPoint.X - icnSize / 2, icnPoint.Y - icnSize / 2, icnSize, icnSize);
 
                     }
@@ -469,8 +451,9 @@ namespace _8beatMap
                     }
                 }
             }
-
+            
             Grfx.Dispose();
+
             return Bmp;
         }
 
@@ -488,7 +471,10 @@ namespace _8beatMap
         {
             pictureBox1.Image = GetChartImage(CurrentTick, TickHeight, IconWidth, IconHeight, SystemColors.ControlLight, false, pictureBox1.Image);
             if (Form2.Visible)
-                GameClone.Image = GetGameCloneImage(CurrentTick, 24, Color.Transparent, GameClone.Image);
+            {
+                GameClone.Image.Dispose();
+                GameClone.Image = GetGameCloneImage(CurrentTick, 24, Color.Transparent, GameClone.Size);
+            }
         }
 
         private int ConvertXCoordToNote(int X)
