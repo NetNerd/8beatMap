@@ -263,11 +263,11 @@ namespace _8beatMap
         Image spr_Chara7;
         Image spr_Chara8;
 
-        Image GetGameCloneImage(double startTick, int numTicksVisible, Color BgCol, Size size)
+        Image GetGameCloneImage(double startTick, int numTicksVisible, Size size)
         {
-            Image Bmp = new Bitmap (size.Width, size.Height, PixelFormat.Format32bppArgb);
+            Image Bmp = new Bitmap (size.Width, size.Height, PixelFormat.Format32bppPArgb);
             Graphics Grfx = Graphics.FromImage(Bmp);
-            Image HoldBmp = new Bitmap(size.Width, size.Height, PixelFormat.Format32bppArgb);
+            Image HoldBmp = (Image)Bmp.Clone();
             Graphics HoldGrfx = Graphics.FromImage(HoldBmp);
 
 
@@ -284,10 +284,14 @@ namespace _8beatMap
             Grfx.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
             HoldGrfx.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceCopy;
             HoldGrfx.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
-            Grfx.Clear(BgCol);
+            Grfx.Clear(Color.Transparent);
             HoldGrfx.Clear(Color.Transparent);
 
+
             ColorMatrix transpMatrix = new ColorMatrix();
+            transpMatrix.Matrix00 = 0.7f;
+            transpMatrix.Matrix11 = 0.7f;
+            transpMatrix.Matrix22 = 0.7f;
             transpMatrix.Matrix33 = 0.7f;
             ImageAttributes transpAttr = new ImageAttributes();
             transpAttr.SetColorMatrix(transpMatrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
@@ -434,7 +438,7 @@ namespace _8beatMap
                         Grfx.DrawImage(NoteImg, icnPoint.X - icnSize / 2, icnPoint.Y - icnSize / 2, icnSize, icnSize);
 
                     }
-                    else if (i >= (int)(startTick - EffectTicks - 1))
+                    else if (i > (int)(startTick - EffectTicks - 1))
                     {
                         int effectSize = (int)(((startTick - i - 1) / EffectTicks + 1) * iconSize * 1.375f);
                         Grfx.DrawImage(spr_HitEffect, NodeEndLocs[j].X-effectSize/2, NodeEndLocs[j].Y-effectSize/2, effectSize, effectSize);
@@ -444,6 +448,9 @@ namespace _8beatMap
                         int effectSize = (int)(iconSize * 2.75);
                         float effectOpacity = 1 - (float)((startTick - EffectTicks - i - 1) / EffectFadeTicks * 0.8f);
 
+                        transpMatrix.Matrix00 = effectOpacity;
+                        transpMatrix.Matrix11 = effectOpacity;
+                        transpMatrix.Matrix22 = effectOpacity;
                         effectTranspMatrix.Matrix33 = effectOpacity;
                         effectTranspAttr.SetColorMatrix(effectTranspMatrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
 
@@ -453,6 +460,8 @@ namespace _8beatMap
             }
             
             Grfx.Dispose();
+
+            transpAttr.Dispose();
 
             return Bmp;
         }
@@ -473,7 +482,8 @@ namespace _8beatMap
             if (Form2.Visible)
             {
                 GameClone.Image.Dispose();
-                GameClone.Image = GetGameCloneImage(CurrentTick, 24, Color.Transparent, GameClone.Size);
+                GameClone.Image = GetGameCloneImage(CurrentTick, 24, GameClone.Size);
+                //GameClone.BackColor = Color.Salmon;
             }
         }
 
