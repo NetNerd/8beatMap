@@ -243,25 +243,41 @@ namespace _8beatMap
         {
             return new Point(start.X + (int)((end.X - start.X) * distance), start.Y + (int)((end.Y - start.Y) * distance));
         }
+        PointF GetPointAlongLineF(Point start, Point end, float distance)
+        {
+            return new PointF(start.X + (end.X - start.X) * distance, start.Y + (end.Y - start.Y) * distance);
+        }
 
-        Image spr_HoldLocus;
-        Image spr_SwipeLocus;
-        Image spr_TapIcon;
-        Image spr_HoldIcon;
-        Image spr_SimulIcon;
-        Image spr_SwipeRightIcon;
-        Image spr_SwipeRightIcon_Simul;
-        Image spr_SwipeLeftIcon;
-        Image spr_SwipeLeftIcon_Simul;
-        Image spr_HitEffect;
-        Image spr_Chara1;
-        Image spr_Chara2;
-        Image spr_Chara3;
-        Image spr_Chara4;
-        Image spr_Chara5;
-        Image spr_Chara6;
-        Image spr_Chara7;
-        Image spr_Chara8;
+        Bitmap spr_HoldLocus;
+        Bitmap spr_SwipeLocus;
+        Bitmap spr_TapIcon;
+        Bitmap spr_HoldIcon;
+        Bitmap spr_SimulIcon;
+        Bitmap spr_SwipeRightIcon;
+        Bitmap spr_SwipeRightIcon_Simul;
+        Bitmap spr_SwipeLeftIcon;
+        Bitmap spr_SwipeLeftIcon_Simul;
+        Bitmap spr_HitEffect;
+        Bitmap spr_Chara1;
+        Bitmap spr_Chara2;
+        Bitmap spr_Chara3;
+        Bitmap spr_Chara4;
+        Bitmap spr_Chara5;
+        Bitmap spr_Chara6;
+        Bitmap spr_Chara7;
+        Bitmap spr_Chara8;
+
+        Bitmap PArgbConverter(Image ImgIn)
+        {
+            Bitmap bmp = new Bitmap(ImgIn.Width, ImgIn.Height, PixelFormat.Format32bppPArgb);
+            Graphics grfx = Graphics.FromImage(bmp);
+
+            grfx.DrawImage(ImgIn, 0, 0);
+
+            grfx.Dispose();
+
+            return bmp;
+        }
 
         Image GetGameCloneImage(double startTick, int numTicksVisible, Size size)
         {
@@ -282,8 +298,14 @@ namespace _8beatMap
 
             Grfx.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceCopy;
             Grfx.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
+            Grfx.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighSpeed;
+            Grfx.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
+            Grfx.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.High;
             HoldGrfx.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceCopy;
             HoldGrfx.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
+            HoldGrfx.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighSpeed;
+            HoldGrfx.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
+            HoldGrfx.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.High;
             Grfx.Clear(Color.Transparent);
             HoldGrfx.Clear(Color.Transparent);
 
@@ -318,7 +340,7 @@ namespace _8beatMap
 
 
             //for (int i = (int)startTick - 24; i < startTick + numTicksVisible + 24; i++)
-            for (int i = (int)startTick + numTicksVisible + 24; i >= (int)startTick; i--)
+            for (int i = (int)startTick + numTicksVisible + 1; i >= (int)startTick; i--)
             {
                 if (i > chart.Length) i = chart.Length;
                 if (i < 0) break;
@@ -348,6 +370,18 @@ namespace _8beatMap
                         }
                     }
 
+                }
+            }
+
+            for (int j = 7; j > -1; j--)
+            {
+                for (int i = (int)startTick + numTicksVisible; i >= (int)startTick; i--)
+                {
+                    Notedata.NoteType Type = FindVisualNoteType(i, j);
+
+                    if (i > chart.Length) i = chart.Length;
+                    if (i < 0) break;
+
                     if (Type == Notedata.NoteType.ExtendHoldMid && (i == (int)startTick | FindVisualNoteType(i - 1, j) != Notedata.NoteType.ExtendHoldMid))
                     {
                         int start = i;
@@ -358,15 +392,14 @@ namespace _8beatMap
 
                         float sDist = (float)(numTicksVisible - start + 1 + startTick) / numTicksVisible;
                         float eDist = (float)(numTicksVisible - end + startTick) / numTicksVisible;
-                        int sSize = (int)(iconSize / 2 * sDist);
-                        int eSize = (int)(iconSize / 2 * eDist);
-                        Point sPoint = GetPointAlongLine(NodeStartLocs[j], NodeEndLocs[j], sDist);
-                        Point ePoint = GetPointAlongLine(NodeStartLocs[j], NodeEndLocs[j], eDist);
-                        HoldGrfx.DrawImage(spr_HoldLocus, new Point[] { new Point(sPoint.X + sSize, sPoint.Y), new Point(sPoint.X + sSize - iconSize, sPoint.Y), new Point(ePoint.X + eSize, ePoint.Y) }, new Rectangle(0, 0, spr_HoldLocus.Width, spr_HoldLocus.Height - 1), GraphicsUnit.Pixel, transpAttr);
-                        HoldGrfx.FillPolygon(Brushes.Transparent, new Point[] { new Point(sPoint.X - sSize, sPoint.Y), new Point(ePoint.X - eSize, ePoint.Y),
-                           new Point(ePoint.X + eSize -iconSize, ePoint.Y), new Point(sPoint.X  + sSize - iconSize, sPoint.Y)});
+                        float sSize = iconSize / 2 * sDist;
+                        float eSize = iconSize / 2 * eDist;
+                        PointF sPoint = GetPointAlongLineF(NodeStartLocs[j], NodeEndLocs[j], sDist);
+                        PointF ePoint = GetPointAlongLineF(NodeStartLocs[j], NodeEndLocs[j], eDist);
+                        HoldGrfx.DrawImage(spr_HoldLocus, new PointF[] { new PointF(sPoint.X + sSize, sPoint.Y), new PointF(sPoint.X + sSize - iconSize, sPoint.Y), new PointF(ePoint.X + eSize, ePoint.Y) }, new Rectangle(0, 0, spr_HoldLocus.Width, spr_HoldLocus.Height - 1), GraphicsUnit.Pixel, transpAttr);
+                        HoldGrfx.FillPolygon(Brushes.Transparent, new PointF[] { new PointF(sPoint.X - sSize, sPoint.Y), new PointF(ePoint.X - eSize, ePoint.Y),
+                           new PointF(ePoint.X + eSize - iconSize, ePoint.Y), new PointF(sPoint.X  + sSize - iconSize, sPoint.Y)});
                     }
-
                 }
             }
 
@@ -615,24 +648,24 @@ namespace _8beatMap
 
             try
             {
-                spr_HoldLocus = Image.FromFile("nodeimg/locus.png");
-                spr_SwipeLocus = Image.FromFile("nodeimg/locus2.png");
-                spr_TapIcon = Image.FromFile("nodeimg/node_1.png");
-                spr_HoldIcon = Image.FromFile("nodeimg/node_2.png");
-                spr_SimulIcon = Image.FromFile("nodeimg/node_3.png");
-                spr_SwipeRightIcon = Image.FromFile("nodeimg/node_4.png");
-                spr_SwipeRightIcon_Simul = Image.FromFile("nodeimg/node_4_3.png");
-                spr_SwipeLeftIcon = Image.FromFile("nodeimg/node_6.png");
-                spr_SwipeLeftIcon_Simul = Image.FromFile("nodeimg/node_6_3.png");
-                spr_HitEffect = Image.FromFile("nodeimg/node_effect.png");
-                spr_Chara1 = Image.FromFile("charaimg/1.png");
-                spr_Chara2 = Image.FromFile("charaimg/2.png");
-                spr_Chara3 = Image.FromFile("charaimg/3.png");
-                spr_Chara4 = Image.FromFile("charaimg/4.png");
-                spr_Chara5 = Image.FromFile("charaimg/5.png");
-                spr_Chara6 = Image.FromFile("charaimg/6.png");
-                spr_Chara7 = Image.FromFile("charaimg/7.png");
-                spr_Chara8 = Image.FromFile("charaimg/8.png");
+                spr_HoldLocus = PArgbConverter(Image.FromFile("nodeimg/locus.png"));
+                spr_SwipeLocus = PArgbConverter(Image.FromFile("nodeimg/locus2.png"));
+                spr_TapIcon = PArgbConverter(Image.FromFile("nodeimg/node_1.png"));
+                spr_HoldIcon = PArgbConverter(Image.FromFile("nodeimg/node_2.png"));
+                spr_SimulIcon = PArgbConverter(Image.FromFile("nodeimg/node_3.png"));
+                spr_SwipeRightIcon = PArgbConverter(Image.FromFile("nodeimg/node_4.png"));
+                spr_SwipeRightIcon_Simul = PArgbConverter(Image.FromFile("nodeimg/node_4_3.png"));
+                spr_SwipeLeftIcon = PArgbConverter(Image.FromFile("nodeimg/node_6.png"));
+                spr_SwipeLeftIcon_Simul = PArgbConverter(Image.FromFile("nodeimg/node_6_3.png"));
+                spr_HitEffect = PArgbConverter(Image.FromFile("nodeimg/node_effect.png"));
+                spr_Chara1 = PArgbConverter(Image.FromFile("charaimg/1.png"));
+                spr_Chara2 = PArgbConverter(Image.FromFile("charaimg/2.png"));
+                spr_Chara3 = PArgbConverter(Image.FromFile("charaimg/3.png"));
+                spr_Chara4 = PArgbConverter(Image.FromFile("charaimg/4.png"));
+                spr_Chara5 = PArgbConverter(Image.FromFile("charaimg/5.png"));
+                spr_Chara6 = PArgbConverter(Image.FromFile("charaimg/6.png"));
+                spr_Chara7 = PArgbConverter(Image.FromFile("charaimg/7.png"));
+                spr_Chara8 = PArgbConverter(Image.FromFile("charaimg/8.png"));
             }
             catch
             {
