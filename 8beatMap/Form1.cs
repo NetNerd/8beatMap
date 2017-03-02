@@ -810,7 +810,7 @@ namespace _8beatMap
                                 {
                                     Sound.NoteSoundSigTrim = new NAudio.Wave.SampleProviders.OffsetSampleProvider(Sound.NoteSoundSig);
                                     Sound.NoteSoundSigTrim.Take = TimeSpan.FromMilliseconds(20);
-                                    Sound.NoteSoundSigTrim.DelayBy = TimeSpan.FromMilliseconds(17);
+                                    Sound.NoteSoundSigTrim.DelayBy = TimeSpan.FromMilliseconds(16);
                                     Sound.PlayNoteSound(Sound.NoteSoundSigTrim);
                                     return;
                                 }

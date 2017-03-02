@@ -9,7 +9,8 @@ namespace _8beatMap
 {
     static class Sound
     {
-        static WaveOutEvent WaveOut = new WaveOutEvent { DesiredLatency = 93, NumberOfBuffers = 16 };
+        //static WaveOutEvent WaveOut = new WaveOutEvent { DesiredLatency = 93, NumberOfBuffers = 16 };
+        static WasapiOut WaveOut = new WasapiOut(NAudio.CoreAudioApi.AudioClientShareMode.Shared, true, 100);
         static NAudio.Wave.SampleProviders.MixingSampleProvider WaveMixer = new NAudio.Wave.SampleProviders.MixingSampleProvider(WaveFormat.CreateIeeeFloatWaveFormat(44100, 2)) { ReadFully = true };
         static NAudio.Wave.SampleProviders.OffsetSampleProvider MusicDelay;
         static public AudioFileReader MusicReader = null;
@@ -73,7 +74,7 @@ namespace _8beatMap
             WaveMixer.RemoveMixerInput(MusicDelay);
             if (MusicReader != null )
                 if (MusicReader.WaveFormat.SampleRate == 44100)
-                    MusicDelay = new NAudio.Wave.SampleProviders.OffsetSampleProvider(MusicReader) { DelayBy = TimeSpan.FromMilliseconds(7) };
+                    MusicDelay = new NAudio.Wave.SampleProviders.OffsetSampleProvider(MusicReader) { DelayBy = TimeSpan.FromMilliseconds(6) };
                 else
                     MusicDelay = new NAudio.Wave.SampleProviders.OffsetSampleProvider(new NAudio.Wave.SampleProviders.WdlResamplingSampleProvider(MusicReader, 44100)) { DelayBy = TimeSpan.FromMilliseconds(7) };
 
