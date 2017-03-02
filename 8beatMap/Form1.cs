@@ -791,8 +791,10 @@ namespace _8beatMap
                                 {
                                     Sound.PlayNoteSound(Sound.NoteSoundWave);
                                 }
-                                else if ((note == Notedata.NoteType.SwipeLeftStartEnd || note == Notedata.NoteType.SwipeRightStartEnd)
+                                else if (((note == Notedata.NoteType.SwipeLeftStartEnd | note == Notedata.NoteType.SwipeRightStartEnd)
                                     && swipeEnds[i * 8 + j] == 0)
+                                    || note == Notedata.NoteType.FlickLeft | note == Notedata.NoteType.HoldEndFlickLeft
+                                    || note == Notedata.NoteType.FlickRight | note == Notedata.NoteType.HoldEndFlickRight)
                                 {
                                     Sound.PlayNoteSound(Sound.NoteSoundWave_Swipe);
                                 }
