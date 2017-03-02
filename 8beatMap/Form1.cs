@@ -26,14 +26,7 @@ namespace _8beatMap
 
         private Timer playTimer = new Timer() { Interval = 4 };
 
-        WaveOutEvent WaveOut = new WaveOutEvent { DesiredLatency = 100, NumberOfBuffers = 16 };
-        WaveFileReader WaveFileReader;
-
-        WaveOutEvent NoteSoundWaveOut = new WaveOutEvent { DesiredLatency = 110, NumberOfBuffers = 4 };
-        static NAudio.Wave.SampleProviders.SignalGenerator NoteSoundSig = new NAudio.Wave.SampleProviders.SignalGenerator { Frequency = 1000, Gain = 0.5, Type = NAudio.Wave.SampleProviders.SignalGeneratorType.Square };
-        NAudio.Wave.SampleProviders.OffsetSampleProvider NoteSoundTrim;
-        NAudio.Wave.SampleProviders.MixingSampleProvider NoteSoundMixer = new NAudio.Wave.SampleProviders.MixingSampleProvider(WaveFormat.CreateIeeeFloatWaveFormat(44100, 2)) { ReadFully = true };
-
+        
 
         private struct NoteDataInfo
         {
@@ -562,13 +555,13 @@ namespace _8beatMap
         private void StartPlayback()
         {
             playTimer.Enabled = true;
-            WaveOut.Play();
+            Sound.PlayMusic();
         }
 
         private void StopPlayback()
         {
             playTimer.Enabled = false;
-            WaveOut.Pause();
+            Sound.PauseMusic();
         }
 
 
@@ -593,22 +586,6 @@ namespace _8beatMap
                 FixSwipes();
                 UpdateChart();
 
-            }
-        }
-
-
-        private void LoadMusic(string Path)
-        {
-            if (Path.Length > 0)
-            {
-                WaveOut.Stop();
-
-                try {
-                    WaveFileReader = new WaveFileReader(Path);
-                }
-                catch { MessageBox.Show(DialogResMgr.GetString("MusicLoadError")); return; }
-                
-                WaveOut.Init(WaveFileReader);
             }
         }
 
@@ -689,6 +666,20 @@ namespace _8beatMap
                 spr_Chara8 = new Bitmap(1, 1);
             }
 
+            try
+            {
+                Sound.NoteSoundWave = new Sound.CachedSound("notesnd/hit.wav");
+                Sound.NoteSoundWave_Swipe = new Sound.CachedSound("notesnd/swipe.wav");
+                //NoteSoundMixer.AddMixerInput(NoteSoundWave);
+                //NoteSoundMixer.AddMixerInput(NoteSoundWave_Swipe);
+                Sound.SetNoteSoundLatency(95);
+            }
+            catch
+            {
+                Sound.NoteSoundWave = null;
+                Sound.NoteSoundWave_Swipe = null;
+            }
+
 
             pictureBox1.Image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
 
@@ -696,8 +687,7 @@ namespace _8beatMap
 
             ActiveControl = ZoomLbl;
 
-            NoteSoundWaveOut.Init(NoteSoundMixer);
-            NoteSoundWaveOut.Play();
+            Sound.InitNoteSounds();
 
             ResizeScrollbar();
             SetCurrTick(0);
@@ -712,13 +702,13 @@ namespace _8beatMap
             if (PauseOnSeek.Checked) StopPlayback();
             SetCurrTick(chart.Length - e.NewValue / TickHeight);
             UpdateChart();
-            if (WaveFileReader != null)
-                try { WaveFileReader.CurrentTime = ConvertTicksToTime(CurrentTick); } catch { }
+            if (Sound.MusicReader != null)
+                try { Sound.MusicReader.CurrentTime = ConvertTicksToTime(CurrentTick); } catch { }
         }
 
         private void PlayBtn_Click(object sender, EventArgs e)
         {
-            if (WaveFileReader != null)
+            if (Sound.MusicReader != null)
                 StartPlayback();
             else
             {
@@ -734,7 +724,7 @@ namespace _8beatMap
 
         private void playtimer_Tick(object sender, EventArgs e)
         {
-            SetCurrTick(ConvertTimeToTicks(WaveFileReader.CurrentTime));
+            SetCurrTick(ConvertTimeToTicks(Sound.MusicReader.CurrentTime));
             UpdateChart();
 
             if ((int)CurrentTick != LastTick)
@@ -750,13 +740,30 @@ namespace _8beatMap
                         {
                             Notedata.NoteType note = FindVisualNoteType(i, j);
 
-                            if (note != Notedata.NoteType.None && note != Notedata.NoteType.ExtendHoldMid &&
-                                note != Notedata.NoteType.SwipeLeftMid && note != Notedata.NoteType.SwipeRightMid)
+                            if (Sound.NoteSoundWave != null)
                             {
-                                NoteSoundTrim = new NAudio.Wave.SampleProviders.OffsetSampleProvider(NoteSoundSig);
-                                NoteSoundTrim.Take = TimeSpan.FromMilliseconds(20);
-                                NoteSoundMixer.AddMixerInput(NoteSoundTrim);
-                                return;
+                                if (note == Notedata.NoteType.Tap || note == Notedata.NoteType.SimulTap || note == Notedata.NoteType.Hold
+                                    || note == Notedata.NoteType.SimulHoldStart || note == Notedata.NoteType.SimulHoldRelease)
+                                {
+                                    Sound.PlayNoteSound(Sound.NoteSoundWave);
+                                }
+                                else if ((note == Notedata.NoteType.SwipeLeftStartEnd || note == Notedata.NoteType.SwipeRightStartEnd)
+                                    && swipeEnds[i * 8 + j] == 0)
+                                {
+                                    Sound.PlayNoteSound(Sound.NoteSoundWave_Swipe);
+                                }
+                            }
+
+                            else
+                            {
+                                if (note != Notedata.NoteType.None && note != Notedata.NoteType.ExtendHoldMid &&
+                                    note != Notedata.NoteType.SwipeLeftMid && note != Notedata.NoteType.SwipeRightMid)
+                                {
+                                    Sound.NoteSoundSigTrim = new NAudio.Wave.SampleProviders.OffsetSampleProvider(Sound.NoteSoundSig);
+                                    Sound.NoteSoundSigTrim.Take = TimeSpan.FromMilliseconds(20);
+                                    Sound.PlayNoteSound(Sound.NoteSoundSigTrim);
+                                    return;
+                                }
                             }
                         }
                     }
@@ -768,9 +775,9 @@ namespace _8beatMap
         {
             chart.BPM = (double)BPMbox.Value;
             ResizeScrollbar();
-            if (WaveFileReader != null)
+            if (Sound.MusicReader != null)
             {
-                SetCurrTick(ConvertTimeToTicks(WaveFileReader.CurrentTime));
+                SetCurrTick(ConvertTimeToTicks(Sound.MusicReader.CurrentTime));
                 UpdateChart();
             }
         }
@@ -885,7 +892,7 @@ namespace _8beatMap
         private void OpenMusicButton_Click(object sender, EventArgs e)
         {
             if (openFileDialog2.ShowDialog() == DialogResult.OK)
-                LoadMusic(openFileDialog2.FileName);
+                Sound.LoadMusic(openFileDialog2.FileName);
         }
 
         private void ImgSaveBtn_Click(object sender, EventArgs e)
