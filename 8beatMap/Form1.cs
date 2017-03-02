@@ -542,6 +542,9 @@ namespace _8beatMap
 
             CurrentTick = tick;
 
+            if (Sound.MusicReader != null)
+                try { Sound.MusicReader.CurrentTime = ConvertTicksToTime(CurrentTick); } catch { }
+
             ChartScrollBar.Value = (int)(chart.Length * TickHeight - tick * TickHeight);
         }
 
@@ -748,8 +751,6 @@ namespace _8beatMap
             if (PauseOnSeek.Checked) StopPlayback();
             SetCurrTick(chart.Length - e.NewValue / TickHeight);
             UpdateChart();
-            if (Sound.MusicReader != null)
-                try { Sound.MusicReader.CurrentTime = ConvertTicksToTime(CurrentTick); } catch { }
         }
 
         private void PlayBtn_Click(object sender, EventArgs e)

@@ -71,8 +71,13 @@ namespace _8beatMap
         static public void PlayMusic()
         {
             WaveMixer.RemoveMixerInput(MusicDelay);
-            if (MusicDelay != null )
-                WaveMixer.AddMixerInput(MusicDelay);
+            if (MusicReader != null )
+                if (MusicReader.WaveFormat.SampleRate == 44100)
+                    MusicDelay = new NAudio.Wave.SampleProviders.OffsetSampleProvider(MusicReader) { DelayBy = TimeSpan.FromMilliseconds(7) };
+                else
+                    MusicDelay = new NAudio.Wave.SampleProviders.OffsetSampleProvider(new NAudio.Wave.SampleProviders.WdlResamplingSampleProvider(MusicReader, 44100)) { DelayBy = TimeSpan.FromMilliseconds(7) };
+
+            WaveMixer.AddMixerInput(MusicDelay);
         }
         static public void StopMusic()
         {
@@ -87,15 +92,10 @@ namespace _8beatMap
                 try
                 {
                     MusicReader = new AudioFileReader(path);
-                    if (MusicReader.WaveFormat.SampleRate == 44100)
-                        MusicDelay = new NAudio.Wave.SampleProviders.OffsetSampleProvider(MusicReader) { DelayBy = TimeSpan.FromMilliseconds(7) };
-                    else
-                        MusicDelay = new NAudio.Wave.SampleProviders.OffsetSampleProvider(new NAudio.Wave.SampleProviders.WdlResamplingSampleProvider(MusicReader, 44100)) { DelayBy = TimeSpan.FromMilliseconds(7) };
                 }
                 catch
                 {
                     MusicReader = null;
-                    MusicDelay = null;
                     System.Windows.Forms.MessageBox.Show(DialogResMgr.GetString("MusicLoadError"));
                     return;
                 }
