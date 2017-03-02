@@ -128,9 +128,9 @@ namespace _8beatMap
         }
 
 
-        Image GetChartImage(double startTick, int tickHeight, int iconWidth, int iconHeight, Color BgCol, bool NoGrid, Image startImage)
+        Image GetChartImage(double startTick, int tickHeight, int iconWidth, int iconHeight, Color BgCol, bool NoGrid, int Width, int Height)
         {
-            Image Bmp = startImage;
+            Image Bmp = new Bitmap(Width, Height);
             Graphics Grfx = Graphics.FromImage(Bmp);
 
             int width = Bmp.Width;
@@ -277,16 +277,13 @@ namespace _8beatMap
             return bmp;
         }
 
-        Image GetGameCloneImage(double startTick, int numTicksVisible, Size size)
+        Image GetGameCloneImage(double startTick, int numTicksVisible, int width, int height)
         {
-            Image Bmp = new Bitmap (size.Width, size.Height, PixelFormat.Format32bppPArgb);
+            Image Bmp = new Bitmap (width, height, PixelFormat.Format32bppPArgb);
             Graphics Grfx = Graphics.FromImage(Bmp);
             Image HoldBmp = (Image)Bmp.Clone();
             Graphics HoldGrfx = Graphics.FromImage(HoldBmp);
-
-
-            int width = Bmp.Width;
-            int height = Bmp.Height;
+            
             float scalefactor = (float)width / 1136;
 
             Point[] NodeStartLocs = { new Point((int)(223*scalefactor), (int)(77*scalefactor)), new Point((int)(320*scalefactor), (int)(100*scalefactor)), new Point((int)(419*scalefactor), (int)(114*scalefactor)), new Point((int)(519*scalefactor), (int)(119*scalefactor)), new Point((int)(617*scalefactor), (int)(119*scalefactor)), new Point((int)(717*scalefactor), (int)(114*scalefactor)), new Point((int)(816*scalefactor), (int)(100*scalefactor)), new Point((int)(923*scalefactor), (int)(77*scalefactor)) };
@@ -509,11 +506,12 @@ namespace _8beatMap
 
         private void UpdateChart()
         {
-            pictureBox1.Image = GetChartImage(CurrentTick, TickHeight, IconWidth, IconHeight, SystemColors.ControlLight, false, pictureBox1.Image);
+            pictureBox1.Image.Dispose();
+            pictureBox1.Image = GetChartImage(CurrentTick, TickHeight, IconWidth, IconHeight, SystemColors.ControlLight, false, pictureBox1.Width, pictureBox1.Height);
             if (Form2.Visible)
             {
                 GameClone.Image.Dispose();
-                GameClone.Image = GetGameCloneImage(CurrentTick, 24, GameClone.Size);
+                GameClone.Image = GetGameCloneImage(CurrentTick, 24, GameClone.Width, GameClone.Height);
                 //GameClone.BackColor = Color.Salmon;
             }
         }
@@ -915,16 +913,13 @@ namespace _8beatMap
 
             grfx.Clear(SystemColors.ControlDark);
 
-            Bitmap tmpImg = new Bitmap(ColWidth, TicksPerCol * NoteHeight + 1);
-
             for (int i = 0; i < NumCols; i++)
             {
-                grfx.DrawImage(GetChartImage(i * TicksPerCol, TickHeight, NoteWidth, NoteHeight, SystemColors.ControlLight, true, tmpImg), i + i * ColWidth, 0);
+                grfx.DrawImage(GetChartImage(i * TicksPerCol, TickHeight, NoteWidth, NoteHeight, SystemColors.ControlLight, true, ColWidth, TicksPerCol * NoteHeight + 1), i + i * ColWidth, 0);
             }
 
             img.Save("imgout.png");
-
-            tmpImg.Dispose();
+            
             grfx.Dispose();
             img.Dispose();
         }
