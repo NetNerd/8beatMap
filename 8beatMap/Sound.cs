@@ -9,7 +9,7 @@ namespace _8beatMap
 {
     static class Sound
     {
-        static WaveOutEvent WaveOut = new WaveOutEvent { DesiredLatency = 96, NumberOfBuffers = 16 };
+        static WaveOutEvent WaveOut = new WaveOutEvent { DesiredLatency = 90, NumberOfBuffers = 16 };
         static NAudio.Wave.SampleProviders.MixingSampleProvider WaveMixer = new NAudio.Wave.SampleProviders.MixingSampleProvider(WaveFormat.CreateIeeeFloatWaveFormat(44100, 2)) { ReadFully = true };
         static NAudio.Wave.SampleProviders.OffsetSampleProvider MusicDelay;
         static public AudioFileReader MusicReader = null;
@@ -87,7 +87,7 @@ namespace _8beatMap
                 try
                 {
                     MusicReader = new AudioFileReader(path);
-                    MusicDelay = new NAudio.Wave.SampleProviders.OffsetSampleProvider(MusicReader) { DelayBy = TimeSpan.FromMilliseconds(10) };
+                    MusicDelay = new NAudio.Wave.SampleProviders.OffsetSampleProvider(MusicReader) { DelayBy = TimeSpan.FromMilliseconds(15) };
                 }
                 catch
                 {
@@ -103,7 +103,7 @@ namespace _8beatMap
             WaveOut.Init(WaveMixer);
             WaveOut.Play();
         }
-
+        
         static public void PlayNoteSound(CachedSound sound)
         {
             WaveMixer.AddMixerInput(new CachedSoundSampleProvider(sound));
