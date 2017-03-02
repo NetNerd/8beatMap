@@ -277,7 +277,7 @@ namespace _8beatMap
             return bmp;
         }
 
-        Image GetGameCloneImage(double startTick, int numTicksVisible, int width, int height)
+        Image GetGameCloneImage(double startTick, int numTicksVisible, int width, int height, bool SpeedupMode)
         {
             Image Bmp = new Bitmap (width, height, PixelFormat.Format32bppPArgb);
             Graphics Grfx = Graphics.FromImage(Bmp);
@@ -293,14 +293,28 @@ namespace _8beatMap
 
             Grfx.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceCopy;
             Grfx.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
-            Grfx.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighSpeed;
-            Grfx.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
-            Grfx.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.High;
             HoldGrfx.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceCopy;
             HoldGrfx.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
-            HoldGrfx.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighSpeed;
-            HoldGrfx.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
-            HoldGrfx.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.High;
+
+            if (SpeedupMode)
+            {
+                Grfx.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
+                Grfx.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+                Grfx.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Bilinear;
+                HoldGrfx.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
+                HoldGrfx.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+                HoldGrfx.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Bilinear;
+            }
+            else
+            {
+                Grfx.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighSpeed;
+                Grfx.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
+                Grfx.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.High;
+                HoldGrfx.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighSpeed;
+                HoldGrfx.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
+                HoldGrfx.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.High;
+            }
+
             Grfx.Clear(Color.Transparent);
             HoldGrfx.Clear(Color.Transparent);
 
@@ -365,35 +379,62 @@ namespace _8beatMap
                         }
                     }
 
+                    if (SpeedupMode)
+                    {
+                        if (i > chart.Length) i = chart.Length;
+                        if (i < 0) break;
+
+                        if (Type == Notedata.NoteType.ExtendHoldMid && (i == (int)startTick | FindVisualNoteType(i - 1, j) != Notedata.NoteType.ExtendHoldMid))
+                        {
+                            int start = i;
+                            if (start <= startTick) start = (int)startTick + 1;
+                            int end = i;
+                            while (FindVisualNoteType(end, j) == Notedata.NoteType.ExtendHoldMid) end++;
+                            if (end <= start) continue;
+
+                            float sDist = (float)(numTicksVisible - start + 1 + startTick) / numTicksVisible;
+                            float eDist = (float)(numTicksVisible - end + startTick) / numTicksVisible;
+                            float sSize = iconSize / 2 * sDist;
+                            float eSize = iconSize / 2 * eDist;
+                            PointF sPoint = GetPointAlongLineF(NodeStartLocs[j], NodeEndLocs[j], sDist);
+                            PointF ePoint = GetPointAlongLineF(NodeStartLocs[j], NodeEndLocs[j], eDist);
+                            HoldGrfx.DrawImage(spr_HoldLocus, new PointF[] { new PointF(sPoint.X + sSize, sPoint.Y), new PointF(sPoint.X + sSize - iconSize, sPoint.Y), new PointF(ePoint.X + eSize, ePoint.Y) }, new Rectangle(0, 0, spr_HoldLocus.Width, spr_HoldLocus.Height - 1), GraphicsUnit.Pixel, transpAttr);
+                            HoldGrfx.FillPolygon(Brushes.Transparent, new PointF[] { new PointF(sPoint.X - sSize, sPoint.Y), new PointF(ePoint.X - eSize, ePoint.Y),
+                                new PointF(ePoint.X + eSize - iconSize, ePoint.Y), new PointF(sPoint.X  + sSize - iconSize, sPoint.Y)});
+                        }
+                    }
                 }
             }
 
-            for (int j = 7; j > -1; j--)
+            if (!SpeedupMode)
             {
-                for (int i = (int)startTick + numTicksVisible; i >= (int)startTick; i--)
+                for (int j = 7; j > -1; j--)
                 {
-                    Notedata.NoteType Type = FindVisualNoteType(i, j);
-
-                    if (i > chart.Length) i = chart.Length;
-                    if (i < 0) break;
-
-                    if (Type == Notedata.NoteType.ExtendHoldMid && (i == (int)startTick | FindVisualNoteType(i - 1, j) != Notedata.NoteType.ExtendHoldMid))
+                    for (int i = (int)startTick + numTicksVisible; i >= (int)startTick; i--)
                     {
-                        int start = i;
-                        if (start <= startTick) start = (int)startTick + 1;
-                        int end = i;
-                        while (FindVisualNoteType(end, j) == Notedata.NoteType.ExtendHoldMid) end++;
-                        if (end <= start) continue;
+                        Notedata.NoteType Type = FindVisualNoteType(i, j);
 
-                        float sDist = (float)(numTicksVisible - start + 1 + startTick) / numTicksVisible;
-                        float eDist = (float)(numTicksVisible - end + startTick) / numTicksVisible;
-                        float sSize = iconSize / 2 * sDist;
-                        float eSize = iconSize / 2 * eDist;
-                        PointF sPoint = GetPointAlongLineF(NodeStartLocs[j], NodeEndLocs[j], sDist);
-                        PointF ePoint = GetPointAlongLineF(NodeStartLocs[j], NodeEndLocs[j], eDist);
-                        HoldGrfx.DrawImage(spr_HoldLocus, new PointF[] { new PointF(sPoint.X + sSize, sPoint.Y), new PointF(sPoint.X + sSize - iconSize, sPoint.Y), new PointF(ePoint.X + eSize, ePoint.Y) }, new Rectangle(0, 0, spr_HoldLocus.Width, spr_HoldLocus.Height - 1), GraphicsUnit.Pixel, transpAttr);
-                        HoldGrfx.FillPolygon(Brushes.Transparent, new PointF[] { new PointF(sPoint.X - sSize, sPoint.Y), new PointF(ePoint.X - eSize, ePoint.Y),
+                        if (i > chart.Length) i = chart.Length;
+                        if (i < 0) break;
+
+                        if (Type == Notedata.NoteType.ExtendHoldMid && (i == (int)startTick | FindVisualNoteType(i - 1, j) != Notedata.NoteType.ExtendHoldMid))
+                        {
+                            int start = i;
+                            if (start <= startTick) start = (int)startTick + 1;
+                            int end = i;
+                            while (FindVisualNoteType(end, j) == Notedata.NoteType.ExtendHoldMid) end++;
+                            if (end <= start) continue;
+
+                            float sDist = (float)(numTicksVisible - start + 1 + startTick) / numTicksVisible;
+                            float eDist = (float)(numTicksVisible - end + startTick) / numTicksVisible;
+                            float sSize = iconSize / 2 * sDist;
+                            float eSize = iconSize / 2 * eDist;
+                            PointF sPoint = GetPointAlongLineF(NodeStartLocs[j], NodeEndLocs[j], sDist);
+                            PointF ePoint = GetPointAlongLineF(NodeStartLocs[j], NodeEndLocs[j], eDist);
+                            HoldGrfx.DrawImage(spr_HoldLocus, new PointF[] { new PointF(sPoint.X + sSize, sPoint.Y), new PointF(sPoint.X + sSize - iconSize, sPoint.Y), new PointF(ePoint.X + eSize, ePoint.Y) }, new Rectangle(0, 0, spr_HoldLocus.Width, spr_HoldLocus.Height - 1), GraphicsUnit.Pixel, transpAttr);
+                            HoldGrfx.FillPolygon(Brushes.Transparent, new PointF[] { new PointF(sPoint.X - sSize, sPoint.Y), new PointF(ePoint.X - eSize, ePoint.Y),
                            new PointF(ePoint.X + eSize - iconSize, ePoint.Y), new PointF(sPoint.X  + sSize - iconSize, sPoint.Y)});
+                        }
                     }
                 }
             }
@@ -471,7 +512,7 @@ namespace _8beatMap
                         int effectSize = (int)(((startTick - i - 1) / EffectTicks + 1) * iconSize * 1.375f);
                         Grfx.DrawImage(spr_HitEffect, NodeEndLocs[j].X-effectSize/2, NodeEndLocs[j].Y-effectSize/2, effectSize, effectSize);
                     }
-                    else if (i >= (int)(startTick - EffectTicks - EffectFadeTicks - 1))
+                    else if (i >= (int)(startTick - EffectTicks - EffectFadeTicks - 1) & !SpeedupMode)
                     {
                         int effectSize = (int)(iconSize * 2.75);
                         float effectOpacity = 1 - (float)((startTick - EffectTicks - i - 1) / EffectFadeTicks * 0.8f);
@@ -511,7 +552,7 @@ namespace _8beatMap
             if (Form2.Visible)
             {
                 GameClone.Image.Dispose();
-                GameClone.Image = GetGameCloneImage(CurrentTick, 24, GameClone.Width, GameClone.Height);
+                GameClone.Image = GetGameCloneImage(CurrentTick, 24, GameClone.Width, GameClone.Height, true);
                 //GameClone.BackColor = Color.Salmon;
             }
         }
