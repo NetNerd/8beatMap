@@ -147,7 +147,7 @@ namespace _8beatMap
                     Grfx.FillRectangle(new SolidBrush(Color.LightGray), i * width / 8, 0, 1, height);
                 }
             }
-
+            
 
 
             float laneWidth = width / 8;
@@ -158,6 +158,11 @@ namespace _8beatMap
             {
                 if (i >= chart.Length) break;
                 if (i < 0) i = 0;
+
+                if (i % 48 == 0)
+                {
+                    Grfx.FillRectangle(Brushes.SlateGray, 0, height - (float)(i - startTick + 0.5) * tickHeight - 2, width, 1);
+                }
 
                 for (int j = 0; j < 8; j++)
                 {
@@ -897,33 +902,31 @@ namespace _8beatMap
 
         private void ImgSaveBtn_Click(object sender, EventArgs e)
         {
-            /* float scaledivX = LaneWidth / 2; // these are the final pixel dimensions of each note in the image
-            float scaledivY = TickHeight / 1;
-            Bitmap img = new Bitmap((int)(LaneWidth * 8 * 8/scaledivX + 7), (int)(PanelHeight / scaledivY / 2));
+            int TicksPerCol = 48 * 8; //8 bars
+            int TickHeight = 1;
+            int ColWidth = 16;
+            int NoteHeight = 1;
+            int NoteWidth = 2;
+
+            int NumCols = (chart.Ticks.Length - 1) / TicksPerCol + 1;
+
+            Bitmap img = new Bitmap(NumCols * ColWidth + NumCols - 1, TicksPerCol * NoteHeight);
             Graphics grfx = Graphics.FromImage(img);
-            Bitmap tmpimg = new Bitmap(LaneWidth * 8, PanelHeight);
 
-            ChartPanel.DrawToBitmap(tmpimg, new Rectangle(0, 0, LaneWidth * 8, PanelHeight));
-            grfx.DrawImage(tmpimg, 0, -PanelHeight / scaledivY / 2, LaneWidth * 8/scaledivX, PanelHeight / scaledivY);
-            grfx.DrawImage(tmpimg, LaneWidth * 8 * 1 / scaledivX + 1, 0, LaneWidth * 8 / scaledivX, PanelHeight / scaledivY);
+            grfx.Clear(SystemColors.ControlDark);
 
-            ChartPanel2.DrawToBitmap(tmpimg, new Rectangle(0, 0, LaneWidth * 8, PanelHeight));
-            grfx.DrawImage(tmpimg, LaneWidth * 8 * 2 / scaledivX + 2, -PanelHeight / scaledivY / 2, LaneWidth * 8 / scaledivX, PanelHeight / scaledivY);
-            grfx.DrawImage(tmpimg, LaneWidth * 8 * 3 / scaledivX + 3, 0, LaneWidth * 8 / scaledivX, PanelHeight / scaledivY);
+            Bitmap tmpImg = new Bitmap(ColWidth, TicksPerCol * NoteHeight + 1);
 
-            ChartPanel3.DrawToBitmap(tmpimg, new Rectangle(0, 0, LaneWidth * 8, PanelHeight));
-            grfx.DrawImage(tmpimg, LaneWidth * 8 * 4 / scaledivX + 4, -PanelHeight / scaledivY / 2, LaneWidth * 8 / scaledivX, PanelHeight / scaledivY);
-            grfx.DrawImage(tmpimg, LaneWidth * 8 * 5 / scaledivX + 5, 0, LaneWidth * 8 / scaledivX, PanelHeight / scaledivY);
-
-            ChartPanel4.DrawToBitmap(tmpimg, new Rectangle(0, 0, LaneWidth * 8, PanelHeight));
-            grfx.DrawImage(tmpimg, LaneWidth * 8 * 6 / scaledivX + 6, -PanelHeight / scaledivY / 2, LaneWidth * 8 / scaledivX, PanelHeight / scaledivY);
-            grfx.DrawImage(tmpimg, LaneWidth * 8 * 7 / scaledivX + 7, 0, LaneWidth * 8 / scaledivX, PanelHeight / scaledivY);
+            for (int i = 0; i < NumCols; i++)
+            {
+                grfx.DrawImage(GetChartImage(i * TicksPerCol, TickHeight, NoteWidth, NoteHeight, SystemColors.ControlLight, true, tmpImg), i + i * ColWidth, 0);
+            }
 
             img.Save("imgout.png");
 
-            tmpimg.Dispose();
+            tmpImg.Dispose();
             grfx.Dispose();
-            img.Dispose(); */
+            img.Dispose();
         }
 
         private void NoteShiftBtn_Click(object sender, EventArgs e)
