@@ -611,6 +611,8 @@ namespace _8beatMap
 
         private void LoadChart(string Path)
         {
+            StopPlayback();
+
             if (Path.Length > 0)
             {
                 try {
