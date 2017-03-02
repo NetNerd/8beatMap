@@ -564,7 +564,7 @@ namespace _8beatMap
         private void StopPlayback()
         {
             playTimer.Enabled = false;
-            Sound.PauseMusic();
+            Sound.StopMusic();
         }
 
 
@@ -675,7 +675,7 @@ namespace _8beatMap
                 Sound.NoteSoundWave_Swipe = new Sound.CachedSound("notesnd/swipe.wav");
                 //NoteSoundMixer.AddMixerInput(NoteSoundWave);
                 //NoteSoundMixer.AddMixerInput(NoteSoundWave_Swipe);
-                Sound.SetNoteSoundLatency(95);
+                //Sound.SetNoteSoundLatency(95);
             }
             catch
             {
@@ -690,7 +690,7 @@ namespace _8beatMap
 
             ActiveControl = ZoomLbl;
 
-            Sound.InitNoteSounds();
+            Sound.InitWaveOut();
 
             ResizeScrollbar();
             SetCurrTick(0);
@@ -764,6 +764,7 @@ namespace _8beatMap
                                 {
                                     Sound.NoteSoundSigTrim = new NAudio.Wave.SampleProviders.OffsetSampleProvider(Sound.NoteSoundSig);
                                     Sound.NoteSoundSigTrim.Take = TimeSpan.FromMilliseconds(20);
+                                    Sound.NoteSoundSigTrim.DelayBy = TimeSpan.FromMilliseconds(20);
                                     Sound.PlayNoteSound(Sound.NoteSoundSigTrim);
                                     return;
                                 }

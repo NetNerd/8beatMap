@@ -9,17 +9,17 @@ namespace _8beatMap
 {
     static class Sound
     {
-        static WaveOutEvent WaveOut = new WaveOutEvent { DesiredLatency = 100, NumberOfBuffers = 16 };
-        static public WaveFileReader MusicReader;
-
-        static WaveOutEvent NoteSoundWaveOut = new WaveOutEvent { DesiredLatency = 110, NumberOfBuffers = 4 };
+        static WaveOutEvent WaveOut = new WaveOutEvent { DesiredLatency = 96, NumberOfBuffers = 16 };
+        static NAudio.Wave.SampleProviders.MixingSampleProvider WaveMixer = new NAudio.Wave.SampleProviders.MixingSampleProvider(WaveFormat.CreateIeeeFloatWaveFormat(44100, 2)) { ReadFully = true };
+        static NAudio.Wave.SampleProviders.OffsetSampleProvider MusicDelay;
+        static public AudioFileReader MusicReader = null;
+        
         public static NAudio.Wave.SampleProviders.SignalGenerator NoteSoundSig = new NAudio.Wave.SampleProviders.SignalGenerator { Frequency = 1000, Gain = 0.5, Type = NAudio.Wave.SampleProviders.SignalGeneratorType.Square };
         public static NAudio.Wave.SampleProviders.OffsetSampleProvider NoteSoundSigTrim;
 
         static public CachedSound NoteSoundWave;
         static public CachedSound NoteSoundWave_Swipe;
 
-        static NAudio.Wave.SampleProviders.MixingSampleProvider NoteSoundMixer = new NAudio.Wave.SampleProviders.MixingSampleProvider(WaveFormat.CreateIeeeFloatWaveFormat(44100, 2)) { ReadFully = true };
 
         static System.Resources.ResourceManager DialogResMgr = new System.Resources.ResourceManager("_8beatMap.Dialogs", System.Reflection.Assembly.GetEntryAssembly());
 
@@ -70,50 +70,47 @@ namespace _8beatMap
 
         static public void PlayMusic()
         {
-            WaveOut.Play();
-        }
-        static public void PauseMusic()
-        {
-            WaveOut.Pause();
+            WaveMixer.RemoveMixerInput(MusicDelay);
+            if (MusicDelay != null )
+                WaveMixer.AddMixerInput(MusicDelay);
         }
         static public void StopMusic()
         {
-            WaveOut.Stop();
+            WaveMixer.RemoveMixerInput(MusicDelay);
         }
         static public void LoadMusic(string path)
         {
             if (path.Length > 0)
             {
-                WaveOut.Stop();
+                WaveMixer.RemoveMixerInput(MusicDelay);
 
                 try
                 {
-                    MusicReader = new WaveFileReader(path);
+                    MusicReader = new AudioFileReader(path);
+                    MusicDelay = new NAudio.Wave.SampleProviders.OffsetSampleProvider(MusicReader) { DelayBy = TimeSpan.FromMilliseconds(10) };
                 }
-                catch { System.Windows.Forms.MessageBox.Show(DialogResMgr.GetString("MusicLoadError")); return; }
-
-                WaveOut.Init(MusicReader);
+                catch
+                {
+                    MusicReader = null;
+                    MusicDelay = null;
+                    System.Windows.Forms.MessageBox.Show(DialogResMgr.GetString("MusicLoadError"));
+                    return;
+                }
             }
         }
-
-        static public void SetNoteSoundLatency(int ms)
+        static public void InitWaveOut()
         {
-            NoteSoundWaveOut.DesiredLatency = ms;
-        }
-
-        static public void InitNoteSounds()
-        {
-            NoteSoundWaveOut.Init(NoteSoundMixer);
-            NoteSoundWaveOut.Play();
+            WaveOut.Init(WaveMixer);
+            WaveOut.Play();
         }
 
         static public void PlayNoteSound(CachedSound sound)
         {
-            NoteSoundMixer.AddMixerInput(new CachedSoundSampleProvider(sound));
+            WaveMixer.AddMixerInput(new CachedSoundSampleProvider(sound));
         }
         static public void PlayNoteSound(ISampleProvider sound)
         {
-            NoteSoundMixer.AddMixerInput(sound);
+            WaveMixer.AddMixerInput(sound);
         }
     }
 }
