@@ -542,8 +542,10 @@ namespace _8beatMap
 
             CurrentTick = tick;
 
-            if (Sound.MusicReader != null)
-                try { Sound.MusicReader.CurrentTime = ConvertTicksToTime(CurrentTick); } catch { }
+            if (Sound.MusicReader != null &&
+                    (Sound.MusicReader.CurrentTime < ConvertTicksToTime(CurrentTick) + TimeSpan.FromMilliseconds(NoteWaveOffsetMs - 3) |
+                    Sound.MusicReader.CurrentTime > ConvertTicksToTime(CurrentTick) + TimeSpan.FromMilliseconds(NoteWaveOffsetMs + 3)))
+                try { Sound.MusicReader.CurrentTime = ConvertTicksToTime(CurrentTick) + TimeSpan.FromMilliseconds(NoteWaveOffsetMs); } catch { }
 
             ChartScrollBar.Value = (int)(chart.Length * TickHeight - tick * TickHeight);
         }
@@ -768,10 +770,11 @@ namespace _8beatMap
             StopPlayback();
         }
 
+        int NoteWaveOffsetMs = -30;
 
         private void playtimer_Tick(object sender, EventArgs e)
         {
-            SetCurrTick(ConvertTimeToTicks(Sound.MusicReader.CurrentTime));
+            SetCurrTick(ConvertTimeToTicks(Sound.MusicReader.CurrentTime - TimeSpan.FromMilliseconds(NoteWaveOffsetMs)));
             UpdateChart();
 
             if ((int)CurrentTick != LastTick)
@@ -810,7 +813,7 @@ namespace _8beatMap
                                 {
                                     Sound.NoteSoundSigTrim = new NAudio.Wave.SampleProviders.OffsetSampleProvider(Sound.NoteSoundSig);
                                     Sound.NoteSoundSigTrim.Take = TimeSpan.FromMilliseconds(20);
-                                    Sound.NoteSoundSigTrim.DelayBy = TimeSpan.FromMilliseconds(16);
+                                    Sound.NoteSoundSigTrim.DelayBy = TimeSpan.FromMilliseconds(NoteWaveOffsetMs * -1 + 5);
                                     Sound.PlayNoteSound(Sound.NoteSoundSigTrim);
                                     return;
                                 }
@@ -827,7 +830,7 @@ namespace _8beatMap
             ResizeScrollbar();
             if (Sound.MusicReader != null)
             {
-                SetCurrTick(ConvertTimeToTicks(Sound.MusicReader.CurrentTime));
+                SetCurrTick(ConvertTimeToTicks(Sound.MusicReader.CurrentTime - TimeSpan.FromMilliseconds(NoteWaveOffsetMs)));
                 UpdateChart();
             }
         }
@@ -1007,11 +1010,8 @@ namespace _8beatMap
             if (e.CloseReason == CloseReason.ApplicationExitCall)
                 return;
 
-            else
-            {
-                if (MessageBox.Show(DialogResMgr.GetString("ExitMessage"), DialogResMgr.GetString("ExitCaption"), MessageBoxButtons.YesNo) == DialogResult.No)
-                    e.Cancel = true;
-            }
+            if (MessageBox.Show(DialogResMgr.GetString("ExitMessage"), DialogResMgr.GetString("ExitCaption"), MessageBoxButtons.YesNo) == DialogResult.No)
+                e.Cancel = true;
         }
 
         private void NoteCountButton_Click(object sender, EventArgs e)
