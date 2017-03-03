@@ -16,10 +16,11 @@ namespace _8beatMap
         static public AudioFileReader MusicReader = null;
         
         public static NAudio.Wave.SampleProviders.SignalGenerator NoteSoundSig = new NAudio.Wave.SampleProviders.SignalGenerator { Frequency = 1000, Gain = 0.5, Type = NAudio.Wave.SampleProviders.SignalGeneratorType.Square };
-        public static NAudio.Wave.SampleProviders.OffsetSampleProvider NoteSoundSigTrim;
 
         static public CachedSound NoteSoundWave;
         static public CachedSound NoteSoundWave_Swipe;
+
+        public static NAudio.Wave.SampleProviders.OffsetSampleProvider NoteSoundTrim;
 
 
         static System.Resources.ResourceManager DialogResMgr = new System.Resources.ResourceManager("_8beatMap.Dialogs", System.Reflection.Assembly.GetEntryAssembly());
@@ -46,7 +47,7 @@ namespace _8beatMap
             }
         }
 
-        class CachedSoundSampleProvider : ISampleProvider
+        public class CachedSoundSampleProvider : ISampleProvider
         {
             private readonly CachedSound cachedSound;
             private long position;

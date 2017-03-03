@@ -543,9 +543,9 @@ namespace _8beatMap
             CurrentTick = tick;
 
             if (Sound.MusicReader != null &&
-                    (Sound.MusicReader.CurrentTime < ConvertTicksToTime(CurrentTick) + TimeSpan.FromMilliseconds(NoteWaveOffsetMs - 3) |
-                    Sound.MusicReader.CurrentTime > ConvertTicksToTime(CurrentTick) + TimeSpan.FromMilliseconds(NoteWaveOffsetMs + 3)))
-                try { Sound.MusicReader.CurrentTime = ConvertTicksToTime(CurrentTick) + TimeSpan.FromMilliseconds(NoteWaveOffsetMs); } catch { }
+                    (Sound.MusicReader.CurrentTime < ConvertTicksToTime(CurrentTick) - TimeSpan.FromMilliseconds(MusicDelayMs - 3) |
+                    Sound.MusicReader.CurrentTime > ConvertTicksToTime(CurrentTick) - TimeSpan.FromMilliseconds(MusicDelayMs + 3)))
+                try { Sound.MusicReader.CurrentTime = ConvertTicksToTime(CurrentTick) - TimeSpan.FromMilliseconds(MusicDelayMs); } catch { }
 
             ChartScrollBar.Value = (int)(chart.Length * TickHeight - tick * TickHeight);
         }
@@ -770,11 +770,11 @@ namespace _8beatMap
             StopPlayback();
         }
 
-        int NoteWaveOffsetMs = -30;
+        int MusicDelayMs = 20;
 
         private void playtimer_Tick(object sender, EventArgs e)
         {
-            SetCurrTick(ConvertTimeToTicks(Sound.MusicReader.CurrentTime - TimeSpan.FromMilliseconds(NoteWaveOffsetMs)));
+            SetCurrTick(ConvertTimeToTicks(Sound.MusicReader.CurrentTime + TimeSpan.FromMilliseconds(MusicDelayMs)));
             UpdateChart();
 
             if ((int)CurrentTick != LastTick)
@@ -795,14 +795,26 @@ namespace _8beatMap
                                 if (note == Notedata.NoteType.Tap || note == Notedata.NoteType.SimulTap || note == Notedata.NoteType.Hold
                                     || note == Notedata.NoteType.SimulHoldStart || note == Notedata.NoteType.SimulHoldRelease)
                                 {
-                                    Sound.PlayNoteSound(Sound.NoteSoundWave);
+                                    //Sound.PlayNoteSound(Sound.NoteSoundWave);
+                                    Sound.NoteSoundTrim = new NAudio.Wave.SampleProviders.OffsetSampleProvider(new Sound.CachedSoundSampleProvider(Sound.NoteSoundWave));
+                                    if (MusicDelayMs > 30)
+                                        Sound.NoteSoundTrim.DelayBy = TimeSpan.FromMilliseconds(MusicDelayMs - 30);
+                                    else
+                                        Sound.NoteSoundTrim.SkipOver = TimeSpan.FromMilliseconds(30 - MusicDelayMs);
+                                    Sound.PlayNoteSound(Sound.NoteSoundTrim);
                                 }
                                 else if (((note == Notedata.NoteType.SwipeLeftStartEnd | note == Notedata.NoteType.SwipeRightStartEnd)
                                     && swipeEnds[i * 8 + j] == 0)
                                     || note == Notedata.NoteType.FlickLeft | note == Notedata.NoteType.HoldEndFlickLeft
                                     || note == Notedata.NoteType.FlickRight | note == Notedata.NoteType.HoldEndFlickRight)
                                 {
-                                    Sound.PlayNoteSound(Sound.NoteSoundWave_Swipe);
+                                    //Sound.PlayNoteSound(Sound.NoteSoundWave_Swipe);
+                                    Sound.NoteSoundTrim = new NAudio.Wave.SampleProviders.OffsetSampleProvider(new Sound.CachedSoundSampleProvider(Sound.NoteSoundWave_Swipe));
+                                    if (MusicDelayMs > 30)
+                                        Sound.NoteSoundTrim.DelayBy = TimeSpan.FromMilliseconds(MusicDelayMs - 30);
+                                    else
+                                        Sound.NoteSoundTrim.SkipOver = TimeSpan.FromMilliseconds(30 - MusicDelayMs);
+                                    Sound.PlayNoteSound(Sound.NoteSoundTrim);
                                 }
                             }
 
@@ -811,10 +823,10 @@ namespace _8beatMap
                                 if (note != Notedata.NoteType.None && note != Notedata.NoteType.ExtendHoldMid &&
                                     note != Notedata.NoteType.SwipeLeftMid && note != Notedata.NoteType.SwipeRightMid)
                                 {
-                                    Sound.NoteSoundSigTrim = new NAudio.Wave.SampleProviders.OffsetSampleProvider(Sound.NoteSoundSig);
-                                    Sound.NoteSoundSigTrim.Take = TimeSpan.FromMilliseconds(20);
-                                    Sound.NoteSoundSigTrim.DelayBy = TimeSpan.FromMilliseconds(NoteWaveOffsetMs * -1 + 5);
-                                    Sound.PlayNoteSound(Sound.NoteSoundSigTrim);
+                                    Sound.NoteSoundTrim = new NAudio.Wave.SampleProviders.OffsetSampleProvider(Sound.NoteSoundSig);
+                                    Sound.NoteSoundTrim.Take = TimeSpan.FromMilliseconds(20);
+                                    Sound.NoteSoundTrim.DelayBy = TimeSpan.FromMilliseconds(MusicDelayMs + 5);
+                                    Sound.PlayNoteSound(Sound.NoteSoundTrim);
                                     return;
                                 }
                             }
@@ -830,7 +842,7 @@ namespace _8beatMap
             ResizeScrollbar();
             if (Sound.MusicReader != null)
             {
-                SetCurrTick(ConvertTimeToTicks(Sound.MusicReader.CurrentTime - TimeSpan.FromMilliseconds(NoteWaveOffsetMs)));
+                SetCurrTick(ConvertTimeToTicks(Sound.MusicReader.CurrentTime + TimeSpan.FromMilliseconds(MusicDelayMs)));
                 UpdateChart();
             }
         }
