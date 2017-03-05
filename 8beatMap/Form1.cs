@@ -166,7 +166,7 @@ namespace _8beatMap
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Color noteCol = Color.LightGray;
+                    Color noteCol = Color.FromArgb(0xc0, 0xc0, 0xc0);
                     Color ArrowCol = Color.Transparent;
                     int ArrowDir = 0;
 
@@ -188,13 +188,13 @@ namespace _8beatMap
                         case Notedata.NoteType.SimulTap:
                         case Notedata.NoteType.SimulHoldStart:
                         case Notedata.NoteType.SimulHoldRelease: noteCol = Color.DeepPink; break;
-                        case Notedata.NoteType.FlickLeft:
-                        case Notedata.NoteType.HoldEndFlickLeft: ArrowCol = Color.FromArgb(0x70, 0, 0x78); ArrowDir = -1; break;
+                        case Notedata.NoteType.FlickLeft: ArrowCol = Color.FromArgb(0x70, 0, 0x78); ArrowDir = -1; break;
+                        case Notedata.NoteType.HoldEndFlickLeft: ArrowCol = Color.FromArgb(0x70, 0, 0x78); noteCol = Color.LightGray; ArrowDir = -1; break;
                         case Notedata.NoteType.SwipeLeftStartEnd: ArrowCol = Color.DarkViolet; ArrowDir = -1; break;
                         case Notedata.NoteType.SwipeLeftMid:
                         case Notedata.NoteType.SwipeChangeDirR2L: ArrowCol = Color.Violet; ArrowDir = -1; break;
-                        case Notedata.NoteType.FlickRight:
-                        case Notedata.NoteType.HoldEndFlickRight: ArrowCol = Color.FromArgb(0xcc, 0x88, 0); ArrowDir = 1; break;
+                        case Notedata.NoteType.FlickRight: ArrowCol = Color.FromArgb(0xcc, 0x88, 0); ArrowDir = 1; break;
+                        case Notedata.NoteType.HoldEndFlickRight: ArrowCol = Color.FromArgb(0xcc, 0x88, 0); noteCol = Color.LightGray; ArrowDir = 1; break;
                         case Notedata.NoteType.SwipeRightStartEnd: ArrowCol = Color.DarkOrange; ArrowDir = 1; break;
                         case Notedata.NoteType.SwipeRightMid:
                         case Notedata.NoteType.SwipeChangeDirL2R: ArrowCol = Color.Gold; ArrowDir = 1; break;
