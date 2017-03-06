@@ -630,7 +630,15 @@ namespace _8beatMap
 
             Form2.Controls.Add(GameClone);
             Form2.Resize += new EventHandler(delegate (object sender, EventArgs e)
-                            { GameClone.Size = Form2.ClientSize; GameClone.Image.Dispose();  GameClone.Image = new Bitmap(GameClone.Width, GameClone.Height); UpdateChart(); });
+                            {
+                                if (Form2.ClientSize.Height == 0 | Form2.ClientSize.Width == 0)
+                                    GameClone.Size = new Size(1, 1);
+                                else
+                                    GameClone.Size = Form2.ClientSize;
+                                GameClone.Image.Dispose();
+                                GameClone.Image = new Bitmap(GameClone.Width, GameClone.Height);
+                                UpdateChart();
+                            });
             Form2.Show();
 
             
@@ -823,7 +831,10 @@ namespace _8beatMap
         {
             if (pictureBox1.Height != Height)
             {
-                pictureBox1.Height = ClientSize.Height;
+                if (ClientSize.Height == 0)
+                    pictureBox1.Height = 1;
+                else
+                    pictureBox1.Height = ClientSize.Height;
                 Image bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
                 pictureBox1.Image = bmp;
                 UpdateChart();
