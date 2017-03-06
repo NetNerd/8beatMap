@@ -319,7 +319,7 @@ namespace _8beatMap
                 Grfx.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.High;
             }
 
-            Grfx.Clear(Color.Transparent);
+            //Grfx.Clear(Color.Transparent);
 
 
             ColorMatrix transpMatrix = new ColorMatrix();
@@ -388,11 +388,11 @@ namespace _8beatMap
                         int start = i;
                         if (start <= startTick) start = (int)startTick + 1;
                         int end = i;
-                        while (FindVisualNoteType(end, j) == Notedata.NoteType.ExtendHoldMid) end+=2;
+                        while (FindVisualNoteType(end, j) == Notedata.NoteType.ExtendHoldMid) end++;
                         if (end <= start) continue;
 
                         float sDist = (float)(numTicksVisible - start + 1 + startTick) / numTicksVisible;
-                        float eDist = (float)(numTicksVisible - end + 1 + startTick) / numTicksVisible;
+                        float eDist = (float)(numTicksVisible - end + startTick) / numTicksVisible;
                         float sSize = iconSize / 2 * sDist;
                         float eSize = iconSize / 2 * eDist;
                         PointF sPoint = GetPointAlongLineF(NodeStartLocs[j], NodeEndLocs[j], sDist);
@@ -800,6 +800,11 @@ namespace _8beatMap
                         }
                     }
                 }
+            }
+
+            if (CurrentTick == chart.Length - 1 || Sound.MusicReader.CurrentTime == Sound.MusicReader.TotalTime)
+            {
+                StopPlayback();
             }
         }
 
