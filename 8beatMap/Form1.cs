@@ -509,14 +509,22 @@ namespace _8beatMap
             ChartScrollBar.Value = (int)(chart.Length * TickHeight - tick * TickHeight);
         }
 
+
+        int VideoDelayMs = 30;
+
         private void UpdateChart()
         {
+            double tick = CurrentTick;
+            if (playTimer.Enabled)
+            {
+                tick -= ConvertTimeToTicks(TimeSpan.FromMilliseconds(VideoDelayMs));
+            }
             pictureBox1.Image.Dispose();
-            pictureBox1.Image = GetChartImage(CurrentTick, TickHeight, IconWidth, IconHeight, SystemColors.ControlLight, false, pictureBox1.Width, pictureBox1.Height);
+            pictureBox1.Image = GetChartImage(tick, TickHeight, IconWidth, IconHeight, SystemColors.ControlLight, false, pictureBox1.Width, pictureBox1.Height);
             if (Form2.Visible)
             {
                 GameClone.Image.Dispose();
-                GameClone.Image = GetGameCloneImage(CurrentTick, 24, GameClone.Width, GameClone.Height, true);
+                GameClone.Image = GetGameCloneImage(tick, 24, GameClone.Width, GameClone.Height, true);
                 //GameClone.BackColor = Color.Salmon;
             }
         }
@@ -570,6 +578,7 @@ namespace _8beatMap
         {
             playTimer.Enabled = false;
             Sound.StopMusic();
+            UpdateChart();
         }
 
 
@@ -644,9 +653,9 @@ namespace _8beatMap
             
             try
             {
-                spr_HoldLocus = PArgbConverter(Image.FromFile("nodeimg/locus.png"));
+                spr_HoldLocus = (Bitmap)Image.FromFile("nodeimg/locus.png");
                 spr_HoldLocus = PArgbConverter_Clip(spr_HoldLocus, new Point[] { new Point(0, 0), new Point(0, 0), new Point(spr_HoldLocus.Width*2, spr_HoldLocus.Height*32), new Point(0, spr_HoldLocus.Height*32) }, 2, 32);
-                spr_SwipeLocus = PArgbConverter(Image.FromFile("nodeimg/locus2.png"));
+                spr_SwipeLocus = (Bitmap)Image.FromFile("nodeimg/locus2.png");
                 spr_SwipeLocus = PArgbConverter_Clip(spr_SwipeLocus, new Point[] { new Point(0, 0), new Point(spr_SwipeLocus.Width * 64, 0), new Point(spr_SwipeLocus.Width*64, 0), new Point(0, spr_SwipeLocus.Height*2) }, 64, 2);
                 spr_TapIcon = PArgbConverter(Image.FromFile("nodeimg/node_1.png"));
                 spr_HoldIcon = PArgbConverter(Image.FromFile("nodeimg/node_2.png"));
