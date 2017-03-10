@@ -524,7 +524,7 @@ namespace _8beatMap
             if (Form2.Visible)
             {
                 GameClone.Image.Dispose();
-                GameClone.Image = GetGameCloneImage(tick, 24, GameClone.Width, GameClone.Height, true);
+                GameClone.Image = GetGameCloneImage(tick, (int)ConvertTimeToTicks(TimeSpan.FromMilliseconds(700)), GameClone.Width, GameClone.Height, true);
                 //GameClone.BackColor = Color.Salmon;
             }
         }
