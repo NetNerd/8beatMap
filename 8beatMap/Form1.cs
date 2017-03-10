@@ -510,7 +510,7 @@ namespace _8beatMap
         }
 
 
-        int VideoDelayMs = 30;
+        int VideoDelayMs = 40;
 
         private void UpdateChart()
         {

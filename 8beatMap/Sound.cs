@@ -9,7 +9,7 @@ namespace _8beatMap
 {
     static class Sound
     {
-        static WaveOutEvent WaveOut = new WaveOutEvent { DesiredLatency = 100, NumberOfBuffers = 14 };
+        static WaveOutEvent WaveOut = new WaveOutEvent { DesiredLatency = 110, NumberOfBuffers = 14 };
         //static WasapiOut WaveOut = new WasapiOut(NAudio.CoreAudioApi.AudioClientShareMode.Shared, true, 100);
         static NAudio.Wave.SampleProviders.MixingSampleProvider WaveMixer = new NAudio.Wave.SampleProviders.MixingSampleProvider(WaveFormat.CreateIeeeFloatWaveFormat(44100, 2)) { ReadFully = true };
         static NAudio.Wave.SampleProviders.WdlResamplingSampleProvider MusicResamp;
