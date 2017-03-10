@@ -138,15 +138,6 @@ namespace _8beatMap
                 }
                 NoteArray[Lane] = Note;
             }
-
-            public bool isInit
-            {
-                get
-                {
-                    if (NoteArray == null) return false;
-                    else return true;
-                }
-            }
         }
 
 
@@ -193,6 +184,15 @@ namespace _8beatMap
             public string BUTTON6;
             public string BUTTON7;
             public string BUTTON8;
+
+            public int[] Buttons
+            {
+                get
+                {
+                    return new int[] { SafeParseInt(BUTTON1), SafeParseInt(BUTTON2), SafeParseInt(BUTTON3), SafeParseInt(BUTTON4),
+                        SafeParseInt(BUTTON5), SafeParseInt(BUTTON6), SafeParseInt(BUTTON7), SafeParseInt(BUTTON8) };
+                }
+            }
         }
 
         class JsonTick_Export
@@ -232,18 +232,24 @@ namespace _8beatMap
 
             for (int i = 1; i < tickObj.Length; i++)
             {
-                int chartTick = tickObjTickNumber(tickObj, i);
+                //int chartTick = tickObjTickNumber(tickObj, i);
+                
+                for (int j = 0; j < 8; j++)
+                {
+                    if (tickObj[i].Buttons[j] != 0)
+                    {
+                        chart.Ticks[tickObjTickNumber(tickObj, i)].SetNote((NoteType)tickObj[i].Buttons[j], j);
+                    }
+                }
 
-                if (chart.Ticks[chartTick].isInit) continue;
-
-                chart.Ticks[chartTick].SetNote((NoteType)SafeParseInt(tickObj[i].BUTTON1), 0);
-                chart.Ticks[chartTick].SetNote((NoteType)SafeParseInt(tickObj[i].BUTTON2), 1);
-                chart.Ticks[chartTick].SetNote((NoteType)SafeParseInt(tickObj[i].BUTTON3), 2);
-                chart.Ticks[chartTick].SetNote((NoteType)SafeParseInt(tickObj[i].BUTTON4), 3);
-                chart.Ticks[chartTick].SetNote((NoteType)SafeParseInt(tickObj[i].BUTTON5), 4);
-                chart.Ticks[chartTick].SetNote((NoteType)SafeParseInt(tickObj[i].BUTTON6), 5);
-                chart.Ticks[chartTick].SetNote((NoteType)SafeParseInt(tickObj[i].BUTTON7), 6);
-                chart.Ticks[chartTick].SetNote((NoteType)SafeParseInt(tickObj[i].BUTTON8), 7);
+                //chart.Ticks[chartTick].SetNote((NoteType)SafeParseInt(tickObj[i].BUTTON1), 0);
+                //chart.Ticks[chartTick].SetNote((NoteType)SafeParseInt(tickObj[i].BUTTON2), 1);
+                //chart.Ticks[chartTick].SetNote((NoteType)SafeParseInt(tickObj[i].BUTTON3), 2);
+                //chart.Ticks[chartTick].SetNote((NoteType)SafeParseInt(tickObj[i].BUTTON4), 3);
+                //chart.Ticks[chartTick].SetNote((NoteType)SafeParseInt(tickObj[i].BUTTON5), 4);
+                //chart.Ticks[chartTick].SetNote((NoteType)SafeParseInt(tickObj[i].BUTTON6), 5);
+                //chart.Ticks[chartTick].SetNote((NoteType)SafeParseInt(tickObj[i].BUTTON7), 6);
+                //chart.Ticks[chartTick].SetNote((NoteType)SafeParseInt(tickObj[i].BUTTON8), 7);
             }
 
             return chart;
