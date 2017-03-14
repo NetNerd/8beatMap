@@ -291,22 +291,19 @@ namespace _8beatMap
             return bmp;
         }
 
-        Image GetGameCloneImage(double startTick, int numTicksVisible, int width, int height, bool SpeedupMode)
+        void DrawGameClone(Graphics Grfx, double startTick, int numTicksVisible, int width, int height, int SpeedupMode)
         {
-            Image Bmp = new Bitmap (width, height, PixelFormat.Format32bppPArgb);
-            Graphics Grfx = Graphics.FromImage(Bmp);
-            
             float scalefactor = (float)width / 1136;
 
-            Point[] NodeStartLocs = { new Point((int)(223*scalefactor), (int)(77*scalefactor)), new Point((int)(320*scalefactor), (int)(100*scalefactor)), new Point((int)(419*scalefactor), (int)(114*scalefactor)), new Point((int)(519*scalefactor), (int)(119*scalefactor)), new Point((int)(617*scalefactor), (int)(119*scalefactor)), new Point((int)(717*scalefactor), (int)(114*scalefactor)), new Point((int)(816*scalefactor), (int)(100*scalefactor)), new Point((int)(923*scalefactor), (int)(77*scalefactor)) };
-            Point[] NodeEndLocs = { new Point((int)(75*scalefactor), (int)(height-156*scalefactor)), new Point((int)(213*scalefactor), (int)(height-120*scalefactor)), new Point((int)(354*scalefactor), (int)(height-98*scalefactor)), new Point((int)(497*scalefactor), (int)(height-88*scalefactor)), new Point((int)(639*scalefactor), (int)(height-88*scalefactor)), new Point((int)(782*scalefactor), (int)(height-98*scalefactor)), new Point((int)(923*scalefactor), (int)(height-120*scalefactor)), new Point((int)(1061*scalefactor), (int)(height-156*scalefactor)) };
+            Point[] NodeStartLocs = { new Point((int)(223 * scalefactor), (int)(77 * scalefactor)), new Point((int)(320 * scalefactor), (int)(100 * scalefactor)), new Point((int)(419 * scalefactor), (int)(114 * scalefactor)), new Point((int)(519 * scalefactor), (int)(119 * scalefactor)), new Point((int)(617 * scalefactor), (int)(119 * scalefactor)), new Point((int)(717 * scalefactor), (int)(114 * scalefactor)), new Point((int)(816 * scalefactor), (int)(100 * scalefactor)), new Point((int)(923 * scalefactor), (int)(77 * scalefactor)) };
+            Point[] NodeEndLocs = { new Point((int)(75 * scalefactor), (int)(height - 156 * scalefactor)), new Point((int)(213 * scalefactor), (int)(height - 120 * scalefactor)), new Point((int)(354 * scalefactor), (int)(height - 98 * scalefactor)), new Point((int)(497 * scalefactor), (int)(height - 88 * scalefactor)), new Point((int)(639 * scalefactor), (int)(height - 88 * scalefactor)), new Point((int)(782 * scalefactor), (int)(height - 98 * scalefactor)), new Point((int)(923 * scalefactor), (int)(height - 120 * scalefactor)), new Point((int)(1061 * scalefactor), (int)(height - 156 * scalefactor)) };
 
             int iconSize = (int)(128 * scalefactor);
 
             Grfx.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceOver;
             Grfx.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
 
-            if (SpeedupMode)
+            if (SpeedupMode > 0)
             {
                 Grfx.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
                 Grfx.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
@@ -340,17 +337,31 @@ namespace _8beatMap
             ColorMatrix effectTranspMatrix = new ColorMatrix();
             ImageAttributes effectTranspAttr = new ImageAttributes();
 
+            if (SpeedupMode < 2)
+            {
+                Grfx.DrawImage(spr_Chara1, NodeEndLocs[0].X - iconSize / 2, NodeEndLocs[0].Y - iconSize / 2, iconSize, iconSize);
+                Grfx.DrawImage(spr_Chara2, NodeEndLocs[1].X - iconSize / 2, NodeEndLocs[1].Y - iconSize / 2, iconSize, iconSize);
+                Grfx.DrawImage(spr_Chara3, NodeEndLocs[2].X - iconSize / 2, NodeEndLocs[2].Y - iconSize / 2, iconSize, iconSize);
+                Grfx.DrawImage(spr_Chara4, NodeEndLocs[3].X - iconSize / 2, NodeEndLocs[3].Y - iconSize / 2, iconSize, iconSize);
+                Grfx.DrawImage(spr_Chara5, NodeEndLocs[4].X - iconSize / 2, NodeEndLocs[4].Y - iconSize / 2, iconSize, iconSize);
+                Grfx.DrawImage(spr_Chara6, NodeEndLocs[5].X - iconSize / 2, NodeEndLocs[5].Y - iconSize / 2, iconSize, iconSize);
+                Grfx.DrawImage(spr_Chara7, NodeEndLocs[6].X - iconSize / 2, NodeEndLocs[6].Y - iconSize / 2, iconSize, iconSize);
+                Grfx.DrawImage(spr_Chara8, NodeEndLocs[7].X - iconSize / 2, NodeEndLocs[7].Y - iconSize / 2, iconSize, iconSize);
+            }
+            else
+            {
+                Pen Outline = new Pen(Color.Gray, 7*scalefactor);
+                Grfx.DrawEllipse(Outline, NodeEndLocs[0].X - iconSize / 2, NodeEndLocs[0].Y - iconSize / 2, iconSize, iconSize);
+                Grfx.DrawEllipse(Outline, NodeEndLocs[1].X - iconSize / 2, NodeEndLocs[1].Y - iconSize / 2, iconSize, iconSize);
+                Grfx.DrawEllipse(Outline, NodeEndLocs[2].X - iconSize / 2, NodeEndLocs[2].Y - iconSize / 2, iconSize, iconSize);
+                Grfx.DrawEllipse(Outline, NodeEndLocs[3].X - iconSize / 2, NodeEndLocs[3].Y - iconSize / 2, iconSize, iconSize);
+                Grfx.DrawEllipse(Outline, NodeEndLocs[4].X - iconSize / 2, NodeEndLocs[4].Y - iconSize / 2, iconSize, iconSize);
+                Grfx.DrawEllipse(Outline, NodeEndLocs[5].X - iconSize / 2, NodeEndLocs[5].Y - iconSize / 2, iconSize, iconSize);
+                Grfx.DrawEllipse(Outline, NodeEndLocs[6].X - iconSize / 2, NodeEndLocs[6].Y - iconSize / 2, iconSize, iconSize);
+                Grfx.DrawEllipse(Outline, NodeEndLocs[7].X - iconSize / 2, NodeEndLocs[7].Y - iconSize / 2, iconSize, iconSize);
+            }
 
-            Grfx.DrawImage(spr_Chara1, NodeEndLocs[0].X - iconSize / 2, NodeEndLocs[0].Y - iconSize / 2, iconSize, iconSize);
-            Grfx.DrawImage(spr_Chara2, NodeEndLocs[1].X - iconSize / 2, NodeEndLocs[1].Y - iconSize / 2, iconSize, iconSize);
-            Grfx.DrawImage(spr_Chara3, NodeEndLocs[2].X - iconSize / 2, NodeEndLocs[2].Y - iconSize / 2, iconSize, iconSize);
-            Grfx.DrawImage(spr_Chara4, NodeEndLocs[3].X - iconSize / 2, NodeEndLocs[3].Y - iconSize / 2, iconSize, iconSize);
-            Grfx.DrawImage(spr_Chara5, NodeEndLocs[4].X - iconSize / 2, NodeEndLocs[4].Y - iconSize / 2, iconSize, iconSize);
-            Grfx.DrawImage(spr_Chara6, NodeEndLocs[5].X - iconSize / 2, NodeEndLocs[5].Y - iconSize / 2, iconSize, iconSize);
-            Grfx.DrawImage(spr_Chara7, NodeEndLocs[6].X - iconSize / 2, NodeEndLocs[6].Y - iconSize / 2, iconSize, iconSize);
-            Grfx.DrawImage(spr_Chara8, NodeEndLocs[7].X - iconSize / 2, NodeEndLocs[7].Y - iconSize / 2, iconSize, iconSize);
 
-            
             for (int i = (int)startTick + numTicksVisible + 1; i >= (int)startTick; i--)
             //for (int i = (int)startTick; i < startTick + numTicksVisible + 24; i++)
             {
@@ -360,7 +371,7 @@ namespace _8beatMap
                 for (int j = 0; j < 8; j++)
                 {
                     Notedata.NoteType Type = FindVisualNoteType(i, j);
-                    
+
 
                     if ((Type == Notedata.NoteType.SwipeRightStartEnd | Type == Notedata.NoteType.SwipeRightMid | Type == Notedata.NoteType.SwipeChangeDirL2R
                         | Type == Notedata.NoteType.SwipeLeftStartEnd | Type == Notedata.NoteType.SwipeLeftMid | Type == Notedata.NoteType.SwipeChangeDirR2L) && (swipeEnds[i * 8 + j] == 0))
@@ -399,11 +410,11 @@ namespace _8beatMap
                         PointF ePoint = GetPointAlongLineF(NodeStartLocs[j], NodeEndLocs[j], eDist);
                         Grfx.DrawImage(spr_HoldLocus, new PointF[] { new PointF(ePoint.X + eSize, ePoint.Y), new PointF(ePoint.X + eSize - iconSize, ePoint.Y), new PointF(sPoint.X + sSize, sPoint.Y) }, new Rectangle(0, (int)(spr_HoldLocus.Height * eDist), spr_HoldLocus.Width, (int)(spr_HoldLocus.Height * (sDist - eDist)) - 8), GraphicsUnit.Pixel, transpAttr);
                     }
-                    
+
                 }
             }
 
-            
+
             for (int i = (int)startTick + numTicksVisible; i >= (int)(startTick - EffectTicks - EffectFadeTicks - 1); i--)
             //for (int i = (int)(startTick - EffectTicks - EffectFadeTicks - 1); i <= (int)startTick + numTicksVisible; i++)
             {
@@ -469,9 +480,9 @@ namespace _8beatMap
                     else if (i > (int)(startTick - EffectTicks - 1))
                     {
                         int effectSize = (int)(((startTick - i - 1) / EffectTicks + 1) * iconSize * 1.375f);
-                        Grfx.DrawImage(spr_HitEffect, NodeEndLocs[j].X-effectSize/2, NodeEndLocs[j].Y-effectSize/2, effectSize, effectSize);
+                        Grfx.DrawImage(spr_HitEffect, NodeEndLocs[j].X - effectSize / 2, NodeEndLocs[j].Y - effectSize / 2, effectSize, effectSize);
                     }
-                    else if (i >= (int)(startTick - EffectTicks - EffectFadeTicks - 1) & !SpeedupMode)
+                    else if (i >= (int)(startTick - EffectTicks - EffectFadeTicks - 1) & SpeedupMode < 1)
                     {
                         int effectSize = (int)(iconSize * 2.75);
                         float effectOpacity = 1 - (float)((startTick - EffectTicks - i - 1) / EffectFadeTicks * 0.8f);
@@ -487,9 +498,17 @@ namespace _8beatMap
                 }
             }
             
-            Grfx.Dispose();
-
             transpAttr.Dispose();
+        }
+
+        Image GetGameCloneImage(double startTick, int numTicksVisible, int width, int height, int SpeedupMode)
+        {
+            Image Bmp = new Bitmap (width, height, PixelFormat.Format32bppPArgb);
+            Graphics Grfx = Graphics.FromImage(Bmp);
+
+            DrawGameClone(Grfx, startTick, numTicksVisible, width, height, SpeedupMode);
+            
+            Grfx.Dispose();
 
             return Bmp;
         }
@@ -524,7 +543,7 @@ namespace _8beatMap
             if (Form2.Visible)
             {
                 GameClone.Image.Dispose();
-                GameClone.Image = GetGameCloneImage(tick, (int)ConvertTimeToTicks(TimeSpan.FromMilliseconds(700)), GameClone.Width, GameClone.Height, true);
+                GameClone.Image = GetGameCloneImage(tick, (int)ConvertTimeToTicks(TimeSpan.FromMilliseconds(700)), GameClone.Width, GameClone.Height, 2);
                 //GameClone.BackColor = Color.Salmon;
             }
         }
