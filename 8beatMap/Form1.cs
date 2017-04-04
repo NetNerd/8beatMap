@@ -770,13 +770,13 @@ namespace _8beatMap
 
         int MusicDelayMs = 20;
 
-        long lastPlayTickTime = 0;
+        double lastPlayTickTime = 0;
         private void playtimer_Tick(object sender, EventArgs e)
         {
             SetCurrTick(ConvertTimeToTicks(Sound.MusicReader.CurrentTime + TimeSpan.FromMilliseconds(MusicDelayMs)));
-            if (lastPlayTickTime < DateTime.UtcNow.AddMilliseconds(-12).Ticks)
+            if (lastPlayTickTime < ConvertTicksToTime(CurrentTick).TotalMilliseconds - 12)
             {
-                lastPlayTickTime = DateTime.UtcNow.Ticks;
+                lastPlayTickTime = ConvertTicksToTime(CurrentTick).TotalMilliseconds;
                 UpdateChart();
             }
 
