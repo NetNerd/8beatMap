@@ -774,7 +774,7 @@ namespace _8beatMap
         private void playtimer_Tick(object sender, EventArgs e)
         {
             SetCurrTick(ConvertTimeToTicks(Sound.MusicReader.CurrentTime + TimeSpan.FromMilliseconds(MusicDelayMs)));
-            if (lastPlayTickTime < ConvertTicksToTime(CurrentTick).TotalMilliseconds - 12)
+            if (lastPlayTickTime < ConvertTicksToTime(CurrentTick).TotalMilliseconds - 12 | lastPlayTickTime > ConvertTicksToTime(CurrentTick).TotalMilliseconds)
             {
                 lastPlayTickTime = ConvertTicksToTime(CurrentTick).TotalMilliseconds;
                 UpdateChart();
