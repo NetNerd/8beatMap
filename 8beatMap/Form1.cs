@@ -61,71 +61,7 @@ namespace _8beatMap
         }
 
 
-        byte[] swipeEnds;
-        Point[] swipeEndpointNodes; // X=tick Y=lane
-
-        private void UpdateSwipeEnd(int tick, int lane)
-        {
-            Notedata.NoteType Type = chart.Ticks[tick].Notes[lane];
-
-            if ((Type == Notedata.NoteType.SwipeRightStartEnd | Type == Notedata.NoteType.SwipeRightMid | Type == Notedata.NoteType.SwipeChangeDirL2R)
-                && (swipeEnds[tick * 8 + lane] == 0))
-            {
-                for (int i = tick + 1; i < tick + 48; i++)
-                {
-                    if (i > chart.Length) break;
-                    int j = lane + 1;
-                    if (j > 7) break;
-
-                    if (chart.Ticks[i].Notes[j] == Notedata.NoteType.SwipeRightStartEnd)
-                        swipeEnds[i * 8 + j] = 1;
-
-                    if (chart.Ticks[i].Notes[j] == Notedata.NoteType.SwipeRightStartEnd | chart.Ticks[i].Notes[j] == Notedata.NoteType.SwipeRightMid
-                        | chart.Ticks[i].Notes[j] == Notedata.NoteType.SwipeChangeDirR2L)
-                    {
-                        swipeEndpointNodes[tick * 8 + lane] = new Point(i, j);
-                        break;
-                    }
-                }
-            }
-
-            if ((Type == Notedata.NoteType.SwipeLeftStartEnd | Type == Notedata.NoteType.SwipeLeftMid | Type == Notedata.NoteType.SwipeChangeDirR2L)
-                && (swipeEnds[tick * 8 + lane] == 0))
-            {
-                for (int i = tick + 1; i < tick + 48; i++)
-                {
-                    if (i > chart.Length) break;
-                    int j = lane - 1;
-                    if (j < 0) break;
-
-                    if (chart.Ticks[i].Notes[j] == Notedata.NoteType.SwipeLeftStartEnd)
-                        swipeEnds[i * 8 + j] = 1;
-
-                    if (chart.Ticks[i].Notes[j] == Notedata.NoteType.SwipeLeftStartEnd | chart.Ticks[i].Notes[j] == Notedata.NoteType.SwipeLeftMid
-                        | chart.Ticks[i].Notes[j] == Notedata.NoteType.SwipeChangeDirL2R)
-                    {
-                        swipeEndpointNodes[tick * 8 + lane] = new Point(i, j);
-                        break;
-                    }
-                }
-            }
-        }
-
-        private void FixSwipes()
-        {
-            swipeEnds = new byte[chart.Length * 8];
-            swipeEndpointNodes = new Point[chart.Length * 8];
-
-            for (int i = 0; i < chart.Length; i++)
-            {
-                for (int j = 0; j < 8; j++)
-                {
-                    Notedata.NoteType Type = chart.Ticks[i].Notes[j];
-
-                    UpdateSwipeEnd(i, j);
-                }
-            }
-        }
+        
 
 
         Image GetChartImage(double startTick, int tickHeight, int iconWidth, int iconHeight, Color BgCol, bool NoGrid, int Width, int Height)
@@ -172,9 +108,9 @@ namespace _8beatMap
 
                     Notedata.NoteType Type = FindVisualNoteType(i, j);
 
-                    if (swipeEnds[i * 8 + j] == 0)
+                    if (chart.swipeEnds[i * 8 + j] == 0)
                     {
-                        Point swipeEndPoint = swipeEndpointNodes[i * 8 + j];
+                        Point swipeEndPoint = chart.swipeEndpointNodes[i * 8 + j];
 
                         if (swipeEndPoint.X > i)
                             Grfx.DrawLine(new Pen(Color.LightGray, iconWidth / 3), (float)(j + 0.5) * laneWidth, height - (float)(i - startTick + 1) * tickHeight - 2, (float)(swipeEndPoint.Y + 0.5) * laneWidth, height - (float)(swipeEndPoint.X - startTick + 1) * tickHeight - 2);
@@ -374,9 +310,9 @@ namespace _8beatMap
 
 
                     if ((Type == Notedata.NoteType.SwipeRightStartEnd | Type == Notedata.NoteType.SwipeRightMid | Type == Notedata.NoteType.SwipeChangeDirL2R
-                        | Type == Notedata.NoteType.SwipeLeftStartEnd | Type == Notedata.NoteType.SwipeLeftMid | Type == Notedata.NoteType.SwipeChangeDirR2L) && (swipeEnds[i * 8 + j] == 0))
+                        | Type == Notedata.NoteType.SwipeLeftStartEnd | Type == Notedata.NoteType.SwipeLeftMid | Type == Notedata.NoteType.SwipeChangeDirR2L) && (chart.swipeEnds[i * 8 + j] == 0))
                     {
-                        Point swipeEndPoint = swipeEndpointNodes[i * 8 + j];
+                        Point swipeEndPoint = chart.swipeEndpointNodes[i * 8 + j];
 
                         if (swipeEndPoint.X > i)
                         {
@@ -621,7 +557,6 @@ namespace _8beatMap
                 BPMbox.Value = (decimal)chart.BPM;
                 ResizeScrollbar();
                 SetCurrTick(0);
-                FixSwipes();
                 UpdateChart();
 
             }
@@ -740,7 +675,6 @@ namespace _8beatMap
 
             ResizeScrollbar();
             SetCurrTick(0);
-            FixSwipes();
             UpdateChart();
 
             playTimer.Tick += playtimer_Tick;
@@ -807,7 +741,7 @@ namespace _8beatMap
                                     Sound.PlayNoteSound(Sound.NoteSoundTrim);
                                 }
                                 else if (((note == Notedata.NoteType.SwipeLeftStartEnd | note == Notedata.NoteType.SwipeRightStartEnd)
-                                    && swipeEnds[i * 8 + j] == 0)
+                                    && chart.swipeEnds[i * 8 + j] == 0)
                                     || note == Notedata.NoteType.FlickLeft | note == Notedata.NoteType.HoldEndFlickLeft
                                     || note == Notedata.NoteType.FlickRight | note == Notedata.NoteType.HoldEndFlickRight)
                                 {
@@ -889,8 +823,7 @@ namespace _8beatMap
                         return;
                     }
 
-                    chart.Ticks[Tick].Notes[Lane] = NewNote;
-                    FixSwipes();
+                    chart.Ticks[Tick].SetNote(NewNote, Lane, ref chart);
                     UpdateChart();
                 }
 
@@ -900,8 +833,7 @@ namespace _8beatMap
             {
                 if (chart.Ticks[Tick].Notes[Lane] != Notedata.NoteType.None)
                 {
-                    chart.Ticks[Tick].Notes[Lane] = Notedata.NoteType.None;
-                    FixSwipes();
+                    chart.Ticks[Tick].SetNote(Notedata.NoteType.None, Lane, ref chart);
                     UpdateChart();
                 }
             }
@@ -949,7 +881,6 @@ namespace _8beatMap
         private void ResizeBtn_Click(object sender, EventArgs e)
         {
             ResizeChart((int)ResizeBox.Value * 48);
-            FixSwipes();
             UpdateChart();
         }
 
@@ -1007,7 +938,7 @@ namespace _8beatMap
                 chart.Ticks = NewTicks.ToArray();
 
                 ResizeScrollbar();
-                FixSwipes();
+                chart.FixSwipes();
                 UpdateChart();
             }
 
@@ -1019,7 +950,7 @@ namespace _8beatMap
                 chart.Ticks = NewTicks.ToArray();
 
                 ResizeScrollbar();
-                FixSwipes();
+                chart.FixSwipes();
                 UpdateChart();
             }
 
@@ -1082,7 +1013,7 @@ namespace _8beatMap
                         Notedata.NoteType NoteType = FindVisualNoteType(i, j);
                         if (NoteType == Notedata.NoteType.Tap)
                         {
-                            chart.Ticks[i].Notes[j] = Notedata.NoteType.SimulTap;
+                            chart.Ticks[i].SetNote(Notedata.NoteType.SimulTap, j, ref chart);
 
                             UpdateChart();
                         }
@@ -1095,7 +1026,7 @@ namespace _8beatMap
                         Notedata.NoteType NoteType = FindVisualNoteType(i, j);
                         if (NoteType == Notedata.NoteType.SimulTap)
                         {
-                            chart.Ticks[i].Notes[j] = Notedata.NoteType.Tap;
+                            chart.Ticks[i].SetNote(Notedata.NoteType.Tap, j, ref chart);
 
                             UpdateChart();
                         }
@@ -1111,9 +1042,9 @@ namespace _8beatMap
                         || NoteType == Notedata.NoteType.SimulHoldRelease)
                         {
                             if (i + 1 < chart.Length && (chart.Ticks[i + 1].Notes[j] == Notedata.NoteType.Hold || chart.Ticks[i + 1].Notes[j] == Notedata.NoteType.SimulHoldRelease))
-                                chart.Ticks[i].Notes[j] = Notedata.NoteType.SimulHoldStart;
+                                chart.Ticks[i].SetNote(Notedata.NoteType.SimulHoldStart, j, ref chart);
                             else
-                                chart.Ticks[i].Notes[j] = Notedata.NoteType.SimulHoldRelease;
+                                chart.Ticks[i].SetNote(Notedata.NoteType.SimulHoldRelease, j, ref chart);
 
                             UpdateChart();
                         }
@@ -1126,7 +1057,7 @@ namespace _8beatMap
                         Notedata.NoteType NoteType = FindVisualNoteType(i, j);
                         if (NoteType == Notedata.NoteType.SimulHoldStart || NoteType == Notedata.NoteType.SimulHoldRelease)
                         {
-                            chart.Ticks[i].Notes[j] = Notedata.NoteType.Hold;
+                            chart.Ticks[i].SetNote(Notedata.NoteType.Hold, j, ref chart);
 
                             UpdateChart();
                         }

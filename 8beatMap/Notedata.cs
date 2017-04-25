@@ -128,15 +128,19 @@ namespace _8beatMap
                 //    }
                 //    NoteArray = value;
                 //}
-            }            
+            }           
 
-            public void SetNote(NoteType Note, int Lane)
+
+            //using SetNote is preffered over directly setting notes because it handles fixing the swipe cache for you. Either way works though.
+            public void SetNote(NoteType Note, int Lane, ref Chart chart)
             {
                 if (NoteArray == null)
                 {
                     NoteArray = new NoteType[8];
                 }
                 NoteArray[Lane] = Note;
+
+                chart.FixSwipes();
             }
         }
 
@@ -155,6 +159,7 @@ namespace _8beatMap
                     {
                         Array.Resize(ref Ticks, value);
                         ChartLen = value;
+                        FixSwipes();
                     }
                 }
             }
@@ -162,11 +167,110 @@ namespace _8beatMap
             public double BPM;
 
 
+
+            private byte[] swipeEnds_internal;
+
+            public byte[] swipeEnds
+            {
+                get
+                {
+                    if (swipeEnds_internal == null)
+                    {
+                        FixSwipes();
+                    }
+                    return swipeEnds_internal;
+                }
+            }
+
+
+
+            private System.Drawing.Point[] swipeEndpointNodes_internal; // X=tick Y=lane
+
+            public System.Drawing.Point[] swipeEndpointNodes // X=tick Y=lane
+            {
+                get
+                {
+                    if (swipeEndpointNodes_internal == null)
+                    {
+                        FixSwipes();
+                    }
+                    return swipeEndpointNodes_internal;
+                }
+            }
+
+
+            private void UpdateSwipeEnd(int tick, int lane)
+            {
+                Notedata.NoteType Type = Ticks[tick].Notes[lane];
+
+                if ((Type == Notedata.NoteType.SwipeRightStartEnd | Type == Notedata.NoteType.SwipeRightMid | Type == Notedata.NoteType.SwipeChangeDirL2R)
+                    && (swipeEnds_internal[tick * 8 + lane] == 0))
+                {
+                    for (int i = tick + 1; i < tick + 48; i++)
+                    {
+                        if (i >= Length) break;
+                        int j = lane + 1;
+                        if (j > 7) break;
+
+                        if (Ticks[i].Notes[j] == Notedata.NoteType.SwipeRightStartEnd)
+                            swipeEnds_internal[i * 8 + j] = 1;
+
+                        if (Ticks[i].Notes[j] == Notedata.NoteType.SwipeRightStartEnd | Ticks[i].Notes[j] == Notedata.NoteType.SwipeRightMid
+                            | Ticks[i].Notes[j] == Notedata.NoteType.SwipeChangeDirR2L)
+                        {
+                            swipeEndpointNodes_internal[tick * 8 + lane] = new System.Drawing.Point(i, j);
+                            break;
+                        }
+                    }
+                }
+
+                if ((Type == Notedata.NoteType.SwipeLeftStartEnd | Type == Notedata.NoteType.SwipeLeftMid | Type == Notedata.NoteType.SwipeChangeDirR2L)
+                    && (swipeEnds_internal[tick * 8 + lane] == 0))
+                {
+                    for (int i = tick + 1; i < tick + 48; i++)
+                    {
+                        if (i >= Length) break;
+                        int j = lane - 1;
+                        if (j < 0) break;
+
+                        if (Ticks[i].Notes[j] == Notedata.NoteType.SwipeLeftStartEnd)
+                            swipeEnds_internal[i * 8 + j] = 1;
+
+                        if (Ticks[i].Notes[j] == Notedata.NoteType.SwipeLeftStartEnd | Ticks[i].Notes[j] == Notedata.NoteType.SwipeLeftMid
+                            | Ticks[i].Notes[j] == Notedata.NoteType.SwipeChangeDirL2R)
+                        {
+                            swipeEndpointNodes_internal[tick * 8 + lane] = new System.Drawing.Point(i, j);
+                            break;
+                        }
+                    }
+                }
+            }
+
+
+            public void FixSwipes()
+            {
+                swipeEnds_internal = new byte[Length * 8];
+                swipeEndpointNodes_internal = new System.Drawing.Point[Length * 8];
+
+                for (int i = 0; i < Length; i++)
+                {
+                    for (int j = 0; j < 8; j++)
+                    {
+                        Notedata.NoteType Type = Ticks[i].Notes[j];
+
+                        UpdateSwipeEnd(i, j);
+                    }
+                }
+            }
+
+
             public Chart(int Length, double BPM)
             {
                 Ticks = new Tick[Length];
                 ChartLen = Length;
                 this.BPM = BPM;
+                swipeEnds_internal = new byte[Length * 8];
+                swipeEndpointNodes_internal = new System.Drawing.Point[Length * 8];
             }
         }
 
@@ -238,7 +342,7 @@ namespace _8beatMap
                 {
                     if (tickObj[i].Buttons[j] != 0)
                     {
-                        chart.Ticks[tickObjTickNumber(tickObj, i)].SetNote((NoteType)tickObj[i].Buttons[j], j);
+                        chart.Ticks[tickObjTickNumber(tickObj, i)].SetNote((NoteType)tickObj[i].Buttons[j], j, ref chart);
                     }
                 }
 
@@ -252,6 +356,7 @@ namespace _8beatMap
                 //chart.Ticks[chartTick].SetNote((NoteType)SafeParseInt(tickObj[i].BUTTON8), 7);
             }
 
+            chart.FixSwipes();
             return chart;
         }
 
