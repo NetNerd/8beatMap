@@ -342,7 +342,8 @@ namespace _8beatMap
                 {
                     if (tickObj[i].Buttons[j] != 0)
                     {
-                        chart.Ticks[tickObjTickNumber(tickObj, i)].SetNote((NoteType)tickObj[i].Buttons[j], j, ref chart);
+                        //chart.Ticks[tickObjTickNumber(tickObj, i)].SetNote((NoteType)tickObj[i].Buttons[j], j, ref chart);
+                        chart.Ticks[tickObjTickNumber(tickObj, i)].Notes[j] = (NoteType)tickObj[i].Buttons[j];
                     }
                 }
 
