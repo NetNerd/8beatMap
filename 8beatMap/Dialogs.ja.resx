@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ChartLoadError" xml:space="preserve">
-    <value>譜面を開いてるでエラーが会った</value>
+    <value>譜面を読み込みでエラーが会った</value>
   </data>
   <data name="ChartLoadNoBPM" xml:space="preserve">
     <value>譜面にBPMがありません（ゲームから譜面に、その情報がない）
@@ -131,12 +131,12 @@ BPMの設定するを忘れないください</value>
     <value>本当に終了しますか？前に、譜面を保存してください。</value>
   </data>
   <data name="MusicLoadError" xml:space="preserve">
-    <value>音楽を開いてるでエラーが会った</value>
+    <value>音楽を読み込みでエラーが会った</value>
   </data>
   <data name="NoteCountMessage" xml:space="preserve">
     <value>譜面に、{0}音符がある</value>
   </data>
   <data name="PlaybackNoMusicError" xml:space="preserve">
-    <value>再生のために、音楽を開いてください</value>
+    <value>再生のために、音楽を読み込んでください</value>
   </data>
 </root>

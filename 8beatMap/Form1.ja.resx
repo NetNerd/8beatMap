@@ -131,7 +131,7 @@
     <value>118, 17</value>
   </data>
   <data name="PauseOnSeek.Text" xml:space="preserve">
-    <value>スクロール時で停止</value>
+    <value>スクロール中時で停止</value>
   </data>
   <data name="ZoomBtn.Text" xml:space="preserve">
     <value>アプライ</value>
@@ -218,7 +218,7 @@
     <value>音符数</value>
   </data>
   <data name="AutoSimulBtn.Text" xml:space="preserve">
-    <value>オート 同時に音符</value>
+    <value>オート 同時音符</value>
   </data>
   <data name="LangChangeBtn.Text" xml:space="preserve">
     <value>English</value>
