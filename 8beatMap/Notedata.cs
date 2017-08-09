@@ -330,7 +330,7 @@ namespace _8beatMap
         {
             var tickObj = JsonConvert.DeserializeObject<JsonTick_Import[]>(json);
 
-            Chart chart = new Chart(tickObjTickNumber(tickObj, tickObj.Length - 1) + 1, 1);
+            Chart chart = new Chart((int)Math.Ceiling((tickObjTickNumber(tickObj, tickObj.Length - 1)+1) / 48f) * 48, 1);   // forces length to a full bar
 
             try { chart.BPM = int.Parse(tickObj[0].BAR) + double.Parse(tickObj[0].BEAT)/100; } catch { };
 
@@ -382,6 +382,35 @@ namespace _8beatMap
                 NewTick.BUTTON8 = chart.Ticks[i].Notes[7].GetHashCode();
 
                 tickObj.Add(NewTick);
+            }
+
+            return JsonConvert.SerializeObject(tickObj).Replace("null", "\"\"").Replace(":0", ":\"\"").Replace("R\":\"\"", "R\":0").Replace("T\":\"\"", "T\":0");
+        }
+
+        public static String ConvertChartToJson_Small(Chart chart)
+        {
+            var tickObj = new List<JsonTick_Export>();
+
+            tickObj.Add(new JsonTick_Export { BAR = (int)chart.BPM, BEAT = (int)(chart.BPM % 1 / 100) });
+
+            for (int i = 0; i < chart.Length; i++)
+            {
+                if (chart.Ticks[i].Notes.Max() > 0)
+                {
+                    JsonTick_Export NewTick = new JsonTick_Export();
+                    NewTick.BAR = i / 48;
+                    NewTick.BEAT = i % 48;
+                    NewTick.BUTTON1 = chart.Ticks[i].Notes[0].GetHashCode();
+                    NewTick.BUTTON2 = chart.Ticks[i].Notes[1].GetHashCode();
+                    NewTick.BUTTON3 = chart.Ticks[i].Notes[2].GetHashCode();
+                    NewTick.BUTTON4 = chart.Ticks[i].Notes[3].GetHashCode();
+                    NewTick.BUTTON5 = chart.Ticks[i].Notes[4].GetHashCode();
+                    NewTick.BUTTON6 = chart.Ticks[i].Notes[5].GetHashCode();
+                    NewTick.BUTTON7 = chart.Ticks[i].Notes[6].GetHashCode();
+                    NewTick.BUTTON8 = chart.Ticks[i].Notes[7].GetHashCode();
+
+                    tickObj.Add(NewTick);
+                }
             }
 
             return JsonConvert.SerializeObject(tickObj).Replace("null", "\"\"").Replace(":0", ":\"\"").Replace("R\":\"\"", "R\":0").Replace("T\":\"\"", "T\":0");

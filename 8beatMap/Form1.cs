@@ -740,8 +740,9 @@ namespace _8beatMap
                                         Sound.NoteSoundTrim.SkipOver = TimeSpan.FromMilliseconds(30 - MusicDelayMs);
                                     Sound.PlayNoteSound(Sound.NoteSoundTrim);
                                 }
-                                else if (((note == Notedata.NoteType.SwipeLeftStartEnd | note == Notedata.NoteType.SwipeRightStartEnd)
-                                    && chart.swipeEnds[i * 8 + j] == 0)
+                                else if ((
+                                    (note == Notedata.NoteType.SwipeLeftStartEnd | note == Notedata.NoteType.SwipeRightStartEnd) && chart.swipeEnds[i * 8 + j] == 0)
+                                    || note == Notedata.NoteType.SwipeChangeDirR2L | note == Notedata.NoteType.SwipeChangeDirL2R
                                     || note == Notedata.NoteType.FlickLeft | note == Notedata.NoteType.HoldEndFlickLeft
                                     || note == Notedata.NoteType.FlickRight | note == Notedata.NoteType.HoldEndFlickRight)
                                 {
@@ -893,7 +894,7 @@ namespace _8beatMap
         private void SaveChartBtn_Click(object sender, EventArgs e)
         {
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-                System.IO.File.WriteAllText(saveFileDialog1.FileName, Notedata.ConvertChartToJson(chart));
+                System.IO.File.WriteAllText(saveFileDialog1.FileName, Notedata.ConvertChartToJson_Small(chart));
         }
 
         private void OpenMusicButton_Click(object sender, EventArgs e)
