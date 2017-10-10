@@ -201,9 +201,15 @@ namespace _8beatMap
 
             private void UpdateSwipeEnd(int tick, int lane)
             {
-                Notedata.NoteType Type = Ticks[tick].Notes[lane];
+                NoteType Type = Ticks[tick].Notes[lane];
 
-                if ((Type == Notedata.NoteType.SwipeRightStartEnd | Type == Notedata.NoteType.SwipeRightMid | Type == Notedata.NoteType.SwipeChangeDirL2R)
+                // The actual game appears to distinguish between left and right swipes only for note icon graphics.
+                //     (proof is in the initial remember chart in res ver 250)
+                // IIRC, I think it scans across all lanes and uses the first currently unused target node.
+                // This could be changed to match the game by adding a new state to swipeEnds_internal.
+                //     (probably should make it a struct to improve readability too)
+                // However, this implementation works for all official charts currently (remember was fixed in ver 251), so for now it should be fine like this.
+                if ((Type == NoteType.SwipeRightStartEnd | Type == NoteType.SwipeRightMid | Type == NoteType.SwipeChangeDirL2R)
                     && (swipeEnds_internal[tick * 8 + lane] == 0))
                 {
                     for (int i = tick + 1; i < tick + 48; i++)
@@ -212,11 +218,11 @@ namespace _8beatMap
                         int j = lane + 1;
                         if (j > 7) break;
 
-                        if (Ticks[i].Notes[j] == Notedata.NoteType.SwipeRightStartEnd)
+                        if (Ticks[i].Notes[j] == NoteType.SwipeRightStartEnd)
                             swipeEnds_internal[i * 8 + j] = 1;
 
-                        if (Ticks[i].Notes[j] == Notedata.NoteType.SwipeRightStartEnd | Ticks[i].Notes[j] == Notedata.NoteType.SwipeRightMid
-                            | Ticks[i].Notes[j] == Notedata.NoteType.SwipeChangeDirR2L)
+                        if (Ticks[i].Notes[j] == NoteType.SwipeRightStartEnd | Ticks[i].Notes[j] == NoteType.SwipeRightMid
+                            | Ticks[i].Notes[j] == NoteType.SwipeChangeDirR2L)
                         {
                             swipeEndpointNodes_internal[tick * 8 + lane] = new System.Drawing.Point(i, j);
                             break;
@@ -224,7 +230,7 @@ namespace _8beatMap
                     }
                 }
 
-                if ((Type == Notedata.NoteType.SwipeLeftStartEnd | Type == Notedata.NoteType.SwipeLeftMid | Type == Notedata.NoteType.SwipeChangeDirR2L)
+                if ((Type == NoteType.SwipeLeftStartEnd | Type == NoteType.SwipeLeftMid | Type == NoteType.SwipeChangeDirR2L)
                     && (swipeEnds_internal[tick * 8 + lane] == 0))
                 {
                     for (int i = tick + 1; i < tick + 48; i++)
@@ -233,11 +239,11 @@ namespace _8beatMap
                         int j = lane - 1;
                         if (j < 0) break;
 
-                        if (Ticks[i].Notes[j] == Notedata.NoteType.SwipeLeftStartEnd)
+                        if (Ticks[i].Notes[j] == NoteType.SwipeLeftStartEnd)
                             swipeEnds_internal[i * 8 + j] = 1;
 
-                        if (Ticks[i].Notes[j] == Notedata.NoteType.SwipeLeftStartEnd | Ticks[i].Notes[j] == Notedata.NoteType.SwipeLeftMid
-                            | Ticks[i].Notes[j] == Notedata.NoteType.SwipeChangeDirL2R)
+                        if (Ticks[i].Notes[j] == NoteType.SwipeLeftStartEnd | Ticks[i].Notes[j] == NoteType.SwipeLeftMid
+                            | Ticks[i].Notes[j] == NoteType.SwipeChangeDirL2R)
                         {
                             swipeEndpointNodes_internal[tick * 8 + lane] = new System.Drawing.Point(i, j);
                             break;
@@ -256,7 +262,7 @@ namespace _8beatMap
                 {
                     for (int j = 0; j < 8; j++)
                     {
-                        Notedata.NoteType Type = Ticks[i].Notes[j];
+                        //Notedata.NoteType Type = Ticks[i].Notes[j];
 
                         UpdateSwipeEnd(i, j);
                     }
@@ -332,7 +338,7 @@ namespace _8beatMap
 
             Chart chart = new Chart((int)Math.Ceiling((tickObjTickNumber(tickObj, tickObj.Length - 1)+1) / 48f) * 48, 1);   // forces length to a full bar
 
-            try { chart.BPM = int.Parse(tickObj[0].BAR) + double.Parse(tickObj[0].BEAT)/100; } catch { };
+            try { chart.BPM = int.Parse(tickObj[0].BAR) + int.Parse(tickObj[0].BEAT)/100f; } catch { };
 
             for (int i = 1; i < tickObj.Length; i++)
             {

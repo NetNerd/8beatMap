@@ -235,6 +235,7 @@ namespace _8beatMap
             Point[] NodeEndLocs = { new Point((int)(75 * scalefactor), (int)(height - 156 * scalefactor)), new Point((int)(213 * scalefactor), (int)(height - 120 * scalefactor)), new Point((int)(354 * scalefactor), (int)(height - 98 * scalefactor)), new Point((int)(497 * scalefactor), (int)(height - 88 * scalefactor)), new Point((int)(639 * scalefactor), (int)(height - 88 * scalefactor)), new Point((int)(782 * scalefactor), (int)(height - 98 * scalefactor)), new Point((int)(923 * scalefactor), (int)(height - 120 * scalefactor)), new Point((int)(1061 * scalefactor), (int)(height - 156 * scalefactor)) };
 
             int iconSize = (int)(128 * scalefactor);
+            int halfIconSize = iconSize / 2;
 
             Grfx.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceOver;
             Grfx.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
@@ -275,26 +276,26 @@ namespace _8beatMap
 
             if (SpeedupMode < 2)
             {
-                Grfx.DrawImage(spr_Chara1, NodeEndLocs[0].X - iconSize / 2, NodeEndLocs[0].Y - iconSize / 2, iconSize, iconSize);
-                Grfx.DrawImage(spr_Chara2, NodeEndLocs[1].X - iconSize / 2, NodeEndLocs[1].Y - iconSize / 2, iconSize, iconSize);
-                Grfx.DrawImage(spr_Chara3, NodeEndLocs[2].X - iconSize / 2, NodeEndLocs[2].Y - iconSize / 2, iconSize, iconSize);
-                Grfx.DrawImage(spr_Chara4, NodeEndLocs[3].X - iconSize / 2, NodeEndLocs[3].Y - iconSize / 2, iconSize, iconSize);
-                Grfx.DrawImage(spr_Chara5, NodeEndLocs[4].X - iconSize / 2, NodeEndLocs[4].Y - iconSize / 2, iconSize, iconSize);
-                Grfx.DrawImage(spr_Chara6, NodeEndLocs[5].X - iconSize / 2, NodeEndLocs[5].Y - iconSize / 2, iconSize, iconSize);
-                Grfx.DrawImage(spr_Chara7, NodeEndLocs[6].X - iconSize / 2, NodeEndLocs[6].Y - iconSize / 2, iconSize, iconSize);
-                Grfx.DrawImage(spr_Chara8, NodeEndLocs[7].X - iconSize / 2, NodeEndLocs[7].Y - iconSize / 2, iconSize, iconSize);
+                Grfx.DrawImage(spr_Chara1, NodeEndLocs[0].X - halfIconSize, NodeEndLocs[0].Y - halfIconSize, iconSize, iconSize);
+                Grfx.DrawImage(spr_Chara2, NodeEndLocs[1].X - halfIconSize, NodeEndLocs[1].Y - halfIconSize, iconSize, iconSize);
+                Grfx.DrawImage(spr_Chara3, NodeEndLocs[2].X - halfIconSize, NodeEndLocs[2].Y - halfIconSize, iconSize, iconSize);
+                Grfx.DrawImage(spr_Chara4, NodeEndLocs[3].X - halfIconSize, NodeEndLocs[3].Y - halfIconSize, iconSize, iconSize);
+                Grfx.DrawImage(spr_Chara5, NodeEndLocs[4].X - halfIconSize, NodeEndLocs[4].Y - halfIconSize, iconSize, iconSize);
+                Grfx.DrawImage(spr_Chara6, NodeEndLocs[5].X - halfIconSize, NodeEndLocs[5].Y - halfIconSize, iconSize, iconSize);
+                Grfx.DrawImage(spr_Chara7, NodeEndLocs[6].X - halfIconSize, NodeEndLocs[6].Y - halfIconSize, iconSize, iconSize);
+                Grfx.DrawImage(spr_Chara8, NodeEndLocs[7].X - halfIconSize, NodeEndLocs[7].Y - halfIconSize, iconSize, iconSize);
             }
             else
             {
                 Pen Outline = new Pen(Color.Gray, 7*scalefactor);
-                Grfx.DrawEllipse(Outline, NodeEndLocs[0].X - iconSize / 2, NodeEndLocs[0].Y - iconSize / 2, iconSize, iconSize);
-                Grfx.DrawEllipse(Outline, NodeEndLocs[1].X - iconSize / 2, NodeEndLocs[1].Y - iconSize / 2, iconSize, iconSize);
-                Grfx.DrawEllipse(Outline, NodeEndLocs[2].X - iconSize / 2, NodeEndLocs[2].Y - iconSize / 2, iconSize, iconSize);
-                Grfx.DrawEllipse(Outline, NodeEndLocs[3].X - iconSize / 2, NodeEndLocs[3].Y - iconSize / 2, iconSize, iconSize);
-                Grfx.DrawEllipse(Outline, NodeEndLocs[4].X - iconSize / 2, NodeEndLocs[4].Y - iconSize / 2, iconSize, iconSize);
-                Grfx.DrawEllipse(Outline, NodeEndLocs[5].X - iconSize / 2, NodeEndLocs[5].Y - iconSize / 2, iconSize, iconSize);
-                Grfx.DrawEllipse(Outline, NodeEndLocs[6].X - iconSize / 2, NodeEndLocs[6].Y - iconSize / 2, iconSize, iconSize);
-                Grfx.DrawEllipse(Outline, NodeEndLocs[7].X - iconSize / 2, NodeEndLocs[7].Y - iconSize / 2, iconSize, iconSize);
+                Grfx.DrawEllipse(Outline, NodeEndLocs[0].X - halfIconSize, NodeEndLocs[0].Y - halfIconSize, iconSize, iconSize);
+                Grfx.DrawEllipse(Outline, NodeEndLocs[1].X - halfIconSize, NodeEndLocs[1].Y - halfIconSize, iconSize, iconSize);
+                Grfx.DrawEllipse(Outline, NodeEndLocs[2].X - halfIconSize, NodeEndLocs[2].Y - halfIconSize, iconSize, iconSize);
+                Grfx.DrawEllipse(Outline, NodeEndLocs[3].X - halfIconSize, NodeEndLocs[3].Y - halfIconSize, iconSize, iconSize);
+                Grfx.DrawEllipse(Outline, NodeEndLocs[4].X - halfIconSize, NodeEndLocs[4].Y - halfIconSize, iconSize, iconSize);
+                Grfx.DrawEllipse(Outline, NodeEndLocs[5].X - halfIconSize, NodeEndLocs[5].Y - halfIconSize, iconSize, iconSize);
+                Grfx.DrawEllipse(Outline, NodeEndLocs[6].X - halfIconSize, NodeEndLocs[6].Y - halfIconSize, iconSize, iconSize);
+                Grfx.DrawEllipse(Outline, NodeEndLocs[7].X - halfIconSize, NodeEndLocs[7].Y - halfIconSize, iconSize, iconSize);
             }
 
 
@@ -322,7 +323,7 @@ namespace _8beatMap
                             int kSize = (int)(iconSize / 4 * kDist);
                             Point iPoint = GetPointAlongLine(NodeStartLocs[j], NodeEndLocs[j], iDist);
                             Point kPoint = GetPointAlongLine(NodeStartLocs[swipeEndPoint.Y], NodeEndLocs[swipeEndPoint.Y], kDist);
-                            Grfx.DrawImage(spr_SwipeLocus, new Point[] { new Point(iPoint.X, iPoint.Y - iSize), new Point(kPoint.X, kPoint.Y - kSize), new Point(iPoint.X, iPoint.Y - iSize + iconSize / 2) }, new Rectangle((int)(spr_SwipeLocus.Width - spr_SwipeLocus.Width * iDist), 0, (int)(spr_SwipeLocus.Width * (iDist - kDist)), spr_SwipeLocus.Height), GraphicsUnit.Pixel, transpAttr);
+                            Grfx.DrawImage(spr_SwipeLocus, new Point[] { new Point(iPoint.X, iPoint.Y - iSize), new Point(kPoint.X, kPoint.Y - kSize), new Point(iPoint.X, iPoint.Y - iSize + halfIconSize) }, new Rectangle((int)(spr_SwipeLocus.Width - spr_SwipeLocus.Width * iDist), 0, (int)(spr_SwipeLocus.Width * (iDist - kDist)), spr_SwipeLocus.Height), GraphicsUnit.Pixel, transpAttr);
                         }
                     }
 
@@ -340,8 +341,8 @@ namespace _8beatMap
 
                         float sDist = (float)(numTicksVisible - start + 1 + startTick) / numTicksVisible;
                         float eDist = (float)(numTicksVisible - end + startTick) / numTicksVisible;
-                        float sSize = iconSize / 2 * sDist;
-                        float eSize = iconSize / 2 * eDist;
+                        float sSize = halfIconSize * sDist;
+                        float eSize = halfIconSize * eDist;
                         PointF sPoint = GetPointAlongLineF(NodeStartLocs[j], NodeEndLocs[j], sDist);
                         PointF ePoint = GetPointAlongLineF(NodeStartLocs[j], NodeEndLocs[j], eDist);
                         Grfx.DrawImage(spr_HoldLocus, new PointF[] { new PointF(ePoint.X + eSize, ePoint.Y), new PointF(ePoint.X + eSize - iconSize, ePoint.Y), new PointF(sPoint.X + sSize, sPoint.Y) }, new Rectangle(0, (int)(spr_HoldLocus.Height * eDist), spr_HoldLocus.Width, (int)(spr_HoldLocus.Height * (sDist - eDist)) - 8), GraphicsUnit.Pixel, transpAttr);
