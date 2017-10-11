@@ -28,24 +28,7 @@ namespace _8beatMap
 
 
         GameCloneRenderer_OGL OGLrenderer = new GameCloneRenderer_OGL(853, 480);
-
-
-        private struct NoteDataInfo
-        {
-            public int Tick;
-            public int Lane;
-            public Notedata.NoteType Type;
-
-            public NoteDataInfo(int Tick, int Lane, Notedata.NoteType Type)
-            {
-                this.Tick = Tick;
-                this.Lane = Lane;
-                this.Type = Type;
-            }
-        }
-
         
-
 
         Image GetChartImage(double startTick, int tickHeight, int iconWidth, int iconHeight, Color BgCol, bool NoGrid, int Width, int Height)
         {
@@ -156,6 +139,7 @@ namespace _8beatMap
             return Bmp;
         }        
 
+
         private void SetCurrTick(double tick)
         {
             if (tick < 0) tick = 0;
@@ -170,6 +154,7 @@ namespace _8beatMap
 
             ChartScrollBar.Value = (int)(chart.Length * TickHeight - tick * TickHeight);
         }
+
 
 
         int VideoDelayMs = 50;
@@ -188,6 +173,7 @@ namespace _8beatMap
             OGLrenderer.numTicksVisible = (int)chart.ConvertTimeToTicks(TimeSpan.FromMilliseconds(700));
             OGLrenderer.chart = chart;
         }
+
 
         private int ConvertXCoordToNote(int X)
         {
@@ -315,6 +301,7 @@ namespace _8beatMap
             playTimer.Tick += playtimer_Tick;
         }
 
+
         private void ChartScrollBar_Scroll(object sender, ScrollEventArgs e)
         {
             if (PauseOnSeek.Checked) StopPlayback();
@@ -337,6 +324,7 @@ namespace _8beatMap
             StopPlayback();
         }
 
+
         int MusicDelayMs = 20;
 
         double lastPlayTickTime = 0;
@@ -346,7 +334,7 @@ namespace _8beatMap
             if (lastPlayTickTime < chart.ConvertTicksToTime(CurrentTick).TotalMilliseconds - 5 | lastPlayTickTime > chart.ConvertTicksToTime(CurrentTick).TotalMilliseconds)
             {
                 lastPlayTickTime = chart.ConvertTicksToTime(CurrentTick).TotalMilliseconds;
-                UpdateChart();
+                UpdateChart(); //(update graphics)
             }
 
             if ((int)CurrentTick != LastTick)
@@ -354,9 +342,12 @@ namespace _8beatMap
                 int ltick = LastTick;
                 LastTick = (int)CurrentTick;
 
+                if ((LastTick - ltick) > 5) //replace the last tick recorded with current tick if time difference is too large
+                    ltick = LastTick;
+
                 if (NoteSoundBox.Checked)
                 {
-                    for (int i = ltick + 1; i <= CurrentTick; i++)
+                    for (int i = ltick + 1; i <= CurrentTick; i++) //process for all ticks since the last one
                     {
                         for (int j = 0; j < 8; j++)
                         {
@@ -375,6 +366,7 @@ namespace _8beatMap
                                         Sound.NoteSoundTrim.SkipOver = TimeSpan.FromMilliseconds(30 - MusicDelayMs);
                                     Sound.PlayNoteSound(Sound.NoteSoundTrim);
                                 }
+
                                 else if ((
                                     (note == Notedata.NoteType.SwipeLeftStartEnd | note == Notedata.NoteType.SwipeRightStartEnd) && chart.swipeEnds[i * 8 + j] == 0)
                                     || note == Notedata.NoteType.SwipeChangeDirR2L | note == Notedata.NoteType.SwipeChangeDirL2R
@@ -391,17 +383,14 @@ namespace _8beatMap
                                 }
                             }
 
-                            else
+                            else if (note != Notedata.NoteType.None && note != Notedata.NoteType.ExtendHoldMid &&
+                                note != Notedata.NoteType.SwipeLeftMid && note != Notedata.NoteType.SwipeRightMid)
                             {
-                                if (note != Notedata.NoteType.None && note != Notedata.NoteType.ExtendHoldMid &&
-                                    note != Notedata.NoteType.SwipeLeftMid && note != Notedata.NoteType.SwipeRightMid)
-                                {
-                                    Sound.NoteSoundTrim = new NAudio.Wave.SampleProviders.OffsetSampleProvider(Sound.NoteSoundSig);
-                                    Sound.NoteSoundTrim.Take = TimeSpan.FromMilliseconds(20);
-                                    Sound.NoteSoundTrim.DelayBy = TimeSpan.FromMilliseconds(MusicDelayMs + 5);
-                                    Sound.PlayNoteSound(Sound.NoteSoundTrim);
-                                    return;
-                                }
+                                Sound.NoteSoundTrim = new NAudio.Wave.SampleProviders.OffsetSampleProvider(Sound.NoteSoundSig);
+                                Sound.NoteSoundTrim.Take = TimeSpan.FromMilliseconds(20);
+                                Sound.NoteSoundTrim.DelayBy = TimeSpan.FromMilliseconds(MusicDelayMs + 5);
+                                Sound.PlayNoteSound(Sound.NoteSoundTrim);
+                                return;
                             }
                         }
                     }
@@ -441,7 +430,7 @@ namespace _8beatMap
 
         private void ProcessClick(int Tick, int Lane, MouseButtons MouseButton, Notedata.NoteType NewNote)
         {
-            Console.WriteLine(Lane + ", " + Tick);
+            //Console.WriteLine(Lane + ", " + Tick);
 
             if (Tick == -1 | Tick >= chart.Length)
                 return;
@@ -656,7 +645,7 @@ namespace _8beatMap
                         {
                             chart.Ticks[i].SetNote(Notedata.NoteType.SimulTap, j, ref chart);
 
-                            UpdateChart();
+                            //UpdateChart();
                         }
                     }
                 }
@@ -669,7 +658,7 @@ namespace _8beatMap
                         {
                             chart.Ticks[i].SetNote(Notedata.NoteType.Tap, j, ref chart);
 
-                            UpdateChart();
+                            //UpdateChart();
                         }
                     }
                 }
@@ -687,7 +676,7 @@ namespace _8beatMap
                             else
                                 chart.Ticks[i].SetNote(Notedata.NoteType.SimulHoldRelease, j, ref chart);
 
-                            UpdateChart();
+                            //UpdateChart();
                         }
                     }
                 }
@@ -700,11 +689,13 @@ namespace _8beatMap
                         {
                             chart.Ticks[i].SetNote(Notedata.NoteType.Hold, j, ref chart);
 
-                            UpdateChart();
+                            //UpdateChart();
                         }
                     }
                 }
             }
+
+            UpdateChart();
         }
 
         private void LangChangeBtn_Click(object sender, EventArgs e)
