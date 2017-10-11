@@ -14,6 +14,7 @@ namespace _8beatMap
 
         public Notedata.Chart chart = new Notedata.Chart(1, 120);
 
+
         string[] textureNames = { "spr_HoldLocus", "spr_SwipeLocus",
             "spr_TapIcon", "spr_HoldIcon", "spr_SimulIcon",
             "spr_SwipeRightIcon", "spr_SwipeRightIcon_Simul", "spr_SwipeLeftIcon", "spr_SwipeLeftIcon_Simul",
@@ -27,6 +28,9 @@ namespace _8beatMap
             "charaimg/1.png", "charaimg/2.png", "charaimg/3.png", "charaimg/4.png", "charaimg/5.png", "charaimg/6.png", "charaimg/7.png", "charaimg/8.png"};
 
         System.Collections.Generic.Dictionary<string, int> textures = new System.Collections.Generic.Dictionary<string, int>();
+
+
+        System.Resources.ResourceManager DialogResMgr = new System.Resources.ResourceManager("_8beatMap.Dialogs", System.Reflection.Assembly.GetEntryAssembly());
 
 
         public GameCloneRenderer_OGL(int wndWidth, int wndHeight)
@@ -47,7 +51,7 @@ namespace _8beatMap
                     GL.Enable(EnableCap.Texture2D);
                     GL.Enable(EnableCap.Blend);
                     GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
-                    GL.Enable(EnableCap.PolygonSmooth);
+                    //GL.Enable(EnableCap.PolygonSmooth);  // sometimes causes diagonal lines through quads
                 };
 
 
@@ -170,8 +174,8 @@ namespace _8beatMap
 
                     if (Type == Notedata.NoteType.ExtendHoldMid && (i == (int)currentTick | chart.FindVisualNoteType(i - 1, j) != Notedata.NoteType.ExtendHoldMid))
                     {
-                        int start = i;
-                        if (start <= currentTick) start = (int)currentTick + 1;
+                        double start = i;
+                        if (start < currentTick + 1) start = (int)(currentTick * 4) / 4f + 1;
                         int end = i;
                         while (chart.FindVisualNoteType(end, j) == Notedata.NoteType.ExtendHoldMid) end++;
                         if (end <= start) continue;
@@ -314,7 +318,12 @@ namespace _8beatMap
             try
             { bmp = new Bitmap(path); }
             catch
-            { bmp = new Bitmap(1, 1); }
+            {
+                bmp = new Bitmap(1, 1);
+                //System.Windows.Forms.MessageBox.Show("Error: Missing texture image(s) for preview display.");
+                System.Windows.Forms.MessageBox.Show(DialogResMgr.GetString("MissingTextureError"));
+                Stop();
+            }
 
             int tex = GL.GenTexture();
 

@@ -24,7 +24,7 @@ namespace _8beatMap
         private int LastTick = 0;
 
 
-        private Timer playTimer = new Timer() { Interval = 4 };
+        private Timer playTimer = new Timer() { Interval = 3 };
 
 
         GameCloneRenderer_OGL OGLrenderer = new GameCloneRenderer_OGL(853, 480);

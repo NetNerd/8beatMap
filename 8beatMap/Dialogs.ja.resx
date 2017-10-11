@@ -130,6 +130,9 @@ BPMの設定するを忘れないください</value>
   <data name="ExitMessage" xml:space="preserve">
     <value>本当に終了しますか？前に、譜面を保存してください。</value>
   </data>
+  <data name="MissingTextureError" xml:space="preserve">
+    <value>プレビュー表示のテクスチャイメージは読み込めなかった</value>
+  </data>
   <data name="MusicLoadError" xml:space="preserve">
     <value>音楽を読み込みでエラーが会った</value>
   </data>
