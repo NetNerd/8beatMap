@@ -270,6 +270,37 @@ namespace _8beatMap
             }
 
 
+            public TimeSpan ConvertTicksToTime(double ticks)
+            {
+                TimeSpan a = TimeSpan.FromSeconds((5 * ticks / BPM));
+                return TimeSpan.FromSeconds((5 * ticks / BPM));
+            }
+
+            public double ConvertTimeToTicks(TimeSpan time)
+            {
+                return time.TotalSeconds / (double)(5 / BPM);
+            }
+
+
+            public NoteType FindVisualNoteType(int tick, int lane)
+            {
+                if (tick >= Length) return NoteType.None;
+
+                if (Ticks[tick].Notes[lane] == NoteType.Hold || Ticks[tick].Notes[lane] == NoteType.SimulHoldRelease)
+                {
+                    if (tick == 0 || tick == Length - 1) return Ticks[tick].Notes[lane];
+                    if ((Ticks[tick - 1].Notes[lane] == NoteType.Hold ||
+                        Ticks[tick - 1].Notes[lane] == NoteType.SimulHoldStart ||
+                        Ticks[tick - 1].Notes[lane] == NoteType.SimulHoldRelease ||
+                        Ticks[tick - 1].Notes[lane] == NoteType.SwipeLeftStartEnd ||
+                        Ticks[tick - 1].Notes[lane] == NoteType.SwipeRightStartEnd) &&
+                        Ticks[tick + 1].Notes[lane] != NoteType.None)
+                        return NoteType.ExtendHoldMid;
+                }
+                return Ticks[tick].Notes[lane];
+            }
+
+
             public Chart(int Length, double BPM)
             {
                 Ticks = new Tick[Length];
