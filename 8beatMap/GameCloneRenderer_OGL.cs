@@ -94,6 +94,8 @@ namespace _8beatMap
 
         void RenderFrame(object sender, EventArgs e)
         {
+            if (myWindow.WindowState == WindowState.Minimized) return;
+
             double EffectTicks = chart.ConvertTimeToTicks(new TimeSpan(EffectTime));
             double EffectFadeTicks = chart.ConvertTimeToTicks(new TimeSpan(EffectFadeTime));
 
@@ -168,9 +170,6 @@ namespace _8beatMap
 
 
                     GL.BindTexture(TextureTarget.Texture2D, textures["spr_HoldLocus"]);
-
-                    if (i > chart.Length) i = chart.Length;
-                    if (i < 0) break;
 
                     if (Type == Notedata.NoteType.ExtendHoldMid && (i == (int)currentTick | chart.FindVisualNoteType(i - 1, j) != Notedata.NoteType.ExtendHoldMid))
                     {
