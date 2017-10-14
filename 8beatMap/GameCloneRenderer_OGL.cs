@@ -122,8 +122,7 @@ namespace _8beatMap
 
             GL.Color4(1f, 1f, 1f, 0.6f); //transparency
 
-            for (int i = (int)currentTick + numTicksVisible + 1; i >= (int)currentTick; i--)
-            //for (int i = (int)startTick; i < startTick + numTicksVisible + 24; i++)
+            for (int i = (int)currentTick + numTicksVisible + 1; i >= (int)currentTick - 48; i--) // 48 is magic from Notedata.Chart.UpdateSwipeEnd()
             {
                 if (i >= chart.Length) i = chart.Length - 1;
                 if (i < 0) break;
@@ -139,35 +138,55 @@ namespace _8beatMap
                     {
                         Point swipeEndPoint = chart.swipeEndpointNodes[i * 8 + j];
 
-                        if (swipeEndPoint.X > i)
+                        if (swipeEndPoint.X > i & currentTick < swipeEndPoint.X)
                         {
+                            int sTick = i;
+                            if (sTick < currentTick) sTick = (int)currentTick;
+
                             float iDist = (float)(numTicksVisible - i + currentTick) / numTicksVisible;
-                            float kDist = (float)(numTicksVisible - swipeEndPoint.X + currentTick) / numTicksVisible;
-                            int iSize = (int)(iconSize / 4 * iDist);
-                            int kSize = (int)(iconSize / 4 * kDist);
+                            float eDist = (float)(numTicksVisible - swipeEndPoint.X + currentTick) / numTicksVisible;
+                            int eSize = (int)(iconSize / 4 * eDist);
                             Point iPoint = GetPointAlongLine(NodeStartLocs[j], NodeEndLocs[j], iDist);
-                            Point kPoint = GetPointAlongLine(NodeStartLocs[swipeEndPoint.Y], NodeEndLocs[swipeEndPoint.Y], kDist);
+                            Point ePoint = GetPointAlongLine(NodeStartLocs[swipeEndPoint.Y], NodeEndLocs[swipeEndPoint.Y], eDist);
+
+                            float sDist;
+                            Point sPoint;
+                            if (i >= currentTick)
+                            {
+                                sDist = iDist;
+                                sPoint = iPoint;
+                             }
+                            else
+                            {
+                                sDist = (float)(numTicksVisible - sTick + currentTick) / numTicksVisible;
+                                sPoint = GetPointAlongLine(iPoint, ePoint, ((float)currentTick - i) / (swipeEndPoint.X - i));
+                                //Point sPoint = GetPointAlongLine(ePoint, iPoint, sDist / iDist);
+                            }
+
+                            int sSize = (int)(iconSize / 4 * sDist);
 
 
                             GL.Begin(PrimitiveType.Quads);
 
                             GL.TexCoord2(0.1, 0);
-                            GL.Vertex2(iPoint.X, iPoint.Y + iSize);
+                            GL.Vertex2(sPoint.X, sPoint.Y + sSize);
 
                             GL.TexCoord2(0.9, 0);
-                            GL.Vertex2(kPoint.X, kPoint.Y + kSize);
+                            GL.Vertex2(ePoint.X, ePoint.Y + eSize);
 
-                            GL.TexCoord2(0.9, kDist);
-                            GL.Vertex2(kPoint.X, kPoint.Y - kSize);
+                            GL.TexCoord2(0.9, eDist);
+                            GL.Vertex2(ePoint.X, ePoint.Y - eSize);
                             
-                            GL.TexCoord2(0.1, iDist);
-                            GL.Vertex2(iPoint.X, iPoint.Y - iSize);
+                            GL.TexCoord2(0.1, sDist);
+                            GL.Vertex2(sPoint.X, sPoint.Y - sSize);
 
                             GL.End();
                         }
                     }
 
 
+
+                    if (i < (int)currentTick) continue;
 
                     GL.BindTexture(TextureTarget.Texture2D, textures["spr_HoldLocus"]);
 
