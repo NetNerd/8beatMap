@@ -164,9 +164,32 @@ namespace _8beatMap
                 }
             }
 
+            public int NoteCount
+            {
+                get
+                {
+                    int notes = 0;
+
+                    for (int i = 0; i < Length; i++)
+                    {
+                        for (int j = 0; j < 8; j++)
+                        {
+                            NoteType NoteType = FindVisualNoteType(i, j);
+                            if (NoteType != NoteType.None && NoteType != NoteType.ExtendHoldMid &&
+                                NoteType != NoteType.SwipeLeftMid && NoteType != NoteType.SwipeRightMid)
+                                notes++;
+                        }
+                    }
+
+                    return notes;
+                }
+            }
+
             public double BPM;
 
 
+            // swipeEnds is a value that indicates if a swipe note is the endof a slide (and as such shouldn't have a line connecting to the next swipe
+            // I guess it'd actually be better to just check for a default value on swipeEndpointNodes, but this works and doesn't really do any harm
 
             private byte[] swipeEnds_internal;
 
@@ -183,6 +206,7 @@ namespace _8beatMap
             }
 
 
+            // swipeEndpointNodes contains the location of the note a swipe should connect to
 
             private System.Drawing.Point[] swipeEndpointNodes_internal; // X=tick Y=lane
 
@@ -286,9 +310,9 @@ namespace _8beatMap
             {
                 if (tick >= Length) return NoteType.None;
 
-                if (Ticks[tick].Notes[lane] == NoteType.Hold || Ticks[tick].Notes[lane] == NoteType.SimulHoldRelease)
+                if (Ticks[tick].Notes[lane] == NoteType.Hold | Ticks[tick].Notes[lane] == NoteType.SimulHoldRelease)
                 {
-                    if (tick == 0 || tick == Length - 1) return Ticks[tick].Notes[lane];
+                    if (tick == 0 | tick == Length - 1) return Ticks[tick].Notes[lane];
                     if ((Ticks[tick - 1].Notes[lane] == NoteType.Hold ||
                         Ticks[tick - 1].Notes[lane] == NoteType.SimulHoldStart ||
                         Ticks[tick - 1].Notes[lane] == NoteType.SimulHoldRelease ||
@@ -298,6 +322,110 @@ namespace _8beatMap
                         return NoteType.ExtendHoldMid;
                 }
                 return Ticks[tick].Notes[lane];
+            }
+
+
+            public void AutoSetSimulNotes()
+            {
+                for (int i = 0; i < Length; i++)
+                {
+                    int SimulNum_Tap = 0;
+                    int SimulNum_Hold = 0;
+
+                    for (int j = 0; j < 8; j++)
+                    {
+                        // taps get drawn as simulnotes when swipes or flicks are present, but holds don't
+                        NoteType NoteType = FindVisualNoteType(i, j);
+                        if (NoteType != NoteType.None && NoteType != NoteType.ExtendHoldMid &&
+                            NoteType != NoteType.SwipeLeftMid && NoteType != NoteType.SwipeRightMid)
+                            SimulNum_Tap++;
+
+                        if (NoteType == NoteType.Tap || NoteType == NoteType.SimulTap ||
+                            NoteType == NoteType.Hold || NoteType == NoteType.SimulHoldStart || NoteType == NoteType.SimulHoldRelease)
+                            SimulNum_Hold++;
+                    }
+
+                    if (SimulNum_Tap > 1)
+                    {
+                        for (int j = 0; j < 8; j++)
+                        {
+                            NoteType NoteType = FindVisualNoteType(i, j);
+                            if (NoteType == NoteType.Tap)
+                            {
+                                Ticks[i].SetNote(NoteType.SimulTap, j, ref this);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        for (int j = 0; j < 8; j++)
+                        {
+                            NoteType NoteType = FindVisualNoteType(i, j);
+                            if (NoteType == Notedata.NoteType.SimulTap)
+                            {
+                                Ticks[i].SetNote(NoteType.Tap, j, ref this);
+                            }
+                        }
+                    }
+
+                    if (SimulNum_Hold > 1)
+                    {
+                        for (int j = 0; j < 8; j++)
+                        {
+                            NoteType NoteType = FindVisualNoteType(i, j);
+                            if (NoteType == NoteType.Hold || NoteType == NoteType.SimulHoldStart
+                            || NoteType == NoteType.SimulHoldRelease)
+                            {
+                                if (i + 1 < Length && (Ticks[i + 1].Notes[j] == NoteType.Hold || Ticks[i + 1].Notes[j] == NoteType.SimulHoldRelease))
+                                    Ticks[i].SetNote(NoteType.SimulHoldStart, j, ref this);
+                                else
+                                    Ticks[i].SetNote(NoteType.SimulHoldRelease, j, ref this);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        for (int j = 0; j < 8; j++)
+                        {
+                            NoteType NoteType = FindVisualNoteType(i, j);
+                            if (NoteType == NoteType.SimulHoldStart || NoteType == NoteType.SimulHoldRelease)
+                            {
+                                Ticks[i].SetNote(NoteType.Hold, j, ref this);
+                            }
+                        }
+                    }
+                }
+            }
+
+            public void ShiftAllNotes(int offset)
+            {
+                if (offset == 0) return;
+                                
+                else if (offset > 0)
+                {
+                    for (int i = Length - 1; i >= offset; i--)
+                    {
+                        Ticks[i] = Ticks[i - offset];
+                    }
+                    for (int i = 0; i < offset; i++)
+                    {
+                        Ticks[i] = new Tick();
+                    }
+                }
+                
+                else if (offset < 0)
+                {
+                    for (int i = 0; i < Length + offset; i++)
+                    {
+                        Ticks[i] = Ticks[i - offset];
+                    }
+                    for (int i = Length + offset; i < Length; i++)
+                    {
+                        Ticks[i] = new Tick();
+                    }
+                }
+
+                FixSwipes();
             }
 
 

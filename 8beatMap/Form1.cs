@@ -147,10 +147,19 @@ namespace _8beatMap
 
             CurrentTick = tick;
 
+            TimeSpan ctickTime = chart.ConvertTicksToTime(CurrentTick);
+
             if (Sound.MusicReader != null &&
-                    (Sound.MusicReader.CurrentTime < chart.ConvertTicksToTime(CurrentTick) - TimeSpan.FromMilliseconds(MusicDelayMs - 3) |
-                    Sound.MusicReader.CurrentTime > chart.ConvertTicksToTime(CurrentTick) - TimeSpan.FromMilliseconds(MusicDelayMs + 3)))
-                try { Sound.MusicReader.CurrentTime = chart.ConvertTicksToTime(CurrentTick) - TimeSpan.FromMilliseconds(MusicDelayMs); } catch { }
+                    (Sound.MusicReader.CurrentTime < ctickTime - TimeSpan.FromMilliseconds(MusicDelayMs - 3) |
+                    Sound.MusicReader.CurrentTime > ctickTime - TimeSpan.FromMilliseconds(MusicDelayMs + 3)))
+                try {
+                    if (ctickTime < TimeSpan.FromMilliseconds(MusicDelayMs))
+                        Sound.MusicReader.CurrentTime = TimeSpan.FromMilliseconds(0);
+                    else
+                        Sound.MusicReader.CurrentTime = ctickTime - TimeSpan.FromMilliseconds(MusicDelayMs);
+                }
+                catch
+                { }
 
             ChartScrollBar.Value = (int)(chart.Length * TickHeight - tick * TickHeight);
         }
@@ -245,7 +254,7 @@ namespace _8beatMap
         }
 
 
-        private void AddNoteTypes()
+        private void AddNoteTypes() // to dropdown selector
         {
             NoteTypeSelector.Items.Clear();
 
@@ -555,33 +564,14 @@ namespace _8beatMap
 
         private void NoteShiftBtn_Click(object sender, EventArgs e)
         {
-            if (NoteShiftBox.Value > 0)
-            {
-                List<Notedata.Tick> NewTicks = chart.Ticks.ToList();
-                NewTicks.RemoveRange(chart.Length - (int)NoteShiftBox.Value, (int)NoteShiftBox.Value);
-                NewTicks.InsertRange(0, new Notedata.Tick[(int)NoteShiftBox.Value]);
-                chart.Ticks = NewTicks.ToArray();
+            if (NoteShiftBox.Value == 0) return;
 
-                ResizeScrollbar();
-                chart.FixSwipes();
-                UpdateChart();
-            }
+            chart.ShiftAllNotes((int)NoteShiftBox.Value);
 
-            else if (NoteShiftBox.Value < 0)
-            {
-                List<Notedata.Tick> NewTicks = chart.Ticks.ToList();
-                NewTicks.RemoveRange(0, - (int)NoteShiftBox.Value);
-                NewTicks.AddRange(new Notedata.Tick[- (int)NoteShiftBox.Value]);
-                chart.Ticks = NewTicks.ToArray();
-
-                ResizeScrollbar();
-                chart.FixSwipes();
-                UpdateChart();
-            }
+            ResizeScrollbar();
+            UpdateChart();
 
             NoteShiftBox.Value = 0;
-
-
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -600,101 +590,12 @@ namespace _8beatMap
 
         private void NoteCountButton_Click(object sender, EventArgs e)
         {
-            int NoteCount = 0;
-
-            for (int i = 0; i < chart.Length; i++)
-            {
-                for (int j = 0; j < 8; j++)
-                {
-                    Notedata.NoteType NoteType = chart.FindVisualNoteType(i, j);
-                    if (NoteType != Notedata.NoteType.None && NoteType != Notedata.NoteType.ExtendHoldMid &&
-                        NoteType != Notedata.NoteType.SwipeLeftMid && NoteType != Notedata.NoteType.SwipeRightMid)
-                        NoteCount++;
-                }
-            }
-
-            MessageBox.Show(String.Format(DialogResMgr.GetString("NoteCountMessage"), NoteCount));
+            MessageBox.Show(String.Format(DialogResMgr.GetString("NoteCountMessage"), chart.NoteCount));
         }
 
         private void AutoSimulBtn_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < chart.Length; i++)
-            {
-                int SimulNum_Tap = 0;
-                int SimulNum_Hold = 0;
-
-                for (int j = 0; j < 8; j++)
-                {
-                    // taps get drawn as simulnotes when swipes or flicks are present, but holds don't
-                    Notedata.NoteType NoteType = chart.FindVisualNoteType(i, j);
-                    if (NoteType != Notedata.NoteType.None && NoteType != Notedata.NoteType.ExtendHoldMid &&
-                        NoteType != Notedata.NoteType.SwipeLeftMid && NoteType != Notedata.NoteType.SwipeRightMid)
-                        SimulNum_Tap++;
-
-                    if (NoteType == Notedata.NoteType.Tap || NoteType == Notedata.NoteType.SimulTap ||
-                        NoteType == Notedata.NoteType.Hold || NoteType == Notedata.NoteType.SimulHoldStart || NoteType == Notedata.NoteType.SimulHoldRelease)
-                        SimulNum_Hold++;
-                }
-
-                if (SimulNum_Tap > 1)
-                {
-                    for (int j = 0; j < 8; j++)
-                    {
-                        Notedata.NoteType NoteType = chart.FindVisualNoteType(i, j);
-                        if (NoteType == Notedata.NoteType.Tap)
-                        {
-                            chart.Ticks[i].SetNote(Notedata.NoteType.SimulTap, j, ref chart);
-
-                            //UpdateChart();
-                        }
-                    }
-                }
-                else
-                {
-                    for (int j = 0; j < 8; j++)
-                    {
-                        Notedata.NoteType NoteType = chart.FindVisualNoteType(i, j);
-                        if (NoteType == Notedata.NoteType.SimulTap)
-                        {
-                            chart.Ticks[i].SetNote(Notedata.NoteType.Tap, j, ref chart);
-
-                            //UpdateChart();
-                        }
-                    }
-                }
-
-                if (SimulNum_Hold > 1)
-                {
-                    for (int j = 0; j < 8; j++)
-                    {
-                        Notedata.NoteType NoteType = chart.FindVisualNoteType(i, j);
-                        if (NoteType == Notedata.NoteType.Hold || NoteType == Notedata.NoteType.SimulHoldStart
-                        || NoteType == Notedata.NoteType.SimulHoldRelease)
-                        {
-                            if (i + 1 < chart.Length && (chart.Ticks[i + 1].Notes[j] == Notedata.NoteType.Hold || chart.Ticks[i + 1].Notes[j] == Notedata.NoteType.SimulHoldRelease))
-                                chart.Ticks[i].SetNote(Notedata.NoteType.SimulHoldStart, j, ref chart);
-                            else
-                                chart.Ticks[i].SetNote(Notedata.NoteType.SimulHoldRelease, j, ref chart);
-
-                            //UpdateChart();
-                        }
-                    }
-                }
-                else
-                {
-                    for (int j = 0; j < 8; j++)
-                    {
-                        Notedata.NoteType NoteType = chart.FindVisualNoteType(i, j);
-                        if (NoteType == Notedata.NoteType.SimulHoldStart || NoteType == Notedata.NoteType.SimulHoldRelease)
-                        {
-                            chart.Ticks[i].SetNote(Notedata.NoteType.Hold, j, ref chart);
-
-                            //UpdateChart();
-                        }
-                    }
-                }
-            }
-
+            chart.AutoSetSimulNotes();
             UpdateChart();
         }
 
