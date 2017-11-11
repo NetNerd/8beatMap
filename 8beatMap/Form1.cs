@@ -16,7 +16,7 @@ namespace _8beatMap
     {
         System.Resources.ResourceManager DialogResMgr = new System.Resources.ResourceManager("_8beatMap.Dialogs", System.Reflection.Assembly.GetEntryAssembly());
 
-        Notedata.Chart chart = new Notedata.Chart(32 * 48, 120);
+        public Notedata.Chart chart = new Notedata.Chart(32 * 48, 120);
         private int TickHeight = 10;
         private int IconWidth = 20;
         private int IconHeight = 10;
@@ -166,21 +166,30 @@ namespace _8beatMap
 
 
 
-        int VideoDelayMs = 60;
+        int VideoDelayMs = 85;
 
-        private void UpdateChart()
+        public void UpdateChart()
         {
             double tick = CurrentTick;
             if (playTimer.Enabled)
             {
                 tick -= chart.ConvertTimeToTicks(TimeSpan.FromMilliseconds(VideoDelayMs));
             }
+
             pictureBox1.Image.Dispose();
             pictureBox1.Image = GetChartImage(tick, TickHeight, IconWidth, IconHeight, SystemColors.ControlLight, false, pictureBox1.Width, pictureBox1.Height);
+        }
+
+        public void UpdateGameCloneChart()
+        {
+            double tick = CurrentTick;
+            if (playTimer.Enabled)
+            {
+                tick -= chart.ConvertTimeToTicks(TimeSpan.FromMilliseconds(VideoDelayMs));
+            }
 
             OGLrenderer.currentTick = tick;
             OGLrenderer.numTicksVisible = (int)chart.ConvertTimeToTicks(TimeSpan.FromMilliseconds(700));
-            OGLrenderer.chart = chart;
         }
 
 
@@ -296,6 +305,8 @@ namespace _8beatMap
 
 
             pictureBox1.Image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+
+            OGLrenderer.mainform = this;
 
             AddNoteTypes();
 

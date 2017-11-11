@@ -11,8 +11,8 @@ namespace _8beatMap
 
         public double currentTick = 0;
         public int numTicksVisible = 24;
-
-        public Notedata.Chart chart = new Notedata.Chart(1, 120);
+        
+        public Form1 mainform = null;
 
 
         string[] textureNames = { "spr_HoldLocus", "spr_SwipeLocus",
@@ -58,6 +58,8 @@ namespace _8beatMap
                 myWindow.Resize += (sender, e) =>
                 {
                     GL.Viewport(0, 0, myWindow.Width, myWindow.Height);
+                    viewHeight = myWindow.Height * 1136 / myWindow.Width;
+                    NodeStartLocs = new Point[] { new Point(223, viewHeight - 77), new Point(320, viewHeight - 100), new Point(419, viewHeight - 114), new Point(519, viewHeight - 119), new Point(617, viewHeight - 119), new Point(717, viewHeight - 114), new Point(816, viewHeight - 100), new Point(923, viewHeight - 77) };
                 };
 
 
@@ -91,20 +93,27 @@ namespace _8beatMap
         int EffectTime = 1000000;
         int EffectFadeTime = 390000;
 
+        int viewHeight = 640;
+
 
         void RenderFrame(object sender, EventArgs e)
         {
             if (myWindow.WindowState == WindowState.Minimized) return;
 
-            double EffectTicks = chart.ConvertTimeToTicks(new TimeSpan(EffectTime));
-            double EffectFadeTicks = chart.ConvertTimeToTicks(new TimeSpan(EffectFadeTime));
+            if (mainform == null) return;
+
+            mainform.UpdateGameCloneChart();
+
+
+            double EffectTicks = mainform.chart.ConvertTimeToTicks(new TimeSpan(EffectTime));
+            double EffectFadeTicks = mainform.chart.ConvertTimeToTicks(new TimeSpan(EffectFadeTime));
 
             
 
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
             GL.MatrixMode(MatrixMode.Projection);
-            ProjMatrix = Matrix4.CreateOrthographicOffCenter(0, 1136, 0, myWindow.Height * 1136 / myWindow.Width, 0, 2);
+            ProjMatrix = Matrix4.CreateOrthographicOffCenter(0, 1136, 0, viewHeight, 0, 2);
             GL.LoadMatrix(ref ProjMatrix);
             
             
@@ -124,19 +133,19 @@ namespace _8beatMap
 
             for (int i = (int)currentTick + numTicksVisible + 1; i >= (int)currentTick - 48; i--) // 48 is magic from Notedata.Chart.UpdateSwipeEnd()
             {
-                if (i >= chart.Length) i = chart.Length - 1;
+                if (i >= mainform.chart.Length) i = mainform.chart.Length - 1;
                 if (i < 0) break;
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Notedata.NoteType Type = chart.FindVisualNoteType(i, j);
+                    Notedata.NoteType Type = mainform.chart.FindVisualNoteType(i, j);
                     
                     GL.BindTexture(TextureTarget.Texture2D, textures["spr_SwipeLocus"]);
 
                     if ((Type == Notedata.NoteType.SwipeRightStartEnd | Type == Notedata.NoteType.SwipeRightMid | Type == Notedata.NoteType.SwipeChangeDirL2R
-                        | Type == Notedata.NoteType.SwipeLeftStartEnd | Type == Notedata.NoteType.SwipeLeftMid | Type == Notedata.NoteType.SwipeChangeDirR2L) && (chart.swipeEnds[i * 8 + j] == 0))
+                        | Type == Notedata.NoteType.SwipeLeftStartEnd | Type == Notedata.NoteType.SwipeLeftMid | Type == Notedata.NoteType.SwipeChangeDirR2L) && (mainform.chart.swipeEnds[i * 8 + j] == 0))
                     {
-                        Point swipeEndPoint = chart.swipeEndpointNodes[i * 8 + j];
+                        Point swipeEndPoint = mainform.chart.swipeEndpointNodes[i * 8 + j];
 
                         if (swipeEndPoint.X > i & currentTick < swipeEndPoint.X)
                         {
@@ -190,12 +199,12 @@ namespace _8beatMap
 
                     GL.BindTexture(TextureTarget.Texture2D, textures["spr_HoldLocus"]);
 
-                    if (Type == Notedata.NoteType.ExtendHoldMid && (i == (int)currentTick | chart.FindVisualNoteType(i - 1, j) != Notedata.NoteType.ExtendHoldMid))
+                    if (Type == Notedata.NoteType.ExtendHoldMid && (i == (int)currentTick | mainform.chart.FindVisualNoteType(i - 1, j) != Notedata.NoteType.ExtendHoldMid))
                     {
                         double start = i;
                         if (start < currentTick + 1) start = (int)(currentTick * 4) / 4f + 1;
                         int end = i;
-                        while (chart.FindVisualNoteType(end, j) == Notedata.NoteType.ExtendHoldMid) end++;
+                        while (mainform.chart.FindVisualNoteType(end, j) == Notedata.NoteType.ExtendHoldMid) end++;
                         if (end <= start) continue;
 
                         float sDist = (float)(numTicksVisible - start + 1 + currentTick) / numTicksVisible;
@@ -233,12 +242,12 @@ namespace _8beatMap
             for (int i = (int)currentTick + numTicksVisible; i >= (int)(currentTick - EffectTicks - EffectFadeTicks - 1); i--)
             //for (int i = (int)(startTick - EffectTicks - EffectFadeTicks - 1); i <= (int)startTick + numTicksVisible; i++)
             {
-                if (i >= chart.Length) i = chart.Length - 1;
+                if (i >= mainform.chart.Length) i = mainform.chart.Length - 1;
                 if (i < 0) break;
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Notedata.NoteType Type = chart.FindVisualNoteType(i, j);
+                    Notedata.NoteType Type = mainform.chart.FindVisualNoteType(i, j);
 
                     if (Type == Notedata.NoteType.None | Type == Notedata.NoteType.ExtendHoldMid) continue;
 
@@ -261,7 +270,7 @@ namespace _8beatMap
                                 NoteTex = "spr_SwipeLeftIcon";
                                 for (int k = 0; k < 8; k++)
                                 {
-                                    if (chart.Ticks[i].Notes[k] == Notedata.NoteType.SimulTap | chart.Ticks[i].Notes[k] == Notedata.NoteType.SimulHoldStart | chart.Ticks[i].Notes[k] == Notedata.NoteType.SimulHoldRelease)
+                                    if (mainform.chart.Ticks[i].Notes[k] == Notedata.NoteType.SimulTap | mainform.chart.Ticks[i].Notes[k] == Notedata.NoteType.SimulHoldStart | mainform.chart.Ticks[i].Notes[k] == Notedata.NoteType.SimulHoldRelease)
                                     {
                                         NoteTex = "spr_SwipeLeftIcon_Simul";
                                         break;
@@ -276,7 +285,7 @@ namespace _8beatMap
                                 NoteTex = "spr_SwipeRightIcon";
                                 for (int k = 0; k < 8; k++)
                                 {
-                                    if (chart.Ticks[i].Notes[k] == Notedata.NoteType.SimulTap | chart.Ticks[i].Notes[k] == Notedata.NoteType.SimulHoldStart | chart.Ticks[i].Notes[k] == Notedata.NoteType.SimulHoldRelease)
+                                    if (mainform.chart.Ticks[i].Notes[k] == Notedata.NoteType.SimulTap | mainform.chart.Ticks[i].Notes[k] == Notedata.NoteType.SimulHoldStart | mainform.chart.Ticks[i].Notes[k] == Notedata.NoteType.SimulHoldRelease)
                                     {
                                         NoteTex = "spr_SwipeRightIcon_Simul";
                                         break;

@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 
 namespace _8beatMap
 {
-    static class Notedata
+    public static class Notedata
     {
         public enum NoteType
         {
