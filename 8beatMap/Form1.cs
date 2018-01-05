@@ -113,53 +113,29 @@ namespace _8beatMap
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Color noteCol = Color.FromArgb(0xc0, 0xc0, 0xc0);
-                    Color ArrowCol = Color.Transparent;
-                    int ArrowDir = 0;
+                    NoteTypeDef Type = chart.FindVisualNoteType(i, j);
 
-                    Notedata.NoteType Type = chart.FindVisualNoteType(i, j);
-
-                    if (chart.swipeEnds[i * 8 + j] == 0)
+                    if (!chart.Ticks[i].Notes[j].IsSwipeEnd)
                     {
-                        Point swipeEndPoint = chart.swipeEndpointNodes[i * 8 + j];
+                        Point swipeEndPoint = chart.Ticks[i].Notes[j].SwipeEndPoint;
 
                         if (swipeEndPoint.X > i)
                             Grfx.DrawLine(new Pen(Color.LightGray, iconWidth / 3), (float)(j + 0.5) * laneWidth, height - (float)(i - startTick + 1) * tickHeight - 2, (float)(swipeEndPoint.Y + 0.5) * laneWidth, height - (float)(swipeEndPoint.X - startTick + 1) * tickHeight - 2);
                             
                     }
 
-                    switch (Type)
-                    {
-                        case Notedata.NoteType.Tap: noteCol = Color.Blue; break;
-                        case Notedata.NoteType.Hold: noteCol = Color.LimeGreen; break;
-                        case Notedata.NoteType.SimulTap:
-                        case Notedata.NoteType.SimulHoldStart:
-                        case Notedata.NoteType.SimulHoldRelease: noteCol = Color.DeepPink; break;
-                        case Notedata.NoteType.FlickLeft: ArrowCol = Color.FromArgb(0x70, 0, 0x78); ArrowDir = -1; break;
-                        case Notedata.NoteType.HoldEndFlickLeft: ArrowCol = Color.FromArgb(0x70, 0, 0x78); noteCol = Color.LightGray; ArrowDir = -1; break;
-                        case Notedata.NoteType.SwipeLeftStartEnd: ArrowCol = Color.DarkViolet; ArrowDir = -1; break;
-                        case Notedata.NoteType.SwipeLeftMid:
-                        case Notedata.NoteType.SwipeChangeDirR2L: ArrowCol = Color.Violet; ArrowDir = -1; break;
-                        case Notedata.NoteType.FlickRight: ArrowCol = Color.FromArgb(0xcc, 0x88, 0); ArrowDir = 1; break;
-                        case Notedata.NoteType.HoldEndFlickRight: ArrowCol = Color.FromArgb(0xcc, 0x88, 0); noteCol = Color.LightGray; ArrowDir = 1; break;
-                        case Notedata.NoteType.SwipeRightStartEnd: ArrowCol = Color.DarkOrange; ArrowDir = 1; break;
-                        case Notedata.NoteType.SwipeRightMid:
-                        case Notedata.NoteType.SwipeChangeDirL2R: ArrowCol = Color.Gold; ArrowDir = 1; break;
-                        case Notedata.NoteType.ExtendHoldMid: noteCol = Color.LightGray; break;
-                    }
 
+                    int iconX = (int)((j + 0.5) * laneWidth - halfIconWidth);
+                    int iconY = (int)Math.Ceiling(height - (i - startTick + 1.5) * tickHeight - 2);
+                    
 
-                    if (chart.Ticks[i].Notes[j] != Notedata.NoteType.None)
-                    {
-                        int iconX = (int)((j + 0.5) * laneWidth - halfIconWidth);
-                        int iconY = (int)Math.Ceiling(height - (i - startTick + 1.5) * tickHeight - 2);
+                    if (Type.BackColor == Color.Transparent) continue;
 
-                        Grfx.FillRectangle(new SolidBrush(noteCol), iconX, iconY, iconWidth, iconHeight);
-                        if (ArrowDir == -1)
-                            Grfx.FillPolygon(new SolidBrush(ArrowCol), new Point[] { new Point(iconX + iconWidth - 1, iconY + 0), new Point(iconX + iconWidth - 1, iconY + iconHeight - 1), new Point(iconX + 0, iconY + halfIconHeight) });
-                        else if (ArrowDir == 1)
-                            Grfx.FillPolygon(new SolidBrush(ArrowCol), new Point[] { new Point(iconX + 0, iconY + 0), new Point(iconX + 0, iconY + iconHeight - 1), new Point(iconX + iconWidth - 1, iconY + halfIconHeight) });
-                    }
+                    Grfx.FillRectangle(new SolidBrush(Type.BackColor), iconX, iconY, iconWidth, iconHeight);
+                    if (Type.IconType == IconType.LeftArrow)
+                        Grfx.FillPolygon(new SolidBrush(Type.IconColor), new Point[] { new Point(iconX + iconWidth - 1, iconY + 0), new Point(iconX + iconWidth - 1, iconY + iconHeight - 1), new Point(iconX + 0, iconY + halfIconHeight) });
+                    else if (Type.IconType == IconType.RightArrow)
+                        Grfx.FillPolygon(new SolidBrush(Type.IconColor), new Point[] { new Point(iconX + 0, iconY + 0), new Point(iconX + 0, iconY + iconHeight - 1), new Point(iconX + iconWidth - 1, iconY + halfIconHeight) });
                 }
 
                 if (!NoGrid)
@@ -416,12 +392,11 @@ namespace _8beatMap
                     {
                         for (int j = 0; j < 8; j++)
                         {
-                            Notedata.NoteType note = chart.FindVisualNoteType(i, j);
+                            NoteTypeDef note = chart.FindVisualNoteType(i, j);
 
                             if (Sound.NoteSoundWave != null)
                             {
-                                if (note == Notedata.NoteType.Tap || note == Notedata.NoteType.SimulTap || note == Notedata.NoteType.Hold
-                                    || note == Notedata.NoteType.SimulHoldStart || note == Notedata.NoteType.SimulHoldRelease)
+                                if (note.DetectType == DetectType.Tap | note.DetectType == DetectType.Hold)
                                 {
                                     //Sound.PlayNoteSound(Sound.NoteSoundWave);
                                     Sound.NoteSoundTrim = new NAudio.Wave.SampleProviders.OffsetSampleProvider(new Sound.CachedSoundSampleProvider(Sound.NoteSoundWave));
@@ -432,11 +407,8 @@ namespace _8beatMap
                                     Sound.PlayNoteSound(Sound.NoteSoundTrim);
                                 }
 
-                                else if ((
-                                    (note == Notedata.NoteType.SwipeLeftStartEnd | note == Notedata.NoteType.SwipeRightStartEnd) && chart.swipeEnds[i * 8 + j] == 0)
-                                    || note == Notedata.NoteType.SwipeChangeDirR2L | note == Notedata.NoteType.SwipeChangeDirL2R
-                                    || note == Notedata.NoteType.FlickLeft | note == Notedata.NoteType.HoldEndFlickLeft
-                                    || note == Notedata.NoteType.FlickRight | note == Notedata.NoteType.HoldEndFlickRight)
+                                else if ((note.DetectType == DetectType.SwipeEndPoint & !chart.Ticks[i].Notes[j].IsSwipeEnd) ||
+                                         note.DetectType == DetectType.SwipeDirChange || note.DetectType == DetectType.Flick)
                                 {
                                     //Sound.PlayNoteSound(Sound.NoteSoundWave_Swipe);
                                     Sound.NoteSoundTrim = new NAudio.Wave.SampleProviders.OffsetSampleProvider(new Sound.CachedSoundSampleProvider(Sound.NoteSoundWave_Swipe));
@@ -448,8 +420,7 @@ namespace _8beatMap
                                 }
                             }
 
-                            else if (note != Notedata.NoteType.None && note != Notedata.NoteType.ExtendHoldMid &&
-                                note != Notedata.NoteType.SwipeLeftMid && note != Notedata.NoteType.SwipeRightMid)
+                            else if (note.NotNode != true & note.DetectType != DetectType.SwipeMid)
                             {
                                 Sound.NoteSoundTrim = new NAudio.Wave.SampleProviders.OffsetSampleProvider(Sound.NoteSoundSig);
                                 Sound.NoteSoundTrim.Take = TimeSpan.FromMilliseconds(20);
@@ -493,7 +464,7 @@ namespace _8beatMap
             }
         }
 
-        private void ProcessClick(int Tick, int Lane, MouseButtons MouseButton, Notedata.NoteType NewNote)
+        private void ProcessClick(int Tick, int Lane, MouseButtons MouseButton, NoteTypeDef NewNote)
         {
             //Console.WriteLine(Lane + ", " + Tick);
 
@@ -505,9 +476,9 @@ namespace _8beatMap
 
             if (MouseButton == MouseButtons.Left)
             {
-                if (chart.Ticks[Tick].Notes[Lane] != NewNote)
+                if (chart.Ticks[Tick].Notes[Lane].NoteType.NoteId != NewNote.NoteId)
                 {
-                    if (NewNote == Notedata.NoteType.None)
+                    if (NewNote.NoteId == NoteTypes.None.NoteId)
                     {
                         ProcessClick(Tick, Lane, MouseButtons.Right, NewNote);
                         return;
@@ -521,9 +492,9 @@ namespace _8beatMap
 
             else if (MouseButton == MouseButtons.Right)
             {
-                if (chart.Ticks[Tick].Notes[Lane] != Notedata.NoteType.None)
+                if (chart.Ticks[Tick].Notes[Lane].NoteType.NoteId != NoteTypes.None.NoteId)
                 {
-                    chart.Ticks[Tick].SetNote(Notedata.NoteType.None, Lane, ref chart);
+                    chart.Ticks[Tick].SetNote(NoteTypes.None, Lane, ref chart);
                     UpdateChart();
                 }
             }
@@ -539,7 +510,7 @@ namespace _8beatMap
             int Lane = ConvertXCoordToNote(e.X);
             int Tick = (int)ConvertYCoordToTick(e.Y);
 
-            ProcessClick(Tick, Lane, e.Button, (Notedata.NoteType)NoteTypeSelector.SelectedItem);
+            ProcessClick(Tick, Lane, e.Button, NoteTypes.gettypebyid(NoteTypeSelector.SelectedItem.GetHashCode()));
         }
 
         private void Chart_MouseMove(object sender, MouseEventArgs e)
@@ -549,7 +520,7 @@ namespace _8beatMap
                 int Lane = ConvertXCoordToNote(e.X);
                 int Tick = (int)ConvertYCoordToTick(e.Y);
 
-                ProcessClick(Tick, Lane, e.Button, (Notedata.NoteType)NoteTypeSelector.SelectedItem);
+                ProcessClick(Tick, Lane, e.Button, NoteTypes.gettypebyid(NoteTypeSelector.SelectedItem.GetHashCode()));
             }
         }
 

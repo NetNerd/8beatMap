@@ -138,14 +138,13 @@ namespace _8beatMap
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Notedata.NoteType Type = mainform.chart.FindVisualNoteType(i, j);
+                    NoteTypeDef Type = mainform.chart.FindVisualNoteType(i, j);
                     
                     GL.BindTexture(TextureTarget.Texture2D, textures["spr_SwipeLocus"]);
 
-                    if ((Type == Notedata.NoteType.SwipeRightStartEnd | Type == Notedata.NoteType.SwipeRightMid | Type == Notedata.NoteType.SwipeChangeDirL2R
-                        | Type == Notedata.NoteType.SwipeLeftStartEnd | Type == Notedata.NoteType.SwipeLeftMid | Type == Notedata.NoteType.SwipeChangeDirR2L) && (mainform.chart.swipeEnds[i * 8 + j] == 0))
+                    if ((Type.DetectType == DetectType.SwipeEndPoint | Type.DetectType == DetectType.SwipeMid | Type.DetectType == DetectType.SwipeDirChange) && !mainform.chart.Ticks[i].Notes[j].IsSwipeEnd)
                     {
-                        Point swipeEndPoint = mainform.chart.swipeEndpointNodes[i * 8 + j];
+                        Point swipeEndPoint = mainform.chart.Ticks[i].Notes[j].SwipeEndPoint;
 
                         if (swipeEndPoint.X > i & currentTick < swipeEndPoint.X)
                         {
@@ -199,12 +198,12 @@ namespace _8beatMap
 
                     GL.BindTexture(TextureTarget.Texture2D, textures["spr_HoldLocus"]);
 
-                    if (Type == Notedata.NoteType.ExtendHoldMid && (i == (int)currentTick | mainform.chart.FindVisualNoteType(i - 1, j) != Notedata.NoteType.ExtendHoldMid))
+                    if (Type.DetectType == DetectType.HoldMid && (i == (int)currentTick | mainform.chart.FindVisualNoteType(i - 1, j).DetectType != DetectType.HoldMid))
                     {
                         double start = i;
                         if (start < currentTick + 1) start = (int)(currentTick * 4) / 4f + 1;
                         int end = i;
-                        while (mainform.chart.FindVisualNoteType(end, j) == Notedata.NoteType.ExtendHoldMid) end++;
+                        while (mainform.chart.FindVisualNoteType(end, j).DetectType == DetectType.HoldMid) end++;
                         if (end <= start) continue;
 
                         float sDist = (float)(numTicksVisible - start + 1 + currentTick) / numTicksVisible;
@@ -247,52 +246,36 @@ namespace _8beatMap
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Notedata.NoteType Type = mainform.chart.FindVisualNoteType(i, j);
+                    NoteTypeDef Type = mainform.chart.FindVisualNoteType(i, j);
 
-                    if (Type == Notedata.NoteType.None | Type == Notedata.NoteType.ExtendHoldMid) continue;
+                    if (Type.DetectType == DetectType.None | Type.DetectType == DetectType.HoldMid | Type.OGLTextureName == null) continue;
 
                     if (i >= (int)currentTick)
                     {
-                        string NoteTex;
+                        string NoteTex = Type.OGLTextureName;
 
-                        switch (Type)
+                        if (NoteTex == "spr_SwipeLeftIcon")
                         {
-                            case Notedata.NoteType.Tap: NoteTex = "spr_TapIcon"; break;
-                            case Notedata.NoteType.Hold: NoteTex = "spr_HoldIcon"; break;
-                            case Notedata.NoteType.SimulTap:
-                            case Notedata.NoteType.SimulHoldStart:
-                            case Notedata.NoteType.SimulHoldRelease: NoteTex = "spr_SimulIcon"; break;
-                            case Notedata.NoteType.FlickLeft:
-                            case Notedata.NoteType.HoldEndFlickLeft:
-                            case Notedata.NoteType.SwipeLeftStartEnd:
-                            case Notedata.NoteType.SwipeLeftMid:
-                            case Notedata.NoteType.SwipeChangeDirR2L:
-                                NoteTex = "spr_SwipeLeftIcon";
-                                for (int k = 0; k < 8; k++)
+                            for (int k = 0; k < 8; k++)
+                            {
+                                if (mainform.chart.Ticks[i].Notes[k].NoteType.IsSimul)
                                 {
-                                    if (mainform.chart.Ticks[i].Notes[k] == Notedata.NoteType.SimulTap | mainform.chart.Ticks[i].Notes[k] == Notedata.NoteType.SimulHoldStart | mainform.chart.Ticks[i].Notes[k] == Notedata.NoteType.SimulHoldRelease)
-                                    {
-                                        NoteTex = "spr_SwipeLeftIcon_Simul";
-                                        break;
-                                    }
+                                    NoteTex = "spr_SwipeLeftIcon_Simul";
+                                    break;
                                 }
-                                break;
-                            case Notedata.NoteType.FlickRight:
-                            case Notedata.NoteType.HoldEndFlickRight:
-                            case Notedata.NoteType.SwipeRightStartEnd:
-                            case Notedata.NoteType.SwipeRightMid:
-                            case Notedata.NoteType.SwipeChangeDirL2R:
-                                NoteTex = "spr_SwipeRightIcon";
-                                for (int k = 0; k < 8; k++)
+                            }
+                        }
+
+                        if (NoteTex == "spr_SwipeRightIcon")
+                        {
+                            for (int k = 0; k < 8; k++)
+                            {
+                                if (mainform.chart.Ticks[i].Notes[k].NoteType.IsSimul)
                                 {
-                                    if (mainform.chart.Ticks[i].Notes[k] == Notedata.NoteType.SimulTap | mainform.chart.Ticks[i].Notes[k] == Notedata.NoteType.SimulHoldStart | mainform.chart.Ticks[i].Notes[k] == Notedata.NoteType.SimulHoldRelease)
-                                    {
-                                        NoteTex = "spr_SwipeRightIcon_Simul";
-                                        break;
-                                    }
+                                    NoteTex = "spr_SwipeRightIcon_Simul";
+                                    break;
                                 }
-                                break;
-                            default: continue;
+                            }
                         }
 
                         float icnDist = (float)(numTicksVisible - i + currentTick) / numTicksVisible;
