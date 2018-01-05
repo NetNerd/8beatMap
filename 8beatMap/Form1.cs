@@ -24,7 +24,52 @@ namespace _8beatMap
         private int LastTick = 0;
 
 
-        private Timer playTimer = new Timer() { Interval = 3 };
+        private Timer playTimer = new Timer() { Interval = 8 };
+
+
+        private double[] prevPlayTicks = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
+        
+        private double getAveragedPlayTickTime(double rawtick)
+        {
+            double avgTickDelta = 0;
+            int numentries = 0;
+            for (int i = 1; i < prevPlayTicks.Length; i++)
+            {
+                if (prevPlayTicks[i] >= 0)
+                {
+                    avgTickDelta += prevPlayTicks[i - 1] - prevPlayTicks[i];
+                    numentries++;
+                }
+            }
+            if (numentries > 0)
+                avgTickDelta /= numentries;
+            else
+                avgTickDelta = 0;
+
+            double averagedTick = prevPlayTicks[0] + avgTickDelta;
+
+            if (Math.Abs(rawtick - averagedTick) > 5 | !playTimer.Enabled) // averaged tick is too different to raw tick or playtimer isn't enabled -- reset all to default state
+            {
+                prevPlayTicks[0] = rawtick;
+                for (int i = 1; i < prevPlayTicks.Length; i++)
+                {
+                    prevPlayTicks[i] = -1;
+                }
+            }
+            else
+            {
+                for (int i = prevPlayTicks.Length - 1; i > 0; --i)
+                {
+                    prevPlayTicks[i] = prevPlayTicks[i - 1];
+                }
+                if (numentries > 0)
+                    prevPlayTicks[0] = (averagedTick*2 + rawtick) / 3; // add some portion of rawtick to help avoid drifting
+                else
+                    prevPlayTicks[0] = rawtick; // if there was no valid average made, it's necessary to just use the raw value provided
+            }
+
+            return prevPlayTicks[0];
+        }
 
 
         GameCloneRenderer_OGL OGLrenderer = new GameCloneRenderer_OGL(853, 480);
@@ -145,13 +190,13 @@ namespace _8beatMap
             if (tick < 0) tick = 0;
             if (tick >= chart.Length) tick = chart.Length - 1;
 
-            CurrentTick = tick;
+            CurrentTick = getAveragedPlayTickTime(tick);
 
-            TimeSpan ctickTime = chart.ConvertTicksToTime(CurrentTick);
+            TimeSpan ctickTime = chart.ConvertTicksToTime(tick);
 
             if (Sound.MusicReader != null &&
-                    (Sound.MusicReader.CurrentTime < ctickTime - TimeSpan.FromMilliseconds(MusicDelayMs - 3) |
-                    Sound.MusicReader.CurrentTime > ctickTime - TimeSpan.FromMilliseconds(MusicDelayMs + 3)))
+                    (Sound.MusicReader.CurrentTime < ctickTime - TimeSpan.FromMilliseconds(MusicDelayMs + 10) |
+                    Sound.MusicReader.CurrentTime > ctickTime - TimeSpan.FromMilliseconds(MusicDelayMs - 10)))
                 try {
                     if (ctickTime < TimeSpan.FromMilliseconds(MusicDelayMs))
                         Sound.MusicReader.CurrentTime = TimeSpan.FromMilliseconds(0);
@@ -166,7 +211,7 @@ namespace _8beatMap
 
 
 
-        int VideoDelayMs = 85;
+        int VideoDelayMs = 90;
 
         public void UpdateChart()
         {
@@ -345,8 +390,8 @@ namespace _8beatMap
         }
 
 
-        int MusicDelayMs = 20;
-
+        int MusicDelayMs = 10;
+        
         double lastPlayTickTime = 0;
         private void playtimer_Tick(object sender, EventArgs e)
         {
@@ -417,7 +462,7 @@ namespace _8beatMap
                 }
             }
 
-            if (CurrentTick == chart.Length - 1 || Sound.MusicReader.CurrentTime == Sound.MusicReader.TotalTime)
+            if (CurrentTick >= chart.Length - 1 || Sound.MusicReader.CurrentTime == Sound.MusicReader.TotalTime)
             {
                 StopPlayback();
             }
