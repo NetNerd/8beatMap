@@ -667,9 +667,17 @@ namespace _8beatMap
                 char key = e.KeyChar;
                 switch (key)
                 {
-                    case '/': //toggle showing numbers on keys
+                    case '/': // toggle showing numbers on keys
                         ShowTypeIdsOnNotes = !ShowTypeIdsOnNotes;
                         UpdateChart();
+                        break;
+
+                    case 'P': // reopen preview window
+                    case 'p':
+                        OGLrenderer.Stop();
+                        OGLrenderer = null;
+                        OGLrenderer = new GameCloneRenderer_OGL(853, 480);
+                        OGLrenderer.mainform = this;
                         break;
 
                     default:

@@ -15,22 +15,22 @@ namespace _8beatMap
         public Form1 mainform = null;
 
 
-        string[] textureNames = { "spr_HoldLocus", "spr_SwipeLocus",
+        static string[] textureNames = { "spr_HoldLocus", "spr_SwipeLocus",
             "spr_TapIcon", "spr_HoldIcon", "spr_SimulIcon",
             "spr_SwipeRightIcon", "spr_SwipeRightIcon_Simul", "spr_SwipeLeftIcon", "spr_SwipeLeftIcon_Simul",
             "spr_HitEffect",
             "spr_Chara1", "spr_Chara2", "spr_Chara3", "spr_Chara4", "spr_Chara5", "spr_Chara6", "spr_Chara7", "spr_Chara8" };
 
-        string[] texturePaths = { "nodeimg/locus.png", "nodeimg/locus2.png",
+        static string[] texturePaths = { "nodeimg/locus.png", "nodeimg/locus2.png",
             "nodeimg/node_1.png", "nodeimg/node_2.png", "nodeimg/node_3.png",
             "nodeimg/node_4.png", "nodeimg/node_4_3.png", "nodeimg/node_6.png", "nodeimg/node_6_3.png",
             "nodeimg/node_effect.png",
             "charaimg/1.png", "charaimg/2.png", "charaimg/3.png", "charaimg/4.png", "charaimg/5.png", "charaimg/6.png", "charaimg/7.png", "charaimg/8.png"};
 
-        System.Collections.Generic.Dictionary<string, int> textures = new System.Collections.Generic.Dictionary<string, int>();
+        static System.Collections.Generic.Dictionary<string, int> textures = new System.Collections.Generic.Dictionary<string, int>();
 
 
-        System.Resources.ResourceManager DialogResMgr = new System.Resources.ResourceManager("_8beatMap.Dialogs", System.Reflection.Assembly.GetEntryAssembly());
+        static System.Resources.ResourceManager DialogResMgr = new System.Resources.ResourceManager("_8beatMap.Dialogs", System.Reflection.Assembly.GetEntryAssembly());
 
 
         public GameCloneRenderer_OGL(int wndWidth, int wndHeight)
@@ -44,7 +44,8 @@ namespace _8beatMap
                 myWindow.Load += (sender, e) =>
                 {
                     for (int i = 0; i < textureNames.Length; i++)
-                        textures.Add(textureNames[i], LoadTexture(texturePaths[i]));
+                        if (!textures.ContainsKey(textureNames[i]))
+                            textures.Add(textureNames[i], LoadTexture(texturePaths[i]));
 
                     GL.ClearColor(0, 0, 0, 0);
 
@@ -79,13 +80,14 @@ namespace _8beatMap
         public void Stop()
         {
             myWindow.Close();
+            myWindow = null;
         }
 
 
 
         Matrix4 ProjMatrix;
-        Point[] NodeStartLocs = { new Point(223, 640 - 77), new Point(320, 640 - 100), new Point(419, 640 - 114), new Point(519, 640 - 119), new Point(617, 640 - 119), new Point(717, 640 - 114), new Point(816, 640 - 100), new Point(923, 640 - 77) };
-        Point[] NodeEndLocs = { new Point(75, 156), new Point(213, 120), new Point(354, 98), new Point(497, 88), new Point(639, 88), new Point(782, 98), new Point(923, 120), new Point(1061, 156) };
+        static Point[] NodeStartLocs = { new Point(223, 640 - 77), new Point(320, 640 - 100), new Point(419, 640 - 114), new Point(519, 640 - 119), new Point(617, 640 - 119), new Point(717, 640 - 114), new Point(816, 640 - 100), new Point(923, 640 - 77) };
+        static Point[] NodeEndLocs = { new Point(75, 156), new Point(213, 120), new Point(354, 98), new Point(497, 88), new Point(639, 88), new Point(782, 98), new Point(923, 120), new Point(1061, 156) };
         
         int iconSize = 128;
         int halfIconSize = 64;
