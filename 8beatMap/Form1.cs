@@ -113,7 +113,7 @@ namespace _8beatMap
 
                 for (int j = 0; j < 8; j++)
                 {
-                    NoteTypeDef Type = chart.FindVisualNoteType(i, j);
+                    NoteTypes.NoteTypeDef Type = chart.FindVisualNoteType(i, j);
 
                     if (!chart.Ticks[i].Notes[j].IsSwipeEnd)
                     {
@@ -132,9 +132,9 @@ namespace _8beatMap
                     if (Type.BackColor == Color.Transparent) continue;
 
                     Grfx.FillRectangle(new SolidBrush(Type.BackColor), iconX, iconY, iconWidth, iconHeight);
-                    if (Type.IconType == IconType.LeftArrow)
+                    if (Type.IconType == NoteTypes.IconType.LeftArrow)
                         Grfx.FillPolygon(new SolidBrush(Type.IconColor), new Point[] { new Point(iconX + iconWidth - 1, iconY + 0), new Point(iconX + iconWidth - 1, iconY + iconHeight - 1), new Point(iconX + 0, iconY + halfIconHeight) });
-                    else if (Type.IconType == IconType.RightArrow)
+                    else if (Type.IconType == NoteTypes.IconType.RightArrow)
                         Grfx.FillPolygon(new SolidBrush(Type.IconColor), new Point[] { new Point(iconX + 0, iconY + 0), new Point(iconX + 0, iconY + iconHeight - 1), new Point(iconX + iconWidth - 1, iconY + halfIconHeight) });
                 }
 
@@ -290,13 +290,13 @@ namespace _8beatMap
 
             if (System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName == "ja")
                 //NoteTypeSelector.DataSource = Enum.GetValues(typeof(Notedata.UserVisibleNoteType_Nihongo));
-                foreach (Notedata.UserVisibleNoteType_Nihongo type in Enum.GetValues(typeof(Notedata.UserVisibleNoteType_Nihongo)))
+                foreach (KeyValuePair<string, int> type in NoteTypes.UserVisibleNoteTypes_Nihongo)
                 {
                     NoteTypeSelector.Items.Add(type);
                 }
             else
                 // NoteTypeSelector.DataSource = Enum.GetValues(typeof(Notedata.UserVisibleNoteType));
-                foreach (Notedata.UserVisibleNoteType type in Enum.GetValues(typeof(Notedata.UserVisibleNoteType)))
+                foreach (KeyValuePair<string, int> type in NoteTypes.UserVisibleNoteTypes)
                 {
                     NoteTypeSelector.Items.Add(type);
                 }
@@ -392,11 +392,11 @@ namespace _8beatMap
                     {
                         for (int j = 0; j < 8; j++)
                         {
-                            NoteTypeDef note = chart.FindVisualNoteType(i, j);
+                            NoteTypes.NoteTypeDef note = chart.FindVisualNoteType(i, j);
 
                             if (Sound.NoteSoundWave != null)
                             {
-                                if (note.DetectType == DetectType.Tap | note.DetectType == DetectType.Hold)
+                                if (note.DetectType == NoteTypes.DetectType.Tap | note.DetectType == NoteTypes.DetectType.Hold)
                                 {
                                     //Sound.PlayNoteSound(Sound.NoteSoundWave);
                                     Sound.NoteSoundTrim = new NAudio.Wave.SampleProviders.OffsetSampleProvider(new Sound.CachedSoundSampleProvider(Sound.NoteSoundWave));
@@ -407,8 +407,8 @@ namespace _8beatMap
                                     Sound.PlayNoteSound(Sound.NoteSoundTrim);
                                 }
 
-                                else if ((note.DetectType == DetectType.SwipeEndPoint & !chart.Ticks[i].Notes[j].IsSwipeEnd) ||
-                                         note.DetectType == DetectType.SwipeDirChange || note.DetectType == DetectType.Flick)
+                                else if ((note.DetectType == NoteTypes.DetectType.SwipeEndPoint & !chart.Ticks[i].Notes[j].IsSwipeEnd) ||
+                                         note.DetectType == NoteTypes.DetectType.SwipeDirChange || note.DetectType == NoteTypes.DetectType.Flick)
                                 {
                                     //Sound.PlayNoteSound(Sound.NoteSoundWave_Swipe);
                                     Sound.NoteSoundTrim = new NAudio.Wave.SampleProviders.OffsetSampleProvider(new Sound.CachedSoundSampleProvider(Sound.NoteSoundWave_Swipe));
@@ -420,7 +420,7 @@ namespace _8beatMap
                                 }
                             }
 
-                            else if (note.NotNode != true & note.DetectType != DetectType.SwipeMid)
+                            else if (note.NotNode != true & note.DetectType != NoteTypes.DetectType.SwipeMid)
                             {
                                 Sound.NoteSoundTrim = new NAudio.Wave.SampleProviders.OffsetSampleProvider(Sound.NoteSoundSig);
                                 Sound.NoteSoundTrim.Take = TimeSpan.FromMilliseconds(20);
@@ -464,7 +464,7 @@ namespace _8beatMap
             }
         }
 
-        private void ProcessClick(int Tick, int Lane, MouseButtons MouseButton, NoteTypeDef NewNote)
+        private void ProcessClick(int Tick, int Lane, MouseButtons MouseButton, NoteTypes.NoteTypeDef NewNote)
         {
             //Console.WriteLine(Lane + ", " + Tick);
 
@@ -478,7 +478,7 @@ namespace _8beatMap
             {
                 if (chart.Ticks[Tick].Notes[Lane].NoteType.NoteId != NewNote.NoteId)
                 {
-                    if (NewNote.NoteId == NoteTypes.None.NoteId)
+                    if (NewNote.NoteId == NoteTypes.NoteTypeDefs.None.NoteId)
                     {
                         ProcessClick(Tick, Lane, MouseButtons.Right, NewNote);
                         return;
@@ -492,9 +492,9 @@ namespace _8beatMap
 
             else if (MouseButton == MouseButtons.Right)
             {
-                if (chart.Ticks[Tick].Notes[Lane].NoteType.NoteId != NoteTypes.None.NoteId)
+                if (chart.Ticks[Tick].Notes[Lane].NoteType.NoteId != NoteTypes.NoteTypeDefs.None.NoteId)
                 {
-                    chart.Ticks[Tick].SetNote(NoteTypes.None, Lane, ref chart);
+                    chart.Ticks[Tick].SetNote(NoteTypes.NoteTypeDefs.None, Lane, ref chart);
                     UpdateChart();
                 }
             }
@@ -510,7 +510,7 @@ namespace _8beatMap
             int Lane = ConvertXCoordToNote(e.X);
             int Tick = (int)ConvertYCoordToTick(e.Y);
 
-            ProcessClick(Tick, Lane, e.Button, NoteTypes.gettypebyid(NoteTypeSelector.SelectedItem.GetHashCode()));
+            ProcessClick(Tick, Lane, e.Button, NoteTypes.NoteTypeDefs.gettypebyid(((KeyValuePair<string, int>)NoteTypeSelector.SelectedItem).Value));
         }
 
         private void Chart_MouseMove(object sender, MouseEventArgs e)
@@ -520,7 +520,7 @@ namespace _8beatMap
                 int Lane = ConvertXCoordToNote(e.X);
                 int Tick = (int)ConvertYCoordToTick(e.Y);
 
-                ProcessClick(Tick, Lane, e.Button, NoteTypes.gettypebyid(NoteTypeSelector.SelectedItem.GetHashCode()));
+                ProcessClick(Tick, Lane, e.Button, NoteTypes.NoteTypeDefs.gettypebyid(((KeyValuePair<string, int>)NoteTypeSelector.SelectedItem).Value));
             }
         }
 
@@ -652,17 +652,17 @@ namespace _8beatMap
                 if (Char.IsDigit(key))
                 {
                     if (System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName == "ja")
-                        NoteTypeSelector.SelectedItem = (Notedata.UserVisibleNoteType_Nihongo)Enum.Parse(typeof(Notedata.NoteShortcutKeys), "_" + key);
+                        NoteTypeSelector.SelectedItem = NoteTypes.UserVisibleNoteTypes_Nihongo.FirstOrDefault(x => x.Value == NoteTypes.NoteShortcutKeys["_" + key]);
                     else
-                        NoteTypeSelector.SelectedItem = (Notedata.UserVisibleNoteType)Enum.Parse(typeof(Notedata.NoteShortcutKeys), "_" + key);
+                        NoteTypeSelector.SelectedItem = NoteTypes.UserVisibleNoteTypes.FirstOrDefault(x => x.Value == NoteTypes.NoteShortcutKeys["_" + key]);
 
                 }
                 else
                 {
                     if (System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName == "ja")
-                        NoteTypeSelector.SelectedItem = (Notedata.UserVisibleNoteType_Nihongo)Enum.Parse(typeof(Notedata.NoteShortcutKeys), key.ToString().ToUpper());
+                        NoteTypeSelector.SelectedItem = NoteTypes.UserVisibleNoteTypes_Nihongo.FirstOrDefault(x => x.Value == NoteTypes.NoteShortcutKeys[key.ToString().ToUpper()]);
                     else
-                        NoteTypeSelector.SelectedItem = (Notedata.UserVisibleNoteType)Enum.Parse(typeof(Notedata.NoteShortcutKeys), key.ToString().ToUpper());
+                        NoteTypeSelector.SelectedItem = NoteTypes.UserVisibleNoteTypes.FirstOrDefault(x => x.Value == NoteTypes.NoteShortcutKeys[key.ToString().ToUpper()]);
                 }
             }
             catch { }

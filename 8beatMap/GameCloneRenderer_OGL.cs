@@ -138,11 +138,11 @@ namespace _8beatMap
 
                 for (int j = 0; j < 8; j++)
                 {
-                    NoteTypeDef Type = mainform.chart.FindVisualNoteType(i, j);
+                    NoteTypes.NoteTypeDef Type = mainform.chart.FindVisualNoteType(i, j);
                     
                     GL.BindTexture(TextureTarget.Texture2D, textures["spr_SwipeLocus"]);
 
-                    if ((Type.DetectType == DetectType.SwipeEndPoint | Type.DetectType == DetectType.SwipeMid | Type.DetectType == DetectType.SwipeDirChange) && !mainform.chart.Ticks[i].Notes[j].IsSwipeEnd)
+                    if ((Type.DetectType == NoteTypes.DetectType.SwipeEndPoint | Type.DetectType == NoteTypes.DetectType.SwipeMid | Type.DetectType == NoteTypes.DetectType.SwipeDirChange) && !mainform.chart.Ticks[i].Notes[j].IsSwipeEnd)
                     {
                         Point swipeEndPoint = mainform.chart.Ticks[i].Notes[j].SwipeEndPoint;
 
@@ -198,12 +198,12 @@ namespace _8beatMap
 
                     GL.BindTexture(TextureTarget.Texture2D, textures["spr_HoldLocus"]);
 
-                    if (Type.DetectType == DetectType.HoldMid && (i == (int)currentTick | mainform.chart.FindVisualNoteType(i - 1, j).DetectType != DetectType.HoldMid))
+                    if (Type.DetectType == NoteTypes.DetectType.HoldMid && (i == (int)currentTick | mainform.chart.FindVisualNoteType(i - 1, j).DetectType != NoteTypes.DetectType.HoldMid))
                     {
                         double start = i;
                         if (start < currentTick + 1) start = (int)(currentTick * 4) / 4f + 1;
                         int end = i;
-                        while (mainform.chart.FindVisualNoteType(end, j).DetectType == DetectType.HoldMid) end++;
+                        while (mainform.chart.FindVisualNoteType(end, j).DetectType == NoteTypes.DetectType.HoldMid) end++;
                         if (end <= start) continue;
 
                         float sDist = (float)(numTicksVisible - start + 1 + currentTick) / numTicksVisible;
@@ -246,9 +246,9 @@ namespace _8beatMap
 
                 for (int j = 0; j < 8; j++)
                 {
-                    NoteTypeDef Type = mainform.chart.FindVisualNoteType(i, j);
+                    NoteTypes.NoteTypeDef Type = mainform.chart.FindVisualNoteType(i, j);
 
-                    if (Type.DetectType == DetectType.None | Type.DetectType == DetectType.HoldMid | Type.OGLTextureName == null) continue;
+                    if (Type.DetectType == NoteTypes.DetectType.None | Type.DetectType == NoteTypes.DetectType.HoldMid | Type.OGLTextureName == null) continue;
 
                     if (i >= (int)currentTick)
                     {

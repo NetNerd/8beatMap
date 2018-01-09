@@ -227,6 +227,8 @@
             this.NoteTypeSelector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.NoteTypeSelector.FormattingEnabled = true;
             this.NoteTypeSelector.Name = "NoteTypeSelector";
+            this.NoteTypeSelector.DisplayMember = "Key";
+            this.NoteTypeSelector.ValueMember = "Value";
             // 
             // NoteTypeLbl
             // 
