@@ -403,14 +403,14 @@ namespace _8beatMap
                 JsonTick_Export NewTick = new JsonTick_Export();
                 NewTick.BAR = i / 48;
                 NewTick.BEAT = i % 48;
-                NewTick.BUTTON1 = chart.Ticks[i].Notes[0].NoteType.NoteId;
-                NewTick.BUTTON2 = chart.Ticks[i].Notes[1].NoteType.NoteId;
-                NewTick.BUTTON3 = chart.Ticks[i].Notes[2].NoteType.NoteId;
-                NewTick.BUTTON4 = chart.Ticks[i].Notes[3].NoteType.NoteId;
-                NewTick.BUTTON5 = chart.Ticks[i].Notes[4].NoteType.NoteId;
-                NewTick.BUTTON6 = chart.Ticks[i].Notes[5].NoteType.NoteId;
-                NewTick.BUTTON7 = chart.Ticks[i].Notes[6].NoteType.NoteId;
-                NewTick.BUTTON8 = chart.Ticks[i].Notes[7].NoteType.NoteId;
+                NewTick.BUTTON1 = chart.Ticks[i].Notes[0].NoteType.TypeId;
+                NewTick.BUTTON2 = chart.Ticks[i].Notes[1].NoteType.TypeId;
+                NewTick.BUTTON3 = chart.Ticks[i].Notes[2].NoteType.TypeId;
+                NewTick.BUTTON4 = chart.Ticks[i].Notes[3].NoteType.TypeId;
+                NewTick.BUTTON5 = chart.Ticks[i].Notes[4].NoteType.TypeId;
+                NewTick.BUTTON6 = chart.Ticks[i].Notes[5].NoteType.TypeId;
+                NewTick.BUTTON7 = chart.Ticks[i].Notes[6].NoteType.TypeId;
+                NewTick.BUTTON8 = chart.Ticks[i].Notes[7].NoteType.TypeId;
 
                 tickObj.Add(NewTick);
             }
@@ -429,7 +429,7 @@ namespace _8beatMap
                 bool TickHasNote = false;
                 for (int j = 0; j < 8; j++)
                 {
-                    if (chart.Ticks[i].Notes[j].NoteType.NoteId > 0) TickHasNote = true;
+                    if (chart.Ticks[i].Notes[j].NoteType.TypeId > 0) TickHasNote = true;
                 }
 
                 if (TickHasNote)
@@ -437,14 +437,14 @@ namespace _8beatMap
                     JsonTick_Export NewTick = new JsonTick_Export();
                     NewTick.BAR = i / 48;
                     NewTick.BEAT = i % 48;
-                    NewTick.BUTTON1 = chart.Ticks[i].Notes[0].NoteType.NoteId;
-                    NewTick.BUTTON2 = chart.Ticks[i].Notes[1].NoteType.NoteId;
-                    NewTick.BUTTON3 = chart.Ticks[i].Notes[2].NoteType.NoteId;
-                    NewTick.BUTTON4 = chart.Ticks[i].Notes[3].NoteType.NoteId;
-                    NewTick.BUTTON5 = chart.Ticks[i].Notes[4].NoteType.NoteId;
-                    NewTick.BUTTON6 = chart.Ticks[i].Notes[5].NoteType.NoteId;
-                    NewTick.BUTTON7 = chart.Ticks[i].Notes[6].NoteType.NoteId;
-                    NewTick.BUTTON8 = chart.Ticks[i].Notes[7].NoteType.NoteId;
+                    NewTick.BUTTON1 = chart.Ticks[i].Notes[0].NoteType.TypeId;
+                    NewTick.BUTTON2 = chart.Ticks[i].Notes[1].NoteType.TypeId;
+                    NewTick.BUTTON3 = chart.Ticks[i].Notes[2].NoteType.TypeId;
+                    NewTick.BUTTON4 = chart.Ticks[i].Notes[3].NoteType.TypeId;
+                    NewTick.BUTTON5 = chart.Ticks[i].Notes[4].NoteType.TypeId;
+                    NewTick.BUTTON6 = chart.Ticks[i].Notes[5].NoteType.TypeId;
+                    NewTick.BUTTON7 = chart.Ticks[i].Notes[6].NoteType.TypeId;
+                    NewTick.BUTTON8 = chart.Ticks[i].Notes[7].NoteType.TypeId;
 
                     tickObj.Add(NewTick);
                 }

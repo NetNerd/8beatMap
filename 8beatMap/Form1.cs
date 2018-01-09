@@ -73,7 +73,8 @@ namespace _8beatMap
 
 
         GameCloneRenderer_OGL OGLrenderer = new GameCloneRenderer_OGL(853, 480);
-        
+
+        public bool ShowTypeIdsOnNotes = false;
 
         Image GetChartImage(double startTick, int tickHeight, int iconWidth, int iconHeight, Color BgCol, bool NoGrid, int Width, int Height)
         {
@@ -82,6 +83,8 @@ namespace _8beatMap
 
             int width = Bmp.Width;
             int height = Bmp.Height;
+
+            Font Arial65Font = new Font("Arial", 6.5f);
 
             Grfx.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceCopy;
             Grfx.Clear(BgCol);
@@ -136,6 +139,12 @@ namespace _8beatMap
                         Grfx.FillPolygon(new SolidBrush(Type.IconColor), new Point[] { new Point(iconX + iconWidth - 1, iconY + 0), new Point(iconX + iconWidth - 1, iconY + iconHeight - 1), new Point(iconX + 0, iconY + halfIconHeight) });
                     else if (Type.IconType == NoteTypes.IconType.RightArrow)
                         Grfx.FillPolygon(new SolidBrush(Type.IconColor), new Point[] { new Point(iconX + 0, iconY + 0), new Point(iconX + 0, iconY + iconHeight - 1), new Point(iconX + iconWidth - 1, iconY + halfIconHeight) });
+
+                    if (ShowTypeIdsOnNotes)
+                    {
+                        string typeStr = chart.Ticks[i].Notes[j].NoteType.TypeId.ToString();
+                        Grfx.DrawString(typeStr, Arial65Font, Brushes.White, iconX + iconWidth / 2 - typeStr.Length * 3.5f, iconY);
+                    }
                 }
 
                 if (!NoGrid)
@@ -143,7 +152,7 @@ namespace _8beatMap
                     if (i % 48 == 0)
                     {
                         Grfx.FillRectangle(Brushes.SlateGray, 0, height - (float)(i - startTick + 0.5) * tickHeight - 3, width, 3);
-                        Grfx.DrawString((i / 48 + 1).ToString(), new System.Drawing.Font("Arial", 6.5f), Brushes.DarkSlateGray, 0, height - (float)(i - startTick + 0.5) * tickHeight - 13);
+                        Grfx.DrawString((i / 48 + 1).ToString(), Arial65Font, Brushes.DarkSlateGray, 0, height - (float)(i - startTick + 0.5) * tickHeight - 13);
                     }
                     else if (i % 12 == 0)
                     {
@@ -476,9 +485,9 @@ namespace _8beatMap
 
             if (MouseButton == MouseButtons.Left)
             {
-                if (chart.Ticks[Tick].Notes[Lane].NoteType.NoteId != NewNote.NoteId)
+                if (chart.Ticks[Tick].Notes[Lane].NoteType.TypeId != NewNote.TypeId)
                 {
-                    if (NewNote.NoteId == NoteTypes.NoteTypeDefs.None.NoteId)
+                    if (NewNote.TypeId == NoteTypes.NoteTypeDefs.None.TypeId)
                     {
                         ProcessClick(Tick, Lane, MouseButtons.Right, NewNote);
                         return;
@@ -492,7 +501,7 @@ namespace _8beatMap
 
             else if (MouseButton == MouseButtons.Right)
             {
-                if (chart.Ticks[Tick].Notes[Lane].NoteType.NoteId != NoteTypes.NoteTypeDefs.None.NoteId)
+                if (chart.Ticks[Tick].Notes[Lane].NoteType.TypeId != NoteTypes.NoteTypeDefs.None.TypeId)
                 {
                     chart.Ticks[Tick].SetNote(NoteTypes.NoteTypeDefs.None, Lane, ref chart);
                     UpdateChart();
@@ -649,20 +658,30 @@ namespace _8beatMap
             try
             {
                 char key = e.KeyChar;
-                if (Char.IsDigit(key))
+                switch (key)
                 {
-                    if (System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName == "ja")
-                        NoteTypeSelector.SelectedItem = NoteTypes.UserVisibleNoteTypes_Nihongo.FirstOrDefault(x => x.Value == NoteTypes.NoteShortcutKeys["_" + key]);
-                    else
-                        NoteTypeSelector.SelectedItem = NoteTypes.UserVisibleNoteTypes.FirstOrDefault(x => x.Value == NoteTypes.NoteShortcutKeys["_" + key]);
+                    case '/': //toggle showing numbers on keys
+                        ShowTypeIdsOnNotes = !ShowTypeIdsOnNotes;
+                        UpdateChart();
+                        break;
 
-                }
-                else
-                {
-                    if (System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName == "ja")
-                        NoteTypeSelector.SelectedItem = NoteTypes.UserVisibleNoteTypes_Nihongo.FirstOrDefault(x => x.Value == NoteTypes.NoteShortcutKeys[key.ToString().ToUpper()]);
-                    else
-                        NoteTypeSelector.SelectedItem = NoteTypes.UserVisibleNoteTypes.FirstOrDefault(x => x.Value == NoteTypes.NoteShortcutKeys[key.ToString().ToUpper()]);
+                    default:
+                        if (Char.IsDigit(key))
+                        {
+                            if (System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName == "ja")
+                                NoteTypeSelector.SelectedItem = NoteTypes.UserVisibleNoteTypes_Nihongo.FirstOrDefault(x => x.Value == NoteTypes.NoteShortcutKeys["_" + key]);
+                            else
+                                NoteTypeSelector.SelectedItem = NoteTypes.UserVisibleNoteTypes.FirstOrDefault(x => x.Value == NoteTypes.NoteShortcutKeys["_" + key]);
+
+                        }
+                        else
+                        {
+                            if (System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName == "ja")
+                                NoteTypeSelector.SelectedItem = NoteTypes.UserVisibleNoteTypes_Nihongo.FirstOrDefault(x => x.Value == NoteTypes.NoteShortcutKeys[key.ToString().ToUpper()]);
+                            else
+                                NoteTypeSelector.SelectedItem = NoteTypes.UserVisibleNoteTypes.FirstOrDefault(x => x.Value == NoteTypes.NoteShortcutKeys[key.ToString().ToUpper()]);
+                        }
+                        break;
                 }
             }
             catch { }
