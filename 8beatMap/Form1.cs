@@ -132,18 +132,25 @@ namespace _8beatMap
                     int iconY = (int)Math.Ceiling(height - (i - startTick + 1.5) * tickHeight - 2);
                     
 
-                    if (Type.BackColor == Color.Transparent) continue;
+                    if (Type.BackColor.A > 0)
+                        Grfx.FillRectangle(new SolidBrush(Type.BackColor), iconX, iconY, iconWidth, iconHeight);
 
-                    Grfx.FillRectangle(new SolidBrush(Type.BackColor), iconX, iconY, iconWidth, iconHeight);
-                    if (Type.IconType == NoteTypes.IconType.LeftArrow)
-                        Grfx.FillPolygon(new SolidBrush(Type.IconColor), new Point[] { new Point(iconX + iconWidth - 1, iconY + 0), new Point(iconX + iconWidth - 1, iconY + iconHeight - 1), new Point(iconX + 0, iconY + halfIconHeight) });
-                    else if (Type.IconType == NoteTypes.IconType.RightArrow)
-                        Grfx.FillPolygon(new SolidBrush(Type.IconColor), new Point[] { new Point(iconX + 0, iconY + 0), new Point(iconX + 0, iconY + iconHeight - 1), new Point(iconX + iconWidth - 1, iconY + halfIconHeight) });
+                    if (Type.IconColor.A > 0)
+                    {
+                        if (Type.IconType == NoteTypes.IconType.LeftArrow)
+                            Grfx.FillPolygon(new SolidBrush(Type.IconColor), new Point[] { new Point(iconX + iconWidth - 1, iconY + 0), new Point(iconX + iconWidth - 1, iconY + iconHeight - 1), new Point(iconX + 0, iconY + halfIconHeight) });
+                        else if (Type.IconType == NoteTypes.IconType.RightArrow)
+                            Grfx.FillPolygon(new SolidBrush(Type.IconColor), new Point[] { new Point(iconX + 0, iconY + 0), new Point(iconX + 0, iconY + iconHeight - 1), new Point(iconX + iconWidth - 1, iconY + halfIconHeight) });
+                    }
 
                     if (ShowTypeIdsOnNotes)
                     {
-                        string typeStr = chart.Ticks[i].Notes[j].NoteType.TypeId.ToString();
-                        Grfx.DrawString(typeStr, Arial65Font, Brushes.White, iconX + iconWidth / 2 - typeStr.Length * 3.5f, iconY);
+                        int typeId = chart.Ticks[i].Notes[j].NoteType.TypeId;
+                        if (typeId != 0)
+                        {
+                            string typeStr = typeId.ToString();
+                            Grfx.DrawString(typeStr, Arial65Font, Brushes.White, iconX + iconWidth / 2 - typeStr.Length * 3.5f, iconY);
+                        }
                     }
                 }
 
