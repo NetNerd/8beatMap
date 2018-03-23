@@ -31,7 +31,7 @@ namespace _8beatMap
                     if (NoteArray == null)
                     {
                         NoteArray = new Note[8];
-                        for (int i = 8; i < 8; i++)
+                        for (int i = 0; i < 8; i++)
                             NoteArray[i].NoteType = NoteTypes.NoteTypeDefs.None;
                     }
                     return NoteArray;
@@ -45,7 +45,7 @@ namespace _8beatMap
                 if (NoteArray == null)
                 {
                     NoteArray = new Note[8];
-                    for (int i = 8; i < 8; i++)
+                    for (int i = 0; i < 8; i++)
                         NoteArray[i].NoteType = NoteTypes.NoteTypeDefs.None;
                 }
                 NoteArray[Lane].NoteType = Note;
