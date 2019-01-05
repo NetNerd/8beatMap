@@ -18,12 +18,14 @@ namespace _8beatMap
         static string[] textureNames = { "spr_HoldLocus", "spr_SwipeLocus",
             "spr_TapIcon", "spr_HoldIcon", "spr_SimulIcon",
             "spr_SwipeRightIcon", "spr_SwipeRightIcon_Simul", "spr_SwipeLeftIcon", "spr_SwipeLeftIcon_Simul",
+            "spr_gbsFlick","spr_gbsFlick_Simul","spr_gbsClock",
             "spr_HitEffect",
             "spr_Chara1", "spr_Chara2", "spr_Chara3", "spr_Chara4", "spr_Chara5", "spr_Chara6", "spr_Chara7", "spr_Chara8" };
 
         static string[] texturePaths = { "nodeimg/locus.png", "nodeimg/locus2.png",
             "nodeimg/node_1.png", "nodeimg/node_2.png", "nodeimg/node_3.png",
             "nodeimg/node_4.png", "nodeimg/node_4_3.png", "nodeimg/node_6.png", "nodeimg/node_6_3.png",
+            "nodeimg/gbs/node_7.png","nodeimg/gbs/node_8.png","nodeimg/gbs/node_9.png",
             "nodeimg/node_effect.png",
             "charaimg/1.png", "charaimg/2.png", "charaimg/3.png", "charaimg/4.png", "charaimg/5.png", "charaimg/6.png", "charaimg/7.png", "charaimg/8.png"};
 
@@ -55,12 +57,14 @@ namespace _8beatMap
                     //GL.Enable(EnableCap.PolygonSmooth);  // sometimes causes diagonal lines through quads
                 };
 
-
                 myWindow.Resize += (sender, e) =>
                 {
-                    GL.Viewport(0, 0, myWindow.Width, myWindow.Height);
-                    viewHeight = myWindow.Height * 1136 / myWindow.Width;
-                    NodeStartLocs = new Point[] { new Point(223, viewHeight - 77), new Point(320, viewHeight - 100), new Point(419, viewHeight - 114), new Point(519, viewHeight - 119), new Point(617, viewHeight - 119), new Point(717, viewHeight - 114), new Point(816, viewHeight - 100), new Point(923, viewHeight - 77) };
+                    if (myWindow != null)
+                    {
+                        GL.Viewport(0, 0, myWindow.Width, myWindow.Height);
+                        viewHeight = myWindow.Height * 1136 / myWindow.Width;
+                        NodeStartLocs = new Point[] { new Point(223, viewHeight - 77), new Point(320, viewHeight - 100), new Point(419, viewHeight - 114), new Point(519, viewHeight - 119), new Point(617, viewHeight - 119), new Point(717, viewHeight - 114), new Point(816, viewHeight - 100), new Point(923, viewHeight - 77) };
+                    }
                 };
 
 
@@ -79,8 +83,11 @@ namespace _8beatMap
 
         public void Stop()
         {
-            myWindow.Close();
-            myWindow = null;
+            if (myWindow != null)
+            {
+                myWindow.Close();
+                myWindow = null;
+            }
         }
 
 

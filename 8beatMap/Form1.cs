@@ -101,7 +101,7 @@ namespace _8beatMap
 
 
             float laneWidth = width / 8;
-            float halfIconWidth = iconWidth / 2;
+            int halfIconWidth = iconWidth / 2;
             int halfIconHeight = iconHeight / 2;
 
             for (int i = (int)startTick - 24; i < startTick + height / tickHeight; i++)
@@ -141,6 +141,10 @@ namespace _8beatMap
                             Grfx.FillPolygon(new SolidBrush(Type.IconColor), new Point[] { new Point(iconX + iconWidth - 1, iconY + 0), new Point(iconX + iconWidth - 1, iconY + iconHeight - 1), new Point(iconX + 0, iconY + halfIconHeight) });
                         else if (Type.IconType == NoteTypes.IconType.RightArrow)
                             Grfx.FillPolygon(new SolidBrush(Type.IconColor), new Point[] { new Point(iconX + 0, iconY + 0), new Point(iconX + 0, iconY + iconHeight - 1), new Point(iconX + iconWidth - 1, iconY + halfIconHeight) });
+                        else if (Type.IconType == NoteTypes.IconType.UpArrow)
+                            Grfx.FillPolygon(new SolidBrush(Type.IconColor), new Point[] { new Point(iconX + halfIconWidth, iconY + 0), new Point(iconX + iconWidth - 1, iconY + iconHeight - 1), new Point(iconX + 0, iconY + iconHeight - 1) });
+                        else if (Type.IconType == NoteTypes.IconType.HalfSplit)
+                            Grfx.FillPolygon(new SolidBrush(Type.IconColor), new Point[] { new Point(iconX + iconWidth - 1, iconY + 0), new Point(iconX + iconWidth - 1, iconY + iconHeight - 1), new Point(iconX + 0, iconY + iconHeight - 1) });
                     }
 
                     if (ShowTypeIdsOnNotes)
@@ -149,7 +153,7 @@ namespace _8beatMap
                         if (typeId != 0)
                         {
                             string typeStr = typeId.ToString();
-                            Grfx.DrawString(typeStr, Arial65Font, Brushes.White, iconX + iconWidth / 2 - typeStr.Length * 3.5f, iconY);
+                            Grfx.DrawString(typeStr, Arial65Font, Brushes.White, iconX + halfIconWidth - typeStr.Length * 3.5f, iconY);
                         }
                     }
                 }

@@ -20,7 +20,9 @@ namespace _8beatMap
         {
             None,
             LeftArrow,
-            RightArrow
+            RightArrow,
+            UpArrow,
+            HalfSplit
         }
 
         public enum DetectType
@@ -32,7 +34,8 @@ namespace _8beatMap
             SwipeEndPoint,
             SwipeMid,
             SwipeDirChange,
-            Flick
+            Flick,
+            GbsFlick
         }
 
         public enum DetectDir
@@ -86,13 +89,19 @@ namespace _8beatMap
             public static NoteTypeDef SwipeRightMid = new NoteTypeDef() { TypeId = 5, RenderMode = RenderMode.Icon, OGLTextureName = "spr_SwipeRightIcon", BackColor = Color.FromArgb(0xc0, 0xc0, 0xc0), IconColor = Color.Gold, IconType = IconType.RightArrow, DetectType = DetectType.SwipeMid, DetectDir = DetectDir.Right, NotNode = false, IsSimul = false };
             public static NoteTypeDef SwipeChangeDirL2R = new NoteTypeDef() { TypeId = 15, RenderMode = RenderMode.Icon, OGLTextureName = "spr_SwipeRightIcon", BackColor = Color.FromArgb(0xc0, 0xc0, 0xc0), IconColor = Color.Gold, IconType = IconType.RightArrow, DetectType = DetectType.SwipeDirChange, DetectDir = DetectDir.Right, NotNode = false, IsSimul = false };
 
-            public static NoteTypeDef ExtendHoldMid = new NoteTypeDef() { TypeId = 20, RenderMode = RenderMode.HoldLocus, OGLTextureName = null, BackColor = Color.LightGray, IconColor = Color.Transparent, IconType = IconType.None, DetectType = DetectType.HoldMid, DetectDir = DetectDir.None, NotNode = true, IsSimul = false };
+            public static NoteTypeDef ExtendHoldMid = new NoteTypeDef() { TypeId = 88, RenderMode = RenderMode.HoldLocus, OGLTextureName = null, BackColor = Color.LightGray, IconColor = Color.Transparent, IconType = IconType.None, DetectType = DetectType.HoldMid, DetectDir = DetectDir.None, NotNode = true, IsSimul = false };
+
+            public static NoteTypeDef GbsFlick = new NoteTypeDef() { TypeId = 20, RenderMode = RenderMode.Icon, OGLTextureName = "spr_gbsFlick", BackColor = Color.Gold, IconColor = Color.LightYellow, IconType = IconType.UpArrow, DetectType = DetectType.GbsFlick, DetectDir = DetectDir.None, NotNode = false, IsSimul = false };
+            public static NoteTypeDef GbsHoldEndFlick = new NoteTypeDef() { TypeId = 21, RenderMode = RenderMode.Icon, OGLTextureName = "spr_gbsFlick", BackColor = Color.LightGray, IconColor = Color.Gold, IconType = IconType.UpArrow, DetectType = DetectType.GbsFlick, DetectDir = DetectDir.None, NotNode = false, IsSimul = false };
+            public static NoteTypeDef GbsSimulFlick = new NoteTypeDef() { TypeId = 30, RenderMode = RenderMode.Icon, OGLTextureName = "spr_gbsFlick_Simul", BackColor = Color.Goldenrod, IconColor = Color.LightYellow, IconType = IconType.UpArrow, DetectType = DetectType.GbsFlick, DetectDir = DetectDir.None, NotNode = false, IsSimul = true };
+            public static NoteTypeDef GbsClock = new NoteTypeDef() { TypeId = 40, RenderMode = RenderMode.Icon, OGLTextureName = "spr_gbsClock", BackColor = Color.DeepPink, IconColor = Color.Gold, IconType = IconType.HalfSplit, DetectType = DetectType.Tap, DetectDir = DetectDir.None, NotNode = false, IsSimul = false };
 
 
             static Dictionary<int, NoteTypeDef> idToTypeDict = new Dictionary<int, NoteTypeDef> { { 0, None }, { 1, Tap }, { 2, Hold }, { 3, SimulTap }, { 9, SimulHoldStart }, { 8, SimulHoldRelease },
                                                                                             { 13, FlickLeft }, { 11, HoldEndFlickLeft }, { 6, SwipeLeftStartEnd }, { 7, SwipeLeftMid },
                                                                                             { 14, SwipeChangeDirR2L }, { 12, FlickRight }, { 10, HoldEndFlickRight }, { 4, SwipeRightStartEnd },
-                                                                                            { 5, SwipeRightMid }, { 15, SwipeChangeDirL2R }, { 20, ExtendHoldMid } };
+                                                                                            { 5, SwipeRightMid }, { 15, SwipeChangeDirL2R }, { 88, ExtendHoldMid },
+                                                                                            { 20, GbsFlick }, { 21, GbsHoldEndFlick }, { 30, GbsSimulFlick }, { 40, GbsClock } };
 
 
             public static NoteTypeDef gettypebyid(int id)
