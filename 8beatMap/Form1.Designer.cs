@@ -58,6 +58,7 @@
             this.AutoSimulBtn = new System.Windows.Forms.Button();
             this.LangChangeBtn = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.PreviewWndBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.BPMbox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.newplayhead)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ZoomBox)).BeginInit();
@@ -224,10 +225,10 @@
             // NoteTypeSelector
             // 
             resources.ApplyResources(this.NoteTypeSelector, "NoteTypeSelector");
+            this.NoteTypeSelector.DisplayMember = "Key";
             this.NoteTypeSelector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.NoteTypeSelector.FormattingEnabled = true;
             this.NoteTypeSelector.Name = "NoteTypeSelector";
-            this.NoteTypeSelector.DisplayMember = "Key";
             this.NoteTypeSelector.ValueMember = "Value";
             // 
             // NoteTypeLbl
@@ -301,11 +302,19 @@
             this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Chart_MouseMove);
             this.pictureBox1.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.Chart_MouseWheel);
             // 
+            // PreviewWndBtn
+            // 
+            resources.ApplyResources(this.PreviewWndBtn, "PreviewWndBtn");
+            this.PreviewWndBtn.Name = "PreviewWndBtn";
+            this.PreviewWndBtn.UseVisualStyleBackColor = true;
+            this.PreviewWndBtn.Click += new System.EventHandler(this.PreviewWndBtn_Click);
+            // 
             // Form1
             // 
             resources.ApplyResources(this, "$this");
             this.Font = new System.Drawing.Font(System.Drawing.SystemFonts.MessageBoxFont.FontFamily, 8.8f);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.Controls.Add(this.PreviewWndBtn);
             this.Controls.Add(this.LangChangeBtn);
             this.Controls.Add(this.AutoSimulBtn);
             this.Controls.Add(this.NoteCountButton);
@@ -379,6 +388,7 @@
         private System.Windows.Forms.Button AutoSimulBtn;
         private System.Windows.Forms.Button LangChangeBtn;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button PreviewWndBtn;
     }
 }
 

@@ -151,7 +151,7 @@
     <value>562, 338</value>
   </data>
   <data name="BPMbox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>50, 20</value>
+    <value>50, 21</value>
   </data>
   <data name="BPMbox.TabIndex" type="System.Int32, mscorlib">
     <value>41</value>
@@ -175,10 +175,10 @@
     <value>True</value>
   </data>
   <data name="BPMLbl.Location" type="System.Drawing.Point, System.Drawing">
-    <value>510, 340</value>
+    <value>520, 340</value>
   </data>
   <data name="BPMLbl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>33, 13</value>
+    <value>35, 14</value>
   </data>
   <data name="BPMLbl.TabIndex" type="System.Int32, mscorlib">
     <value>40</value>
@@ -283,10 +283,10 @@
     <value>True</value>
   </data>
   <data name="PauseOnSeek.Location" type="System.Drawing.Point, System.Drawing">
-    <value>513, 375</value>
+    <value>505, 374</value>
   </data>
   <data name="PauseOnSeek.Size" type="System.Drawing.Size, System.Drawing">
-    <value>99, 17</value>
+    <value>107, 18</value>
   </data>
   <data name="PauseOnSeek.TabIndex" type="System.Int32, mscorlib">
     <value>45</value>
@@ -316,7 +316,7 @@
     <value>473, 15</value>
   </data>
   <data name="ZoomBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>56, 20</value>
+    <value>56, 21</value>
   </data>
   <data name="ZoomBox.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -331,7 +331,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;ZoomBox.ZOrder" xml:space="preserve">
-    <value>17</value>
+    <value>18</value>
   </data>
   <data name="ZoomLbl.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -340,13 +340,13 @@
     <value>True</value>
   </data>
   <data name="ZoomLbl.Location" type="System.Drawing.Point, System.Drawing">
-    <value>368, 17</value>
+    <value>373, 17</value>
   </data>
   <data name="ZoomLbl.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>90, 0</value>
   </data>
   <data name="ZoomLbl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>90, 13</value>
+    <value>90, 14</value>
   </data>
   <data name="ZoomLbl.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -367,7 +367,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;ZoomLbl.ZOrder" xml:space="preserve">
-    <value>16</value>
+    <value>17</value>
   </data>
   <data name="ResizeLbl.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -376,13 +376,13 @@
     <value>True</value>
   </data>
   <data name="ResizeLbl.Location" type="System.Drawing.Point, System.Drawing">
-    <value>368, 46</value>
+    <value>373, 46</value>
   </data>
   <data name="ResizeLbl.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>90, 0</value>
   </data>
   <data name="ResizeLbl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>90, 13</value>
+    <value>90, 14</value>
   </data>
   <data name="ResizeLbl.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
@@ -403,7 +403,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;ResizeLbl.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>14</value>
   </data>
   <data name="ResizeBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -427,7 +427,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;ResizeBox.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>15</value>
   </data>
   <data name="ResizeBtn.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -454,7 +454,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;ResizeBtn.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>16</value>
   </data>
   <data name="OpenBtn.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
@@ -481,7 +481,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;OpenBtn.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>13</value>
   </data>
   <data name="openFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>17, 17</value>
@@ -514,7 +514,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;OpenMusicButton.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>12</value>
   </data>
   <data name="openFileDialog2.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>158, 17</value>
@@ -547,7 +547,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;SaveChartBtn.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>11</value>
   </data>
   <data name="saveFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>299, 17</value>
@@ -580,7 +580,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;ImgSaveBtn.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>10</value>
   </data>
   <data name="NoteTypeSelector.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -589,7 +589,7 @@
     <value>473, 126</value>
   </data>
   <data name="NoteTypeSelector.Size" type="System.Drawing.Size, System.Drawing">
-    <value>139, 21</value>
+    <value>139, 22</value>
   </data>
   <data name="NoteTypeSelector.TabIndex" type="System.Int32, mscorlib">
     <value>26</value>
@@ -604,7 +604,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;NoteTypeSelector.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="NoteTypeLbl.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -613,7 +613,7 @@
     <value>True</value>
   </data>
   <data name="NoteTypeLbl.Location" type="System.Drawing.Point, System.Drawing">
-    <value>348, 129</value>
+    <value>353, 129</value>
   </data>
   <data name="NoteTypeLbl.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>110, 0</value>
@@ -640,7 +640,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;NoteTypeLbl.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="NoteShiftLbl.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -649,13 +649,13 @@
     <value>True</value>
   </data>
   <data name="NoteShiftLbl.Location" type="System.Drawing.Point, System.Drawing">
-    <value>368, 75</value>
+    <value>373, 75</value>
   </data>
   <data name="NoteShiftLbl.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>90, 0</value>
   </data>
   <data name="NoteShiftLbl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>90, 13</value>
+    <value>90, 14</value>
   </data>
   <data name="NoteShiftLbl.TabIndex" type="System.Int32, mscorlib">
     <value>16</value>
@@ -676,7 +676,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;NoteShiftLbl.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="NoteShiftBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -685,7 +685,7 @@
     <value>473, 73</value>
   </data>
   <data name="NoteShiftBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>56, 20</value>
+    <value>56, 21</value>
   </data>
   <data name="NoteShiftBox.TabIndex" type="System.Int32, mscorlib">
     <value>17</value>
@@ -700,7 +700,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;NoteShiftBox.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="NoteShiftBtn.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -727,7 +727,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;NoteShiftBtn.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="NoteSoundBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
@@ -736,10 +736,10 @@
     <value>True</value>
   </data>
   <data name="NoteSoundBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>501, 300</value>
+    <value>490, 299</value>
   </data>
   <data name="NoteSoundBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>111, 17</value>
+    <value>122, 18</value>
   </data>
   <data name="NoteSoundBox.TabIndex" type="System.Int32, mscorlib">
     <value>35</value>
@@ -760,7 +760,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;NoteSoundBox.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="NoteCountButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -787,7 +787,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;NoteCountButton.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="AutoSimulBtn.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -814,16 +814,16 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;AutoSimulBtn.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="LangChangeBtn.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
   </data>
   <data name="LangChangeBtn.Location" type="System.Drawing.Point, System.Drawing">
-    <value>361, 467</value>
+    <value>339, 467</value>
   </data>
   <data name="LangChangeBtn.Size" type="System.Drawing.Size, System.Drawing">
-    <value>65, 23</value>
+    <value>87, 23</value>
   </data>
   <data name="LangChangeBtn.TabIndex" type="System.Int32, mscorlib">
     <value>52</value>
@@ -841,7 +841,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;LangChangeBtn.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="pictureBox1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -864,11 +864,44 @@
   <data name="&gt;&gt;pictureBox1.ZOrder" xml:space="preserve">
     <value>26</value>
   </data>
+  <data name="PreviewWndBtn.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
+  <data name="PreviewWndBtn.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="PreviewWndBtn.Location" type="System.Drawing.Point, System.Drawing">
+    <value>339, 438</value>
+  </data>
+  <data name="PreviewWndBtn.Size" type="System.Drawing.Size, System.Drawing">
+    <value>87, 23</value>
+  </data>
+  <data name="PreviewWndBtn.TabIndex" type="System.Int32, mscorlib">
+    <value>49</value>
+  </data>
+  <data name="PreviewWndBtn.Text" xml:space="preserve">
+    <value>Preview Window</value>
+  </data>
+  <data name="&gt;&gt;PreviewWndBtn.Name" xml:space="preserve">
+    <value>PreviewWndBtn</value>
+  </data>
+  <data name="&gt;&gt;PreviewWndBtn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;PreviewWndBtn.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;PreviewWndBtn.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="$this.Localizable" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>624, 502</value>
+  </data>
+  <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Droid Sans, 8.8pt</value>
   </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>600, 490</value>

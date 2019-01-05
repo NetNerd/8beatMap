@@ -705,5 +705,13 @@ namespace _8beatMap
             }
             catch { }
         }
+
+        private void PreviewWndBtn_Click(object sender, EventArgs e)
+        {
+            OGLrenderer.Stop();
+            OGLrenderer = null;
+            OGLrenderer = new GameCloneRenderer_OGL(853, 480);
+            OGLrenderer.mainform = this;
+        }
     }
 }

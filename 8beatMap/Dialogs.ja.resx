@@ -121,7 +121,7 @@
     <value>譜面を読み込みでエラーが会った</value>
   </data>
   <data name="ChartLoadNoBPM" xml:space="preserve">
-    <value>譜面にBPMがありません（ゲームから譜面に、その情報がない）
+    <value>譜面にBPMがありません（ゲームの元譜面で、この情報がありません）
 BPMの設定するを忘れないください</value>
   </data>
   <data name="ExitCaption" xml:space="preserve">
@@ -137,7 +137,7 @@ BPMの設定するを忘れないください</value>
     <value>音楽を読み込みでエラーが会った</value>
   </data>
   <data name="NoteCountMessage" xml:space="preserve">
-    <value>譜面に、{0}音符がある</value>
+    <value>譜面に、{0}ノードがある</value>
   </data>
   <data name="PlaybackNoMusicError" xml:space="preserve">
     <value>再生のために、音楽を読み込んでください</value>
