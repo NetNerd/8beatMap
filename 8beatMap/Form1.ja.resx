@@ -131,13 +131,13 @@
     <value>118, 17</value>
   </data>
   <data name="PauseOnSeek.Text" xml:space="preserve">
-    <value>スクロール時で停止</value>
+    <value>スクロール中時で停止</value>
   </data>
   <data name="ZoomBtn.Text" xml:space="preserve">
     <value>アプライ</value>
   </data>
   <data name="ZoomLbl.Location" type="System.Drawing.Point, System.Drawing">
-    <value>358, 17</value>
+    <value>363, 17</value>
   </data>
   <data name="ZoomLbl.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>100, 0</value>
@@ -149,7 +149,7 @@
     <value>ズーム：</value>
   </data>
   <data name="ResizeLbl.Location" type="System.Drawing.Point, System.Drawing">
-    <value>358, 46</value>
+    <value>363, 46</value>
   </data>
   <data name="ResizeLbl.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>100, 0</value>
@@ -188,10 +188,10 @@
     <value>85, 13</value>
   </data>
   <data name="NoteTypeLbl.Text" xml:space="preserve">
-    <value>音符のタイプ：</value>
+    <value>ノードタイプ：</value>
   </data>
   <data name="NoteShiftLbl.Location" type="System.Drawing.Point, System.Drawing">
-    <value>358, 75</value>
+    <value>363, 75</value>
   </data>
   <data name="NoteShiftLbl.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>100, 0</value>
@@ -200,7 +200,7 @@
     <value>100, 13</value>
   </data>
   <data name="NoteShiftLbl.Text" xml:space="preserve">
-    <value>全音符を動かす：</value>
+    <value>全ノードを動かす：</value>
   </data>
   <data name="NoteShiftBtn.Text" xml:space="preserve">
     <value>アプライ</value>
@@ -212,15 +212,18 @@
     <value>72, 17</value>
   </data>
   <data name="NoteSoundBox.Text" xml:space="preserve">
-    <value>音符の音</value>
+    <value>ノード音</value>
   </data>
   <data name="NoteCountButton.Text" xml:space="preserve">
-    <value>音符数</value>
+    <value>ノードを数える</value>
   </data>
   <data name="AutoSimulBtn.Text" xml:space="preserve">
-    <value>オート 同時に音符</value>
+    <value>オート 同時風ノード</value>
   </data>
   <data name="LangChangeBtn.Text" xml:space="preserve">
     <value>English</value>
+  </data>
+  <data name="PreviewWndBtn.Text" xml:space="preserve">
+    <value>プレビューウィンドウ</value>
   </data>
 </root>

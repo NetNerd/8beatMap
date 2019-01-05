@@ -98,6 +98,15 @@ namespace _8beatMap {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Couldn&apos;t load texture image(s) for preview display..
+        /// </summary>
+        internal static string MissingTextureError {
+            get {
+                return ResourceManager.GetString("MissingTextureError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to load music file..
         /// </summary>
         internal static string MusicLoadError {

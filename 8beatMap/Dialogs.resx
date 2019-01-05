@@ -130,6 +130,9 @@ Set it in the BPM box for notes to move at the right speed.</value>
   <data name="ExitMessage" xml:space="preserve">
     <value>Are you sure you want to exit? Make sure you save your work first.</value>
   </data>
+  <data name="MissingTextureError" xml:space="preserve">
+    <value>Couldn't load texture image(s) for preview display.</value>
+  </data>
   <data name="MusicLoadError" xml:space="preserve">
     <value>Unable to load music file.</value>
   </data>
