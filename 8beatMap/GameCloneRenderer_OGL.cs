@@ -19,14 +19,14 @@ namespace _8beatMap
         static string[] textureNames = { "spr_HoldLocus", "spr_SwipeLocus",
             "spr_TapIcon", "spr_HoldIcon", "spr_SimulIcon",
             "spr_SwipeRightIcon", "spr_SwipeRightIcon_Simul", "spr_SwipeLeftIcon", "spr_SwipeLeftIcon_Simul",
-            "spr_gbsFlick","spr_gbsFlick_Simul","spr_gbsClock",
+            "spr_gbsFlick", "spr_gbsFlick_Simul", "spr_gbsClock", "spr_gbsClock_Simul",
             "spr_HitEffect",
             "spr_Chara1", "spr_Chara2", "spr_Chara3", "spr_Chara4", "spr_Chara5", "spr_Chara6", "spr_Chara7", "spr_Chara8" };
 
         static string[] texturePaths = { "nodeimg/locus.png", "nodeimg/locus2.png",
             "nodeimg/node_1.png", "nodeimg/node_2.png", "nodeimg/node_3.png",
             "nodeimg/node_4.png", "nodeimg/node_4_3.png", "nodeimg/node_6.png", "nodeimg/node_6_3.png",
-            "nodeimg/gbs/node_7.png","nodeimg/gbs/node_8.png","nodeimg/gbs/node_9.png",
+            "nodeimg/gbs/node_7.png", "nodeimg/gbs/node_8.png", "nodeimg/gbs/node_9.png", "nodeimg/gbs/node_10.png",
             "nodeimg/node_effect.png",
             "charaimg/1.png", "charaimg/2.png", "charaimg/3.png", "charaimg/4.png", "charaimg/5.png", "charaimg/6.png", "charaimg/7.png", "charaimg/8.png"};
 

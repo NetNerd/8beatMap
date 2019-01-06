@@ -94,14 +94,15 @@ namespace _8beatMap
             public static NoteTypeDef GbsFlick = new NoteTypeDef() { TypeId = 20, RenderMode = RenderMode.Icon, OGLTextureName = "spr_gbsFlick", BackColor = Color.Gold, IconColor = Color.LightYellow, IconType = IconType.UpArrow, DetectType = DetectType.GbsFlick, DetectDir = DetectDir.None, NotNode = false, IsSimul = false };
             public static NoteTypeDef GbsHoldEndFlick = new NoteTypeDef() { TypeId = 21, RenderMode = RenderMode.Icon, OGLTextureName = "spr_gbsFlick", BackColor = Color.LightGray, IconColor = Color.Gold, IconType = IconType.UpArrow, DetectType = DetectType.GbsFlick, DetectDir = DetectDir.None, NotNode = false, IsSimul = false };
             public static NoteTypeDef GbsSimulFlick = new NoteTypeDef() { TypeId = 30, RenderMode = RenderMode.Icon, OGLTextureName = "spr_gbsFlick_Simul", BackColor = Color.Goldenrod, IconColor = Color.LightYellow, IconType = IconType.UpArrow, DetectType = DetectType.GbsFlick, DetectDir = DetectDir.None, NotNode = false, IsSimul = true };
-            public static NoteTypeDef GbsClock = new NoteTypeDef() { TypeId = 40, RenderMode = RenderMode.Icon, OGLTextureName = "spr_gbsClock", BackColor = Color.DeepPink, IconColor = Color.Gold, IconType = IconType.HalfSplit, DetectType = DetectType.Tap, DetectDir = DetectDir.None, NotNode = false, IsSimul = false };
+            public static NoteTypeDef GbsClock = new NoteTypeDef() { TypeId = 40, RenderMode = RenderMode.Icon, OGLTextureName = "spr_gbsClock", BackColor = Color.Blue, IconColor = Color.Gold, IconType = IconType.HalfSplit, DetectType = DetectType.Tap, DetectDir = DetectDir.None, NotNode = false, IsSimul = false };
+            public static NoteTypeDef GbsSimulClock = new NoteTypeDef() { TypeId = 50, RenderMode = RenderMode.Icon, OGLTextureName = "spr_gbsClock_Simul", BackColor = Color.DeepPink, IconColor = Color.Gold, IconType = IconType.HalfSplit, DetectType = DetectType.Tap, DetectDir = DetectDir.None, NotNode = false, IsSimul = true };
 
 
             static Dictionary<int, NoteTypeDef> idToTypeDict = new Dictionary<int, NoteTypeDef> { { 0, None }, { 1, Tap }, { 2, Hold }, { 3, SimulTap }, { 9, SimulHoldStart }, { 8, SimulHoldRelease },
                                                                                             { 13, FlickLeft }, { 11, HoldEndFlickLeft }, { 6, SwipeLeftStartEnd }, { 7, SwipeLeftMid },
                                                                                             { 14, SwipeChangeDirR2L }, { 12, FlickRight }, { 10, HoldEndFlickRight }, { 4, SwipeRightStartEnd },
                                                                                             { 5, SwipeRightMid }, { 15, SwipeChangeDirL2R }, { 88, ExtendHoldMid },
-                                                                                            { 20, GbsFlick }, { 21, GbsHoldEndFlick }, { 30, GbsSimulFlick }, { 40, GbsClock } };
+                                                                                            { 20, GbsFlick }, { 21, GbsHoldEndFlick }, { 30, GbsSimulFlick }, { 40, GbsClock }, { 50, GbsSimulClock } };
 
 
             public static NoteTypeDef gettypebyid(int id)
