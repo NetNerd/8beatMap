@@ -726,7 +726,7 @@ namespace _8beatMap
         private void PreviewWndBtn_Click(object sender, EventArgs e)
         {
             OpenPreviewWindow();
-            // SetSkin("skin_gbstransp");
+            SetSkin("skin_gbstransp");
         }
     }
 }

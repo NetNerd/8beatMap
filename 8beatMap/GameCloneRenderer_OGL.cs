@@ -33,8 +33,30 @@ namespace _8beatMap
         static System.Collections.Generic.Dictionary<string, int> textures = new System.Collections.Generic.Dictionary<string, int>();
 
 
+        Point[] NodeStartLocs_raw = { new Point(223, 77), new Point(320, 100), new Point(419, 114), new Point(519, 119), new Point(617, 119), new Point(717, 114), new Point(816, 100), new Point(923, 77) };
+        Point[] NodeStartLocs = { new Point(223, 640 - 77), new Point(320, 640 - 100), new Point(419, 640 - 114), new Point(519, 640 - 119), new Point(617, 640 - 119), new Point(717, 640 - 114), new Point(816, 640 - 100), new Point(923, 640 - 77) };
+        Point[] NodeEndLocs = { new Point(75, 156), new Point(213, 120), new Point(354, 98), new Point(497, 88), new Point(639, 88), new Point(782, 98), new Point(923, 120), new Point(1061, 156) };
+
+
         static System.Resources.ResourceManager DialogResMgr = new System.Resources.ResourceManager("_8beatMap.Dialogs", System.Reflection.Assembly.GetEntryAssembly());
 
+
+        private void LoadNodeLocs(string defs)
+        {
+            string[] defslines = defs.Split("\n".ToCharArray());
+            for (int i = 0; i < defslines.Length; i++)
+            {
+                string[] pointstrs = defslines[i].Split(" ".ToCharArray());
+                string[] startstrs = pointstrs[0].Split(",".ToCharArray());
+                string[] endstrs = pointstrs[1].Split(",".ToCharArray());
+                Point start = new Point(int.Parse(startstrs[0]), int.Parse(startstrs[1]));
+                Point end = new Point(int.Parse(endstrs[0]), int.Parse(endstrs[1]));
+
+                NodeStartLocs[i] = new Point(start.X, NodeStartLocs[i].Y + NodeStartLocs_raw[i].Y - start.Y);
+                NodeStartLocs_raw[i] = start;
+                NodeEndLocs[i] = end;
+            }
+        }
 
         public GameCloneRenderer_OGL(int wndWidth, int wndHeight)
         {
@@ -46,10 +68,16 @@ namespace _8beatMap
 
                 myWindow.Load += (sender, e) =>
                 {
-                    textures = new System.Collections.Generic.Dictionary<string, int>();
+                    foreach (System.Collections.Generic.KeyValuePair<string,int> tex in textures)
+                    {
+                        UnloadTexture(tex.Value);
+                    }
+                    textures.Clear();
                     for (int i = 0; i < textureNames.Length; i++)
                         if (!textures.ContainsKey(textureNames[i]))
                             textures.Add(textureNames[i], LoadTexture(skin + "\\" + texturePaths[i]));
+
+                    LoadNodeLocs(System.IO.File.ReadAllText(skin + "\\" + "buttons.txt"));
 
                     GL.ClearColor(0, 0, 0, 0);
 
@@ -65,7 +93,11 @@ namespace _8beatMap
                     {
                         GL.Viewport(0, 0, myWindow.Width, myWindow.Height);
                         viewHeight = myWindow.Height * 1136 / myWindow.Width;
-                        NodeStartLocs = new Point[] { new Point(223, viewHeight - 77), new Point(320, viewHeight - 100), new Point(419, viewHeight - 114), new Point(519, viewHeight - 119), new Point(617, viewHeight - 119), new Point(717, viewHeight - 114), new Point(816, viewHeight - 100), new Point(923, viewHeight - 77) };
+                        NodeStartLocs = (Point[])NodeStartLocs_raw.Clone();
+                        for (int i = 0; i < NodeStartLocs.Length; i++)
+                        {
+                            NodeStartLocs[i].Y = viewHeight - NodeStartLocs[i].Y;
+                        }
                     }
                 };
 
@@ -95,8 +127,6 @@ namespace _8beatMap
 
 
         Matrix4 ProjMatrix;
-        static Point[] NodeStartLocs = { new Point(223, 640 - 77), new Point(320, 640 - 100), new Point(419, 640 - 114), new Point(519, 640 - 119), new Point(617, 640 - 119), new Point(717, 640 - 114), new Point(816, 640 - 100), new Point(923, 640 - 77) };
-        static Point[] NodeEndLocs = { new Point(75, 156), new Point(213, 120), new Point(354, 98), new Point(497, 88), new Point(639, 88), new Point(782, 98), new Point(923, 120), new Point(1061, 156) };
         
         int iconSize = 128;
         int halfIconSize = 64;
@@ -370,6 +400,11 @@ namespace _8beatMap
             GL.BindTexture(TextureTarget.Texture2D, 0);
 
             return tex;
+        }
+
+        void UnloadTexture(int tex)
+        {
+            GL.DeleteTexture(tex);
         }
 
 
