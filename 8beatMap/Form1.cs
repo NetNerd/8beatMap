@@ -428,7 +428,7 @@ namespace _8beatMap
                                 }
 
                                 else if ((note.DetectType == NoteTypes.DetectType.SwipeEndPoint & !chart.Ticks[i].Notes[j].IsSwipeEnd) ||
-                                         note.DetectType == NoteTypes.DetectType.SwipeDirChange || note.DetectType == NoteTypes.DetectType.Flick)
+                                         note.DetectType == NoteTypes.DetectType.SwipeDirChange || note.DetectType == NoteTypes.DetectType.Flick || note.DetectType == NoteTypes.DetectType.GbsFlick)
                                 {
                                     //Sound.PlayNoteSound(Sound.NoteSoundWave_Swipe);
                                     Sound.NoteSoundTrim = new NAudio.Wave.SampleProviders.OffsetSampleProvider(new Sound.CachedSoundSampleProvider(Sound.NoteSoundWave_Swipe));
