@@ -698,7 +698,15 @@ namespace _8beatMap
 
                     case 'P': // reopen preview window
                     case 'p':
-                        OpenPreviewWindow();
+                        // OpenPreviewWindow();
+                        if (skin == "skin_8bs")
+                        {
+                            SetSkin("skin_gbssolid");
+                        }
+                        else
+                        {
+                            SetSkin("skin_8bs");
+                        }
                         break;
 
                     default:
@@ -725,8 +733,15 @@ namespace _8beatMap
 
         private void PreviewWndBtn_Click(object sender, EventArgs e)
         {
-            OpenPreviewWindow();
-            // SetSkin("skin_gbssolid");
+            // OpenPreviewWindow();
+            if (skin == "skin_8bs")
+            {
+                SetSkin("skin_gbssolid");
+            }
+            else
+            {
+                SetSkin("skin_8bs");
+            }
         }
     }
 }
