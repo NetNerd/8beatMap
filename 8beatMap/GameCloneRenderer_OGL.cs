@@ -36,6 +36,7 @@ namespace _8beatMap
         Point[] NodeStartLocs_raw = { new Point(223, 77), new Point(320, 100), new Point(419, 114), new Point(519, 119), new Point(617, 119), new Point(717, 114), new Point(816, 100), new Point(923, 77) };
         Point[] NodeStartLocs = { new Point(223, 640 - 77), new Point(320, 640 - 100), new Point(419, 640 - 114), new Point(519, 640 - 119), new Point(617, 640 - 119), new Point(717, 640 - 114), new Point(816, 640 - 100), new Point(923, 640 - 77) };
         Point[] NodeEndLocs = { new Point(75, 156), new Point(213, 120), new Point(354, 98), new Point(497, 88), new Point(639, 88), new Point(782, 98), new Point(923, 120), new Point(1061, 156) };
+        int numLanes = 8;
 
 
         static System.Resources.ResourceManager DialogResMgr = new System.Resources.ResourceManager("_8beatMap.Dialogs", System.Reflection.Assembly.GetEntryAssembly());
@@ -43,6 +44,7 @@ namespace _8beatMap
 
         private void LoadNodeLocs(string defs)
         {
+            numLanes = 0;
             string[] defslines = defs.Split("\n".ToCharArray());
             for (int i = 0; i < defslines.Length; i++)
             {
@@ -51,6 +53,8 @@ namespace _8beatMap
                 string[] endstrs = pointstrs[1].Split(",".ToCharArray());
                 Point start = new Point(int.Parse(startstrs[0]), int.Parse(startstrs[1]));
                 Point end = new Point(int.Parse(endstrs[0]), int.Parse(endstrs[1]));
+
+                if (start.X > -1) numLanes++;
 
                 NodeStartLocs[i] = new Point(start.X, NodeStartLocs[i].Y + NodeStartLocs_raw[i].Y - start.Y);
                 NodeStartLocs_raw[i] = start;
@@ -178,7 +182,7 @@ namespace _8beatMap
                 if (i >= mainform.chart.Length) i = mainform.chart.Length - 1;
                 if (i < 0) break;
 
-                for (int j = 0; j < 8; j++)
+                for (int j = 0; j < numLanes; j++)
                 {
                     NoteTypes.NoteTypeDef Type = mainform.chart.FindVisualNoteType(i, j);
                     
@@ -188,7 +192,7 @@ namespace _8beatMap
                     {
                         Point swipeEndPoint = mainform.chart.Ticks[i].Notes[j].SwipeEndPoint;
 
-                        if (swipeEndPoint.X > i & currentTick < swipeEndPoint.X)
+                        if (swipeEndPoint.X > i & currentTick < swipeEndPoint.X & swipeEndPoint.Y < numLanes)
                         {
                             int sTick = i;
                             if (sTick < currentTick) sTick = (int)currentTick;
@@ -286,7 +290,7 @@ namespace _8beatMap
                 if (i >= mainform.chart.Length) i = mainform.chart.Length - 1;
                 if (i < 0) break;
 
-                for (int j = 0; j < 8; j++)
+                for (int j = 0; j < numLanes; j++)
                 {
                     NoteTypes.NoteTypeDef Type = mainform.chart.FindVisualNoteType(i, j);
 
@@ -298,7 +302,7 @@ namespace _8beatMap
 
                         if (NoteTex == "spr_SwipeLeftIcon")
                         {
-                            for (int k = 0; k < 8; k++)
+                            for (int k = 0; k < numLanes; k++)
                             {
                                 if (mainform.chart.Ticks[i].Notes[k].NoteType.IsSimul)
                                 {
@@ -310,7 +314,7 @@ namespace _8beatMap
 
                         if (NoteTex == "spr_SwipeRightIcon")
                         {
-                            for (int k = 0; k < 8; k++)
+                            for (int k = 0; k < numLanes; k++)
                             {
                                 if (mainform.chart.Ticks[i].Notes[k].NoteType.IsSimul)
                                 {
