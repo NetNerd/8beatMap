@@ -322,18 +322,18 @@ namespace _8beatMap
 
                         float icnDist = (float)(numTicksVisible - i + currentTick) / numTicksVisible;
                         Point icnPoint = GetPointAlongLine(NodeStartLocs[j], NodeEndLocs[j], icnDist);
-                        int icnSize = (int)(iconSize * 1.375f * icnDist);
+                        int icnSize = (int)(iconSize * 2.75f * icnDist);
                         DrawFilledRect(icnPoint.X - icnSize / 2, icnPoint.Y - icnSize / 2, icnSize, icnSize, NoteTex);
 
                     }
                     else if (i > (int)(currentTick - EffectTicks - 1))
                     {
-                        int effectSize = (int)(((currentTick - i - 1) / EffectTicks + 1) * iconSize * 1.375f);
+                        int effectSize = (int)(((currentTick - i - 1) / EffectTicks + 1) * iconSize * 2.75f);
                         DrawFilledRect(NodeEndLocs[j].X - effectSize / 2, NodeEndLocs[j].Y - effectSize / 2, effectSize, effectSize, "spr_HitEffect");
                     }
                     else if (i >= (int)(currentTick - EffectTicks - EffectFadeTicks - 1))
                     {
-                        int effectSize = (int)(iconSize * 2.75);
+                        int effectSize = (int)(iconSize * 5.5);
                         float effectOpacity = 1 - (float)((currentTick - EffectTicks - i - 1) / EffectFadeTicks * 0.8f);
 
                         GL.Color4(1f, 1f, 1f, effectOpacity);
