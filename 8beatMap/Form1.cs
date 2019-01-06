@@ -325,15 +325,12 @@ namespace _8beatMap
         }
 
 
-        public Form1()
+        private void LoadSounds()
         {
-            InitializeComponent();
-
-            
             try
             {
-                Sound.NoteSoundWave = new Sound.CachedSound("notesnd/hit.wav");
-                Sound.NoteSoundWave_Swipe = new Sound.CachedSound("notesnd/swipe.wav");
+                Sound.NoteSoundWave = new Sound.CachedSound(skin + "\\" + "notesnd/hit.wav");
+                Sound.NoteSoundWave_Swipe = new Sound.CachedSound(skin + "\\" + "notesnd/swipe.wav");
                 //NoteSoundMixer.AddMixerInput(NoteSoundWave);
                 //NoteSoundMixer.AddMixerInput(NoteSoundWave_Swipe);
                 //Sound.SetNoteSoundLatency(95);
@@ -343,11 +340,34 @@ namespace _8beatMap
                 Sound.NoteSoundWave = null;
                 Sound.NoteSoundWave_Swipe = null;
             }
+        }
+
+        private void OpenPreviewWindow()
+        {
+            OGLrenderer.Stop();
+            OGLrenderer = null;
+            OGLrenderer = new GameCloneRenderer_OGL(853, 480) { skin = skin };
+            OGLrenderer.mainform = this;
+        }
+
+        private string skin = "skin_8bs";
+        private void SetSkin(string skin)
+        {
+            this.skin = skin;
+            LoadSounds();
+            OpenPreviewWindow();
+        }
 
 
+        public Form1()
+        {
+            InitializeComponent();
+            
             pictureBox1.Image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
 
             OGLrenderer.mainform = this;
+
+            SetSkin("skin_8bs");
 
             AddNoteTypes();
 
@@ -678,10 +698,7 @@ namespace _8beatMap
 
                     case 'P': // reopen preview window
                     case 'p':
-                        OGLrenderer.Stop();
-                        OGLrenderer = null;
-                        OGLrenderer = new GameCloneRenderer_OGL(853, 480);
-                        OGLrenderer.mainform = this;
+                        OpenPreviewWindow();
                         break;
 
                     default:
@@ -708,10 +725,8 @@ namespace _8beatMap
 
         private void PreviewWndBtn_Click(object sender, EventArgs e)
         {
-            OGLrenderer.Stop();
-            OGLrenderer = null;
-            OGLrenderer = new GameCloneRenderer_OGL(853, 480);
-            OGLrenderer.mainform = this;
+            OpenPreviewWindow();
+            // SetSkin("skin_gbstransp");
         }
     }
 }

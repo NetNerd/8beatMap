@@ -14,6 +14,7 @@ namespace _8beatMap
         
         public Form1 mainform = null;
 
+        public string skin = "skin_8bs";
 
         static string[] textureNames = { "spr_HoldLocus", "spr_SwipeLocus",
             "spr_TapIcon", "spr_HoldIcon", "spr_SimulIcon",
@@ -45,9 +46,10 @@ namespace _8beatMap
 
                 myWindow.Load += (sender, e) =>
                 {
+                    textures = new System.Collections.Generic.Dictionary<string, int>();
                     for (int i = 0; i < textureNames.Length; i++)
                         if (!textures.ContainsKey(textureNames[i]))
-                            textures.Add(textureNames[i], LoadTexture(texturePaths[i]));
+                            textures.Add(textureNames[i], LoadTexture(skin + "\\" + texturePaths[i]));
 
                     GL.ClearColor(0, 0, 0, 0);
 
@@ -107,6 +109,7 @@ namespace _8beatMap
 
         void RenderFrame(object sender, EventArgs e)
         {
+            if (myWindow == null) return;
             if (myWindow.WindowState == WindowState.Minimized) return;
 
             if (mainform == null) return;
