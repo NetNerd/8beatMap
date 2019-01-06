@@ -1,7 +1,7 @@
-8beatMapとはスマホ音楽ゲーム「8 beat Story♪」の譜面エディタープログラム。
-多い機能がないけどかなり易しと思います。
+﻿8beatMapとはスマホ音楽ゲーム「8 beat Story♪」の譜面エディタープログラム。「Girls Beat Stage!」の譜面も読み込める（エディター機能はない）。
+多い機能がありませんだけどかなり易しと思います。
 
-8beatMap is a chart editor for the mobile rhythm game "8 beat Story♪".
+8beatMap is a chart editor for the mobile rhythm game "8 beat Story♪". It can also read "Girls Beat Stage!" charts (but not lacks editing features for them).
 It doesn't have a lot of features, but I think it's pretty easy to use.
 
 
@@ -10,33 +10,32 @@ It doesn't have a lot of features, but I think it's pretty easy to use.
 使い方について　(Usage Notes):
 
 
-音符を置くは左マウスボタンで。　消すは右ボタンで。
+ノードを置くのは左マウスボタンで。　消すは右ボタンで。
 
-音符のタイプを選ぶことはキーボードでも出来ます。
+ノードのタイプを選ぶことはキーボードでも出来ます。
 １：押す　　　Ｑ：同時に押す
 ２：長い押す　　　Ｗ：同時に長い押すの最初　　　Ｓ：同時に長い押すの最後
 ３：左へフリック　　　Ｅ：長い押すの最後での左へフリック
 ４：右へフリック　　　Ｒ：長い押すの最後での右へフリック
-５：左へスワイプの端　　Ｔ：左へスワイプの真ん中　　　Ｇ：右へスワイプから左に変わる
-６：右へスワイプの端　　Ｙ：右へスワイプの真ん中　　　Ｈ：左へスワイプから右に変わる
+５：左へスワイプの端　　Ｔ：左へスワイプの真ん中で　　　Ｇ：右へスワイプから左に変わる
+６：右へスワイプの端　　Ｙ：右へスワイプの真ん中で　　　Ｈ：左へスワイプから右に変わる
 
-特別な音符のタイプ：
-・「同時に～」はピンク色のノード。　オート機能がありますので手動の置くことは要らない。
-・「同時に長い押すの最初」は長い押すのファースト音符のピンク色版。　「同時に長い押すの最後」は長い押すのラスト音符のピンク色版。　　　※普通の長い押す（緑／同時じゃない）の場合で特別な音符タイプは要らない。
-・「フリック」は一つの音符だけ、「スワイプ」は2つ以上の音符。
-・「スワイプの端」とはスワイプの最初や最後の音符、「スワイプの真ん中で」とは他のスワイプ音符。
-・「長い押すの最後でのフリック」はフリックのためだけ。スワイプは普通の音符タイプで。
-
-
-※ズームと長さと全音符を動かすの機能にはちょっとバグがあります。用いるの前に保存してください。
-※今、絵を保存はこのプログラムのフォルダーで「imgout.png」に書いてます。
-※音符の音のタイミングは違う場合があります（でもたいていはいいと思います）。
+特別なノードタイプ：
+・「同時に～」はピンク色のノード。　オート機能がありますので手動の置くのは要らない。
+・「同時に長い押すの最初」は長い押すのファースト音符のピンク色版。　「同時に長い押すの最後」は長い押すのラスト音符のピンク色版。　　　※普通の長い押す（緑／同時じゃない）場合では特別なノードタイプは必要ない。
+・「フリック」は一つのノードだけ、「スワイプ」は2つ以上のノードで。
+・「スワイプの端」とはスワイプの最初や最後のノード、「スワイプの真ん中で」とは他のスワイプノード。
+・「長い押すの最後でのフリック」はフリックのためだけ。スワイプは普通のノードタイプで。
 
 
+※ズームと長さと全ノードを動かすの機能にはちょっとバグがあります。用いるの前に保存してください。
+※今、絵を保存のはプログラムのフォルダーで「imgout.png」に書いてます。
+※ノード音のタイミングは違う場合があります（でもたいていはいいと思います）。
 
-譜面のファイルフォーマットは「.dec.json」。　ゲームと同じでも復号したです（「dec」は「decrypt／デクリプト」から）。
-暗号化されるのプログラムは解放しないけど私に送るなら僕が暗号化する場合はあります。
-　　※「master_title」と「master_music」と「master_mission」のテンプレート（「meta_templates」フォルダーで）も含めましてください
+
+
+譜面のファイルフォーマットは「.dec.json」。　ゲームと同じなんだけど復号したです（「dec」は「decrypt／デクリプト」から）。
+復号しプログラムはここで込まない。
 
 
 
@@ -66,5 +65,4 @@ Special note types:
 
 
 The file format for charts is ".dec.json". It's the same type as the game but decrypted (the "dec" comes from "decrypt").
-Currently, there's no encryption program released, but if you send them to me I might be able to encrypt them.
-　　--please include the master_title, master_music, and master_mission templates (in the "meta_templates" folder) too
+A decryption program is not included.
