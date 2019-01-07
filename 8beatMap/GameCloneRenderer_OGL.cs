@@ -203,6 +203,31 @@ namespace _8beatMap
                             Point iPoint = GetPointAlongLine(NodeStartLocs[j], NodeEndLocs[j], iDist);
                             Point ePoint = GetPointAlongLine(NodeStartLocs[swipeEndPoint.Y], NodeEndLocs[swipeEndPoint.Y], eDist);
 
+                            //float iDirection = 88888888;
+                            //if (iPoint.Y - NodeStartLocs[j].Y != 0) { iDirection = (iPoint.X - NodeStartLocs[j].X) / (float)(iPoint.Y - NodeStartLocs[j].Y) / 2f; }
+                            float eDirection = 88888888;
+                            if (ePoint.Y - NodeStartLocs[swipeEndPoint.Y].Y != 0) { eDirection = (ePoint.X - NodeStartLocs[swipeEndPoint.Y].X) / (float)(ePoint.Y - NodeStartLocs[swipeEndPoint.Y].Y) / 2f; }
+
+                            //float avgDirection = iDirection + eDirection / 2f;
+
+                            //if (iDirection == 0) iDirection = 0.0001f;
+                            //if (iDirection > 1) iDirection = 1f;
+                            //if (iDirection < -1) iDirection = -1f;
+                            //if (eDirection == 0) eDirection = 0.0001f;
+                            if (eDirection > 1) eDirection = 1f;
+                            if (eDirection < -1) eDirection = -1f;
+                            //if (avgDirection == 0) avgDirection = 0.0001f;
+                            //if (avgDirection > 1) avgDirection = 1f;
+                            //if (avgDirection < -1) avgDirection = -1f;
+
+                            //float absiDirection = iDirection;
+                            //if (iDirection < 0) absiDirection = iDirection * -1;
+                            float abseDirection = eDirection;
+                            if (eDirection < 0) abseDirection = eDirection * -1;
+                            //float absDirection = avgDirection;
+                            //if (avgDirection < 0) absDirection = avgDirection * -1;
+
+
                             float sDist;
                             Point sPoint;
                             if (i >= currentTick)
@@ -223,16 +248,16 @@ namespace _8beatMap
                             GL.Begin(PrimitiveType.Quads);
 
                             GL.TexCoord2(0.1, 0);
-                            GL.Vertex2(sPoint.X, sPoint.Y + sSize);
+                            GL.Vertex2(sPoint.X + sSize*eDirection, sPoint.Y + sSize - sSize*abseDirection);
 
                             GL.TexCoord2(0.9, 0);
-                            GL.Vertex2(ePoint.X, ePoint.Y + eSize);
+                            GL.Vertex2(ePoint.X + eSize*eDirection, ePoint.Y + eSize - eSize*abseDirection);
 
                             GL.TexCoord2(0.9, eDist);
-                            GL.Vertex2(ePoint.X, ePoint.Y - eSize);
+                            GL.Vertex2(ePoint.X - eSize*eDirection, ePoint.Y - eSize + eSize*abseDirection);
                             
                             GL.TexCoord2(0.1, sDist);
-                            GL.Vertex2(sPoint.X, sPoint.Y - sSize);
+                            GL.Vertex2(sPoint.X - sSize*eDirection, sPoint.Y - sSize + sSize*abseDirection);
 
                             GL.End();
                         }
@@ -258,23 +283,34 @@ namespace _8beatMap
                             eDist = 0;
                         float sSize = halfIconSize * sDist;
                         float eSize = halfIconSize * eDist;
+                        float halfsSize = sSize / 2f;
+                        float halfeSize = eSize / 2f;
                         PointF sPoint = GetPointAlongLineF(NodeStartLocs[j], NodeEndLocs[j], sDist);
                         PointF ePoint = GetPointAlongLineF(NodeStartLocs[j], NodeEndLocs[j], eDist);
                         //Grfx.DrawImage(spr_HoldLocus, new PointF[] { new PointF(ePoint.X + eSize, ePoint.Y), new PointF(ePoint.X + eSize - iconSize, ePoint.Y), new PointF(sPoint.X + sSize, sPoint.Y) }, new Rectangle(0, (int)(spr_HoldLocus.Height * eDist), spr_HoldLocus.Width, (int)(spr_HoldLocus.Height * (sDist - eDist)) - 8), GraphicsUnit.Pixel, transpAttr);
 
+                        float sDirection = 88888888;
+                        if (sPoint.Y - NodeStartLocs[j].Y != 0) { sDirection = (sPoint.X - NodeStartLocs[j].X) / (float)(sPoint.Y - NodeStartLocs[j].Y) / 2f; }
+                        //if (sDirection == 0) sDirection = 0.0001f;
+                        if (sDirection > 1) sDirection = 1f;
+                        if (sDirection < -1) sDirection = -1f;
+
+                        float abssDirection = sDirection;
+                        if (sDirection < 0) abssDirection = sDirection * -1;
+
                         GL.Begin(PrimitiveType.Quads);
 
                         GL.TexCoord2(0, 0.9);
-                        GL.Vertex2(ePoint.X + eSize, ePoint.Y);
+                        GL.Vertex2(ePoint.X + eSize - halfeSize*abssDirection, ePoint.Y - eSize*sDirection);
 
                         GL.TexCoord2(0, 0.1);
-                        GL.Vertex2(sPoint.X + sSize, sPoint.Y);
+                        GL.Vertex2(sPoint.X + sSize - halfsSize*abssDirection, sPoint.Y - sSize*sDirection);
 
                         GL.TexCoord2(sDist, 0.1);
-                        GL.Vertex2(sPoint.X - sSize, sPoint.Y);
+                        GL.Vertex2(sPoint.X - sSize + halfsSize*abssDirection, sPoint.Y + sSize*sDirection);
 
                         GL.TexCoord2(eDist, 0.9);
-                        GL.Vertex2(ePoint.X - eSize, ePoint.Y);
+                        GL.Vertex2(ePoint.X - eSize + halfeSize*abssDirection, ePoint.Y + eSize*sDirection);
 
                         GL.End();
                     }
