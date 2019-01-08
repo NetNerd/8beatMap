@@ -76,6 +76,37 @@ namespace _8beatMap
 
         public bool ShowTypeIdsOnNotes = false;
 
+        static Dictionary<NoteTypes.NoteTypeDef, Color[]> noteColours = new Dictionary<NoteTypes.NoteTypeDef, Color[]>
+        {
+            { NoteTypes.NoteTypeDefs.None, new Color[] { Color.Transparent, Color.Transparent } },
+
+            { NoteTypes.NoteTypeDefs.Tap, new Color[] { Color.Blue, Color.Transparent } },
+            { NoteTypes.NoteTypeDefs.Hold, new Color[] { Color.LimeGreen, Color.Transparent } },
+            { NoteTypes.NoteTypeDefs.SimulTap, new Color[] { Color.DeepPink, Color.Transparent } },
+            { NoteTypes.NoteTypeDefs.SimulHoldStart, new Color[] { Color.DeepPink, Color.Transparent } },
+            { NoteTypes.NoteTypeDefs.SimulHoldRelease, new Color[] { Color.DeepPink, Color.Transparent } },
+
+            { NoteTypes.NoteTypeDefs.FlickLeft, new Color[] { Color.FromArgb(0xc0, 0xc0, 0xc0), Color.FromArgb(0x70, 0, 0x78) } },
+            { NoteTypes.NoteTypeDefs.HoldEndFlickLeft, new Color[] { Color.LightGray, Color.FromArgb(0x70, 0, 0x78) } },
+            { NoteTypes.NoteTypeDefs.SwipeLeftStartEnd, new Color[] { Color.FromArgb(0xc0, 0xc0, 0xc0), Color.DarkViolet } },
+            { NoteTypes.NoteTypeDefs.SwipeLeftMid, new Color[] { Color.FromArgb(0xc0, 0xc0, 0xc0), Color.Violet } },
+            { NoteTypes.NoteTypeDefs.SwipeChangeDirR2L, new Color[] { Color.FromArgb(0xc0, 0xc0, 0xc0), Color.Violet } },
+
+            { NoteTypes.NoteTypeDefs.FlickRight, new Color[] { Color.FromArgb(0xc0, 0xc0, 0xc0), Color.FromArgb(0xcc, 0x88, 0) } },
+            { NoteTypes.NoteTypeDefs.HoldEndFlickRight, new Color[] { Color.LightGray, Color.FromArgb(0xcc, 0x88, 0) } },
+            { NoteTypes.NoteTypeDefs.SwipeRightStartEnd, new Color[] { Color.FromArgb(0xc0, 0xc0, 0xc0), Color.DarkOrange } },
+            { NoteTypes.NoteTypeDefs.SwipeRightMid, new Color[] { Color.FromArgb(0xc0, 0xc0, 0xc0), Color.Gold } },
+            { NoteTypes.NoteTypeDefs.SwipeChangeDirL2R, new Color[] { Color.FromArgb(0xc0, 0xc0, 0xc0), Color.Gold } },
+
+            { NoteTypes.NoteTypeDefs.ExtendHoldMid, new Color[] { Color.LightGray, Color.Transparent } },
+
+            { NoteTypes.NoteTypeDefs.GbsFlick, new Color[] { Color.Gold, Color.LightYellow } },
+            { NoteTypes.NoteTypeDefs.GbsHoldEndFlick, new Color[] { Color.LightGray, Color.Gold } },
+            { NoteTypes.NoteTypeDefs.GbsSimulFlick, new Color[] { Color.Goldenrod, Color.LightYellow } },
+            { NoteTypes.NoteTypeDefs.GbsClock, new Color[] { Color.Blue, Color.Gold } },
+            { NoteTypes.NoteTypeDefs.GbsSimulClock, new Color[] { Color.DeepPink, Color.Gold } }
+        };
+
         Image GetChartImage(double startTick, int tickHeight, int iconWidth, int iconHeight, Color BgCol, bool NoGrid, int Width, int Height)
         {
             Image Bmp = new Bitmap(Width, Height);
@@ -130,21 +161,23 @@ namespace _8beatMap
 
                     int iconX = (int)((j + 0.5) * laneWidth - halfIconWidth);
                     int iconY = (int)Math.Ceiling(height - (i - startTick + 1.5) * tickHeight - 2);
-                    
 
-                    if (Type.BackColor.A > 0)
-                        Grfx.FillRectangle(new SolidBrush(Type.BackColor), iconX, iconY, iconWidth, iconHeight);
+                    Color backColor = noteColours[Type][0];
+                    Color iconColor = noteColours[Type][1];
 
-                    if (Type.IconColor.A > 0)
+                    if (backColor.A > 0)
+                        Grfx.FillRectangle(new SolidBrush(backColor), iconX, iconY, iconWidth, iconHeight);
+
+                    if (iconColor.A > 0)
                     {
                         if (Type.IconType == NoteTypes.IconType.LeftArrow)
-                            Grfx.FillPolygon(new SolidBrush(Type.IconColor), new Point[] { new Point(iconX + iconWidth - 1, iconY + 0), new Point(iconX + iconWidth - 1, iconY + iconHeight - 1), new Point(iconX + 0, iconY + halfIconHeight) });
+                            Grfx.FillPolygon(new SolidBrush(iconColor), new Point[] { new Point(iconX + iconWidth - 1, iconY + 0), new Point(iconX + iconWidth - 1, iconY + iconHeight - 1), new Point(iconX + 0, iconY + halfIconHeight) });
                         else if (Type.IconType == NoteTypes.IconType.RightArrow)
-                            Grfx.FillPolygon(new SolidBrush(Type.IconColor), new Point[] { new Point(iconX + 0, iconY + 0), new Point(iconX + 0, iconY + iconHeight - 1), new Point(iconX + iconWidth - 1, iconY + halfIconHeight) });
+                            Grfx.FillPolygon(new SolidBrush(iconColor), new Point[] { new Point(iconX + 0, iconY + 0), new Point(iconX + 0, iconY + iconHeight - 1), new Point(iconX + iconWidth - 1, iconY + halfIconHeight) });
                         else if (Type.IconType == NoteTypes.IconType.UpArrow)
-                            Grfx.FillPolygon(new SolidBrush(Type.IconColor), new Point[] { new Point(iconX + halfIconWidth, iconY + 0), new Point(iconX + iconWidth - 1, iconY + iconHeight - 1), new Point(iconX + 0, iconY + iconHeight - 1) });
+                            Grfx.FillPolygon(new SolidBrush(iconColor), new Point[] { new Point(iconX + halfIconWidth, iconY + 0), new Point(iconX + iconWidth - 1, iconY + iconHeight - 1), new Point(iconX + 0, iconY + iconHeight - 1) });
                         else if (Type.IconType == NoteTypes.IconType.HalfSplit)
-                            Grfx.FillPolygon(new SolidBrush(Type.IconColor), new Point[] { new Point(iconX + iconWidth - 1, iconY + 0), new Point(iconX + iconWidth - 1, iconY + iconHeight - 1), new Point(iconX + 0, iconY + iconHeight - 1) });
+                            Grfx.FillPolygon(new SolidBrush(iconColor), new Point[] { new Point(iconX + iconWidth - 1, iconY + 0), new Point(iconX + iconWidth - 1, iconY + iconHeight - 1), new Point(iconX + 0, iconY + iconHeight - 1) });
                     }
 
                     if (ShowTypeIdsOnNotes)
