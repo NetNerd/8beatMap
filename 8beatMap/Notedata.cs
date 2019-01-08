@@ -239,7 +239,7 @@ namespace _8beatMap
                             {
                                 Ticks[i].SetNote(NoteTypes.NoteTypeDefs.SimulTap, j, ref this);
                             }
-                            else if (NoteType.DetectType == NoteTypes.DetectType.GbsFlick)
+                            else if (NoteType.DetectType == NoteTypes.DetectType.GbsFlick & NoteType.TypeName != "GbsHoldEndFlick")
                             {
                                 Ticks[i].SetNote(NoteTypes.NoteTypeDefs.GbsSimulFlick, j, ref this);
                             }
