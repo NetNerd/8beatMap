@@ -243,10 +243,10 @@ namespace _8beatMap
                             {
                                 Ticks[i].SetNote(NoteTypes.NoteTypeDefs.GbsSimulFlick, j, ref this);
                             }
-                            //else if (NoteType.DetectType == NoteTypes.DetectType.GbsClock)
-                            //{
-                            //    Ticks[i].SetNote(NoteTypes.NoteTypeDefs.GbsSimulClock, j, ref this);
-                            //}
+                            else if (NoteType.DetectType == NoteTypes.DetectType.GbsClock)
+                            {
+                                Ticks[i].SetNote(NoteTypes.NoteTypeDefs.GbsSimulClock, j, ref this);
+                            }
                         }
                     }
                     else
