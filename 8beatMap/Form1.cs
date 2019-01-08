@@ -76,6 +76,9 @@ namespace _8beatMap
 
         public bool ShowTypeIdsOnNotes = false;
 
+
+        static TypeConverter colorConverter = TypeDescriptor.GetConverter(typeof(Color));
+        // (Color)colorConverter.ConvertFromString("#00000000")
         static Dictionary<string, Color[]> noteColours = new Dictionary<string, Color[]>
         {
             { NoteTypes.NoteTypeDefs.None.TypeName, new Color[] { Color.Transparent, Color.Transparent } },
