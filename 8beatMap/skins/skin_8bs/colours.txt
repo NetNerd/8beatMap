@@ -1,0 +1,22 @@
+None:              Transparent,  Transparent
+Tap:               Blue,         Transparent
+Hold:              LimeGreen,    Transparent
+SimulTap:          DeepPink,     Transparent
+SimulHoldStart:    DeepPink,     Transparent
+SimulHoldRelease:  DeepPink,     Transparent
+FlickLeft:         #c0c0c0,      #700078
+HoldEndFlickLeft:  LightGray,    #700078
+SwipeLeftStartEnd: #c0c0c0,      DarkViolet
+SwipeLeftMid:      #c0c0c0,      Violet
+SwipeChangeDirR2L: #c0c0c0,      Violet
+FlickRight:        #c0c0c0,      #cc8800
+HoldEndFlickRight: LightGray,    #cc8800
+SwipeRightStartEnd:#c0c0c0,      DarkOrange
+SwipeRightMid:     #c0c0c0,      Gold
+SwipeChangeDirL2R: #c0c0c0,      Gold
+ExtendHoldMid:     LightGray,    Transparent
+GbsFlick:          Gold,         LightYellow
+GbsHoldEndFlick:   LightGray,    Gold
+GbsSimulFlick:     Goldenrod,    LightYellow
+GbsClock:          Blue,         Gold
+GbsSimulClock:     DeepPink,     Gold
