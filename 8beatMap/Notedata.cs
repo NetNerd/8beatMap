@@ -226,7 +226,7 @@ namespace _8beatMap
                         if (NoteType.NotNode != true & NoteType.DetectType != NoteTypes.DetectType.SwipeMid)
                             SimulNum_Tap++;
 
-                        if (NoteType.DetectType == NoteTypes.DetectType.Tap | NoteType.DetectType == NoteTypes.DetectType.Hold)
+                        if (NoteType.DetectType == NoteTypes.DetectType.Tap | NoteType.DetectType == NoteTypes.DetectType.Hold | NoteType.DetectType == NoteTypes.DetectType.GbsClock)
                             SimulNum_Hold++;
                     }
 
@@ -239,6 +239,14 @@ namespace _8beatMap
                             {
                                 Ticks[i].SetNote(NoteTypes.NoteTypeDefs.SimulTap, j, ref this);
                             }
+                            else if (NoteType.DetectType == NoteTypes.DetectType.GbsFlick)
+                            {
+                                Ticks[i].SetNote(NoteTypes.NoteTypeDefs.GbsSimulFlick, j, ref this);
+                            }
+                            //else if (NoteType.DetectType == NoteTypes.DetectType.GbsClock)
+                            //{
+                            //    Ticks[i].SetNote(NoteTypes.NoteTypeDefs.GbsSimulClock, j, ref this);
+                            //}
                         }
                     }
                     else

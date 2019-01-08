@@ -35,7 +35,8 @@ namespace _8beatMap
             SwipeMid,
             SwipeDirChange,
             Flick,
-            GbsFlick
+            GbsFlick,
+            GbsClock
         }
 
         public enum DetectDir
@@ -92,8 +93,8 @@ namespace _8beatMap
             public static NoteTypeDef GbsFlick = new NoteTypeDef() { TypeName = "GbsFlick", TypeId = 20, RenderMode = RenderMode.Icon, OGLTextureName = "spr_gbsFlick", IconType = IconType.UpArrow, DetectType = DetectType.GbsFlick, DetectDir = DetectDir.None, NotNode = false, IsSimul = false };
             public static NoteTypeDef GbsHoldEndFlick = new NoteTypeDef() { TypeName = "GbsHoldEndFlick", TypeId = 21, RenderMode = RenderMode.Icon, OGLTextureName = "spr_gbsFlick", IconType = IconType.UpArrow, DetectType = DetectType.GbsFlick, DetectDir = DetectDir.None, NotNode = false, IsSimul = false };
             public static NoteTypeDef GbsSimulFlick = new NoteTypeDef() { TypeName = "GbsSimulFlick", TypeId = 30, RenderMode = RenderMode.Icon, OGLTextureName = "spr_gbsFlick_Simul", IconType = IconType.UpArrow, DetectType = DetectType.GbsFlick, DetectDir = DetectDir.None, NotNode = false, IsSimul = true };
-            public static NoteTypeDef GbsClock = new NoteTypeDef() { TypeName = "GbsClock", TypeId = 40, RenderMode = RenderMode.Icon, OGLTextureName = "spr_gbsClock", IconType = IconType.HalfSplit, DetectType = DetectType.Tap, DetectDir = DetectDir.None, NotNode = false, IsSimul = false };
-            public static NoteTypeDef GbsSimulClock = new NoteTypeDef() { TypeName = "GbsSimulClock", TypeId = 50, RenderMode = RenderMode.Icon, OGLTextureName = "spr_gbsClock_Simul", IconType = IconType.HalfSplit, DetectType = DetectType.Tap, DetectDir = DetectDir.None, NotNode = false, IsSimul = true };
+            public static NoteTypeDef GbsClock = new NoteTypeDef() { TypeName = "GbsClock", TypeId = 40, RenderMode = RenderMode.Icon, OGLTextureName = "spr_gbsClock", IconType = IconType.HalfSplit, DetectType = DetectType.GbsClock, DetectDir = DetectDir.None, NotNode = false, IsSimul = false };
+            public static NoteTypeDef GbsSimulClock = new NoteTypeDef() { TypeName = "GbsSimulClock", TypeId = 50, RenderMode = RenderMode.Icon, OGLTextureName = "spr_gbsClock_Simul", IconType = IconType.HalfSplit, DetectType = DetectType.GbsClock, DetectDir = DetectDir.None, NotNode = false, IsSimul = true };
 
 
             static Dictionary<int, NoteTypeDef> idToTypeDict = new Dictionary<int, NoteTypeDef> { { 0, None }, { 1, Tap }, { 2, Hold }, { 3, SimulTap }, { 9, SimulHoldStart }, { 8, SimulHoldRelease },
@@ -133,7 +134,12 @@ namespace _8beatMap
             { "HoldEndFlickLeft", NoteTypeDefs.HoldEndFlickLeft.TypeId },
 
             { "FlickRight", NoteTypeDefs.FlickRight.TypeId },
-            { "HoldEndFlickRight", NoteTypeDefs.HoldEndFlickRight.TypeId }
+            { "HoldEndFlickRight", NoteTypeDefs.HoldEndFlickRight.TypeId },
+
+            { "GbsFlick", NoteTypeDefs.GbsFlick.TypeId },
+            { "GbsSimulFlick", NoteTypeDefs.GbsSimulFlick.TypeId },
+            { "GbsClock", NoteTypeDefs.GbsClock.TypeId },
+            // { "GbsSimulClock", NoteTypeDefs.GbsSimulClock.TypeId }
         };
 
         public static Dictionary<string, int> UserVisibleNoteTypes_Nihongo = new Dictionary<string, int>
@@ -158,7 +164,12 @@ namespace _8beatMap
             { "長い押すの最後での左へフリック", NoteTypeDefs.HoldEndFlickLeft.TypeId },
 
             { "右へフリック", NoteTypeDefs.FlickRight.TypeId },
-            { "長い押すの最後での右へフリック", NoteTypeDefs.HoldEndFlickRight.TypeId }
+            { "長い押すの最後での右へフリック", NoteTypeDefs.HoldEndFlickRight.TypeId },
+
+            { "GBSフリック", NoteTypeDefs.GbsFlick.TypeId },
+            { "同時にGBSフリック", NoteTypeDefs.GbsSimulFlick.TypeId },
+            { "GBS時計", NoteTypeDefs.GbsClock.TypeId },
+            // { "同時にGBS時計", NoteTypeDefs.GbsSimulClock.TypeId }
         };
 
         public static Dictionary<string, int> NoteShortcutKeys = new Dictionary<string, int>
@@ -181,7 +192,13 @@ namespace _8beatMap
 
             { "_6", NoteTypeDefs.SwipeRightStartEnd.TypeId },
             { "Y", NoteTypeDefs.SwipeRightMid.TypeId },
-            { "H", NoteTypeDefs.SwipeChangeDirL2R.TypeId }
+            { "H", NoteTypeDefs.SwipeChangeDirL2R.TypeId },
+
+            { "_7", NoteTypeDefs.GbsFlick.TypeId },
+            { "U", NoteTypeDefs.GbsSimulFlick.TypeId },
+
+            { "_8", NoteTypeDefs.GbsClock.TypeId },
+            // { "I", NoteTypeDefs.GbsSimulClock.TypeId }
         };
     }
 }

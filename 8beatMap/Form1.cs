@@ -472,7 +472,7 @@ namespace _8beatMap
 
                             if (Sound.NoteSoundWave != null)
                             {
-                                if (note.DetectType == NoteTypes.DetectType.Tap | note.DetectType == NoteTypes.DetectType.Hold)
+                                if (note.DetectType == NoteTypes.DetectType.Tap | note.DetectType == NoteTypes.DetectType.Hold | note.DetectType == NoteTypes.DetectType.GbsClock)
                                 {
                                     //Sound.PlayNoteSound(Sound.NoteSoundWave);
                                     Sound.NoteSoundTrim = new NAudio.Wave.SampleProviders.OffsetSampleProvider(new Sound.CachedSoundSampleProvider(Sound.NoteSoundWave));
