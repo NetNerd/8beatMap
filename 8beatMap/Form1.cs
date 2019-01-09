@@ -77,9 +77,9 @@ namespace _8beatMap
         public bool ShowTypeIdsOnNotes = false;
 
 
-        static TypeConverter colorConverter = TypeDescriptor.GetConverter(typeof(Color));
+        private TypeConverter colorConverter = TypeDescriptor.GetConverter(typeof(Color));
         // (Color)colorConverter.ConvertFromString("#00000000")
-        static Dictionary<string, Color[]> noteColours = new Dictionary<string, Color[]>
+        private static Dictionary<string, Color[]> noteColours_Default = new Dictionary<string, Color[]>
         {
             { NoteTypes.NoteTypeDefs.None.TypeName, new Color[] { Color.Transparent, Color.Transparent } },
 
@@ -109,6 +109,26 @@ namespace _8beatMap
             { NoteTypes.NoteTypeDefs.GbsClock.TypeName, new Color[] { Color.Blue, Color.Gold } },
             { NoteTypes.NoteTypeDefs.GbsSimulClock.TypeName, new Color[] { Color.DeepPink, Color.Gold } }
         };
+        private Dictionary<string, Color[]> noteColours = noteColours_Default;
+
+
+        private void LoadNoteColours(string defs)
+        {
+            noteColours = noteColours_Default;
+            
+            string[] defslines = defs.Split("\n".ToCharArray());
+            for (int i = 0; i < defslines.Length; i++)
+            {
+                string cleanDef = defslines[i].Replace(" ", "");
+                string type = cleanDef.Split(":".ToCharArray())[0];
+                string[] vals = cleanDef.Split(":".ToCharArray())[1].Split(",".ToCharArray());
+
+                noteColours[type] = new Color[] { (Color)colorConverter.ConvertFromString(vals[0]), (Color)colorConverter.ConvertFromString(vals[1]) };
+            }
+
+            UpdateChart();
+        }
+
 
         Image GetChartImage(double startTick, int tickHeight, int iconWidth, int iconHeight, Color BgCol, bool NoGrid, int Width, int Height)
         {
@@ -392,6 +412,7 @@ namespace _8beatMap
             this.skin = skin;
             LoadSounds();
             OpenPreviewWindow();
+            LoadNoteColours(System.IO.File.ReadAllText(skin + "\\" + "colours.txt"));
         }
 
 
