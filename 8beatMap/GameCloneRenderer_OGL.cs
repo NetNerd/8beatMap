@@ -136,7 +136,7 @@ namespace _8beatMap
         int halfIconSize = 64;
 
         int EffectTime = 1000000;
-        int EffectFadeTime = 390000;
+        int EffectFadeTime = 400000;
 
         int viewHeight = 640;
 
@@ -175,7 +175,7 @@ namespace _8beatMap
 
 
 
-            GL.Color4(1f, 1f, 1f, 0.6f); //transparency
+            GL.Color4(1f, 1f, 1f, 0.75f); //transparency
 
             for (int i = (int)currentTick + numTicksVisible + 1; i >= (int)currentTick - 48; i--) // 48 is magic from Notedata.Chart.UpdateSwipeEnd()
             {
