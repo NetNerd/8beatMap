@@ -11,6 +11,8 @@ namespace _8beatMap
 
         public double currentTick = 0;
         public int numTicksVisible = 24;
+
+        private int timingAdjust = 1;
         
         public Form1 mainform = null;
 
@@ -192,13 +194,13 @@ namespace _8beatMap
                     {
                         Point swipeEndPoint = mainform.chart.Ticks[i].Notes[j].SwipeEndPoint;
 
-                        if (swipeEndPoint.X > i & currentTick < swipeEndPoint.X & swipeEndPoint.Y < numLanes)
+                        if (swipeEndPoint.X > i & currentTick-timingAdjust < swipeEndPoint.X & swipeEndPoint.Y < numLanes)
                         {
                             int sTick = i;
                             if (sTick < currentTick) sTick = (int)currentTick;
 
-                            float iDist = (float)(numTicksVisible - i + currentTick) / numTicksVisible;
-                            float eDist = (float)(numTicksVisible - swipeEndPoint.X + currentTick) / numTicksVisible;
+                            float iDist = (float)(numTicksVisible - i + currentTick-timingAdjust) / numTicksVisible;
+                            float eDist = (float)(numTicksVisible - swipeEndPoint.X + currentTick-timingAdjust) / numTicksVisible;
                             int eSize = (int)(iconSize / 4 * eDist);
                             Point iPoint = GetPointAlongLine(NodeStartLocs[j], NodeEndLocs[j], iDist);
                             Point ePoint = GetPointAlongLine(NodeStartLocs[swipeEndPoint.Y], NodeEndLocs[swipeEndPoint.Y], eDist);
@@ -230,15 +232,15 @@ namespace _8beatMap
 
                             float sDist;
                             Point sPoint;
-                            if (i >= currentTick)
+                            if (i >= currentTick-1)
                             {
                                 sDist = iDist;
                                 sPoint = iPoint;
                              }
                             else
                             {
-                                sDist = (float)(numTicksVisible - sTick + currentTick) / numTicksVisible;
-                                sPoint = GetPointAlongLine(iPoint, ePoint, ((float)currentTick - i) / (swipeEndPoint.X - i));
+                                sDist = (float)(numTicksVisible - sTick + currentTick-timingAdjust) / numTicksVisible;
+                                sPoint = GetPointAlongLine(iPoint, ePoint, ((float)currentTick-timingAdjust - i) / (swipeEndPoint.X - i));
                                 //Point sPoint = GetPointAlongLine(ePoint, iPoint, sDist / iDist);
                             }
 
@@ -265,20 +267,20 @@ namespace _8beatMap
 
 
 
-                    if (i < (int)currentTick) continue;
+                    if (i < (int)currentTick-1) continue;
 
                     GL.BindTexture(TextureTarget.Texture2D, textures["spr_HoldLocus"]);
 
-                    if (Type.DetectType == NoteTypes.DetectType.HoldMid && (i == (int)currentTick | mainform.chart.FindVisualNoteType(i - 1, j).DetectType != NoteTypes.DetectType.HoldMid))
+                    if (Type.DetectType == NoteTypes.DetectType.HoldMid && (i == (int)currentTick-timingAdjust | mainform.chart.FindVisualNoteType(i - 1, j).DetectType != NoteTypes.DetectType.HoldMid))
                     {
                         double start = i;
-                        if (start < currentTick + 1) start = (int)(currentTick * 4) / 4f + 1;
+                        if (start < currentTick) start = (int)(currentTick * 4) / 4f;
                         int end = i;
                         while (mainform.chart.FindVisualNoteType(end, j).DetectType == NoteTypes.DetectType.HoldMid) end++;
-                        if (end <= start) continue;
+                        if (end <= start-1) continue;
 
-                        float sDist = (float)(numTicksVisible - start + 1 + currentTick) / numTicksVisible;
-                        float eDist = (float)(numTicksVisible - end + currentTick) / numTicksVisible;
+                        float sDist = (float)(numTicksVisible - start + 1 + currentTick-timingAdjust) / numTicksVisible;
+                        float eDist = (float)(numTicksVisible - end + currentTick-timingAdjust) / numTicksVisible;
                         if (eDist < 0)
                             eDist = 0;
                         float sSize = halfIconSize * sDist;
@@ -360,7 +362,7 @@ namespace _8beatMap
                             }
                         }
 
-                        float icnDist = (float)(numTicksVisible - i + currentTick) / numTicksVisible;
+                        float icnDist = (float)(numTicksVisible - i + currentTick-timingAdjust) / numTicksVisible;
                         Point icnPoint = GetPointAlongLine(NodeStartLocs[j], NodeEndLocs[j], icnDist);
                         int icnSize = (int)(iconSize * 2.75f * icnDist);
                         DrawFilledRect(icnPoint.X - icnSize / 2, icnPoint.Y - icnSize / 2, icnSize, icnSize, NoteTex);
