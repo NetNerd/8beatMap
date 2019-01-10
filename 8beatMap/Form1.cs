@@ -765,6 +765,16 @@ namespace _8beatMap
                             SetSkin("skin_8bs");
                         }
                         break;
+                    
+                    case '[':
+                        OGLrenderer.clearColor = Color.FromArgb(0, 0, 0, 0);
+                        break;
+                    case ']':
+                        OGLrenderer.clearColor = Color.FromArgb(0, 170, 170, 170);
+                        break;
+                    case '\\':
+                        OGLrenderer.clearColor = Color.FromArgb(0, 255, 255, 255);
+                        break;
 
                     default:
                         if (Char.IsDigit(key))
