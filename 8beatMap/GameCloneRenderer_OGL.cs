@@ -140,8 +140,8 @@ namespace _8beatMap
         int halfIconSize = 176;
         int holdSize = 130;
         int halfHoldSize = 65;
-        int swipeSize = 68;
-        int halfSwipeSize = 34;
+        int swipeSize = 66;
+        int halfSwipeSize = 33;
 
         int EffectTime = 1000000;
         int EffectFadeTime = 390000;
