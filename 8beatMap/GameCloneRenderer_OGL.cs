@@ -136,8 +136,12 @@ namespace _8beatMap
 
         Matrix4 ProjMatrix;
         
-        int iconSize = 128;
-        int halfIconSize = 64;
+        int iconSize = 352;
+        int halfIconSize = 176;
+        int holdSize = 130;
+        int halfHoldSize = 65;
+        int swipeSize = 68;
+        int halfSwipeSize = 34;
 
         int EffectTime = 1000000;
         int EffectFadeTime = 390000;
@@ -203,7 +207,7 @@ namespace _8beatMap
 
                             float iDist = (float)(numTicksVisible - i + currentTick-timingAdjust) / numTicksVisible;
                             float eDist = (float)(numTicksVisible - swipeEndPoint.X + currentTick-timingAdjust) / numTicksVisible;
-                            int eSize = (int)(iconSize / 4 * eDist);
+                            int eSize = (int)(halfSwipeSize * eDist);
                             Point iPoint = GetPointAlongLine(NodeStartLocs[j], NodeEndLocs[j], iDist);
                             Point ePoint = GetPointAlongLine(NodeStartLocs[swipeEndPoint.Y], NodeEndLocs[swipeEndPoint.Y], eDist);
 
@@ -246,7 +250,7 @@ namespace _8beatMap
                                 //Point sPoint = GetPointAlongLine(ePoint, iPoint, sDist / iDist);
                             }
 
-                            int sSize = (int)(iconSize / 4 * sDist);
+                            int sSize = (int)(halfSwipeSize * sDist);
 
 
                             GL.Begin(PrimitiveType.Quads);
@@ -285,8 +289,8 @@ namespace _8beatMap
                         float eDist = (float)(numTicksVisible - end + currentTick-timingAdjust) / numTicksVisible;
                         if (eDist < 0)
                             eDist = 0;
-                        float sSize = halfIconSize * sDist;
-                        float eSize = halfIconSize * eDist;
+                        float sSize = halfHoldSize * sDist;
+                        float eSize = halfHoldSize * eDist;
                         float halfsSize = sSize / 2f;
                         float halfeSize = eSize / 2f;
                         PointF sPoint = GetPointAlongLineF(NodeStartLocs[j], NodeEndLocs[j], sDist);
@@ -366,24 +370,24 @@ namespace _8beatMap
 
                         float icnDist = (float)(numTicksVisible - i + currentTick-timingAdjust) / numTicksVisible;
                         Point icnPoint = GetPointAlongLine(NodeStartLocs[j], NodeEndLocs[j], icnDist);
-                        int icnSize = (int)(iconSize * 2.75f * icnDist);
+                        int icnSize = (int)(iconSize * icnDist);
                         DrawFilledRect(icnPoint.X - icnSize / 2, icnPoint.Y - icnSize / 2, icnSize, icnSize, NoteTex);
 
                     }
                     else if (i > (int)(currentTick - EffectTicks - 1))
                     {
-                        int effectSize = (int)(((currentTick - i - 1) / EffectTicks + 1) * iconSize * 2.75f);
+                        int effectSize = (int)(((currentTick - i - 1) / EffectTicks + 1) * iconSize);
                         DrawFilledRect(NodeEndLocs[j].X - effectSize / 2, NodeEndLocs[j].Y - effectSize / 2, effectSize, effectSize, "spr_HitEffect");
                     }
                     else if (i >= (int)(currentTick - EffectTicks - EffectFadeTicks - 1))
                     {
-                        int effectSize = (int)(iconSize * 5.5);
+                        int effectSize = (int)(iconSize * 2.0f);
                         float effectOpacity = 1 - (float)((currentTick - EffectTicks - i - 1) / EffectFadeTicks * 0.8f);
 
                         GL.Color4(1f, 1f, 1f, effectOpacity);
 
                         //Grfx.DrawImage(spr_HitEffect, new Rectangle((int)NodeEndLocs[j].X - effectSize / 2, (int)NodeEndLocs[j].Y - effectSize / 2, effectSize, effectSize), 0, 0, spr_HitEffect.Width, spr_HitEffect.Height, GraphicsUnit.Pixel, effectTranspAttr);
-                        DrawFilledRect(NodeEndLocs[j].X - effectSize / 2, (int)NodeEndLocs[j].Y - effectSize / 2, effectSize, effectSize, "spr_HitEffect");
+                        DrawFilledRect(NodeEndLocs[j].X - effectSize / 2, NodeEndLocs[j].Y - effectSize / 2, effectSize, effectSize, "spr_HitEffect");
                     }
 
                     GL.Color4(1f, 1f, 1f, 1f);
