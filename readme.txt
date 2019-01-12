@@ -1,7 +1,7 @@
-﻿8beatMapとはスマホ音楽ゲーム「8 beat Story♪」の譜面エディタープログラム。「Girls Beat Stage!」の譜面も読み込める（エディター機能はない）。
+﻿8beatMapとはスマホ音楽ゲーム「8 beat Story♪」の譜面エディタープログラム。「Girls Beat Stage!」の譜面も対応しています。
 多い機能がありませんだけどかなり易しと思います。
 
-8beatMap is a chart editor for the mobile rhythm game "8 beat Story♪". It can also read "Girls Beat Stage!" charts (but not lacks editing features for them).
+8beatMap is a chart editor for the mobile rhythm game "8 beat Story♪". It also supports "Girls Beat Stage!" charts.
 It doesn't have a lot of features, but I think it's pretty easy to use.
 
 
@@ -13,12 +13,14 @@ It doesn't have a lot of features, but I think it's pretty easy to use.
 ノードを置くのは左マウスボタンで。　消すは右ボタンで。
 
 ノードのタイプを選ぶことはキーボードでも出来ます。
-１：押す　　　Ｑ：同時に押す
-２：長い押す　　　Ｗ：同時に長い押すの最初　　　Ｓ：同時に長い押すの最後
-３：左へフリック　　　Ｅ：長い押すの最後での左へフリック
-４：右へフリック　　　Ｒ：長い押すの最後での右へフリック
-５：左へスワイプの端　　Ｔ：左へスワイプの真ん中で　　　Ｇ：右へスワイプから左に変わる
-６：右へスワイプの端　　Ｙ：右へスワイプの真ん中で　　　Ｈ：左へスワイプから右に変わる
+1：押す　　　Q：同時に押す
+2：長い押す　　　W：同時に長い押すの最初　　　S：同時に長い押すの最後
+3：左へフリック　　　E：長い押すの最後での左へフリック
+4：右へフリック　　　R：長い押すの最後での右へフリック
+5：左へスワイプの端　　　T：左へスワイプの真ん中で　　　G：右へスワイプから左に変わる
+6：右へスワイプの端　　　Y：右へスワイプの真ん中で　　　H：左へスワイプから右に変わる
+7：GBSフリック　　　U：同時にGBSフリック
+8：GBS時計　　　I：同時にGBS時計
 
 特別なノードタイプ：
 ・「同時に～」はピンク色のノード。　オート機能がありますので手動の置くのは要らない。
@@ -26,6 +28,7 @@ It doesn't have a lot of features, but I think it's pretty easy to use.
 ・「フリック」は一つのノードだけ、「スワイプ」は2つ以上のノードで。
 ・「スワイプの端」とはスワイプの最初や最後のノード、「スワイプの真ん中で」とは他のスワイプノード。
 ・「長い押すの最後でのフリック」はフリックのためだけ。スワイプは普通のノードタイプで。
+・本物のGBSではフリックやスワイプはありません。本物のエビストでは「GBS～」のタイプはありません。
 
 
 ※ズームと長さと全ノードを動かすの機能にはちょっとバグがあります。用いるの前に保存してください。
@@ -49,6 +52,8 @@ Note types can be selected with keyboard shortcuts too.
 4: FlickRight    R: HoldEndFlickRight
 5: SwipeLeftStartEnd    T: SwipeLeftMid    G: SwipeChangeDirR2L
 6: SwipeRightStartEnd    Y: SwipeRightMid    H: SwipeChangeDirL2R
+7: GBSFlick    U: GBSSimulFlick
+8: GBSClock    I: GBSSimulClock
 
 Special note types:
 -"Simul-" notes are the pink ones (at the same time as others). There's an auto feature, so you don't need to place them manually.
@@ -56,6 +61,7 @@ Special note types:
 -Flicks are just single notes and holds are when there's more than one.
 -"Swipe__StartEnd" notes are used at the start and end of swipes. "Swipe__Mid" notes are used for the other notes in them.
 -"HoldEndFlick" notes are only for flicks. Swipes don't have a special type.
+-In the actual game GBS, there are no flicks or swipes. In 8bs, the "GBS" types don't exist.
 
 
 --The zoom, length, and note shift functions are a bit buggy. Please save before using them.
