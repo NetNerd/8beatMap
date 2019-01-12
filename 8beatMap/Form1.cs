@@ -773,6 +773,7 @@ namespace _8beatMap
                         OGLrenderer.clearColor = Color.FromArgb(0, 170, 170, 170);
                         break;
                     case '\\':
+                    case '¥': // probably not necessary...
                         OGLrenderer.clearColor = Color.FromArgb(0, 255, 255, 255);
                         break;
 
