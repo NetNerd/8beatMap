@@ -31,6 +31,14 @@ It doesn't have a lot of features, but I think it's pretty easy to use.
 ・本物のGBSではフリックやスワイプはありません。本物のエビストでは「GBS～」のタイプはありません。
 
 
+他のショートカットキー：
+P：プレビューウィンドウ
+/：譜面でノードIDを示す（デバッグのため）
+[：プレビューウィンドウの背景色を黒にする
+]：プレビューウィンドウの背景色を灰色にする
+\：プレビューウィンドウの背景色を白にする
+
+
 ※ズームと長さと全ノードを動かすの機能にはちょっとバグがあります。用いるの前に保存してください。
 ※今、絵を保存のはプログラムのフォルダーで「imgout.png」に書いてます。
 ※ノード音のタイミングは違う場合があります（でもたいていはいいと思います）。
@@ -62,6 +70,14 @@ Special note types:
 -"Swipe__StartEnd" notes are used at the start and end of swipes. "Swipe__Mid" notes are used for the other notes in them.
 -"HoldEndFlick" notes are only for flicks. Swipes don't have a special type.
 -In the actual game GBS, there are no flicks or swipes. In 8bs, the "GBS" types don't exist.
+
+
+Other shortcut keys:
+P: Preview window
+/: Show note IDs on chart (for debugging)
+[: Make preview window background black
+]: Make preview window background grey
+\: Make preview window background white
 
 
 --The zoom, length, and note shift functions are a bit buggy. Please save before using them.
