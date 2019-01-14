@@ -369,6 +369,7 @@ namespace _8beatMap
                         }
 
                         float icnDist = (float)(numTicksVisible - i + currentTick-timingAdjust) / numTicksVisible;
+                        if (icnDist < 0) icnDist = 0;
                         Point icnPoint = GetPointAlongLine(NodeStartLocs[j], NodeEndLocs[j], icnDist);
                         int icnSize = (int)(iconSize * icnDist);
                         DrawFilledRect(icnPoint.X - icnSize / 2, icnPoint.Y - icnSize / 2, icnSize, icnSize, NoteTex);
