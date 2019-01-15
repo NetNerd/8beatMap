@@ -18,5 +18,5 @@ ExtendHoldMid:     LightGray,    Transparent
 GbsFlick:          Gold,         LightYellow
 GbsHoldEndFlick:   LightGray,    Gold
 GbsSimulFlick:     Goldenrod,    LightYellow
-GbsClock:          Blue,         Gold
-GbsSimulClock:     DeepPink,     Gold
+GbsClock:          DeepPink,     Gold
+GbsSimulClock:     Blue,         Gold
