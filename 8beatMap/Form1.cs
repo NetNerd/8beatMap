@@ -739,6 +739,8 @@ namespace _8beatMap
                             {
                                 chart.Ticks[(int)CurrentTick + i] = pastedata[i];
                             }
+
+                            UpdateChart();
                         }
 
                     }
