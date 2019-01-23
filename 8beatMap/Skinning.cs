@@ -8,7 +8,7 @@ namespace _8beatMap
         public struct Skin
         {
             public string SkinName;
-            public string SkinRootDir;
+            public string RootDir;
 
             public Dictionary<string, string> TexturePaths;
 
@@ -17,6 +17,8 @@ namespace _8beatMap
             public Point[] NodeStartLocs;
             public Point[] NodeEndLocs;
             public int NumLanes;
+
+            public Dictionary<string, string> SoundPaths;
         }
 
         private static string ReadFile(string path)
@@ -91,7 +93,7 @@ namespace _8beatMap
                 {"spr_SwipeLeftIcon_Simul", rootdir + "/nodeimg/node_6_3.png"},
 
                 {"spr_gbsFlick", rootdir + "/nodeimg/gbs/node_7.png"},
-                {"spr_gbsFlick_Simul", rootdir + "/nodeimg/gbs/locus.png"},
+                {"spr_gbsFlick_Simul", rootdir + "/nodeimg/gbs/node_8.png"},
                 {"spr_gbsClock", rootdir + "/nodeimg/gbs/node_9.png"},
                 {"spr_gbsClock_Simul", rootdir + "/nodeimg/gbs/node_10.png"},
 
@@ -108,6 +110,16 @@ namespace _8beatMap
             };
 
             return TexturePaths_Default;
+        }
+        private static Dictionary<string, string> LoadSoundPaths(string rootdir)
+        {
+            Dictionary<string, string> SoundPaths_Default = new Dictionary<string, string>
+            {
+                {"hit", rootdir + "/notesnd/hit.wav"},
+                {"swipe", rootdir + "/notesnd/swipe.wav"},
+            };
+
+            return SoundPaths_Default;
         }
 
         private static int maxlanes = 8;
@@ -165,16 +177,19 @@ namespace _8beatMap
 
         public static Skin LoadSkin(string rootdir)
         {
+            string skinname = new System.IO.DirectoryInfo(rootdir).Name;
+
             string buttonsfile = ReadFile(rootdir + "/buttons.txt");
             Skin output = new Skin
             {
-                SkinName = rootdir.Split("_".ToCharArray())[1],
-                SkinRootDir = rootdir,
+                SkinName = skinname,
+                RootDir = rootdir,
                 TexturePaths = LoadTexturePaths(rootdir),
                 EditorColours = LoadColours(ReadFile(rootdir + "/colours.txt")),
                 NodeStartLocs = LoadNodeStartLocs(buttonsfile),
                 NodeEndLocs = LoadNodeEndLocs(buttonsfile),
-                NumLanes = LoadNumLanes(buttonsfile)
+                NumLanes = LoadNumLanes(buttonsfile),
+                SoundPaths = LoadSoundPaths(rootdir)
             };
             return output;
         }

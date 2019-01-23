@@ -16,7 +16,7 @@ namespace _8beatMap
         
         public Form1 mainform = null;
 
-        public string skin = "skin_8bs";
+        private Skinning.Skin skin = Skinning.DefaultSkin;
 
         static string[] textureNames = { "spr_HoldLocus", "spr_SwipeLocus",
             "spr_TapIcon", "spr_HoldIcon", "spr_SimulIcon",
@@ -45,29 +45,24 @@ namespace _8beatMap
 
         static System.Resources.ResourceManager DialogResMgr = new System.Resources.ResourceManager("_8beatMap.Dialogs", System.Reflection.Assembly.GetEntryAssembly());
 
-
-        private void LoadNodeLocs(string defs)
+        
+        private void SetupNodeLocs(int wndWidth, int wndHeight)
         {
-            numLanes = 0;
-            string[] defslines = defs.Split("\n".ToCharArray());
-            for (int i = 0; i < defslines.Length; i++)
+            viewHeight = wndHeight * 1136 / wndWidth;
+            NodeStartLocs = (Point[])skin.NodeStartLocs.Clone();
+            for (int i = 0; i < NodeStartLocs.Length; i++)
             {
-                string[] pointstrs = defslines[i].Split(" ".ToCharArray());
-                string[] startstrs = pointstrs[0].Split(",".ToCharArray());
-                string[] endstrs = pointstrs[1].Split(",".ToCharArray());
-                Point start = new Point(int.Parse(startstrs[0]), int.Parse(startstrs[1]));
-                Point end = new Point(int.Parse(endstrs[0]), int.Parse(endstrs[1]));
-
-                if (start.X > -1) numLanes++;
-
-                NodeStartLocs[i] = new Point(start.X, NodeStartLocs[i].Y + NodeStartLocs_raw[i].Y - start.Y);
-                NodeStartLocs_raw[i] = start;
-                NodeEndLocs[i] = end;
+                NodeStartLocs[i].Y = viewHeight - NodeStartLocs[i].Y;
             }
         }
 
-        public GameCloneRenderer_OGL(int wndWidth, int wndHeight)
+        public GameCloneRenderer_OGL(int wndWidth, int wndHeight, Skinning.Skin newskin)
         {
+            skin = newskin;
+            NodeStartLocs = (Point[])skin.NodeStartLocs.Clone();
+            NodeEndLocs = (Point[])skin.NodeEndLocs.Clone();
+            SetupNodeLocs(wndWidth, wndHeight);
+
             System.Threading.Thread oglThread = new System.Threading.Thread(() =>
             {
                 myWindow = new GameWindow(wndWidth, wndHeight, OpenTK.Graphics.GraphicsMode.Default, "8beatMap Preview Window");
@@ -81,11 +76,13 @@ namespace _8beatMap
                         UnloadTexture(tex.Value);
                     }
                     textures.Clear();
-                    for (int i = 0; i < textureNames.Length; i++)
-                        if (!textures.ContainsKey(textureNames[i]))
-                            textures.Add(textureNames[i], LoadTexture(skin + "\\" + texturePaths[i]));
 
-                    LoadNodeLocs(System.IO.File.ReadAllText(skin + "\\" + "buttons.txt"));
+                    foreach (System.Collections.Generic.KeyValuePair<string, string> tex in skin.TexturePaths)
+                    {
+                        if (!textures.ContainsKey(tex.Key))
+                            textures.Add(tex.Key, LoadTexture(tex.Value));
+                    }
+
 
                     GL.ClearColor(clearColor);
 
@@ -100,12 +97,7 @@ namespace _8beatMap
                     if (myWindow != null)
                     {
                         GL.Viewport(0, 0, myWindow.Width, myWindow.Height);
-                        viewHeight = myWindow.Height * 1136 / myWindow.Width;
-                        NodeStartLocs = (Point[])NodeStartLocs_raw.Clone();
-                        for (int i = 0; i < NodeStartLocs.Length; i++)
-                        {
-                            NodeStartLocs[i].Y = viewHeight - NodeStartLocs[i].Y;
-                        }
+                        SetupNodeLocs(myWindow.Width, myWindow.Height);
                     }
                 };
 

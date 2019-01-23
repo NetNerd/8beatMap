@@ -72,62 +72,9 @@ namespace _8beatMap
         }
 
 
-        GameCloneRenderer_OGL OGLrenderer = new GameCloneRenderer_OGL(853, 480);
+        GameCloneRenderer_OGL OGLrenderer = new GameCloneRenderer_OGL(853, 480, Skinning.DefaultSkin);
 
         public bool ShowTypeIdsOnNotes = false;
-
-
-        private TypeConverter colorConverter = TypeDescriptor.GetConverter(typeof(Color));
-        // (Color)colorConverter.ConvertFromString("#00000000")
-        private static Dictionary<string, Color[]> noteColours_Default = new Dictionary<string, Color[]>
-        {
-            { NoteTypes.NoteTypeDefs.None.TypeName, new Color[] { Color.Transparent, Color.Transparent } },
-
-            { NoteTypes.NoteTypeDefs.Tap.TypeName, new Color[] { Color.Blue, Color.Transparent } },
-            { NoteTypes.NoteTypeDefs.Hold.TypeName, new Color[] { Color.LimeGreen, Color.Transparent } },
-            { NoteTypes.NoteTypeDefs.SimulTap.TypeName, new Color[] { Color.DeepPink, Color.Transparent } },
-            { NoteTypes.NoteTypeDefs.SimulHoldStart.TypeName, new Color[] { Color.DeepPink, Color.Transparent } },
-            { NoteTypes.NoteTypeDefs.SimulHoldRelease.TypeName, new Color[] { Color.DeepPink, Color.Transparent } },
-
-            { NoteTypes.NoteTypeDefs.FlickLeft.TypeName, new Color[] { Color.FromArgb(0xc0, 0xc0, 0xc0), Color.FromArgb(0x70, 0, 0x78) } },
-            { NoteTypes.NoteTypeDefs.HoldEndFlickLeft.TypeName, new Color[] { Color.LightGray, Color.FromArgb(0x70, 0, 0x78) } },
-            { NoteTypes.NoteTypeDefs.SwipeLeftStartEnd.TypeName, new Color[] { Color.FromArgb(0xc0, 0xc0, 0xc0), Color.DarkViolet } },
-            { NoteTypes.NoteTypeDefs.SwipeLeftMid.TypeName, new Color[] { Color.FromArgb(0xc0, 0xc0, 0xc0), Color.Violet } },
-            { NoteTypes.NoteTypeDefs.SwipeChangeDirR2L.TypeName, new Color[] { Color.FromArgb(0xc0, 0xc0, 0xc0), Color.Violet } },
-
-            { NoteTypes.NoteTypeDefs.FlickRight.TypeName, new Color[] { Color.FromArgb(0xc0, 0xc0, 0xc0), Color.FromArgb(0xcc, 0x88, 0) } },
-            { NoteTypes.NoteTypeDefs.HoldEndFlickRight.TypeName, new Color[] { Color.LightGray, Color.FromArgb(0xcc, 0x88, 0) } },
-            { NoteTypes.NoteTypeDefs.SwipeRightStartEnd.TypeName, new Color[] { Color.FromArgb(0xc0, 0xc0, 0xc0), Color.DarkOrange } },
-            { NoteTypes.NoteTypeDefs.SwipeRightMid.TypeName, new Color[] { Color.FromArgb(0xc0, 0xc0, 0xc0), Color.Gold } },
-            { NoteTypes.NoteTypeDefs.SwipeChangeDirL2R.TypeName, new Color[] { Color.FromArgb(0xc0, 0xc0, 0xc0), Color.Gold } },
-
-            { NoteTypes.NoteTypeDefs.ExtendHoldMid.TypeName, new Color[] { Color.LightGray, Color.Transparent } },
-
-            { NoteTypes.NoteTypeDefs.GbsFlick.TypeName, new Color[] { Color.Gold, Color.LightYellow } },
-            { NoteTypes.NoteTypeDefs.GbsHoldEndFlick.TypeName, new Color[] { Color.LightGray, Color.Gold } },
-            { NoteTypes.NoteTypeDefs.GbsSimulFlick.TypeName, new Color[] { Color.Goldenrod, Color.LightYellow } },
-            { NoteTypes.NoteTypeDefs.GbsClock.TypeName, new Color[] { Color.Blue, Color.Gold } },
-            { NoteTypes.NoteTypeDefs.GbsSimulClock.TypeName, new Color[] { Color.DeepPink, Color.Gold } }
-        };
-        private Dictionary<string, Color[]> noteColours = noteColours_Default;
-
-
-        private void LoadNoteColours(string defs)
-        {
-            noteColours = noteColours_Default;
-            
-            string[] defslines = defs.Split("\n".ToCharArray());
-            for (int i = 0; i < defslines.Length; i++)
-            {
-                string cleanDef = defslines[i].Replace(" ", "");
-                string type = cleanDef.Split(":".ToCharArray())[0];
-                string[] vals = cleanDef.Split(":".ToCharArray())[1].Split(",".ToCharArray());
-
-                noteColours[type] = new Color[] { (Color)colorConverter.ConvertFromString(vals[0]), (Color)colorConverter.ConvertFromString(vals[1]) };
-            }
-
-            UpdateChart();
-        }
 
 
         Image GetChartImage(double startTick, int tickHeight, int iconWidth, int iconHeight, Color BgCol, bool NoGrid, int Width, int Height)
@@ -185,8 +132,8 @@ namespace _8beatMap
                     int iconX = (int)((j + 0.5) * laneWidth - halfIconWidth);
                     int iconY = (int)Math.Ceiling(height - (i - startTick + 1.5) * tickHeight - 2);
 
-                    Color backColor = noteColours[Type.TypeName][0];
-                    Color iconColor = noteColours[Type.TypeName][1];
+                    Color backColor = skin.EditorColours[Type.TypeName][0];
+                    Color iconColor = skin.EditorColours[Type.TypeName][1];
 
                     if (backColor.A > 0)
                         Grfx.FillRectangle(new SolidBrush(backColor), iconX, iconY, iconWidth, iconHeight);
@@ -385,8 +332,8 @@ namespace _8beatMap
         {
             try
             {
-                Sound.NoteSoundWave = new Sound.CachedSound(skin + "\\" + "notesnd/hit.wav");
-                Sound.NoteSoundWave_Swipe = new Sound.CachedSound(skin + "\\" + "notesnd/swipe.wav");
+                Sound.NoteSoundWave = new Sound.CachedSound(skin.SoundPaths["hit"]);
+                Sound.NoteSoundWave_Swipe = new Sound.CachedSound(skin.SoundPaths["swipe"]);
                 //NoteSoundMixer.AddMixerInput(NoteSoundWave);
                 //NoteSoundMixer.AddMixerInput(NoteSoundWave_Swipe);
                 //Sound.SetNoteSoundLatency(95);
@@ -402,17 +349,17 @@ namespace _8beatMap
         {
             OGLrenderer.Stop();
             OGLrenderer = null;
-            OGLrenderer = new GameCloneRenderer_OGL(853, 480) { skin = skin };
+            OGLrenderer = new GameCloneRenderer_OGL(853, 480, skin);
             OGLrenderer.mainform = this;
         }
 
-        private string skin = "skin_8bs";
+        private Skinning.Skin skin = Skinning.DefaultSkin;
         private void SetSkin(string skin)
         {
-            this.skin = skin;
+            this.skin = Skinning.LoadSkin(skin);
+            UpdateChart();
             LoadSounds();
             OpenPreviewWindow();
-            LoadNoteColours(System.IO.File.ReadAllText(skin + "\\" + "colours.txt"));
         }
 
 
@@ -756,7 +703,7 @@ namespace _8beatMap
                     case 'P': // reopen preview window
                     case 'p':
                         // OpenPreviewWindow();
-                        if (skin == "skin_8bs")
+                        if (skin.SkinName == "skin_8bs")
                         {
                             SetSkin("skin_gbssolid");
                         }
@@ -802,7 +749,7 @@ namespace _8beatMap
         private void PreviewWndBtn_Click(object sender, EventArgs e)
         {
             // OpenPreviewWindow();
-            if (skin == "skin_8bs")
+            if (skin.SkinName == "skin_8bs")
             {
                 SetSkin("skin_gbssolid");
             }
