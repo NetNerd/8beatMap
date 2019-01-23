@@ -37,6 +37,8 @@ P：プレビューウィンドウ
 [：プレビューウィンドウの背景色を黒にする
 ]：プレビューウィンドウの背景色を灰色にする
 \（¥）：プレビューウィンドウの背景色を白にする
+Ctrl+C：「コピー長さ」で設定した小節数をクリップボードにコピー。
+Ctrl+V：コピーしたデータを再生位置でペースト。
 
 
 ※ズームと長さと全ノードを動かすの機能にはちょっとバグがあります。用いるの前に保存してください。
@@ -78,6 +80,8 @@ P: Preview window
 [: Make preview window background black
 ]: Make preview window background grey
 \: Make preview window background white
+Ctrl+C: Copy the amount of bars set as copy length (starting from the playhead) to the clipboard.
+Ctrl+V: Paste data from the clipboard at the playhead.
 
 
 --The zoom, length, and note shift functions are a bit buggy. Please save before using them.
