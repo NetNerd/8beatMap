@@ -687,13 +687,63 @@ namespace _8beatMap
 
             AddNoteTypes();
         }
-
-        private void Form1_KeyPress(object sender, KeyPressEventArgs e)
+        
+        private static bool IsDeSerializable(object obj)
+            {
+                System.IO.MemoryStream mem = new System.IO.MemoryStream();
+        System.Runtime.Serialization.Formatters.Binary.BinaryFormatter bin = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+                try
+                {
+                    bin.Serialize(mem, obj);
+                    mem.Seek(0, System.IO.SeekOrigin.Begin);
+                    bin.Deserialize(mem);
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Your object cannot be deserialized." +
+                                     " The reason is: " + ex.ToString());
+                    return false;
+                }
+            }
+    private void Form1_KeyPress(object sender, KeyPressEventArgs e)
         {
             try
             {
                 char key = e.KeyChar;
-                switch (key)
+
+                if (ModifierKeys == Keys.Control)
+                {
+                    if ((key == 3 | key == 'c' | key == 'C')) // not sure why this should be 3.....
+                    {
+                        int copylen = (int)(48 * CopyLengthBox.Value);
+                        Notedata.Tick[] copydata = new Notedata.Tick[copylen];
+
+                        for (int i = 0; i < copylen; i++)
+                        {
+                            copydata[i] = chart.Ticks[(int)CurrentTick + i];
+                        }
+                        
+                        Clipboard.Clear();
+                        Clipboard.SetDataObject(new DataObject(copydata));
+                    }
+                    else if ((key == 22 | key == 'v' | key == 'V'))
+                    {
+                        Type datatype = typeof(Notedata.Tick[]);
+                        IDataObject dataobject = Clipboard.GetDataObject();
+                        if (dataobject.GetDataPresent(datatype))
+                        {
+                            Notedata.Tick[] pastedata = (Notedata.Tick[])dataobject.GetData(datatype);
+
+                            for (int i = 0; i < pastedata.Length; i++)
+                            {
+                                chart.Ticks[(int)CurrentTick + i] = pastedata[i];
+                            }
+                        }
+
+                    }
+                }
+                else switch (key)
                 {
                     case '/': // toggle showing numbers on keys
                         ShowTypeIdsOnNotes = !ShowTypeIdsOnNotes;

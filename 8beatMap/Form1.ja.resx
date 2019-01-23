@@ -136,26 +136,8 @@
   <data name="ZoomBtn.Text" xml:space="preserve">
     <value>アプライ</value>
   </data>
-  <data name="ZoomLbl.Location" type="System.Drawing.Point, System.Drawing">
-    <value>363, 17</value>
-  </data>
-  <data name="ZoomLbl.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>100, 0</value>
-  </data>
-  <data name="ZoomLbl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 13</value>
-  </data>
   <data name="ZoomLbl.Text" xml:space="preserve">
     <value>ズーム：</value>
-  </data>
-  <data name="ResizeLbl.Location" type="System.Drawing.Point, System.Drawing">
-    <value>363, 46</value>
-  </data>
-  <data name="ResizeLbl.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>100, 0</value>
-  </data>
-  <data name="ResizeLbl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 13</value>
   </data>
   <data name="ResizeLbl.Text" xml:space="preserve">
     <value>長さ（小節）：</value>
@@ -176,7 +158,7 @@
     <value>絵を保存</value>
   </data>
   <data name="NoteTypeSelector.Location" type="System.Drawing.Point, System.Drawing">
-    <value>439, 126</value>
+    <value>439, 136</value>
   </data>
   <data name="NoteTypeSelector.Size" type="System.Drawing.Size, System.Drawing">
     <value>173, 21</value>
@@ -189,15 +171,6 @@
   </data>
   <data name="NoteTypeLbl.Text" xml:space="preserve">
     <value>ノードタイプ：</value>
-  </data>
-  <data name="NoteShiftLbl.Location" type="System.Drawing.Point, System.Drawing">
-    <value>363, 75</value>
-  </data>
-  <data name="NoteShiftLbl.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>100, 0</value>
-  </data>
-  <data name="NoteShiftLbl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 13</value>
   </data>
   <data name="NoteShiftLbl.Text" xml:space="preserve">
     <value>全ノードを動かす：</value>
@@ -225,5 +198,8 @@
   </data>
   <data name="PreviewWndBtn.Text" xml:space="preserve">
     <value>プレビューウィンドウ</value>
+  </data>
+  <data name="CopyLengthLabel.Text" xml:space="preserve">
+    <value>コピー長さ（小節）：</value>
   </data>
 </root>

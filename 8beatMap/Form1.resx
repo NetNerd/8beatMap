@@ -142,7 +142,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;ChartScrollBar.ZOrder" xml:space="preserve">
-    <value>25</value>
+    <value>27</value>
   </data>
   <data name="BPMbox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
@@ -166,7 +166,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BPMbox.ZOrder" xml:space="preserve">
-    <value>24</value>
+    <value>26</value>
   </data>
   <data name="BPMLbl.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
@@ -196,7 +196,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BPMLbl.ZOrder" xml:space="preserve">
-    <value>23</value>
+    <value>25</value>
   </data>
   <data name="PlayBtn.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
@@ -223,7 +223,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;PlayBtn.ZOrder" xml:space="preserve">
-    <value>22</value>
+    <value>24</value>
   </data>
   <data name="StopBtn.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
@@ -250,7 +250,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;StopBtn.ZOrder" xml:space="preserve">
-    <value>21</value>
+    <value>23</value>
   </data>
   <data name="newplayhead.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left</value>
@@ -274,7 +274,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;newplayhead.ZOrder" xml:space="preserve">
-    <value>20</value>
+    <value>22</value>
   </data>
   <data name="PauseOnSeek.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
@@ -307,7 +307,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;PauseOnSeek.ZOrder" xml:space="preserve">
-    <value>19</value>
+    <value>21</value>
   </data>
   <data name="ZoomBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -331,7 +331,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;ZoomBox.ZOrder" xml:space="preserve">
-    <value>18</value>
+    <value>20</value>
   </data>
   <data name="ZoomLbl.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -340,13 +340,16 @@
     <value>True</value>
   </data>
   <data name="ZoomLbl.Location" type="System.Drawing.Point, System.Drawing">
-    <value>373, 17</value>
+    <value>343, 17</value>
+  </data>
+  <data name="ZoomLbl.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>120, 0</value>
   </data>
   <data name="ZoomLbl.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>90, 0</value>
+    <value>120, 0</value>
   </data>
   <data name="ZoomLbl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>90, 14</value>
+    <value>120, 14</value>
   </data>
   <data name="ZoomLbl.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -367,7 +370,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;ZoomLbl.ZOrder" xml:space="preserve">
-    <value>17</value>
+    <value>19</value>
   </data>
   <data name="ResizeLbl.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -376,13 +379,16 @@
     <value>True</value>
   </data>
   <data name="ResizeLbl.Location" type="System.Drawing.Point, System.Drawing">
-    <value>373, 46</value>
+    <value>343, 46</value>
+  </data>
+  <data name="ResizeLbl.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>120, 0</value>
   </data>
   <data name="ResizeLbl.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>90, 0</value>
+    <value>120, 0</value>
   </data>
   <data name="ResizeLbl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>90, 14</value>
+    <value>120, 14</value>
   </data>
   <data name="ResizeLbl.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
@@ -403,7 +409,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;ResizeLbl.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>16</value>
   </data>
   <data name="ResizeBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -427,7 +433,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;ResizeBox.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>17</value>
   </data>
   <data name="ResizeBtn.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -454,7 +460,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;ResizeBtn.ZOrder" xml:space="preserve">
-    <value>16</value>
+    <value>18</value>
   </data>
   <data name="OpenBtn.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
@@ -481,11 +487,11 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;OpenBtn.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>15</value>
   </data>
-  <data name="openFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  <metadata name="openFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
-  </data>
+  </metadata>
   <data name="openFileDialog1.Filter" xml:space="preserve">
     <value>Decrypted JSON|*.dec.json|JSON|*.json|All Files|*.*</value>
   </data>
@@ -514,11 +520,11 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;OpenMusicButton.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>14</value>
   </data>
-  <data name="openFileDialog2.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  <metadata name="openFileDialog2.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>158, 17</value>
-  </data>
+  </metadata>
   <data name="openFileDialog2.Filter" xml:space="preserve">
     <value>Wav Files|*.wav|All Files|*.*</value>
   </data>
@@ -547,11 +553,11 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;SaveChartBtn.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>13</value>
   </data>
-  <data name="saveFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  <metadata name="saveFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>299, 17</value>
-  </data>
+  </metadata>
   <data name="saveFileDialog1.Filter" xml:space="preserve">
     <value>Decrypted JSON|*.dec.json|All Files|*.*</value>
   </data>
@@ -580,13 +586,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;ImgSaveBtn.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>12</value>
   </data>
   <data name="NoteTypeSelector.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
   </data>
   <data name="NoteTypeSelector.Location" type="System.Drawing.Point, System.Drawing">
-    <value>473, 126</value>
+    <value>473, 136</value>
   </data>
   <data name="NoteTypeSelector.Size" type="System.Drawing.Size, System.Drawing">
     <value>139, 22</value>
@@ -604,7 +610,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;NoteTypeSelector.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>11</value>
   </data>
   <data name="NoteTypeLbl.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -613,7 +619,7 @@
     <value>True</value>
   </data>
   <data name="NoteTypeLbl.Location" type="System.Drawing.Point, System.Drawing">
-    <value>353, 129</value>
+    <value>353, 139</value>
   </data>
   <data name="NoteTypeLbl.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>110, 0</value>
@@ -640,7 +646,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;NoteTypeLbl.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>10</value>
   </data>
   <data name="NoteShiftLbl.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -649,13 +655,16 @@
     <value>True</value>
   </data>
   <data name="NoteShiftLbl.Location" type="System.Drawing.Point, System.Drawing">
-    <value>373, 75</value>
+    <value>343, 75</value>
+  </data>
+  <data name="NoteShiftLbl.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>120, 0</value>
   </data>
   <data name="NoteShiftLbl.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>90, 0</value>
+    <value>120, 0</value>
   </data>
   <data name="NoteShiftLbl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>90, 14</value>
+    <value>120, 14</value>
   </data>
   <data name="NoteShiftLbl.TabIndex" type="System.Int32, mscorlib">
     <value>16</value>
@@ -676,7 +685,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;NoteShiftLbl.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>7</value>
   </data>
   <data name="NoteShiftBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -700,7 +709,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;NoteShiftBox.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>8</value>
   </data>
   <data name="NoteShiftBtn.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -727,7 +736,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;NoteShiftBtn.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>9</value>
   </data>
   <data name="NoteSoundBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
@@ -760,13 +769,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;NoteSoundBox.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>6</value>
   </data>
   <data name="NoteCountButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
   </data>
   <data name="NoteCountButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>525, 167</value>
+    <value>525, 177</value>
   </data>
   <data name="NoteCountButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>87, 23</value>
@@ -787,13 +796,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;NoteCountButton.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>5</value>
   </data>
   <data name="AutoSimulBtn.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
   </data>
   <data name="AutoSimulBtn.Location" type="System.Drawing.Point, System.Drawing">
-    <value>498, 196</value>
+    <value>498, 206</value>
   </data>
   <data name="AutoSimulBtn.Size" type="System.Drawing.Size, System.Drawing">
     <value>114, 23</value>
@@ -814,7 +823,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;AutoSimulBtn.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>4</value>
   </data>
   <data name="LangChangeBtn.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
@@ -841,7 +850,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;LangChangeBtn.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>3</value>
   </data>
   <data name="pictureBox1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -862,7 +871,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;pictureBox1.ZOrder" xml:space="preserve">
-    <value>26</value>
+    <value>28</value>
   </data>
   <data name="PreviewWndBtn.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
@@ -892,13 +901,82 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;PreviewWndBtn.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>2</value>
   </data>
-  <data name="$this.Localizable" type="System.Boolean, mscorlib">
+  <data name="CopyLengthLabel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="CopyLengthLabel.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="CopyLengthLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CopyLengthLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>343, 104</value>
+  </data>
+  <data name="CopyLengthLabel.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>120, 0</value>
+  </data>
+  <data name="CopyLengthLabel.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>120, 0</value>
+  </data>
+  <data name="CopyLengthLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>120, 14</value>
+  </data>
+  <data name="CopyLengthLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>19</value>
+  </data>
+  <data name="CopyLengthLabel.Text" xml:space="preserve">
+    <value>Copy Length (Bars):</value>
+  </data>
+  <data name="CopyLengthLabel.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleRight</value>
+  </data>
+  <data name="&gt;&gt;CopyLengthLabel.Name" xml:space="preserve">
+    <value>CopyLengthLabel</value>
+  </data>
+  <data name="&gt;&gt;CopyLengthLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CopyLengthLabel.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;CopyLengthLabel.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="CopyLengthBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="CopyLengthBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>473, 102</value>
+  </data>
+  <data name="CopyLengthBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>56, 21</value>
+  </data>
+  <data name="CopyLengthBox.TabIndex" type="System.Int32, mscorlib">
+    <value>20</value>
+  </data>
+  <data name="&gt;&gt;CopyLengthBox.Name" xml:space="preserve">
+    <value>CopyLengthBox</value>
+  </data>
+  <data name="&gt;&gt;CopyLengthBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CopyLengthBox.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;CopyLengthBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>624, 502</value>
+  </data>
+  <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Droid Sans, 8.8pt</value>
   </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>600, 490</value>

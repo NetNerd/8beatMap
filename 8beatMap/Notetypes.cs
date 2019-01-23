@@ -9,6 +9,7 @@ namespace _8beatMap
 {
     public static class NoteTypes
     {
+        [Serializable]
         public enum RenderMode
         {
             None,
@@ -16,6 +17,7 @@ namespace _8beatMap
             HoldLocus
         }
 
+        [Serializable]
         public enum IconType
         {
             None,
@@ -25,6 +27,7 @@ namespace _8beatMap
             HalfSplit
         }
 
+        [Serializable]
         public enum DetectType
         {
             None,
@@ -39,6 +42,7 @@ namespace _8beatMap
             GbsClock
         }
 
+        [Serializable]
         public enum DetectDir
         {
             None,
@@ -46,6 +50,7 @@ namespace _8beatMap
             Right
         }
 
+        [Serializable]
         public struct NoteTypeDef
         {
             public string TypeName;

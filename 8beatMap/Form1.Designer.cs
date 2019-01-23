@@ -59,12 +59,15 @@
             this.LangChangeBtn = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.PreviewWndBtn = new System.Windows.Forms.Button();
+            this.CopyLengthLabel = new System.Windows.Forms.Label();
+            this.CopyLengthBox = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.BPMbox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.newplayhead)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ZoomBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ResizeBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NoteShiftBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CopyLengthBox)).BeginInit();
             this.SuspendLayout();
             // 
             // ChartScrollBar
@@ -309,11 +312,44 @@
             this.PreviewWndBtn.UseVisualStyleBackColor = true;
             this.PreviewWndBtn.Click += new System.EventHandler(this.PreviewWndBtn_Click);
             // 
+            // CopyLengthLabel
+            // 
+            resources.ApplyResources(this.CopyLengthLabel, "CopyLengthLabel");
+            this.CopyLengthLabel.Name = "CopyLengthLabel";
+            // 
+            // CopyLengthBox
+            // 
+            resources.ApplyResources(this.CopyLengthBox, "CopyLengthBox");
+            this.CopyLengthBox.DecimalPlaces = 2;
+            this.CopyLengthBox.Increment = new decimal(new int[] {
+            25,
+            0,
+            0,
+            131072});
+            this.CopyLengthBox.Maximum = new decimal(new int[] {
+            4,
+            0,
+            0,
+            0});
+            this.CopyLengthBox.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.CopyLengthBox.Name = "CopyLengthBox";
+            this.CopyLengthBox.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
             // Form1
             // 
             resources.ApplyResources(this, "$this");
             this.Font = new System.Drawing.Font(System.Drawing.SystemFonts.MessageBoxFont.FontFamily, 8.8f);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.Controls.Add(this.CopyLengthBox);
+            this.Controls.Add(this.CopyLengthLabel);
             this.Controls.Add(this.PreviewWndBtn);
             this.Controls.Add(this.LangChangeBtn);
             this.Controls.Add(this.AutoSimulBtn);
@@ -352,6 +388,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.ResizeBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NoteShiftBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CopyLengthBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -389,6 +426,8 @@
         private System.Windows.Forms.Button LangChangeBtn;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button PreviewWndBtn;
+        private System.Windows.Forms.Label CopyLengthLabel;
+        private System.Windows.Forms.NumericUpDown CopyLengthBox;
     }
 }
 

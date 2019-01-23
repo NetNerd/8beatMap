@@ -10,6 +10,7 @@ namespace _8beatMap
 {
     public static class Notedata
     {
+        [Serializable]
         public struct Note
         {
             public NoteTypes.NoteTypeDef NoteType;
@@ -19,11 +20,11 @@ namespace _8beatMap
             public bool IsSwipeEnd;
         }
 
-
+        [Serializable]
         public struct Tick
         {
             private Note[] NoteArray;
-
+            
             public Note[] Notes
             {
                 get
@@ -36,7 +37,7 @@ namespace _8beatMap
                     }
                     return NoteArray;
                 }
-            }           
+            }
 
 
             //using SetNote is preffered over directly setting notes because it handles fixing the swipe cache for you. Either way works though.
