@@ -194,6 +194,6 @@ namespace _8beatMap
             return output;
         }
 
-        public static Skin DefaultSkin = LoadSkin("skin_8bs");
+        public static Skin DefaultSkin = LoadSkin("skins/8bs");
     }
 }

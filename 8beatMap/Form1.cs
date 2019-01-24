@@ -356,7 +356,7 @@ namespace _8beatMap
         private Skinning.Skin skin = Skinning.DefaultSkin;
         private void SetSkin(string skin)
         {
-            this.skin = Skinning.LoadSkin(skin);
+            this.skin = Skinning.LoadSkin("skins/" + skin);
             UpdateChart();
             LoadSounds();
             OpenPreviewWindow();
@@ -371,7 +371,7 @@ namespace _8beatMap
 
             OGLrenderer.mainform = this;
 
-            SetSkin("skin_8bs");
+            SetSkin("8bs");
 
             AddNoteTypes();
 
@@ -755,13 +755,13 @@ namespace _8beatMap
                     case 'P': // reopen preview window
                     case 'p':
                         // OpenPreviewWindow();
-                        if (skin.SkinName == "skin_8bs")
+                        if (skin.SkinName == "8bs")
                         {
-                            SetSkin("skin_gbssolid");
+                            SetSkin("GBS Solid");
                         }
                         else
                         {
-                            SetSkin("skin_8bs");
+                            SetSkin("8bs");
                         }
                         break;
                     
@@ -801,13 +801,13 @@ namespace _8beatMap
         private void PreviewWndBtn_Click(object sender, EventArgs e)
         {
             // OpenPreviewWindow();
-            if (skin.SkinName == "skin_8bs")
+            if (skin.SkinName == "8bs")
             {
-                SetSkin("skin_gbssolid");
+                SetSkin("GBS Solid");
             }
             else
             {
-                SetSkin("skin_8bs");
+                SetSkin("8bs");
             }
         }
     }
