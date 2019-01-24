@@ -712,7 +712,8 @@ namespace _8beatMap
             {
                 char key = e.KeyChar;
 
-                if (ModifierKeys == Keys.Control)
+                //Console.WriteLine(ModifierKeys);
+                if (ModifierKeys == Keys.Control | ModifierKeys == (Keys.Control | Keys.Shift))
                 {
                     if ((key == 3 | key == 'c' | key == 'C')) // not sure why this should be 3.....
                     {
@@ -725,7 +726,7 @@ namespace _8beatMap
                         }
                         
                         Clipboard.Clear();
-                        Clipboard.SetDataObject(new DataObject(copydata));
+                        Clipboard.SetDataObject(copydata);
                     }
                     else if ((key == 22 | key == 'v' | key == 'V'))
                     {
@@ -735,11 +736,65 @@ namespace _8beatMap
                         {
                             Notedata.Tick[] pastedata = (Notedata.Tick[])dataobject.GetData(datatype);
 
-                            for (int i = 0; i < pastedata.Length; i++)
+                            if (ModifierKeys == Keys.Control)
                             {
-                                chart.Ticks[(int)CurrentTick + i] = pastedata[i];
+                                for (int i = 0; i < pastedata.Length; i++)
+                                {
+                                    chart.Ticks[(int)CurrentTick + i] = pastedata[i];
+                                }
                             }
+                            else
+                            {
+                                for (int i = 0; i < pastedata.Length; i++)
+                                {
+                                    for (int j = 0; j < 8; j++)
+                                    {
+                                        NoteTypes.NoteTypeDef note = pastedata[i].Notes[j].NoteType;
+                                        switch(note.TypeId)
+                                        {
+                                            case 13: // FlickLeft
+                                                note = NoteTypes.NoteTypeDefs.FlickRight;
+                                                break;
+                                            case 11: // HoldEndFlickLeft
+                                                note = NoteTypes.NoteTypeDefs.HoldEndFlickRight;
+                                                break;
+                                            case 6: // SwipeLeftStartEnd
+                                                note = NoteTypes.NoteTypeDefs.SwipeRightStartEnd;
+                                                break;
+                                            case 7: // SwipeLeftMid
+                                                note = NoteTypes.NoteTypeDefs.SwipeRightMid;
+                                                break;
+                                            case 14: // SwipeChangeDirR2L
+                                                note = NoteTypes.NoteTypeDefs.SwipeChangeDirL2R;
+                                                break;
+                                            
+                                            case 12: // FlickRight
+                                                note = NoteTypes.NoteTypeDefs.FlickLeft;
+                                                break;
+                                            case 10: // HoldEndFlickRight
+                                                note = NoteTypes.NoteTypeDefs.HoldEndFlickLeft;
+                                                break;
+                                            case 4: // SwipeRightStartEnd
+                                                note = NoteTypes.NoteTypeDefs.SwipeLeftStartEnd;
+                                                break;
+                                            case 5: // SwipeRightMid
+                                                note = NoteTypes.NoteTypeDefs.SwipeLeftMid;
+                                                break;
+                                            case 15: // SwipeChangeDirL2R
+                                                note = NoteTypes.NoteTypeDefs.SwipeChangeDirR2L;
+                                                break;
 
+
+                                            default:
+                                                break;
+                                        }
+
+                                        chart.Ticks[(int)CurrentTick + i].Notes[7-j].NoteType = note;
+                                    }
+                                }
+                            }
+                            
+                            chart.FixSwipes();
                             UpdateChart();
                         }
 
