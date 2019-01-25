@@ -56,6 +56,23 @@ namespace _8beatMap
             }
         }
 
+        private void SetupTextures()
+        {
+            foreach (System.Collections.Generic.KeyValuePair<string, int> tex in textures)
+            {
+                UnloadTexture(tex.Value);
+            }
+            textures.Clear();
+
+            foreach (System.Collections.Generic.KeyValuePair<string, string> tex in skin.TexturePaths)
+            {
+                if (!textures.ContainsKey(tex.Key))
+                    textures.Add(tex.Key, LoadTexture(tex.Value));
+                else
+                    textures[tex.Key] = LoadTexture(tex.Value);
+            }
+        }
+
         public GameCloneRenderer_OGL(int wndWidth, int wndHeight, Skinning.Skin newskin)
         {
             skin = newskin;
@@ -71,18 +88,7 @@ namespace _8beatMap
 
                 myWindow.Load += (sender, e) =>
                 {
-                    foreach (System.Collections.Generic.KeyValuePair<string,int> tex in textures)
-                    {
-                        UnloadTexture(tex.Value);
-                    }
-                    textures.Clear();
-
-                    foreach (System.Collections.Generic.KeyValuePair<string, string> tex in skin.TexturePaths)
-                    {
-                        if (!textures.ContainsKey(tex.Key))
-                            textures.Add(tex.Key, LoadTexture(tex.Value));
-                    }
-
+                    SetupTextures();
 
                     GL.ClearColor(clearColor);
 
