@@ -199,7 +199,7 @@ namespace _8beatMap
 
             public NoteTypes.NoteTypeDef FindVisualNoteType(int tick, int lane)
             {
-                if (tick >= Length) return NoteTypes.NoteTypeDefs.None;
+                if (tick >= Length | tick < 0) return NoteTypes.NoteTypeDefs.None;
 
                 if (Ticks[tick].Notes[lane].NoteType.DetectType == NoteTypes.DetectType.Hold)
                 {
