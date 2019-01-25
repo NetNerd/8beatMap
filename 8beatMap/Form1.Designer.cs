@@ -81,11 +81,17 @@
             // BPMbox
             // 
             resources.ApplyResources(this.BPMbox, "BPMbox");
+            this.BPMbox.DecimalPlaces = 1;
             this.BPMbox.Maximum = new decimal(new int[] {
             500,
             0,
             0,
             0});
+            this.BPMbox.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
             this.BPMbox.Name = "BPMbox";
             this.BPMbox.Value = new decimal(new int[] {
             120,
@@ -347,6 +353,7 @@
             // 
             resources.ApplyResources(this, "$this");
             this.Font = new System.Drawing.Font(System.Drawing.SystemFonts.MessageBoxFont.FontFamily, 8.8f);
+            //this.Font = new System.Drawing.Font(System.Drawing.SystemFonts.MessageBoxFont.FontFamily, System.Drawing.SystemFonts.MessageBoxFont.SizeInPoints);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.CopyLengthBox);
             this.Controls.Add(this.CopyLengthLabel);
