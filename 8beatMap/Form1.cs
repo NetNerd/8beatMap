@@ -738,11 +738,11 @@ namespace _8beatMap
                         {
                             Notedata.Tick[] pastedata = (Notedata.Tick[])dataobject.GetData(datatype);
 
+                            int datalen = pastedata.Length;
+                            if ((int)CurrentTick + datalen >= chart.Length) datalen = chart.Length - (int)CurrentTick;
+
                             if (ModifierKeys == Keys.Control)
                             {
-                                int datalen = pastedata.Length;
-                                if ((int)CurrentTick + datalen >= chart.Length) datalen = chart.Length - (int)CurrentTick;
-
                                 for (int i = 0; i < datalen; i++)
                                 {
                                     chart.Ticks[(int)CurrentTick + i] = pastedata[i];
@@ -750,7 +750,7 @@ namespace _8beatMap
                             }
                             else
                             {
-                                for (int i = 0; i < pastedata.Length; i++)
+                                for (int i = 0; i < datalen; i++)
                                 {
                                     for (int j = 0; j < 8; j++)
                                     {
