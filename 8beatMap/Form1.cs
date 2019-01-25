@@ -211,7 +211,8 @@ namespace _8beatMap
 
 
 
-        int VideoDelayMs = 90;
+        int VideoDelayMs = 110;
+        int GameCloneOffsetMs = -20;
 
         public void UpdateChart()
         {
@@ -230,7 +231,7 @@ namespace _8beatMap
             double tick = CurrentTick;
             if (playTimer.Enabled)
             {
-                tick -= chart.ConvertTimeToTicks(TimeSpan.FromMilliseconds(VideoDelayMs));
+                tick -= chart.ConvertTimeToTicks(TimeSpan.FromMilliseconds(VideoDelayMs+GameCloneOffsetMs));
             }
 
             OGLrenderer.currentTick = tick;
