@@ -1,10 +1,14 @@
 ﻿8beatMapとはスマホ音楽ゲーム「8 beat Story♪」の譜面エディタープログラム。「Girls Beat Stage!」の譜面も対応しています。
 多い機能がありませんだけどかなり易しと思います。
-8beatMapはWindows上.NET Framework 4.5またはMonoで動作します。（他のOSではNAudioによって制限されています。）
+8beatMapはWindows上.NET Framework 4.5またはMonoで動作します。
+他のOSで動作のはNAudioによって制限されています。多分Wineで動作出来る。
+Windows上Monoではコピー・ペーストが機能しないみたい。（他のOSで機能するかどうか分からない）
 
 8beatMap is a chart editor for the mobile rhythm game "8 beat Story♪". It also supports "Girls Beat Stage!" charts.
 It doesn't have a lot of features, but I think it's pretty easy to use.
-8beatMap runs on Windows with .NET Framework 4.5 or Mono. (cross-platform support is limited by NAudio)
+8beatMap runs on Windows with .NET Framework 4.5 or Mono.
+Cross-platform support is limited by NAudio. It will probably work using Wine.
+Copy and paste seems broken in Mono on Windows (might work on other platforms).
 
 
 
