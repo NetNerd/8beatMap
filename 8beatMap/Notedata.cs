@@ -415,7 +415,7 @@ namespace _8beatMap
         {
             var tickObj = new List<JsonTick_Export>();
 
-            tickObj.Add(new JsonTick_Export { BAR = (int)chart.BPM, BEAT = (int)(chart.BPM % 1 / 100) });
+            tickObj.Add(new JsonTick_Export { BAR = (int)chart.BPM, BEAT = (int)(chart.BPM % 1 * 100) });
 
             for (int i = 0; i < chart.Length; i++)
             {
@@ -441,7 +441,7 @@ namespace _8beatMap
         {
             var tickObj = new List<JsonTick_Export>();
 
-            tickObj.Add(new JsonTick_Export { BAR = (int)chart.BPM, BEAT = (int)(chart.BPM % 1 / 100) });
+            tickObj.Add(new JsonTick_Export { BAR = (int)chart.BPM, BEAT = (int)(chart.BPM % 1 * 100) });
 
             for (int i = 0; i < chart.Length; i++)
             {
