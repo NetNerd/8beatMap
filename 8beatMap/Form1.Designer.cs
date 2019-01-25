@@ -88,10 +88,10 @@
             0,
             0});
             this.BPMbox.Minimum = new decimal(new int[] {
-            1,
+            20,
             0,
             0,
-            65536});
+            0});
             this.BPMbox.Name = "BPMbox";
             this.BPMbox.Value = new decimal(new int[] {
             120,
