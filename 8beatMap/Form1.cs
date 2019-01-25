@@ -718,6 +718,8 @@ namespace _8beatMap
                     if ((key == 3 | key == 'c' | key == 'C')) // not sure why this should be 3.....
                     {
                         int copylen = (int)(48 * CopyLengthBox.Value);
+                        if ((int)CurrentTick + copylen >= chart.Length) copylen = chart.Length - (int)CurrentTick;
+
                         Notedata.Tick[] copydata = new Notedata.Tick[copylen];
 
                         for (int i = 0; i < copylen; i++)
@@ -738,7 +740,10 @@ namespace _8beatMap
 
                             if (ModifierKeys == Keys.Control)
                             {
-                                for (int i = 0; i < pastedata.Length; i++)
+                                int datalen = pastedata.Length;
+                                if ((int)CurrentTick + datalen >= chart.Length) datalen = chart.Length - (int)CurrentTick;
+
+                                for (int i = 0; i < datalen; i++)
                                 {
                                     chart.Ticks[(int)CurrentTick + i] = pastedata[i];
                                 }
