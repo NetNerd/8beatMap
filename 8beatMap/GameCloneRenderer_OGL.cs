@@ -12,8 +12,9 @@ namespace _8beatMap
         public double currentTick = 0;
         public int numTicksVisible = 24;
 
-        private int timingAdjust = 1;
-        
+        private float timingAdjust = 0;
+        private int hitlineAdjust = 1;
+
         public Form1 mainform = null;
 
         private Skinning.Skin skin = Skinning.DefaultSkin;
@@ -236,7 +237,7 @@ namespace _8beatMap
 
                             float sDist;
                             Point sPoint;
-                            if (i >= currentTick-1)
+                            if (i >= currentTick-timingAdjust)
                             {
                                 sDist = iDist;
                                 sPoint = iPoint;
@@ -275,10 +276,10 @@ namespace _8beatMap
 
                     GL.BindTexture(TextureTarget.Texture2D, textures["spr_HoldLocus"]);
 
-                    if (Type.DetectType == NoteTypes.DetectType.HoldMid && (i == (int)currentTick-timingAdjust | mainform.chart.FindVisualNoteType(i - 1, j).DetectType != NoteTypes.DetectType.HoldMid))
+                    if (Type.DetectType == NoteTypes.DetectType.HoldMid && (i == (int)currentTick-1 | mainform.chart.FindVisualNoteType(i - 1, j).DetectType != NoteTypes.DetectType.HoldMid))
                     {
                         double start = i;
-                        if (start < currentTick) start = (int)(currentTick * 4) / 4f;
+                        if (start < currentTick + 1 - timingAdjust) start = (int)((currentTick + 1 - timingAdjust) * 4) / 4f;
                         int end = i;
                         while (mainform.chart.FindVisualNoteType(end, j).DetectType == NoteTypes.DetectType.HoldMid) end++;
                         if (end <= start-1) continue;
@@ -338,7 +339,7 @@ namespace _8beatMap
 
                     if (Type.DetectType == NoteTypes.DetectType.None | Type.DetectType == NoteTypes.DetectType.HoldMid | Type.OGLTextureName == null) continue;
 
-                    if (i >= (int)currentTick)
+                    if (i >= (int)currentTick+hitlineAdjust)
                     {
                         string NoteTex = Type.OGLTextureName;
 
@@ -373,15 +374,15 @@ namespace _8beatMap
                         DrawFilledRect(icnPoint.X - icnSize / 2, icnPoint.Y - icnSize / 2, icnSize, icnSize, NoteTex);
 
                     }
-                    else if (i > (int)(currentTick - EffectTicks - 1))
+                    else if (i > (int)(currentTick+hitlineAdjust - EffectTicks - 1))
                     {
-                        int effectSize = (int)(((currentTick - i - 1) / EffectTicks + 1) * iconSize);
+                        int effectSize = (int)(((currentTick+hitlineAdjust - i - 1) / EffectTicks + 1) * iconSize);
                         DrawFilledRect(NodeEndLocs[j].X - effectSize / 2, NodeEndLocs[j].Y - effectSize / 2, effectSize, effectSize, "spr_HitEffect");
                     }
-                    else if (i >= (int)(currentTick - EffectTicks - EffectFadeTicks - 1))
+                    else if (i >= (int)(currentTick+hitlineAdjust - EffectTicks - EffectFadeTicks - 1))
                     {
                         int effectSize = (int)(iconSize * 2.0f);
-                        float effectOpacity = 1 - (float)((currentTick - EffectTicks - i - 1) / EffectFadeTicks * 0.8f);
+                        float effectOpacity = 1 - (float)((currentTick+hitlineAdjust - EffectTicks - i - 1) / EffectFadeTicks * 0.8f);
 
                         GL.Color4(1f, 1f, 1f, effectOpacity);
 
