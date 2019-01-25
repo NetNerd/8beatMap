@@ -598,7 +598,8 @@ namespace _8beatMap
         private void SaveChartBtn_Click(object sender, EventArgs e)
         {
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-                System.IO.File.WriteAllText(saveFileDialog1.FileName, Notedata.ConvertChartToJson_Small(chart));
+                System.IO.File.WriteAllText(saveFileDialog1.FileName + ".tmp", Notedata.ConvertChartToJson_Small(chart));
+            System.IO.File.Replace(saveFileDialog1.FileName + ".tmp", saveFileDialog1.FileName, saveFileDialog1.FileName + ".bak");
         }
 
         private void OpenMusicButton_Click(object sender, EventArgs e)
