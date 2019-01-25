@@ -68,6 +68,7 @@ namespace _8beatMap
                     prevPlayTicks[0] = rawtick; // if there was no valid average made, it's necessary to just use the raw value provided
             }
 
+            if (prevPlayTicks[0] < 0) prevPlayTicks[0] = 0;
             return prevPlayTicks[0];
         }
 
