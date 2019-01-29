@@ -21,16 +21,60 @@ namespace _8beatMap
         private int IconWidth = 20;
         private int IconHeight = 10;
         private double CurrentTick = 0;
-        private int LastTick = 0;
+        private double LastTick = 0;
 
 
         private Timer playTimer = new Timer() { Interval = 8 };
 
 
-        private double[] prevPlayTicks = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
+        private double lastTickForSmoothing = 0;
+        private DateTime lastTickChange = DateTime.UtcNow;
         
+        private double getSmoothedPlayTickTime(double rawtick)
+        {
+            //rawtick = getAveragedPlayTickTime(rawtick);
+            if (!playTimer.Enabled | DateTime.UtcNow - lastTickChange > TimeSpan.FromMilliseconds(100))
+            {
+                lastTickForSmoothing = rawtick;
+                lastTickChange = DateTime.UtcNow;
+                return lastTickForSmoothing;
+            }
+            else if (Math.Abs(rawtick - lastTickForSmoothing) > 5)
+            {
+                TimeSpan timeDelta = DateTime.UtcNow - lastTickChange;
+                lastTickForSmoothing = (rawtick + (lastTickForSmoothing + chart.ConvertTimeToTicks(timeDelta))) / 2;
+                lastTickChange = DateTime.UtcNow;
+                return lastTickForSmoothing;
+            }
+            else if (Math.Abs(rawtick - lastTickForSmoothing) > 1)
+            {
+                TimeSpan timeDelta = DateTime.UtcNow - lastTickChange;
+                double interpTick = lastTickForSmoothing + chart.ConvertTimeToTicks(timeDelta);
+
+                if (Math.Abs(rawtick - interpTick) > 0.4)
+                {
+                    lastTickForSmoothing = ((lastTickForSmoothing + chart.ConvertTimeToTicks(timeDelta)) * 3 + rawtick) / 4;
+                    lastTickChange = DateTime.UtcNow;
+                    timeDelta = TimeSpan.Zero;
+                }
+                //lastTickForSmoothing = ((lastTickForSmoothing + chart.ConvertTimeToTicks(timeDelta))*7 + rawtick) / 8;
+                //lastTickChange = DateTime.UtcNow;
+                return lastTickForSmoothing + chart.ConvertTimeToTicks(timeDelta);
+            }
+            else
+            {
+                TimeSpan timeDelta = DateTime.UtcNow - lastTickChange;
+                return lastTickForSmoothing + chart.ConvertTimeToTicks(timeDelta);
+            }
+        }
+
+
+        private double[] prevPlayTicks = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
+
         private double getAveragedPlayTickTime(double rawtick)
         {
+            rawtick = getSmoothedPlayTickTime(rawtick);
+
             double avgTickDelta = 0;
             int numentries = 0;
             for (int i = 1; i < prevPlayTicks.Length; i++)
@@ -63,13 +107,13 @@ namespace _8beatMap
                     prevPlayTicks[i] = prevPlayTicks[i - 1];
                 }
                 if (numentries > 0)
-                    prevPlayTicks[0] = (averagedTick*2 + rawtick) / 3; // add some portion of rawtick to help avoid drifting
+                    prevPlayTicks[0] = (averagedTick * 2 + rawtick) / 3; // add some portion of rawtick to help avoid drifting
                 else
                     prevPlayTicks[0] = rawtick; // if there was no valid average made, it's necessary to just use the raw value provided
             }
 
             if (prevPlayTicks[0] < 0) prevPlayTicks[0] = 0;
-            return prevPlayTicks[0];
+            return (prevPlayTicks[0] + rawtick) / 2;
         }
 
 
@@ -424,13 +468,13 @@ namespace _8beatMap
                 UpdateChart(); //(update graphics)
             }
 
-            if ((int)CurrentTick != LastTick)
+            if ((int)CurrentTick != (int)LastTick)
             {
-                int ltick = LastTick;
+                int ltick = (int)LastTick;
                 LastTick = (int)CurrentTick;
 
                 if ((LastTick - ltick) > 5) //replace the last tick recorded with current tick if time difference is too large
-                    ltick = LastTick;
+                    ltick = (int)LastTick;
 
                 if (NoteSoundBox.Checked)
                 {
