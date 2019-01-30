@@ -204,6 +204,9 @@
   <data name="PlayBtn.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
   </data>
+  <data name="PlayBtn.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
   <data name="PlayBtn.Location" type="System.Drawing.Point, System.Drawing">
     <value>127, 15</value>
   </data>
@@ -230,6 +233,9 @@
   </data>
   <data name="StopBtn.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
+  </data>
+  <data name="StopBtn.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
   </data>
   <data name="StopBtn.Location" type="System.Drawing.Point, System.Drawing">
     <value>220, 15</value>
@@ -282,11 +288,14 @@
   <data name="PauseOnSeek.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="PauseOnSeek.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
   <data name="PauseOnSeek.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 80</value>
   </data>
   <data name="PauseOnSeek.Size" type="System.Drawing.Size, System.Drawing">
-    <value>107, 18</value>
+    <value>113, 19</value>
   </data>
   <data name="PauseOnSeek.TabIndex" type="System.Int32, mscorlib">
     <value>70</value>
@@ -423,6 +432,9 @@
   <data name="&gt;&gt;ResizeBox.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
+  <data name="ResizeBtn.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
   <data name="ResizeBtn.Location" type="System.Drawing.Point, System.Drawing">
     <value>181, 37</value>
   </data>
@@ -449,6 +461,9 @@
   </data>
   <data name="OpenBtn.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
+  </data>
+  <data name="OpenBtn.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
   </data>
   <data name="OpenBtn.Location" type="System.Drawing.Point, System.Drawing">
     <value>220, 55</value>
@@ -483,6 +498,9 @@
   <data name="OpenMusicButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
   </data>
+  <data name="OpenMusicButton.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
   <data name="OpenMusicButton.Location" type="System.Drawing.Point, System.Drawing">
     <value>220, 84</value>
   </data>
@@ -515,6 +533,9 @@
   </data>
   <data name="SaveChartBtn.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
+  </data>
+  <data name="SaveChartBtn.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
   </data>
   <data name="SaveChartBtn.Location" type="System.Drawing.Point, System.Drawing">
     <value>127, 55</value>
@@ -549,6 +570,9 @@
   <data name="ImgSaveBtn.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
   </data>
+  <data name="ImgSaveBtn.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
   <data name="ImgSaveBtn.Location" type="System.Drawing.Point, System.Drawing">
     <value>127, 84</value>
   </data>
@@ -572,6 +596,9 @@
   </data>
   <data name="&gt;&gt;ImgSaveBtn.ZOrder" xml:space="preserve">
     <value>4</value>
+  </data>
+  <data name="NoteTypeSelector.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
   </data>
   <data name="NoteTypeSelector.Location" type="System.Drawing.Point, System.Drawing">
     <value>119, 3</value>
@@ -687,6 +714,9 @@
   <data name="&gt;&gt;NoteShiftBox.ZOrder" xml:space="preserve">
     <value>8</value>
   </data>
+  <data name="NoteShiftBtn.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
   <data name="NoteShiftBtn.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -717,11 +747,14 @@
   <data name="NoteSoundBox.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="NoteSoundBox.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
   <data name="NoteSoundBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 56</value>
   </data>
   <data name="NoteSoundBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>122, 18</value>
+    <value>128, 19</value>
   </data>
   <data name="NoteSoundBox.TabIndex" type="System.Int32, mscorlib">
     <value>60</value>
@@ -743,6 +776,9 @@
   </data>
   <data name="&gt;&gt;NoteSoundBox.ZOrder" xml:space="preserve">
     <value>2</value>
+  </data>
+  <data name="NoteCountButton.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
   </data>
   <data name="NoteCountButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -771,6 +807,9 @@
   <data name="&gt;&gt;NoteCountButton.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
+  <data name="AutoSimulBtn.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
   <data name="AutoSimulBtn.Location" type="System.Drawing.Point, System.Drawing">
     <value>119, 31</value>
   </data>
@@ -797,6 +836,9 @@
   </data>
   <data name="LangChangeBtn.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
+  </data>
+  <data name="LangChangeBtn.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
   </data>
   <data name="LangChangeBtn.Location" type="System.Drawing.Point, System.Drawing">
     <value>34, 84</value>
@@ -843,6 +885,9 @@
   <data name="&gt;&gt;pictureBox1.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
+  <data name="PreviewWndBtn.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
   <data name="PreviewWndBtn.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -883,7 +928,7 @@
     <value>110, 0</value>
   </data>
   <data name="CopyLengthLabel.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>110, 0</value>
+    <value>110, 28</value>
   </data>
   <data name="CopyLengthLabel.Size" type="System.Drawing.Size, System.Drawing">
     <value>110, 28</value>
@@ -937,7 +982,7 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="editorToolsTab.Size" type="System.Drawing.Size, System.Drawing">
-    <value>311, 359</value>
+    <value>311, 361</value>
   </data>
   <data name="editorToolsTab.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -996,6 +1041,9 @@
   <data name="&gt;&gt;SkinLbl.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="SkinSelector.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
   <data name="SkinSelector.Location" type="System.Drawing.Point, System.Drawing">
     <value>79, 123</value>
   </data>
@@ -1021,7 +1069,7 @@
     <value>4, 23</value>
   </data>
   <data name="editorSettingsTab.Size" type="System.Drawing.Size, System.Drawing">
-    <value>311, 359</value>
+    <value>311, 361</value>
   </data>
   <data name="editorSettingsTab.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -1048,7 +1096,7 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="chartSettingsTab.Size" type="System.Drawing.Size, System.Drawing">
-    <value>311, 357</value>
+    <value>311, 361</value>
   </data>
   <data name="chartSettingsTab.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -1075,7 +1123,7 @@
     <value>0, 0</value>
   </data>
   <data name="tabControl1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>319, 386</value>
+    <value>319, 388</value>
   </data>
   <data name="tabControl1.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -1135,7 +1183,7 @@
     <value>319, 502</value>
   </data>
   <data name="splitContainer1.SplitterDistance" type="System.Int32, mscorlib">
-    <value>386</value>
+    <value>388</value>
   </data>
   <data name="splitContainer1.SplitterWidth" type="System.Int32, mscorlib">
     <value>2</value>

@@ -250,8 +250,8 @@
             // 
             this.NoteTypeSelector.DisplayMember = "Key";
             this.NoteTypeSelector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.NoteTypeSelector.FormattingEnabled = true;
             resources.ApplyResources(this.NoteTypeSelector, "NoteTypeSelector");
+            this.NoteTypeSelector.FormattingEnabled = true;
             this.NoteTypeSelector.Name = "NoteTypeSelector";
             this.NoteTypeSelector.ValueMember = "Value";
             // 
@@ -408,8 +408,8 @@
             // 
             this.SkinSelector.DisplayMember = "Key";
             this.SkinSelector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.SkinSelector.FormattingEnabled = true;
             resources.ApplyResources(this.SkinSelector, "SkinSelector");
+            this.SkinSelector.FormattingEnabled = true;
             this.SkinSelector.Name = "SkinSelector";
             this.SkinSelector.ValueMember = "Value";
             this.SkinSelector.SelectionChangeCommitted += new System.EventHandler(this.SkinSelector_SelectionChangeCommitted);
