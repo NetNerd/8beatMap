@@ -542,6 +542,7 @@ namespace _8beatMap
 
         private void Form1_Resize(object sender, EventArgs e)
         {
+            //SuspendLayout();
             if (pictureBox1.Height != Height)
             {
                 if (ClientSize.Height == 0)
@@ -552,6 +553,8 @@ namespace _8beatMap
                 pictureBox1.Image = bmp;
                 UpdateChart();
             }
+            splitContainer1.Width = ClientSize.Width - (ChartScrollBar.Left + ChartScrollBar.Width) - 1;
+            //ResumeLayout();
         }
 
         private void ProcessClick(int Tick, int Lane, MouseButtons MouseButton, NoteTypes.NoteTypeDef NewNote)
@@ -737,6 +740,12 @@ namespace _8beatMap
             resources.ApplyResources(this, "$this");
             foreach (Control Ctrl in Controls)
                 resources.ApplyResources(Ctrl, Ctrl.Name);
+            foreach (TabPage Tab in tabControl1.TabPages)
+            {
+                resources.ApplyResources(Tab, Tab.Name);
+                foreach (Control Ctrl in Tab.Controls)
+                    resources.ApplyResources(Ctrl, Ctrl.Name);
+            }
             ResumeLayout();
 
             AddNoteTypes();

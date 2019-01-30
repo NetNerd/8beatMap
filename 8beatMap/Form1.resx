@@ -142,19 +142,16 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;ChartScrollBar.ZOrder" xml:space="preserve">
-    <value>27</value>
-  </data>
-  <data name="BPMbox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Right</value>
+    <value>2</value>
   </data>
   <data name="BPMbox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>557, 338</value>
+    <value>79, 4</value>
   </data>
   <data name="BPMbox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>55, 21</value>
+    <value>60, 21</value>
   </data>
   <data name="BPMbox.TabIndex" type="System.Int32, mscorlib">
-    <value>41</value>
+    <value>51</value>
   </data>
   <data name="&gt;&gt;BPMbox.Name" xml:space="preserve">
     <value>BPMbox</value>
@@ -163,28 +160,34 @@
     <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;BPMbox.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>chartSettingsTab</value>
   </data>
   <data name="&gt;&gt;BPMbox.ZOrder" xml:space="preserve">
-    <value>26</value>
-  </data>
-  <data name="BPMLbl.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Right</value>
+    <value>1</value>
   </data>
   <data name="BPMLbl.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="BPMLbl.Location" type="System.Drawing.Point, System.Drawing">
-    <value>515, 340</value>
+    <value>3, 7</value>
+  </data>
+  <data name="BPMLbl.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>70, 0</value>
+  </data>
+  <data name="BPMLbl.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>70, 0</value>
   </data>
   <data name="BPMLbl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>35, 14</value>
+    <value>70, 14</value>
   </data>
   <data name="BPMLbl.TabIndex" type="System.Int32, mscorlib">
-    <value>40</value>
+    <value>50</value>
   </data>
   <data name="BPMLbl.Text" xml:space="preserve">
     <value>BPM:</value>
+  </data>
+  <data name="BPMLbl.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
   </data>
   <data name="&gt;&gt;BPMLbl.Name" xml:space="preserve">
     <value>BPMLbl</value>
@@ -193,22 +196,22 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;BPMLbl.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>chartSettingsTab</value>
   </data>
   <data name="&gt;&gt;BPMLbl.ZOrder" xml:space="preserve">
-    <value>25</value>
+    <value>0</value>
   </data>
   <data name="PlayBtn.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
   </data>
   <data name="PlayBtn.Location" type="System.Drawing.Point, System.Drawing">
-    <value>432, 398</value>
+    <value>127, 15</value>
   </data>
   <data name="PlayBtn.Size" type="System.Drawing.Size, System.Drawing">
     <value>87, 23</value>
   </data>
   <data name="PlayBtn.TabIndex" type="System.Int32, mscorlib">
-    <value>46</value>
+    <value>100</value>
   </data>
   <data name="PlayBtn.Text" xml:space="preserve">
     <value>Play</value>
@@ -220,22 +223,22 @@
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;PlayBtn.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>splitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;PlayBtn.ZOrder" xml:space="preserve">
-    <value>24</value>
+    <value>1</value>
   </data>
   <data name="StopBtn.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
   </data>
   <data name="StopBtn.Location" type="System.Drawing.Point, System.Drawing">
-    <value>525, 398</value>
+    <value>220, 15</value>
   </data>
   <data name="StopBtn.Size" type="System.Drawing.Size, System.Drawing">
     <value>87, 23</value>
   </data>
   <data name="StopBtn.TabIndex" type="System.Int32, mscorlib">
-    <value>47</value>
+    <value>101</value>
   </data>
   <data name="StopBtn.Text" xml:space="preserve">
     <value>Stop</value>
@@ -247,10 +250,10 @@
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;StopBtn.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>splitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;StopBtn.ZOrder" xml:space="preserve">
-    <value>23</value>
+    <value>3</value>
   </data>
   <data name="newplayhead.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left</value>
@@ -274,22 +277,19 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;newplayhead.ZOrder" xml:space="preserve">
-    <value>22</value>
-  </data>
-  <data name="PauseOnSeek.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Right</value>
+    <value>1</value>
   </data>
   <data name="PauseOnSeek.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="PauseOnSeek.Location" type="System.Drawing.Point, System.Drawing">
-    <value>505, 374</value>
+    <value>6, 80</value>
   </data>
   <data name="PauseOnSeek.Size" type="System.Drawing.Size, System.Drawing">
     <value>107, 18</value>
   </data>
   <data name="PauseOnSeek.TabIndex" type="System.Int32, mscorlib">
-    <value>45</value>
+    <value>70</value>
   </data>
   <data name="PauseOnSeek.Text" xml:space="preserve">
     <value>Pause on Seek</value>
@@ -304,22 +304,19 @@
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;PauseOnSeek.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>editorSettingsTab</value>
   </data>
   <data name="&gt;&gt;PauseOnSeek.ZOrder" xml:space="preserve">
-    <value>21</value>
-  </data>
-  <data name="ZoomBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
+    <value>1</value>
   </data>
   <data name="ZoomBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>473, 15</value>
+    <value>79, 4</value>
   </data>
   <data name="ZoomBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>56, 21</value>
   </data>
   <data name="ZoomBox.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
+    <value>51</value>
   </data>
   <data name="&gt;&gt;ZoomBox.Name" xml:space="preserve">
     <value>ZoomBox</value>
@@ -328,37 +325,34 @@
     <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;ZoomBox.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>editorSettingsTab</value>
   </data>
   <data name="&gt;&gt;ZoomBox.ZOrder" xml:space="preserve">
-    <value>20</value>
-  </data>
-  <data name="ZoomLbl.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
+    <value>3</value>
   </data>
   <data name="ZoomLbl.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="ZoomLbl.Location" type="System.Drawing.Point, System.Drawing">
-    <value>343, 17</value>
+    <value>3, 7</value>
   </data>
   <data name="ZoomLbl.MaximumSize" type="System.Drawing.Size, System.Drawing">
-    <value>120, 0</value>
+    <value>70, 0</value>
   </data>
   <data name="ZoomLbl.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>120, 0</value>
+    <value>70, 0</value>
   </data>
   <data name="ZoomLbl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 14</value>
+    <value>70, 14</value>
   </data>
   <data name="ZoomLbl.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
+    <value>50</value>
   </data>
   <data name="ZoomLbl.Text" xml:space="preserve">
     <value>Zoom:</value>
   </data>
   <data name="ZoomLbl.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleRight</value>
+    <value>MiddleLeft</value>
   </data>
   <data name="&gt;&gt;ZoomLbl.Name" xml:space="preserve">
     <value>ZoomLbl</value>
@@ -367,37 +361,34 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;ZoomLbl.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>editorSettingsTab</value>
   </data>
   <data name="&gt;&gt;ZoomLbl.ZOrder" xml:space="preserve">
-    <value>19</value>
-  </data>
-  <data name="ResizeLbl.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
+    <value>2</value>
   </data>
   <data name="ResizeLbl.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="ResizeLbl.Location" type="System.Drawing.Point, System.Drawing">
-    <value>343, 46</value>
+    <value>3, 42</value>
   </data>
   <data name="ResizeLbl.MaximumSize" type="System.Drawing.Size, System.Drawing">
-    <value>120, 0</value>
+    <value>110, 0</value>
   </data>
   <data name="ResizeLbl.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>120, 0</value>
+    <value>110, 0</value>
   </data>
   <data name="ResizeLbl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 14</value>
+    <value>110, 14</value>
   </data>
   <data name="ResizeLbl.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
+    <value>60</value>
   </data>
   <data name="ResizeLbl.Text" xml:space="preserve">
     <value>Length (Bars):</value>
   </data>
   <data name="ResizeLbl.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleRight</value>
+    <value>MiddleLeft</value>
   </data>
   <data name="&gt;&gt;ResizeLbl.Name" xml:space="preserve">
     <value>ResizeLbl</value>
@@ -406,22 +397,19 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;ResizeLbl.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>chartSettingsTab</value>
   </data>
   <data name="&gt;&gt;ResizeLbl.ZOrder" xml:space="preserve">
-    <value>16</value>
-  </data>
-  <data name="ResizeBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
+    <value>2</value>
   </data>
   <data name="ResizeBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>473, 44</value>
+    <value>119, 39</value>
   </data>
   <data name="ResizeBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>56, 21</value>
   </data>
   <data name="ResizeBox.TabIndex" type="System.Int32, mscorlib">
-    <value>14</value>
+    <value>61</value>
   </data>
   <data name="&gt;&gt;ResizeBox.Name" xml:space="preserve">
     <value>ResizeBox</value>
@@ -430,22 +418,19 @@
     <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;ResizeBox.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>chartSettingsTab</value>
   </data>
   <data name="&gt;&gt;ResizeBox.ZOrder" xml:space="preserve">
-    <value>17</value>
-  </data>
-  <data name="ResizeBtn.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
+    <value>3</value>
   </data>
   <data name="ResizeBtn.Location" type="System.Drawing.Point, System.Drawing">
-    <value>537, 41</value>
+    <value>181, 37</value>
   </data>
   <data name="ResizeBtn.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
   </data>
   <data name="ResizeBtn.TabIndex" type="System.Int32, mscorlib">
-    <value>15</value>
+    <value>62</value>
   </data>
   <data name="ResizeBtn.Text" xml:space="preserve">
     <value>Apply</value>
@@ -457,22 +442,22 @@
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;ResizeBtn.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>chartSettingsTab</value>
   </data>
   <data name="&gt;&gt;ResizeBtn.ZOrder" xml:space="preserve">
-    <value>18</value>
+    <value>4</value>
   </data>
   <data name="OpenBtn.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
   </data>
   <data name="OpenBtn.Location" type="System.Drawing.Point, System.Drawing">
-    <value>525, 438</value>
+    <value>220, 55</value>
   </data>
   <data name="OpenBtn.Size" type="System.Drawing.Size, System.Drawing">
     <value>87, 23</value>
   </data>
   <data name="OpenBtn.TabIndex" type="System.Int32, mscorlib">
-    <value>51</value>
+    <value>112</value>
   </data>
   <data name="OpenBtn.Text" xml:space="preserve">
     <value>Load Chart</value>
@@ -484,10 +469,10 @@
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;OpenBtn.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>splitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;OpenBtn.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>5</value>
   </data>
   <data name="openFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>17, 17</value>
@@ -499,13 +484,13 @@
     <value>Bottom, Right</value>
   </data>
   <data name="OpenMusicButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>525, 467</value>
+    <value>220, 84</value>
   </data>
   <data name="OpenMusicButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>87, 23</value>
   </data>
   <data name="OpenMusicButton.TabIndex" type="System.Int32, mscorlib">
-    <value>54</value>
+    <value>122</value>
   </data>
   <data name="OpenMusicButton.Text" xml:space="preserve">
     <value>Load Music</value>
@@ -517,10 +502,10 @@
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;OpenMusicButton.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>splitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;OpenMusicButton.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>0</value>
   </data>
   <data name="openFileDialog2.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>158, 17</value>
@@ -532,13 +517,13 @@
     <value>Bottom, Right</value>
   </data>
   <data name="SaveChartBtn.Location" type="System.Drawing.Point, System.Drawing">
-    <value>432, 438</value>
+    <value>127, 55</value>
   </data>
   <data name="SaveChartBtn.Size" type="System.Drawing.Size, System.Drawing">
     <value>87, 23</value>
   </data>
   <data name="SaveChartBtn.TabIndex" type="System.Int32, mscorlib">
-    <value>50</value>
+    <value>111</value>
   </data>
   <data name="SaveChartBtn.Text" xml:space="preserve">
     <value>Save Chart</value>
@@ -550,10 +535,10 @@
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;SaveChartBtn.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>splitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;SaveChartBtn.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>6</value>
   </data>
   <data name="saveFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>299, 17</value>
@@ -565,13 +550,13 @@
     <value>Bottom, Right</value>
   </data>
   <data name="ImgSaveBtn.Location" type="System.Drawing.Point, System.Drawing">
-    <value>432, 467</value>
+    <value>127, 84</value>
   </data>
   <data name="ImgSaveBtn.Size" type="System.Drawing.Size, System.Drawing">
     <value>87, 23</value>
   </data>
   <data name="ImgSaveBtn.TabIndex" type="System.Int32, mscorlib">
-    <value>53</value>
+    <value>121</value>
   </data>
   <data name="ImgSaveBtn.Text" xml:space="preserve">
     <value>Save Image</value>
@@ -583,22 +568,19 @@
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;ImgSaveBtn.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>splitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;ImgSaveBtn.ZOrder" xml:space="preserve">
-    <value>12</value>
-  </data>
-  <data name="NoteTypeSelector.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
+    <value>4</value>
   </data>
   <data name="NoteTypeSelector.Location" type="System.Drawing.Point, System.Drawing">
-    <value>473, 136</value>
+    <value>119, 3</value>
   </data>
   <data name="NoteTypeSelector.Size" type="System.Drawing.Size, System.Drawing">
-    <value>139, 22</value>
+    <value>160, 22</value>
   </data>
   <data name="NoteTypeSelector.TabIndex" type="System.Int32, mscorlib">
-    <value>26</value>
+    <value>51</value>
   </data>
   <data name="&gt;&gt;NoteTypeSelector.Name" xml:space="preserve">
     <value>NoteTypeSelector</value>
@@ -607,19 +589,19 @@
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;NoteTypeSelector.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>editorToolsTab</value>
   </data>
   <data name="&gt;&gt;NoteTypeSelector.ZOrder" xml:space="preserve">
-    <value>11</value>
-  </data>
-  <data name="NoteTypeLbl.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
+    <value>3</value>
   </data>
   <data name="NoteTypeLbl.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="NoteTypeLbl.Location" type="System.Drawing.Point, System.Drawing">
-    <value>353, 139</value>
+    <value>3, 7</value>
+  </data>
+  <data name="NoteTypeLbl.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>110, 0</value>
   </data>
   <data name="NoteTypeLbl.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>110, 0</value>
@@ -628,13 +610,13 @@
     <value>110, 14</value>
   </data>
   <data name="NoteTypeLbl.TabIndex" type="System.Int32, mscorlib">
-    <value>25</value>
+    <value>50</value>
   </data>
   <data name="NoteTypeLbl.Text" xml:space="preserve">
-    <value>Note type to place:</value>
+    <value>Note type:</value>
   </data>
   <data name="NoteTypeLbl.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleRight</value>
+    <value>MiddleLeft</value>
   </data>
   <data name="&gt;&gt;NoteTypeLbl.Name" xml:space="preserve">
     <value>NoteTypeLbl</value>
@@ -643,37 +625,34 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;NoteTypeLbl.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>editorToolsTab</value>
   </data>
   <data name="&gt;&gt;NoteTypeLbl.ZOrder" xml:space="preserve">
-    <value>10</value>
-  </data>
-  <data name="NoteShiftLbl.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
+    <value>0</value>
   </data>
   <data name="NoteShiftLbl.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="NoteShiftLbl.Location" type="System.Drawing.Point, System.Drawing">
-    <value>343, 75</value>
+    <value>3, 80</value>
   </data>
   <data name="NoteShiftLbl.MaximumSize" type="System.Drawing.Size, System.Drawing">
-    <value>120, 0</value>
+    <value>110, 0</value>
   </data>
   <data name="NoteShiftLbl.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>120, 0</value>
+    <value>110, 0</value>
   </data>
   <data name="NoteShiftLbl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 14</value>
+    <value>110, 14</value>
   </data>
   <data name="NoteShiftLbl.TabIndex" type="System.Int32, mscorlib">
-    <value>16</value>
+    <value>70</value>
   </data>
   <data name="NoteShiftLbl.Text" xml:space="preserve">
     <value>Shift All Notes:</value>
   </data>
   <data name="NoteShiftLbl.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleRight</value>
+    <value>MiddleLeft</value>
   </data>
   <data name="&gt;&gt;NoteShiftLbl.Name" xml:space="preserve">
     <value>NoteShiftLbl</value>
@@ -682,22 +661,19 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;NoteShiftLbl.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>editorToolsTab</value>
   </data>
   <data name="&gt;&gt;NoteShiftLbl.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="NoteShiftBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
+    <value>9</value>
   </data>
   <data name="NoteShiftBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>473, 73</value>
+    <value>119, 77</value>
   </data>
   <data name="NoteShiftBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>56, 21</value>
   </data>
   <data name="NoteShiftBox.TabIndex" type="System.Int32, mscorlib">
-    <value>17</value>
+    <value>71</value>
   </data>
   <data name="&gt;&gt;NoteShiftBox.Name" xml:space="preserve">
     <value>NoteShiftBox</value>
@@ -706,22 +682,22 @@
     <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;NoteShiftBox.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>editorToolsTab</value>
   </data>
   <data name="&gt;&gt;NoteShiftBox.ZOrder" xml:space="preserve">
     <value>8</value>
   </data>
-  <data name="NoteShiftBtn.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
+  <data name="NoteShiftBtn.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="NoteShiftBtn.Location" type="System.Drawing.Point, System.Drawing">
-    <value>537, 70</value>
+    <value>181, 76</value>
   </data>
   <data name="NoteShiftBtn.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
   </data>
   <data name="NoteShiftBtn.TabIndex" type="System.Int32, mscorlib">
-    <value>18</value>
+    <value>72</value>
   </data>
   <data name="NoteShiftBtn.Text" xml:space="preserve">
     <value>Apply</value>
@@ -733,25 +709,22 @@
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;NoteShiftBtn.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>editorToolsTab</value>
   </data>
   <data name="&gt;&gt;NoteShiftBtn.ZOrder" xml:space="preserve">
-    <value>9</value>
-  </data>
-  <data name="NoteSoundBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Right</value>
+    <value>7</value>
   </data>
   <data name="NoteSoundBox.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="NoteSoundBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>490, 299</value>
+    <value>6, 56</value>
   </data>
   <data name="NoteSoundBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>122, 18</value>
   </data>
   <data name="NoteSoundBox.TabIndex" type="System.Int32, mscorlib">
-    <value>35</value>
+    <value>60</value>
   </data>
   <data name="NoteSoundBox.Text" xml:space="preserve">
     <value>Play Note Sounds</value>
@@ -766,22 +739,22 @@
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;NoteSoundBox.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>editorSettingsTab</value>
   </data>
   <data name="&gt;&gt;NoteSoundBox.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>0</value>
   </data>
-  <data name="NoteCountButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
+  <data name="NoteCountButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="NoteCountButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>525, 177</value>
+    <value>6, 31</value>
   </data>
   <data name="NoteCountButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>87, 23</value>
+    <value>90, 23</value>
   </data>
   <data name="NoteCountButton.TabIndex" type="System.Int32, mscorlib">
-    <value>30</value>
+    <value>60</value>
   </data>
   <data name="NoteCountButton.Text" xml:space="preserve">
     <value>Note Count</value>
@@ -793,22 +766,19 @@
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;NoteCountButton.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>editorToolsTab</value>
   </data>
   <data name="&gt;&gt;NoteCountButton.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
-  <data name="AutoSimulBtn.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
   <data name="AutoSimulBtn.Location" type="System.Drawing.Point, System.Drawing">
-    <value>498, 206</value>
+    <value>119, 31</value>
   </data>
   <data name="AutoSimulBtn.Size" type="System.Drawing.Size, System.Drawing">
-    <value>114, 23</value>
+    <value>115, 23</value>
   </data>
   <data name="AutoSimulBtn.TabIndex" type="System.Int32, mscorlib">
-    <value>31</value>
+    <value>61</value>
   </data>
   <data name="AutoSimulBtn.Text" xml:space="preserve">
     <value>Auto SimulNotes</value>
@@ -820,22 +790,22 @@
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;AutoSimulBtn.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>editorToolsTab</value>
   </data>
   <data name="&gt;&gt;AutoSimulBtn.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>6</value>
   </data>
   <data name="LangChangeBtn.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
   </data>
   <data name="LangChangeBtn.Location" type="System.Drawing.Point, System.Drawing">
-    <value>339, 467</value>
+    <value>34, 84</value>
   </data>
   <data name="LangChangeBtn.Size" type="System.Drawing.Size, System.Drawing">
     <value>87, 23</value>
   </data>
   <data name="LangChangeBtn.TabIndex" type="System.Int32, mscorlib">
-    <value>52</value>
+    <value>120</value>
   </data>
   <data name="LangChangeBtn.Text" xml:space="preserve">
     <value>日本語</value>
@@ -847,10 +817,10 @@
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;LangChangeBtn.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>splitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;LangChangeBtn.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>2</value>
   </data>
   <data name="pictureBox1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -871,22 +841,19 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;pictureBox1.ZOrder" xml:space="preserve">
-    <value>28</value>
-  </data>
-  <data name="PreviewWndBtn.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Right</value>
+    <value>3</value>
   </data>
   <data name="PreviewWndBtn.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="PreviewWndBtn.Location" type="System.Drawing.Point, System.Drawing">
-    <value>339, 438</value>
+    <value>6, 164</value>
   </data>
   <data name="PreviewWndBtn.Size" type="System.Drawing.Size, System.Drawing">
-    <value>87, 23</value>
+    <value>107, 23</value>
   </data>
   <data name="PreviewWndBtn.TabIndex" type="System.Int32, mscorlib">
-    <value>49</value>
+    <value>90</value>
   </data>
   <data name="PreviewWndBtn.Text" xml:space="preserve">
     <value>Preview Window</value>
@@ -898,13 +865,10 @@
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;PreviewWndBtn.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>editorToolsTab</value>
   </data>
   <data name="&gt;&gt;PreviewWndBtn.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="CopyLengthLabel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
+    <value>1</value>
   </data>
   <data name="CopyLengthLabel.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -913,25 +877,25 @@
     <value>NoControl</value>
   </data>
   <data name="CopyLengthLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>343, 104</value>
+    <value>3, 116</value>
   </data>
   <data name="CopyLengthLabel.MaximumSize" type="System.Drawing.Size, System.Drawing">
-    <value>120, 0</value>
+    <value>110, 0</value>
   </data>
   <data name="CopyLengthLabel.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>120, 0</value>
+    <value>110, 0</value>
   </data>
   <data name="CopyLengthLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 14</value>
+    <value>110, 28</value>
   </data>
   <data name="CopyLengthLabel.TabIndex" type="System.Int32, mscorlib">
-    <value>19</value>
+    <value>80</value>
   </data>
   <data name="CopyLengthLabel.Text" xml:space="preserve">
     <value>Copy Length (Bars):</value>
   </data>
   <data name="CopyLengthLabel.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleRight</value>
+    <value>MiddleLeft</value>
   </data>
   <data name="&gt;&gt;CopyLengthLabel.Name" xml:space="preserve">
     <value>CopyLengthLabel</value>
@@ -940,22 +904,19 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;CopyLengthLabel.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>editorToolsTab</value>
   </data>
   <data name="&gt;&gt;CopyLengthLabel.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="CopyLengthBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
+    <value>4</value>
   </data>
   <data name="CopyLengthBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>473, 102</value>
+    <value>119, 120</value>
   </data>
   <data name="CopyLengthBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>56, 21</value>
   </data>
   <data name="CopyLengthBox.TabIndex" type="System.Int32, mscorlib">
-    <value>20</value>
+    <value>81</value>
   </data>
   <data name="&gt;&gt;CopyLengthBox.Name" xml:space="preserve">
     <value>CopyLengthBox</value>
@@ -964,9 +925,174 @@
     <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;CopyLengthBox.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>editorToolsTab</value>
   </data>
   <data name="&gt;&gt;CopyLengthBox.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="editorToolsTab.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 23</value>
+  </data>
+  <data name="editorToolsTab.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="editorToolsTab.Size" type="System.Drawing.Size, System.Drawing">
+    <value>310, 353</value>
+  </data>
+  <data name="editorToolsTab.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="editorToolsTab.Text" xml:space="preserve">
+    <value>Editor Tools</value>
+  </data>
+  <data name="&gt;&gt;editorToolsTab.Name" xml:space="preserve">
+    <value>editorToolsTab</value>
+  </data>
+  <data name="&gt;&gt;editorToolsTab.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;editorToolsTab.Parent" xml:space="preserve">
+    <value>tabControl1</value>
+  </data>
+  <data name="&gt;&gt;editorToolsTab.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="editorSettingsTab.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 23</value>
+  </data>
+  <data name="editorSettingsTab.Size" type="System.Drawing.Size, System.Drawing">
+    <value>307, 353</value>
+  </data>
+  <data name="editorSettingsTab.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="editorSettingsTab.Text" xml:space="preserve">
+    <value>Editor Settings</value>
+  </data>
+  <data name="&gt;&gt;editorSettingsTab.Name" xml:space="preserve">
+    <value>editorSettingsTab</value>
+  </data>
+  <data name="&gt;&gt;editorSettingsTab.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;editorSettingsTab.Parent" xml:space="preserve">
+    <value>tabControl1</value>
+  </data>
+  <data name="&gt;&gt;editorSettingsTab.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="chartSettingsTab.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 23</value>
+  </data>
+  <data name="chartSettingsTab.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="chartSettingsTab.Size" type="System.Drawing.Size, System.Drawing">
+    <value>285, 193</value>
+  </data>
+  <data name="chartSettingsTab.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="chartSettingsTab.Text" xml:space="preserve">
+    <value>Chart Settings</value>
+  </data>
+  <data name="&gt;&gt;chartSettingsTab.Name" xml:space="preserve">
+    <value>chartSettingsTab</value>
+  </data>
+  <data name="&gt;&gt;chartSettingsTab.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chartSettingsTab.Parent" xml:space="preserve">
+    <value>tabControl1</value>
+  </data>
+  <data name="&gt;&gt;chartSettingsTab.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="tabControl1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="tabControl1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="tabControl1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>318, 380</value>
+  </data>
+  <data name="tabControl1.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;tabControl1.Name" xml:space="preserve">
+    <value>tabControl1</value>
+  </data>
+  <data name="&gt;&gt;tabControl1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tabControl1.Parent" xml:space="preserve">
+    <value>splitContainer1.Panel1</value>
+  </data>
+  <data name="&gt;&gt;tabControl1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="splitContainer1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="splitContainer1.IsSplitterFixed" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="splitContainer1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>306, 0</value>
+  </data>
+  <data name="splitContainer1.Orientation" type="System.Windows.Forms.Orientation, System.Windows.Forms">
+    <value>Horizontal</value>
+  </data>
+  <data name="&gt;&gt;splitContainer1.Panel1.Name" xml:space="preserve">
+    <value>splitContainer1.Panel1</value>
+  </data>
+  <data name="&gt;&gt;splitContainer1.Panel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitContainer1.Panel1.Parent" xml:space="preserve">
+    <value>splitContainer1</value>
+  </data>
+  <data name="&gt;&gt;splitContainer1.Panel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="splitContainer1.Panel1MinSize" type="System.Int32, mscorlib">
+    <value>220</value>
+  </data>
+  <data name="&gt;&gt;splitContainer1.Panel2.Name" xml:space="preserve">
+    <value>splitContainer1.Panel2</value>
+  </data>
+  <data name="&gt;&gt;splitContainer1.Panel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitContainer1.Panel2.Parent" xml:space="preserve">
+    <value>splitContainer1</value>
+  </data>
+  <data name="&gt;&gt;splitContainer1.Panel2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="splitContainer1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>319, 502</value>
+  </data>
+  <data name="splitContainer1.SplitterDistance" type="System.Int32, mscorlib">
+    <value>380</value>
+  </data>
+  <data name="splitContainer1.SplitterWidth" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="splitContainer1.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;splitContainer1.Name" xml:space="preserve">
+    <value>splitContainer1</value>
+  </data>
+  <data name="&gt;&gt;splitContainer1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitContainer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitContainer1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;splitContainer1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="$this.Localizable" type="System.Boolean, mscorlib">
@@ -979,7 +1105,7 @@
     <value>Droid Sans, 8.8pt</value>
   </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>600, 490</value>
+    <value>640, 400</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>8beatMap</value>

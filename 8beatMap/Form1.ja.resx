@@ -123,13 +123,6 @@
   <data name="StopBtn.Text" xml:space="preserve">
     <value>停止</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="PauseOnSeek.Location" type="System.Drawing.Point, System.Drawing">
-    <value>494, 375</value>
-  </data>
-  <data name="PauseOnSeek.Size" type="System.Drawing.Size, System.Drawing">
-    <value>118, 17</value>
-  </data>
   <data name="PauseOnSeek.Text" xml:space="preserve">
     <value>スクロール中時で停止</value>
   </data>
@@ -157,18 +150,6 @@
   <data name="ImgSaveBtn.Text" xml:space="preserve">
     <value>絵を保存</value>
   </data>
-  <data name="NoteTypeSelector.Location" type="System.Drawing.Point, System.Drawing">
-    <value>439, 136</value>
-  </data>
-  <data name="NoteTypeSelector.Size" type="System.Drawing.Size, System.Drawing">
-    <value>173, 21</value>
-  </data>
-  <data name="NoteTypeLbl.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>85, 0</value>
-  </data>
-  <data name="NoteTypeLbl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>85, 13</value>
-  </data>
   <data name="NoteTypeLbl.Text" xml:space="preserve">
     <value>ノードタイプ：</value>
   </data>
@@ -177,12 +158,6 @@
   </data>
   <data name="NoteShiftBtn.Text" xml:space="preserve">
     <value>アプライ</value>
-  </data>
-  <data name="NoteSoundBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>540, 300</value>
-  </data>
-  <data name="NoteSoundBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>72, 17</value>
   </data>
   <data name="NoteSoundBox.Text" xml:space="preserve">
     <value>ノード音</value>
@@ -199,7 +174,16 @@
   <data name="PreviewWndBtn.Text" xml:space="preserve">
     <value>プレビューウィンドウ</value>
   </data>
+  <data name="chartSettingsTab.Text" xml:space="preserve">
+    <value>譜面設定</value>
+  </data>
   <data name="CopyLengthLabel.Text" xml:space="preserve">
     <value>コピー長さ（小節）：</value>
+  </data>
+  <data name="editorSettingsTab.Text" xml:space="preserve">
+    <value>エディター設定</value>
+  </data>
+  <data name="editorToolsTab.Text" xml:space="preserve">
+    <value>エディター・ツール</value>
   </data>
 </root>

@@ -61,6 +61,11 @@
             this.PreviewWndBtn = new System.Windows.Forms.Button();
             this.CopyLengthLabel = new System.Windows.Forms.Label();
             this.CopyLengthBox = new System.Windows.Forms.NumericUpDown();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.editorToolsTab = new System.Windows.Forms.TabPage();
+            this.editorSettingsTab = new System.Windows.Forms.TabPage();
+            this.chartSettingsTab = new System.Windows.Forms.TabPage();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             ((System.ComponentModel.ISupportInitialize)(this.BPMbox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.newplayhead)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ZoomBox)).BeginInit();
@@ -68,6 +73,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.NoteShiftBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.CopyLengthBox)).BeginInit();
+            this.tabControl1.SuspendLayout();
+            this.editorToolsTab.SuspendLayout();
+            this.editorSettingsTab.SuspendLayout();
+            this.chartSettingsTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
             // ChartScrollBar
@@ -80,8 +93,8 @@
             // 
             // BPMbox
             // 
-            resources.ApplyResources(this.BPMbox, "BPMbox");
             this.BPMbox.DecimalPlaces = 1;
+            resources.ApplyResources(this.BPMbox, "BPMbox");
             this.BPMbox.Maximum = new decimal(new int[] {
             500,
             0,
@@ -233,10 +246,10 @@
             // 
             // NoteTypeSelector
             // 
-            resources.ApplyResources(this.NoteTypeSelector, "NoteTypeSelector");
             this.NoteTypeSelector.DisplayMember = "Key";
             this.NoteTypeSelector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.NoteTypeSelector.FormattingEnabled = true;
+            resources.ApplyResources(this.NoteTypeSelector, "NoteTypeSelector");
             this.NoteTypeSelector.Name = "NoteTypeSelector";
             this.NoteTypeSelector.ValueMember = "Value";
             // 
@@ -325,13 +338,13 @@
             // 
             // CopyLengthBox
             // 
-            resources.ApplyResources(this.CopyLengthBox, "CopyLengthBox");
             this.CopyLengthBox.DecimalPlaces = 2;
             this.CopyLengthBox.Increment = new decimal(new int[] {
             25,
             0,
             0,
             131072});
+            resources.ApplyResources(this.CopyLengthBox, "CopyLengthBox");
             this.CopyLengthBox.Maximum = new decimal(new int[] {
             4,
             0,
@@ -349,39 +362,77 @@
             0,
             0});
             // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.editorToolsTab);
+            this.tabControl1.Controls.Add(this.editorSettingsTab);
+            this.tabControl1.Controls.Add(this.chartSettingsTab);
+            resources.ApplyResources(this.tabControl1, "tabControl1");
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            // 
+            // editorToolsTab
+            // 
+            this.editorToolsTab.Controls.Add(this.NoteTypeLbl);
+            this.editorToolsTab.Controls.Add(this.PreviewWndBtn);
+            this.editorToolsTab.Controls.Add(this.CopyLengthBox);
+            this.editorToolsTab.Controls.Add(this.NoteTypeSelector);
+            this.editorToolsTab.Controls.Add(this.CopyLengthLabel);
+            this.editorToolsTab.Controls.Add(this.NoteCountButton);
+            this.editorToolsTab.Controls.Add(this.AutoSimulBtn);
+            this.editorToolsTab.Controls.Add(this.NoteShiftBtn);
+            this.editorToolsTab.Controls.Add(this.NoteShiftBox);
+            this.editorToolsTab.Controls.Add(this.NoteShiftLbl);
+            resources.ApplyResources(this.editorToolsTab, "editorToolsTab");
+            this.editorToolsTab.Name = "editorToolsTab";
+            // 
+            // editorSettingsTab
+            // 
+            this.editorSettingsTab.Controls.Add(this.NoteSoundBox);
+            this.editorSettingsTab.Controls.Add(this.PauseOnSeek);
+            this.editorSettingsTab.Controls.Add(this.ZoomLbl);
+            this.editorSettingsTab.Controls.Add(this.ZoomBox);
+            resources.ApplyResources(this.editorSettingsTab, "editorSettingsTab");
+            this.editorSettingsTab.Name = "editorSettingsTab";
+            // 
+            // chartSettingsTab
+            // 
+            this.chartSettingsTab.Controls.Add(this.BPMLbl);
+            this.chartSettingsTab.Controls.Add(this.BPMbox);
+            this.chartSettingsTab.Controls.Add(this.ResizeLbl);
+            this.chartSettingsTab.Controls.Add(this.ResizeBox);
+            this.chartSettingsTab.Controls.Add(this.ResizeBtn);
+            resources.ApplyResources(this.chartSettingsTab, "chartSettingsTab");
+            this.chartSettingsTab.Name = "chartSettingsTab";
+            // 
+            // splitContainer1
+            // 
+            resources.ApplyResources(this.splitContainer1, "splitContainer1");
+            this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.tabControl1);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.OpenMusicButton);
+            this.splitContainer1.Panel2.Controls.Add(this.PlayBtn);
+            this.splitContainer1.Panel2.Controls.Add(this.LangChangeBtn);
+            this.splitContainer1.Panel2.Controls.Add(this.StopBtn);
+            this.splitContainer1.Panel2.Controls.Add(this.ImgSaveBtn);
+            this.splitContainer1.Panel2.Controls.Add(this.OpenBtn);
+            this.splitContainer1.Panel2.Controls.Add(this.SaveChartBtn);
+            // 
             // Form1
             // 
             resources.ApplyResources(this, "$this");
             this.Font = new System.Drawing.Font(System.Drawing.SystemFonts.MessageBoxFont.FontFamily, 8.8f);
             //this.Font = new System.Drawing.Font(System.Drawing.SystemFonts.MessageBoxFont.FontFamily, System.Drawing.SystemFonts.MessageBoxFont.SizeInPoints);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.Controls.Add(this.CopyLengthBox);
-            this.Controls.Add(this.CopyLengthLabel);
-            this.Controls.Add(this.PreviewWndBtn);
-            this.Controls.Add(this.LangChangeBtn);
-            this.Controls.Add(this.AutoSimulBtn);
-            this.Controls.Add(this.NoteCountButton);
-            this.Controls.Add(this.NoteSoundBox);
-            this.Controls.Add(this.NoteShiftLbl);
-            this.Controls.Add(this.NoteShiftBox);
-            this.Controls.Add(this.NoteShiftBtn);
-            this.Controls.Add(this.NoteTypeLbl);
-            this.Controls.Add(this.NoteTypeSelector);
-            this.Controls.Add(this.ImgSaveBtn);
-            this.Controls.Add(this.SaveChartBtn);
-            this.Controls.Add(this.OpenMusicButton);
-            this.Controls.Add(this.OpenBtn);
-            this.Controls.Add(this.ResizeLbl);
-            this.Controls.Add(this.ResizeBox);
-            this.Controls.Add(this.ResizeBtn);
-            this.Controls.Add(this.ZoomLbl);
-            this.Controls.Add(this.ZoomBox);
-            this.Controls.Add(this.PauseOnSeek);
+            this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.newplayhead);
-            this.Controls.Add(this.StopBtn);
-            this.Controls.Add(this.PlayBtn);
-            this.Controls.Add(this.BPMLbl);
-            this.Controls.Add(this.BPMbox);
             this.Controls.Add(this.ChartScrollBar);
             this.Controls.Add(this.pictureBox1);
             this.KeyPreview = true;
@@ -396,8 +447,18 @@
             ((System.ComponentModel.ISupportInitialize)(this.NoteShiftBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.CopyLengthBox)).EndInit();
+            this.tabControl1.ResumeLayout(false);
+            this.editorToolsTab.ResumeLayout(false);
+            this.editorToolsTab.PerformLayout();
+            this.editorSettingsTab.ResumeLayout(false);
+            this.editorSettingsTab.PerformLayout();
+            this.chartSettingsTab.ResumeLayout(false);
+            this.chartSettingsTab.PerformLayout();
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -435,6 +496,11 @@
         private System.Windows.Forms.Button PreviewWndBtn;
         private System.Windows.Forms.Label CopyLengthLabel;
         private System.Windows.Forms.NumericUpDown CopyLengthBox;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage editorToolsTab;
+        private System.Windows.Forms.TabPage editorSettingsTab;
+        private System.Windows.Forms.TabPage chartSettingsTab;
+        private System.Windows.Forms.SplitContainer splitContainer1;
     }
 }
 
