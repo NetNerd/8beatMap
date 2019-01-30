@@ -741,6 +741,12 @@ namespace _8beatMap
             resources.ApplyResources(this, "$this");
             foreach (Control Ctrl in Controls)
                 resources.ApplyResources(Ctrl, Ctrl.Name);
+
+            foreach (Control Ctrl in splitContainer1.Panel1.Controls)
+                resources.ApplyResources(Ctrl, Ctrl.Name);
+            foreach (Control Ctrl in splitContainer1.Panel2.Controls)
+                resources.ApplyResources(Ctrl, Ctrl.Name);
+
             foreach (TabPage Tab in tabControl1.TabPages)
             {
                 resources.ApplyResources(Tab, Tab.Name);
