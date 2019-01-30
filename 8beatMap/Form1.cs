@@ -420,6 +420,7 @@ namespace _8beatMap
             SetSkin("8bs");
 
             AddNoteTypes();
+            PopulateSkins();
 
             ActiveControl = ZoomLbl;
 
@@ -751,24 +752,7 @@ namespace _8beatMap
             AddNoteTypes();
         }
         
-        private static bool IsDeSerializable(object obj)
-            {
-                System.IO.MemoryStream mem = new System.IO.MemoryStream();
-        System.Runtime.Serialization.Formatters.Binary.BinaryFormatter bin = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
-                try
-                {
-                    bin.Serialize(mem, obj);
-                    mem.Seek(0, System.IO.SeekOrigin.Begin);
-                    bin.Deserialize(mem);
-                    return true;
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Your object cannot be deserialized." +
-                                     " The reason is: " + ex.ToString());
-                    return false;
-                }
-            }
+    
     private void Form1_KeyPress(object sender, KeyPressEventArgs e)
         {
             try
@@ -877,15 +861,7 @@ namespace _8beatMap
 
                     case 'P': // reopen preview window
                     case 'p':
-                        // OpenPreviewWindow();
-                        if (skin.SkinName == "8bs")
-                        {
-                            SetSkin("GBS Solid");
-                        }
-                        else
-                        {
-                            SetSkin("8bs");
-                        }
+                        OpenPreviewWindow();
                         break;
                     
                     case '[':
@@ -923,15 +899,27 @@ namespace _8beatMap
 
         private void PreviewWndBtn_Click(object sender, EventArgs e)
         {
-            // OpenPreviewWindow();
-            if (skin.SkinName == "8bs")
+            OpenPreviewWindow();
+        }
+
+        private void PopulateSkins()
+        {
+            SkinSelector.Items.Clear();
+
+            string[] skinlist = System.IO.Directory.GetDirectories("skins");
+            foreach (string skinpath in skinlist)
             {
-                SetSkin("GBS Solid");
+                string skinname = new System.IO.DirectoryInfo(skinpath).Name;
+                KeyValuePair<string, string> item = new KeyValuePair<string, string>(skinname, skinname);
+                SkinSelector.Items.Add(item);
+
+                if (skin.SkinName == skinname) SkinSelector.SelectedItem = item;
             }
-            else
-            {
-                SetSkin("8bs");
-            }
+        }
+
+        private void SkinSelector_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            SetSkin(((KeyValuePair<string, string>)SkinSelector.SelectedItem).Value);
         }
     }
 }

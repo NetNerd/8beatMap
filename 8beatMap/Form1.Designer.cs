@@ -64,6 +64,8 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.editorToolsTab = new System.Windows.Forms.TabPage();
             this.editorSettingsTab = new System.Windows.Forms.TabPage();
+            this.SkinLbl = new System.Windows.Forms.Label();
+            this.SkinSelector = new System.Windows.Forms.ComboBox();
             this.chartSettingsTab = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             ((System.ComponentModel.ISupportInitialize)(this.BPMbox)).BeginInit();
@@ -388,12 +390,29 @@
             // 
             // editorSettingsTab
             // 
+            this.editorSettingsTab.Controls.Add(this.SkinLbl);
+            this.editorSettingsTab.Controls.Add(this.SkinSelector);
             this.editorSettingsTab.Controls.Add(this.NoteSoundBox);
             this.editorSettingsTab.Controls.Add(this.PauseOnSeek);
             this.editorSettingsTab.Controls.Add(this.ZoomLbl);
             this.editorSettingsTab.Controls.Add(this.ZoomBox);
             resources.ApplyResources(this.editorSettingsTab, "editorSettingsTab");
             this.editorSettingsTab.Name = "editorSettingsTab";
+            // 
+            // SkinLbl
+            // 
+            resources.ApplyResources(this.SkinLbl, "SkinLbl");
+            this.SkinLbl.Name = "SkinLbl";
+            // 
+            // SkinSelector
+            // 
+            this.SkinSelector.DisplayMember = "Key";
+            this.SkinSelector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.SkinSelector.FormattingEnabled = true;
+            resources.ApplyResources(this.SkinSelector, "SkinSelector");
+            this.SkinSelector.Name = "SkinSelector";
+            this.SkinSelector.ValueMember = "Value";
+            this.SkinSelector.SelectionChangeCommitted += new System.EventHandler(this.SkinSelector_SelectionChangeCommitted);
             // 
             // chartSettingsTab
             // 
@@ -501,6 +520,8 @@
         private System.Windows.Forms.TabPage editorSettingsTab;
         private System.Windows.Forms.TabPage chartSettingsTab;
         private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.Label SkinLbl;
+        private System.Windows.Forms.ComboBox SkinSelector;
     }
 }
 

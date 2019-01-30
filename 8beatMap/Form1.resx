@@ -307,7 +307,7 @@
     <value>editorSettingsTab</value>
   </data>
   <data name="&gt;&gt;PauseOnSeek.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>3</value>
   </data>
   <data name="ZoomBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>79, 4</value>
@@ -328,7 +328,7 @@
     <value>editorSettingsTab</value>
   </data>
   <data name="&gt;&gt;ZoomBox.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>5</value>
   </data>
   <data name="ZoomLbl.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -364,7 +364,7 @@
     <value>editorSettingsTab</value>
   </data>
   <data name="&gt;&gt;ZoomLbl.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>4</value>
   </data>
   <data name="ResizeLbl.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -474,9 +474,9 @@
   <data name="&gt;&gt;OpenBtn.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
-  <data name="openFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  <metadata name="openFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
-  </data>
+  </metadata>
   <data name="openFileDialog1.Filter" xml:space="preserve">
     <value>Decrypted JSON|*.dec.json|JSON|*.json|All Files|*.*</value>
   </data>
@@ -507,9 +507,9 @@
   <data name="&gt;&gt;OpenMusicButton.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="openFileDialog2.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  <metadata name="openFileDialog2.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>158, 17</value>
-  </data>
+  </metadata>
   <data name="openFileDialog2.Filter" xml:space="preserve">
     <value>Wav Files|*.wav|All Files|*.*</value>
   </data>
@@ -540,9 +540,9 @@
   <data name="&gt;&gt;SaveChartBtn.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
-  <data name="saveFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  <metadata name="saveFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>299, 17</value>
-  </data>
+  </metadata>
   <data name="saveFileDialog1.Filter" xml:space="preserve">
     <value>Decrypted JSON|*.dec.json|All Files|*.*</value>
   </data>
@@ -742,7 +742,7 @@
     <value>editorSettingsTab</value>
   </data>
   <data name="&gt;&gt;NoteSoundBox.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>2</value>
   </data>
   <data name="NoteCountButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -937,7 +937,7 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="editorToolsTab.Size" type="System.Drawing.Size, System.Drawing">
-    <value>310, 353</value>
+    <value>311, 359</value>
   </data>
   <data name="editorToolsTab.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -957,11 +957,71 @@
   <data name="&gt;&gt;editorToolsTab.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="SkinLbl.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="SkinLbl.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="SkinLbl.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 127</value>
+  </data>
+  <data name="SkinLbl.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>70, 0</value>
+  </data>
+  <data name="SkinLbl.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>70, 0</value>
+  </data>
+  <data name="SkinLbl.Size" type="System.Drawing.Size, System.Drawing">
+    <value>70, 14</value>
+  </data>
+  <data name="SkinLbl.TabIndex" type="System.Int32, mscorlib">
+    <value>80</value>
+  </data>
+  <data name="SkinLbl.Text" xml:space="preserve">
+    <value>Skin:</value>
+  </data>
+  <data name="SkinLbl.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;SkinLbl.Name" xml:space="preserve">
+    <value>SkinLbl</value>
+  </data>
+  <data name="&gt;&gt;SkinLbl.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SkinLbl.Parent" xml:space="preserve">
+    <value>editorSettingsTab</value>
+  </data>
+  <data name="&gt;&gt;SkinLbl.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="SkinSelector.Location" type="System.Drawing.Point, System.Drawing">
+    <value>79, 123</value>
+  </data>
+  <data name="SkinSelector.Size" type="System.Drawing.Size, System.Drawing">
+    <value>160, 22</value>
+  </data>
+  <data name="SkinSelector.TabIndex" type="System.Int32, mscorlib">
+    <value>81</value>
+  </data>
+  <data name="&gt;&gt;SkinSelector.Name" xml:space="preserve">
+    <value>SkinSelector</value>
+  </data>
+  <data name="&gt;&gt;SkinSelector.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SkinSelector.Parent" xml:space="preserve">
+    <value>editorSettingsTab</value>
+  </data>
+  <data name="&gt;&gt;SkinSelector.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
   <data name="editorSettingsTab.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 23</value>
   </data>
   <data name="editorSettingsTab.Size" type="System.Drawing.Size, System.Drawing">
-    <value>307, 353</value>
+    <value>311, 359</value>
   </data>
   <data name="editorSettingsTab.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -988,7 +1048,7 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="chartSettingsTab.Size" type="System.Drawing.Size, System.Drawing">
-    <value>285, 193</value>
+    <value>311, 357</value>
   </data>
   <data name="chartSettingsTab.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -1015,7 +1075,7 @@
     <value>0, 0</value>
   </data>
   <data name="tabControl1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>318, 380</value>
+    <value>319, 386</value>
   </data>
   <data name="tabControl1.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -1039,7 +1099,7 @@
     <value>True</value>
   </data>
   <data name="splitContainer1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>306, 0</value>
+    <value>305, 0</value>
   </data>
   <data name="splitContainer1.Orientation" type="System.Windows.Forms.Orientation, System.Windows.Forms">
     <value>Horizontal</value>
@@ -1075,7 +1135,7 @@
     <value>319, 502</value>
   </data>
   <data name="splitContainer1.SplitterDistance" type="System.Int32, mscorlib">
-    <value>380</value>
+    <value>386</value>
   </data>
   <data name="splitContainer1.SplitterWidth" type="System.Int32, mscorlib">
     <value>2</value>
@@ -1095,9 +1155,9 @@
   <data name="&gt;&gt;splitContainer1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="$this.Localizable" type="System.Boolean, mscorlib">
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
-  </data>
+  </metadata>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>624, 502</value>
   </data>
