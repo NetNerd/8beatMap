@@ -187,6 +187,6 @@
     <value>エディター・ツール</value>
   </data>
   <data name="SkinLbl.Text" xml:space="preserve">
-    <value>スキン</value>
+    <value>スキン：</value>
   </data>
 </root>
