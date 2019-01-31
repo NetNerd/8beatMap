@@ -146,37 +146,7 @@ namespace _8beatMap
             { "GbsClock", NoteTypeDefs.GbsClock.TypeId },
             { "GbsSimulClock", NoteTypeDefs.GbsSimulClock.TypeId }
         };
-
-        public static Dictionary<string, int> UserVisibleNoteTypes_Nihongo = new Dictionary<string, int>
-        {
-            { "押す", NoteTypeDefs.Tap.TypeId },
-            { "同時に押す", NoteTypeDefs.SimulTap.TypeId },
-
-            { "長い押す", NoteTypeDefs.Hold.TypeId },
-            { "同時に長い押すの最初", NoteTypeDefs.SimulHoldStart.TypeId },
-            { "同時に長い押すの最後", NoteTypeDefs.SimulHoldRelease.TypeId },
-
-            { "左へスワイプの端", NoteTypeDefs.SwipeLeftStartEnd.TypeId },
-            { "左へスワイプの真ん中で", NoteTypeDefs.SwipeLeftMid.TypeId },
-
-            { "右へスワイプの端", NoteTypeDefs.SwipeRightStartEnd.TypeId },
-            { "右へスワイプの真ん中で", NoteTypeDefs.SwipeRightMid.TypeId },
-
-            { "左へスワイプから右に変わる", NoteTypeDefs.SwipeChangeDirL2R.TypeId },
-            { "右へスワイプから左に変わる", NoteTypeDefs.SwipeChangeDirR2L.TypeId },
-
-            { "左へフリック", NoteTypeDefs.FlickLeft.TypeId },
-            { "長い押すの最後での左へフリック", NoteTypeDefs.HoldEndFlickLeft.TypeId },
-
-            { "右へフリック", NoteTypeDefs.FlickRight.TypeId },
-            { "長い押すの最後での右へフリック", NoteTypeDefs.HoldEndFlickRight.TypeId },
-
-            { "GBSフリック", NoteTypeDefs.GbsFlick.TypeId },
-            { "同時にGBSフリック", NoteTypeDefs.GbsSimulFlick.TypeId },
-            { "GBS時計", NoteTypeDefs.GbsClock.TypeId },
-            { "同時にGBS時計", NoteTypeDefs.GbsSimulClock.TypeId }
-        };
-
+        
         public static Dictionary<string, int> NoteShortcutKeys = new Dictionary<string, int>
         {
             { "_1", NoteTypeDefs.Tap.TypeId },

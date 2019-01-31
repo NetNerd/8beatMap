@@ -71,6 +71,11 @@
     </Compile>
     <Compile Include="GameCloneRenderer_OGL.cs" />
     <Compile Include="Notedata.cs" />
+    <Compile Include="NotetypeNames.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NotetypeNames.resx</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Skinning.cs" />
@@ -85,6 +90,11 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NotetypeNames.ja.resx" />
+    <EmbeddedResource Include="NotetypeNames.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>NotetypeNames.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

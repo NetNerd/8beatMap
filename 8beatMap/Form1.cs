@@ -15,6 +15,7 @@ namespace _8beatMap
     public partial class Form1 : Form
     {
         System.Resources.ResourceManager DialogResMgr = new System.Resources.ResourceManager("_8beatMap.Dialogs", System.Reflection.Assembly.GetEntryAssembly());
+        System.Resources.ResourceManager NotetypeNamesResMgr = new System.Resources.ResourceManager("_8beatMap.NotetypeNames", System.Reflection.Assembly.GetEntryAssembly());
 
         public Notedata.Chart chart = new Notedata.Chart(32 * 48, 120);
         private int TickHeight = 10;
@@ -353,24 +354,22 @@ namespace _8beatMap
         }
 
 
+        private Dictionary<string, int> currentNoteTypes = new Dictionary<string, int> { };
         private void AddNoteTypes() // to dropdown selector
         {
+            int oldindex = 0;
+            if (NoteTypeSelector.SelectedIndex > -1) oldindex = NoteTypeSelector.SelectedIndex;
+
             NoteTypeSelector.Items.Clear();
+            currentNoteTypes.Clear();
 
-            if (System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName == "ja")
-                //NoteTypeSelector.DataSource = Enum.GetValues(typeof(Notedata.UserVisibleNoteType_Nihongo));
-                foreach (KeyValuePair<string, int> type in NoteTypes.UserVisibleNoteTypes_Nihongo)
-                {
-                    NoteTypeSelector.Items.Add(type);
-                }
-            else
-                // NoteTypeSelector.DataSource = Enum.GetValues(typeof(Notedata.UserVisibleNoteType));
-                foreach (KeyValuePair<string, int> type in NoteTypes.UserVisibleNoteTypes)
-                {
-                    NoteTypeSelector.Items.Add(type);
-                }
-
-            NoteTypeSelector.SelectedIndex = 0;
+            foreach (KeyValuePair<string, int> type in NoteTypes.UserVisibleNoteTypes)
+            {
+                currentNoteTypes.Add(NotetypeNamesResMgr.GetString(type.Key), type.Value);
+                NoteTypeSelector.Items.Add(new KeyValuePair<string, int>(NotetypeNamesResMgr.GetString(type.Key), type.Value));
+            }
+            
+            NoteTypeSelector.SelectedIndex = oldindex;
         }
 
 
@@ -884,18 +883,11 @@ namespace _8beatMap
                     default:
                         if (Char.IsDigit(key))
                         {
-                            if (System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName == "ja")
-                                NoteTypeSelector.SelectedItem = NoteTypes.UserVisibleNoteTypes_Nihongo.FirstOrDefault(x => x.Value == NoteTypes.NoteShortcutKeys["_" + key]);
-                            else
-                                NoteTypeSelector.SelectedItem = NoteTypes.UserVisibleNoteTypes.FirstOrDefault(x => x.Value == NoteTypes.NoteShortcutKeys["_" + key]);
-
+                            NoteTypeSelector.SelectedItem = currentNoteTypes.FirstOrDefault(x => x.Value == NoteTypes.NoteShortcutKeys["_" + key]);
                         }
                         else
                         {
-                            if (System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName == "ja")
-                                NoteTypeSelector.SelectedItem = NoteTypes.UserVisibleNoteTypes_Nihongo.FirstOrDefault(x => x.Value == NoteTypes.NoteShortcutKeys[key.ToString().ToUpper()]);
-                            else
-                                NoteTypeSelector.SelectedItem = NoteTypes.UserVisibleNoteTypes.FirstOrDefault(x => x.Value == NoteTypes.NoteShortcutKeys[key.ToString().ToUpper()]);
+                            NoteTypeSelector.SelectedItem = currentNoteTypes.FirstOrDefault(x => x.Value == NoteTypes.NoteShortcutKeys[key.ToString().ToUpper()]);
                         }
                         break;
                 }
