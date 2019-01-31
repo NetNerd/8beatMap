@@ -678,7 +678,11 @@ namespace _8beatMap
         private void OpenMusicButton_Click(object sender, EventArgs e)
         {
             if (openFileDialog2.ShowDialog() == DialogResult.OK)
+            {
                 Sound.LoadMusic(openFileDialog2.FileName);
+                MusicDelayMs = -Sound.TryGetMp3FileStartDelay(openFileDialog2.FileName) + DefaultMusicDelayMs;
+                AudioDelayBox.Value = MusicDelayMs - DefaultMusicDelayMs;
+            }
         }
 
         private void ImgSaveBtn_Click(object sender, EventArgs e)

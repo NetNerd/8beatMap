@@ -120,5 +120,29 @@ namespace _8beatMap
         {
             VolMixer.Volume = vol;
         }
+
+        static public int TryGetMp3FileStartDelay(string path)
+        {
+            int ms = 0;
+
+            try
+            {
+                Mp3FileReader reader = new Mp3FileReader(path);
+                if (reader.XingHeader != null && reader.XingHeader.Mp3Frame.FrameLength >= 0xb2)
+                {
+                    if (reader.XingHeader.Mp3Frame.RawData[0x9c] == 'L') // lazy check for LAME or Lavc
+                    {
+                        // see http://gabriel.mp3-tech.org/mp3infotag.html#delays for info about this header info
+                        int samples = reader.XingHeader.Mp3Frame.RawData[0xb1] << 4 + ((reader.XingHeader.Mp3Frame.RawData[0xb2] & 0xF0) >> 4);
+                        samples += 528; // decoder delay
+                        ms = 1000 * samples / reader.Mp3WaveFormat.SampleRate;
+                    }
+                }
+            }
+            catch
+            { }
+
+            return ms;
+        }
     }
 }
