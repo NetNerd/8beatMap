@@ -681,6 +681,7 @@ namespace _8beatMap
             {
                 StopPlayback();
                 Sound.LoadMusic(openFileDialog2.FileName);
+                SetCurrTick(0);
                 UpdateChart();
 
                 MusicDelayMs = -Sound.TryGetMp3FileStartDelay(openFileDialog2.FileName) + DefaultMusicDelayMs;
