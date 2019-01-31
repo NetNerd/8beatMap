@@ -679,7 +679,10 @@ namespace _8beatMap
         {
             if (openFileDialog2.ShowDialog() == DialogResult.OK)
             {
+                StopPlayback();
                 Sound.LoadMusic(openFileDialog2.FileName);
+                UpdateChart();
+
                 MusicDelayMs = -Sound.TryGetMp3FileStartDelay(openFileDialog2.FileName) + DefaultMusicDelayMs;
                 AudioDelayBox.Value = MusicDelayMs - DefaultMusicDelayMs;
             }
