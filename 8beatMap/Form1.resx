@@ -1002,33 +1002,6 @@
   <data name="&gt;&gt;editorToolsTab.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="SkinLbl.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="SkinLbl.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="SkinLbl.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 127</value>
-  </data>
-  <data name="SkinLbl.MaximumSize" type="System.Drawing.Size, System.Drawing">
-    <value>70, 0</value>
-  </data>
-  <data name="SkinLbl.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>70, 0</value>
-  </data>
-  <data name="SkinLbl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>70, 14</value>
-  </data>
-  <data name="SkinLbl.TabIndex" type="System.Int32, mscorlib">
-    <value>80</value>
-  </data>
-  <data name="SkinLbl.Text" xml:space="preserve">
-    <value>Skin:</value>
-  </data>
-  <data name="SkinLbl.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
   <data name="&gt;&gt;SkinLbl.Name" xml:space="preserve">
     <value>SkinLbl</value>
   </data>
@@ -1040,18 +1013,6 @@
   </data>
   <data name="&gt;&gt;SkinLbl.ZOrder" xml:space="preserve">
     <value>0</value>
-  </data>
-  <data name="SkinSelector.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
-    <value>System</value>
-  </data>
-  <data name="SkinSelector.Location" type="System.Drawing.Point, System.Drawing">
-    <value>79, 123</value>
-  </data>
-  <data name="SkinSelector.Size" type="System.Drawing.Size, System.Drawing">
-    <value>160, 22</value>
-  </data>
-  <data name="SkinSelector.TabIndex" type="System.Int32, mscorlib">
-    <value>81</value>
   </data>
   <data name="&gt;&gt;SkinSelector.Name" xml:space="preserve">
     <value>SkinSelector</value>
@@ -1116,6 +1077,150 @@
   <data name="&gt;&gt;chartSettingsTab.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+  <data name="VolumeBar.Location" type="System.Drawing.Point, System.Drawing">
+    <value>79, 47</value>
+  </data>
+  <data name="VolumeBar.Size" type="System.Drawing.Size, System.Drawing">
+    <value>160, 40</value>
+  </data>
+  <data name="VolumeBar.TabIndex" type="System.Int32, mscorlib">
+    <value>61</value>
+  </data>
+  <data name="&gt;&gt;VolumeBar.Name" xml:space="preserve">
+    <value>VolumeBar</value>
+  </data>
+  <data name="&gt;&gt;VolumeBar.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TrackBar, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;VolumeBar.Parent" xml:space="preserve">
+    <value>audioSettingsTab</value>
+  </data>
+  <data name="&gt;&gt;VolumeBar.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="VolumeLbl.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="VolumeLbl.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="VolumeLbl.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 61</value>
+  </data>
+  <data name="VolumeLbl.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>70, 0</value>
+  </data>
+  <data name="VolumeLbl.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>70, 0</value>
+  </data>
+  <data name="VolumeLbl.Size" type="System.Drawing.Size, System.Drawing">
+    <value>70, 14</value>
+  </data>
+  <data name="VolumeLbl.TabIndex" type="System.Int32, mscorlib">
+    <value>60</value>
+  </data>
+  <data name="VolumeLbl.Text" xml:space="preserve">
+    <value>Volume:</value>
+  </data>
+  <data name="VolumeLbl.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;VolumeLbl.Name" xml:space="preserve">
+    <value>VolumeLbl</value>
+  </data>
+  <data name="&gt;&gt;VolumeLbl.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;VolumeLbl.Parent" xml:space="preserve">
+    <value>audioSettingsTab</value>
+  </data>
+  <data name="&gt;&gt;VolumeLbl.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="AudioDelayLbl.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="AudioDelayLbl.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="AudioDelayLbl.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 7</value>
+  </data>
+  <data name="AudioDelayLbl.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>110, 0</value>
+  </data>
+  <data name="AudioDelayLbl.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>110, 0</value>
+  </data>
+  <data name="AudioDelayLbl.Size" type="System.Drawing.Size, System.Drawing">
+    <value>110, 14</value>
+  </data>
+  <data name="AudioDelayLbl.TabIndex" type="System.Int32, mscorlib">
+    <value>50</value>
+  </data>
+  <data name="AudioDelayLbl.Text" xml:space="preserve">
+    <value>Audio Offset (ms):</value>
+  </data>
+  <data name="AudioDelayLbl.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;AudioDelayLbl.Name" xml:space="preserve">
+    <value>AudioDelayLbl</value>
+  </data>
+  <data name="&gt;&gt;AudioDelayLbl.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;AudioDelayLbl.Parent" xml:space="preserve">
+    <value>audioSettingsTab</value>
+  </data>
+  <data name="&gt;&gt;AudioDelayLbl.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="AudioDelayBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>119, 4</value>
+  </data>
+  <data name="AudioDelayBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>56, 21</value>
+  </data>
+  <data name="AudioDelayBox.TabIndex" type="System.Int32, mscorlib">
+    <value>51</value>
+  </data>
+  <data name="&gt;&gt;AudioDelayBox.Name" xml:space="preserve">
+    <value>AudioDelayBox</value>
+  </data>
+  <data name="&gt;&gt;AudioDelayBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;AudioDelayBox.Parent" xml:space="preserve">
+    <value>audioSettingsTab</value>
+  </data>
+  <data name="&gt;&gt;AudioDelayBox.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="audioSettingsTab.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 23</value>
+  </data>
+  <data name="audioSettingsTab.Size" type="System.Drawing.Size, System.Drawing">
+    <value>311, 365</value>
+  </data>
+  <data name="audioSettingsTab.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="audioSettingsTab.Text" xml:space="preserve">
+    <value>Audio Settings</value>
+  </data>
+  <data name="&gt;&gt;audioSettingsTab.Name" xml:space="preserve">
+    <value>audioSettingsTab</value>
+  </data>
+  <data name="&gt;&gt;audioSettingsTab.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;audioSettingsTab.Parent" xml:space="preserve">
+    <value>tabControl1</value>
+  </data>
+  <data name="&gt;&gt;audioSettingsTab.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
   <data name="tabControl1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
@@ -1139,6 +1244,69 @@
   </data>
   <data name="&gt;&gt;tabControl1.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <data name="SkinLbl.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="SkinLbl.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="SkinLbl.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 127</value>
+  </data>
+  <data name="SkinLbl.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>70, 0</value>
+  </data>
+  <data name="SkinLbl.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>70, 0</value>
+  </data>
+  <data name="SkinLbl.Size" type="System.Drawing.Size, System.Drawing">
+    <value>70, 14</value>
+  </data>
+  <data name="SkinLbl.TabIndex" type="System.Int32, mscorlib">
+    <value>80</value>
+  </data>
+  <data name="SkinLbl.Text" xml:space="preserve">
+    <value>Skin:</value>
+  </data>
+  <data name="SkinLbl.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;SkinLbl.Name" xml:space="preserve">
+    <value>SkinLbl</value>
+  </data>
+  <data name="&gt;&gt;SkinLbl.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SkinLbl.Parent" xml:space="preserve">
+    <value>editorSettingsTab</value>
+  </data>
+  <data name="&gt;&gt;SkinLbl.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="SkinSelector.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="SkinSelector.Location" type="System.Drawing.Point, System.Drawing">
+    <value>79, 123</value>
+  </data>
+  <data name="SkinSelector.Size" type="System.Drawing.Size, System.Drawing">
+    <value>160, 22</value>
+  </data>
+  <data name="SkinSelector.TabIndex" type="System.Int32, mscorlib">
+    <value>81</value>
+  </data>
+  <data name="&gt;&gt;SkinSelector.Name" xml:space="preserve">
+    <value>SkinSelector</value>
+  </data>
+  <data name="&gt;&gt;SkinSelector.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SkinSelector.Parent" xml:space="preserve">
+    <value>editorSettingsTab</value>
+  </data>
+  <data name="&gt;&gt;SkinSelector.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="splitContainer1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Right</value>

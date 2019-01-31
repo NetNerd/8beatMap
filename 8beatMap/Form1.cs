@@ -265,6 +265,7 @@ namespace _8beatMap
             if (playTimer.Enabled)
             {
                 tick -= chart.ConvertTimeToTicks(TimeSpan.FromMilliseconds(VideoDelayMs));
+                //tick -= chart.ConvertTimeToTicks(TimeSpan.FromMilliseconds(MusicDelayMs));
             }
 
             pictureBox1.Image.Dispose();
@@ -277,6 +278,7 @@ namespace _8beatMap
             if (playTimer.Enabled)
             {
                 tick -= chart.ConvertTimeToTicks(TimeSpan.FromMilliseconds(VideoDelayMs+GameCloneOffsetMs));
+                //tick -= chart.ConvertTimeToTicks(TimeSpan.FromMilliseconds(MusicDelayMs));
             }
 
             OGLrenderer.currentTick = tick;
@@ -421,6 +423,9 @@ namespace _8beatMap
             AddNoteTypes();
             PopulateSkins();
 
+            MusicDelayMs = (int)AudioDelayBox.Value + DefaultMusicDelayMs;
+            Sound.SetVolume(VolumeBar.Value / 100f);
+
             ActiveControl = ZoomLbl;
 
             Sound.InitWaveOut();
@@ -456,7 +461,8 @@ namespace _8beatMap
         }
 
 
-        int MusicDelayMs = 10;
+        static int DefaultMusicDelayMs = 10;
+        int MusicDelayMs = DefaultMusicDelayMs;
         
         double lastPlayTickTime = 0;
         private void playtimer_Tick(object sender, EventArgs e)
@@ -490,10 +496,15 @@ namespace _8beatMap
                                 {
                                     //Sound.PlayNoteSound(Sound.NoteSoundWave);
                                     Sound.NoteSoundTrim = new NAudio.Wave.SampleProviders.OffsetSampleProvider(new Sound.CachedSoundSampleProvider(Sound.NoteSoundWave));
-                                    if (MusicDelayMs > 30)
-                                        Sound.NoteSoundTrim.DelayBy = TimeSpan.FromMilliseconds(MusicDelayMs - 30);
+                                    //if (MusicDelayMs > 30)
+                                    //    Sound.NoteSoundTrim.DelayBy = TimeSpan.FromMilliseconds(MusicDelayMs - 30);
+                                    //else
+                                    //    Sound.NoteSoundTrim.SkipOver = TimeSpan.FromMilliseconds(30 - MusicDelayMs);
+                                    if (DefaultMusicDelayMs > 30)
+                                        Sound.NoteSoundTrim.DelayBy = TimeSpan.FromMilliseconds(DefaultMusicDelayMs - 30);
                                     else
-                                        Sound.NoteSoundTrim.SkipOver = TimeSpan.FromMilliseconds(30 - MusicDelayMs);
+                                        Sound.NoteSoundTrim.SkipOver = TimeSpan.FromMilliseconds(30 - DefaultMusicDelayMs);
+
                                     Sound.PlayNoteSound(Sound.NoteSoundTrim);
                                 }
 
@@ -502,10 +513,15 @@ namespace _8beatMap
                                 {
                                     //Sound.PlayNoteSound(Sound.NoteSoundWave_Swipe);
                                     Sound.NoteSoundTrim = new NAudio.Wave.SampleProviders.OffsetSampleProvider(new Sound.CachedSoundSampleProvider(Sound.NoteSoundWave_Swipe));
-                                    if (MusicDelayMs > 30)
-                                        Sound.NoteSoundTrim.DelayBy = TimeSpan.FromMilliseconds(MusicDelayMs - 30);
+                                    //if (MusicDelayMs > 30)
+                                    //    Sound.NoteSoundTrim.DelayBy = TimeSpan.FromMilliseconds(MusicDelayMs - 30);
+                                    //else
+                                    //    Sound.NoteSoundTrim.SkipOver = TimeSpan.FromMilliseconds(30 - MusicDelayMs);
+                                    if (DefaultMusicDelayMs > 30)
+                                        Sound.NoteSoundTrim.DelayBy = TimeSpan.FromMilliseconds(DefaultMusicDelayMs - 30);
                                     else
-                                        Sound.NoteSoundTrim.SkipOver = TimeSpan.FromMilliseconds(30 - MusicDelayMs);
+                                       Sound.NoteSoundTrim.SkipOver = TimeSpan.FromMilliseconds(30 - DefaultMusicDelayMs);
+
                                     Sound.PlayNoteSound(Sound.NoteSoundTrim);
                                 }
                             }
@@ -514,7 +530,8 @@ namespace _8beatMap
                             {
                                 Sound.NoteSoundTrim = new NAudio.Wave.SampleProviders.OffsetSampleProvider(Sound.NoteSoundSig);
                                 Sound.NoteSoundTrim.Take = TimeSpan.FromMilliseconds(20);
-                                Sound.NoteSoundTrim.DelayBy = TimeSpan.FromMilliseconds(MusicDelayMs + 5);
+                                //Sound.NoteSoundTrim.DelayBy = TimeSpan.FromMilliseconds(MusicDelayMs + 5);
+                                Sound.NoteSoundTrim.DelayBy = TimeSpan.FromMilliseconds(DefaultMusicDelayMs + 5);
                                 Sound.PlayNoteSound(Sound.NoteSoundTrim);
                                 return;
                             }
@@ -918,6 +935,16 @@ namespace _8beatMap
         private void SkinSelector_SelectionChangeCommitted(object sender, EventArgs e)
         {
             SetSkin(((KeyValuePair<string, string>)SkinSelector.SelectedItem).Value);
+        }
+
+        private void AudioDelayBox_ValueChanged(object sender, EventArgs e)
+        {
+            MusicDelayMs = (int)AudioDelayBox.Value + DefaultMusicDelayMs;
+        }
+
+        private void VolumeBar_Scroll(object sender, EventArgs e)
+        {
+            Sound.SetVolume(VolumeBar.Value / 100f);
         }
     }
 }

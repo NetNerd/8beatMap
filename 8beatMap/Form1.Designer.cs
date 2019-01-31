@@ -67,6 +67,11 @@
             this.SkinLbl = new System.Windows.Forms.Label();
             this.SkinSelector = new System.Windows.Forms.ComboBox();
             this.chartSettingsTab = new System.Windows.Forms.TabPage();
+            this.audioSettingsTab = new System.Windows.Forms.TabPage();
+            this.VolumeBar = new System.Windows.Forms.TrackBar();
+            this.VolumeLbl = new System.Windows.Forms.Label();
+            this.AudioDelayLbl = new System.Windows.Forms.Label();
+            this.AudioDelayBox = new System.Windows.Forms.NumericUpDown();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             ((System.ComponentModel.ISupportInitialize)(this.BPMbox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.newplayhead)).BeginInit();
@@ -79,6 +84,9 @@
             this.editorToolsTab.SuspendLayout();
             this.editorSettingsTab.SuspendLayout();
             this.chartSettingsTab.SuspendLayout();
+            this.audioSettingsTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.VolumeBar)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AudioDelayBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -369,6 +377,7 @@
             this.tabControl1.Controls.Add(this.editorToolsTab);
             this.tabControl1.Controls.Add(this.editorSettingsTab);
             this.tabControl1.Controls.Add(this.chartSettingsTab);
+            this.tabControl1.Controls.Add(this.audioSettingsTab);
             resources.ApplyResources(this.tabControl1, "tabControl1");
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -424,6 +433,52 @@
             resources.ApplyResources(this.chartSettingsTab, "chartSettingsTab");
             this.chartSettingsTab.Name = "chartSettingsTab";
             // 
+            // audioSettingsTab
+            // 
+            this.audioSettingsTab.Controls.Add(this.VolumeBar);
+            this.audioSettingsTab.Controls.Add(this.VolumeLbl);
+            this.audioSettingsTab.Controls.Add(this.AudioDelayLbl);
+            this.audioSettingsTab.Controls.Add(this.AudioDelayBox);
+            resources.ApplyResources(this.audioSettingsTab, "audioSettingsTab");
+            this.audioSettingsTab.Name = "audioSettingsTab";
+            // 
+            // VolumeBar
+            // 
+            this.VolumeBar.LargeChange = 10;
+            resources.ApplyResources(this.VolumeBar, "VolumeBar");
+            this.VolumeBar.Maximum = 100;
+            this.VolumeBar.Name = "VolumeBar";
+            this.VolumeBar.TickFrequency = 10;
+            this.VolumeBar.TickStyle = System.Windows.Forms.TickStyle.Both;
+            this.VolumeBar.Value = 60;
+            this.VolumeBar.Scroll += new System.EventHandler(this.VolumeBar_Scroll);
+            // 
+            // VolumeLbl
+            // 
+            resources.ApplyResources(this.VolumeLbl, "VolumeLbl");
+            this.VolumeLbl.Name = "VolumeLbl";
+            // 
+            // AudioDelayLbl
+            // 
+            resources.ApplyResources(this.AudioDelayLbl, "AudioDelayLbl");
+            this.AudioDelayLbl.Name = "AudioDelayLbl";
+            // 
+            // AudioDelayBox
+            // 
+            resources.ApplyResources(this.AudioDelayBox, "AudioDelayBox");
+            this.AudioDelayBox.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.AudioDelayBox.Minimum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            -2147483648});
+            this.AudioDelayBox.Name = "AudioDelayBox";
+            this.AudioDelayBox.ValueChanged += new System.EventHandler(this.AudioDelayBox_ValueChanged);
+            // 
             // splitContainer1
             // 
             resources.ApplyResources(this.splitContainer1, "splitContainer1");
@@ -473,6 +528,10 @@
             this.editorSettingsTab.PerformLayout();
             this.chartSettingsTab.ResumeLayout(false);
             this.chartSettingsTab.PerformLayout();
+            this.audioSettingsTab.ResumeLayout(false);
+            this.audioSettingsTab.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.VolumeBar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AudioDelayBox)).EndInit();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
@@ -522,6 +581,11 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Label SkinLbl;
         private System.Windows.Forms.ComboBox SkinSelector;
+        private System.Windows.Forms.TabPage audioSettingsTab;
+        private System.Windows.Forms.Label AudioDelayLbl;
+        private System.Windows.Forms.NumericUpDown AudioDelayBox;
+        private System.Windows.Forms.Label VolumeLbl;
+        private System.Windows.Forms.TrackBar VolumeBar;
     }
 }
 

@@ -115,5 +115,10 @@ namespace _8beatMap
         {
             WaveMixer.AddMixerInput(sound);
         }
+
+        static public void SetVolume(float vol)
+        {
+            VolMixer.Volume = vol;
+        }
     }
 }
