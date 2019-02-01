@@ -124,19 +124,37 @@ namespace _8beatMap
         static public int TryGetMp3FileStartDelay(string path)
         {
             int ms = 0;
+            const int decode_delay = 529;
 
             try
             {
                 Mp3FileReader reader = new Mp3FileReader(path);
                 if (reader.XingHeader != null && reader.XingHeader.Mp3Frame.FrameLength >= 0xb2)
                 {
-                    if (reader.XingHeader.Mp3Frame.RawData[0x9c] == 'L') // lazy check for LAME or Lavc
+                    if (
+                         (reader.XingHeader.Mp3Frame.RawData[0x9c] == 'L' &&
+                          reader.XingHeader.Mp3Frame.RawData[0x9d] == 'A' &&
+                          reader.XingHeader.Mp3Frame.RawData[0x9e] == 'M' &&
+                          reader.XingHeader.Mp3Frame.RawData[0x9f] == 'E'
+                         ) ||
+                         (reader.XingHeader.Mp3Frame.RawData[0x9c] == 'L' &&
+                          reader.XingHeader.Mp3Frame.RawData[0x9d] == 'a' &&
+                          reader.XingHeader.Mp3Frame.RawData[0x9e] == 'v' &&
+                          reader.XingHeader.Mp3Frame.RawData[0x9f] == 'c'
+                         )
+                       ) // check for LAME or Lavc
                     {
                         // see http://gabriel.mp3-tech.org/mp3infotag.html#delays for info about this header info
                         int samples = reader.XingHeader.Mp3Frame.RawData[0xb1] << 4 + ((reader.XingHeader.Mp3Frame.RawData[0xb2] & 0xF0) >> 4);
-                        samples += 528; // decoder delay
+                        samples += decode_delay; // decoder delay
                         ms = 1000 * samples / reader.Mp3WaveFormat.SampleRate;
                     }
+                }
+                
+                if (ms == 0) // assume no header present
+                {
+                    int samples = 700 + decode_delay; // assuming ~700 samples of encoder delay should be safe http://mp3decoders.mp3-tech.org/decoders_lame.html
+                    ms = 1000 * samples / reader.Mp3WaveFormat.SampleRate;
                 }
             }
             catch
