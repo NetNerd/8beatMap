@@ -427,6 +427,7 @@ namespace _8beatMap
             Sound.SetVolume(VolumeBar.Value / 100f);
 
             ActiveControl = ZoomLbl;
+            toolTip1.SetToolTip(VolumeBar, VolumeBar.Value.ToString());
 
             Sound.InitWaveOut();
 
@@ -953,6 +954,18 @@ namespace _8beatMap
         private void VolumeBar_Scroll(object sender, EventArgs e)
         {
             Sound.SetVolume(VolumeBar.Value / 100f);
+
+            //Graphics g = CreateGraphics();
+            //int estWidth = (int)(DefaultFont.SizeInPoints * 0.6 * g.DpiX / 72) * VolumeBar.Value.ToString().Length;
+            //int estHeight = (int)(DefaultFont.SizeInPoints * g.DpiX / 72);
+            //g.Dispose();
+
+            //Point ThumbPos = new Point();
+            //ThumbPos.X = 5 + (VolumeBar.Width - 24) * (VolumeBar.Value - VolumeBar.Minimum) / VolumeBar.Maximum - estWidth/2;
+            //ThumbPos.Y = VolumeBar.Height - estHeight/4;
+
+            toolTip1.SetToolTip(VolumeBar, VolumeBar.Value.ToString());
+            //toolTip1.Show(VolumeBar.Value.ToString(), VolumeBar, ThumbPos, 2000);
         }
     }
 }

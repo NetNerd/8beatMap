@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.ChartScrollBar = new System.Windows.Forms.VScrollBar();
             this.BPMbox = new System.Windows.Forms.NumericUpDown();
@@ -73,6 +74,7 @@
             this.AudioDelayLbl = new System.Windows.Forms.Label();
             this.AudioDelayBox = new System.Windows.Forms.NumericUpDown();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.BPMbox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.newplayhead)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ZoomBox)).BeginInit();
@@ -499,6 +501,10 @@
             this.splitContainer1.Panel2.Controls.Add(this.OpenBtn);
             this.splitContainer1.Panel2.Controls.Add(this.SaveChartBtn);
             // 
+            // toolTip1
+            // 
+            this.toolTip1.ShowAlways = true;
+            // 
             // Form1
             // 
             resources.ApplyResources(this, "$this");
@@ -586,6 +592,7 @@
         private System.Windows.Forms.NumericUpDown AudioDelayBox;
         private System.Windows.Forms.Label VolumeLbl;
         private System.Windows.Forms.TrackBar VolumeBar;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }
 
