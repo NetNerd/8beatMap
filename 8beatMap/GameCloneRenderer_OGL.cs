@@ -296,28 +296,23 @@ namespace _8beatMap
                         PointF ePoint = GetPointAlongLineF(NodeStartLocs[j], NodeEndLocs[j], eDist);
                         //Grfx.DrawImage(spr_HoldLocus, new PointF[] { new PointF(ePoint.X + eSize, ePoint.Y), new PointF(ePoint.X + eSize - iconSize, ePoint.Y), new PointF(sPoint.X + sSize, sPoint.Y) }, new Rectangle(0, (int)(spr_HoldLocus.Height * eDist), spr_HoldLocus.Width, (int)(spr_HoldLocus.Height * (sDist - eDist)) - 8), GraphicsUnit.Pixel, transpAttr);
 
-                        float sDirection = 88888888;
-                        if (sPoint.Y - NodeStartLocs[j].Y != 0) { sDirection = (sPoint.X - NodeStartLocs[j].X) / (float)(sPoint.Y - NodeStartLocs[j].Y) / 2f; }
-                        //if (sDirection == 0) sDirection = 0.0001f;
-                        if (sDirection > 1) sDirection = 1f;
-                        if (sDirection < -1) sDirection = -1f;
-
-                        float abssDirection = sDirection;
-                        if (sDirection < 0) abssDirection = sDirection * -1;
+                        float endYOffset = 88888888;
+                        if (sPoint.Y - NodeStartLocs[j].Y != 0) { endYOffset = ((float)(sPoint.X - NodeStartLocs[j].X) / (float)(sPoint.Y - NodeStartLocs[j].Y)); }
+                        float angledSizeScale = 1/(float)Math.Sqrt((Math.Pow(1, 2) + Math.Pow(endYOffset, 2)));
 
                         GL.Begin(PrimitiveType.Quads);
 
                         GL.TexCoord2(0, 0.9);
-                        GL.Vertex2(ePoint.X + eSize - halfeSize*abssDirection, ePoint.Y - eSize*sDirection);
+                        GL.Vertex2(ePoint.X + eSize*angledSizeScale, ePoint.Y - eSize*endYOffset*angledSizeScale);
 
                         GL.TexCoord2(0, 0.1);
-                        GL.Vertex2(sPoint.X + sSize - halfsSize*abssDirection, sPoint.Y - sSize*sDirection);
+                        GL.Vertex2(sPoint.X + sSize*angledSizeScale, sPoint.Y - sSize*endYOffset*angledSizeScale);
 
                         GL.TexCoord2(sDist, 0.1);
-                        GL.Vertex2(sPoint.X - sSize + halfsSize*abssDirection, sPoint.Y + sSize*sDirection);
+                        GL.Vertex2(sPoint.X - sSize*angledSizeScale, sPoint.Y + sSize*endYOffset*angledSizeScale);
 
                         GL.TexCoord2(eDist, 0.9);
-                        GL.Vertex2(ePoint.X - eSize + halfeSize*abssDirection, ePoint.Y + eSize*sDirection);
+                        GL.Vertex2(ePoint.X - eSize*angledSizeScale, ePoint.Y + eSize*endYOffset*angledSizeScale);
 
                         GL.End();
                     }
