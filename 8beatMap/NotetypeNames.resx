@@ -124,16 +124,16 @@
     <value>FlickRight</value>
   </data>
   <data name="GbsClock" xml:space="preserve">
-    <value>GbsClock</value>
+    <value>GBSClock</value>
   </data>
   <data name="GbsFlick" xml:space="preserve">
-    <value>GbsFlick</value>
+    <value>GBSFlick</value>
   </data>
   <data name="GbsSimulClock" xml:space="preserve">
-    <value>GbsSimulClock</value>
+    <value>GBSSimulClock</value>
   </data>
   <data name="GbsSimulFlick" xml:space="preserve">
-    <value>GbsSimulFlick</value>
+    <value>GBSSimulFlick</value>
   </data>
   <data name="Hold" xml:space="preserve">
     <value>Hold</value>

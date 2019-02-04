@@ -79,7 +79,7 @@ namespace _8beatMap {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to GbsClock.
+        ///   Looks up a localized string similar to GBSClock.
         /// </summary>
         internal static string GbsClock {
             get {
@@ -88,7 +88,7 @@ namespace _8beatMap {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to GbsFlick.
+        ///   Looks up a localized string similar to GBSFlick.
         /// </summary>
         internal static string GbsFlick {
             get {
@@ -97,7 +97,7 @@ namespace _8beatMap {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to GbsSimulClock.
+        ///   Looks up a localized string similar to GBSSimulClock.
         /// </summary>
         internal static string GbsSimulClock {
             get {
@@ -106,7 +106,7 @@ namespace _8beatMap {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to GbsSimulFlick.
+        ///   Looks up a localized string similar to GBSSimulFlick.
         /// </summary>
         internal static string GbsSimulFlick {
             get {

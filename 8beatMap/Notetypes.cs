@@ -147,33 +147,33 @@ namespace _8beatMap
             { "GbsSimulClock", NoteTypeDefs.GbsSimulClock.TypeId }
         };
         
-        public static Dictionary<string, int> NoteShortcutKeys = new Dictionary<string, int>
+        public static Dictionary<System.Windows.Forms.Keys, int> NoteShortcutKeys = new Dictionary<System.Windows.Forms.Keys, int>
         {
-            { "_1", NoteTypeDefs.Tap.TypeId },
-            { "Q", NoteTypeDefs.SimulTap.TypeId },
+            { System.Windows.Forms.Keys.D1, NoteTypeDefs.Tap.TypeId },
+            { System.Windows.Forms.Keys.Q, NoteTypeDefs.SimulTap.TypeId },
 
-            { "_2", NoteTypeDefs.Hold.TypeId },
-            { "W", NoteTypeDefs.SimulHoldStart.TypeId },
-            { "S", NoteTypeDefs.SimulHoldRelease.TypeId },
+            { System.Windows.Forms.Keys.D2, NoteTypeDefs.Hold.TypeId },
+            { System.Windows.Forms.Keys.W, NoteTypeDefs.SimulHoldStart.TypeId },
+            { System.Windows.Forms.Keys.S, NoteTypeDefs.SimulHoldRelease.TypeId },
 
-            { "_3", NoteTypeDefs.FlickLeft.TypeId },
-            { "E", NoteTypeDefs.HoldEndFlickLeft.TypeId },
-            { "_4", NoteTypeDefs.FlickRight.TypeId },
-            { "R", NoteTypeDefs.HoldEndFlickRight.TypeId },
+            { System.Windows.Forms.Keys.D3, NoteTypeDefs.FlickLeft.TypeId },
+            { System.Windows.Forms.Keys.E, NoteTypeDefs.HoldEndFlickLeft.TypeId },
+            { System.Windows.Forms.Keys.D4, NoteTypeDefs.FlickRight.TypeId },
+            { System.Windows.Forms.Keys.R, NoteTypeDefs.HoldEndFlickRight.TypeId },
 
-            { "_5", NoteTypeDefs.SwipeLeftStartEnd.TypeId },
-            { "T", NoteTypeDefs.SwipeLeftMid.TypeId },
-            { "G", NoteTypeDefs.SwipeChangeDirR2L.TypeId },
+            { System.Windows.Forms.Keys.D5, NoteTypeDefs.SwipeLeftStartEnd.TypeId },
+            { System.Windows.Forms.Keys.T, NoteTypeDefs.SwipeLeftMid.TypeId },
+            { System.Windows.Forms.Keys.G, NoteTypeDefs.SwipeChangeDirR2L.TypeId },
 
-            { "_6", NoteTypeDefs.SwipeRightStartEnd.TypeId },
-            { "Y", NoteTypeDefs.SwipeRightMid.TypeId },
-            { "H", NoteTypeDefs.SwipeChangeDirL2R.TypeId },
+            { System.Windows.Forms.Keys.D6, NoteTypeDefs.SwipeRightStartEnd.TypeId },
+            { System.Windows.Forms.Keys.Y, NoteTypeDefs.SwipeRightMid.TypeId },
+            { System.Windows.Forms.Keys.H, NoteTypeDefs.SwipeChangeDirL2R.TypeId },
 
-            { "_7", NoteTypeDefs.GbsFlick.TypeId },
-            { "U", NoteTypeDefs.GbsSimulFlick.TypeId },
+            { System.Windows.Forms.Keys.D7, NoteTypeDefs.GbsFlick.TypeId },
+            { System.Windows.Forms.Keys.U, NoteTypeDefs.GbsSimulFlick.TypeId },
 
-            { "_8", NoteTypeDefs.GbsClock.TypeId },
-            { "I", NoteTypeDefs.GbsSimulClock.TypeId }
+            { System.Windows.Forms.Keys.D8, NoteTypeDefs.GbsClock.TypeId },
+            { System.Windows.Forms.Keys.I, NoteTypeDefs.GbsSimulClock.TypeId }
         };
     }
 }

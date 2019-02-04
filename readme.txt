@@ -40,12 +40,13 @@ Copy and paste seems broken in Mono on Windows (might work on other platforms).
 他のショートカットキー：
 P：プレビューウィンドウ
 /：譜面でノードIDを示す（デバッグのため）
-[：プレビューウィンドウの背景色を黒にする
-]：プレビューウィンドウの背景色を灰色にする
-\（¥）：プレビューウィンドウの背景色を白にする
+M：プレビューウィンドウの背景色を黒にする
+,（<）：プレビューウィンドウの背景色を灰色にする
+.（>）：プレビューウィンドウの背景色を白にする
 Ctrl+C：「コピー長さ」で設定した小節数をクリップボードにコピー。
 Ctrl+V：コピーしたデータを再生位置でペースト。
 Ctrl+Shift+V：左右反転ペースト。
+（海外キーボードでは異なる可能性があります）
 
 
 ※ズームと長さと全ノードを動かすの機能にはちょっとバグがあります。用いるの前に保存してください。
@@ -64,7 +65,7 @@ Use the left mouse button to place notes and the right one to delete them.
 
 Note types can be selected with keyboard shortcuts too.
 1: Tap    Q: SimulTap
-2: Hold    W: SimulHoldStart    S: SimulHoldEnd
+2: Hold    W: SimulHoldStart    S: SimulHoldRelease
 3: FlickLeft    E: HoldEndFlickLeft
 4: FlickRight    R: HoldEndFlickRight
 5: SwipeLeftStartEnd    T: SwipeLeftMid    G: SwipeChangeDirR2L
@@ -74,7 +75,7 @@ Note types can be selected with keyboard shortcuts too.
 
 Special note types:
 -"Simul-" notes are the pink ones (at the same time as others). There's an auto feature, so you don't need to place them manually.
--"SimulHoldStart" is the pink version of the first note in a hold.  "SimulHoldEnd" is the pink version of the last note in a hold.    --You don't need a special note type for normal (green/non-simul) holds.
+-"SimulHoldStart" is the pink version of the first note in a hold.  "SimulHoldRelease" is the pink version of the last note in a hold.    --You don't need a special note type for normal (green/non-simul) holds.
 -Flicks are just single notes and holds are when there's more than one.
 -"Swipe__StartEnd" notes are used at the start and end of swipes. "Swipe__Mid" notes are used for the other notes in them.
 -"HoldEndFlick" notes are only for flicks. Swipes don't have a special type.
@@ -84,12 +85,13 @@ Special note types:
 Other shortcut keys:
 P: Preview window
 /: Show note IDs on chart (for debugging)
-[: Make preview window background black
-]: Make preview window background grey
-\: Make preview window background white
+M: Make preview window background black
+,(<): Make preview window background grey
+.(>): Make preview window background white
 Ctrl+C: Copy the amount of bars set as copy length (starting from the playhead) to the clipboard.
 Ctrl+V: Paste data from the clipboard at the playhead.
 Ctrl+Shift+V: Paste mirrored.
+(may differ with international keyboard layouts)
 
 
 --The zoom, length, and note shift functions are a bit buggy. Please save before using them.

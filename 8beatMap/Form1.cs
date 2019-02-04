@@ -784,16 +784,16 @@ namespace _8beatMap
         }
         
     
-    private void Form1_KeyPress(object sender, KeyPressEventArgs e)
+    private void Form1_KeyPress(object sender, KeyEventArgs e)
         {
             try
             {
-                char key = e.KeyChar;
+                Keys key = e.KeyCode;
 
                 //Console.WriteLine(ModifierKeys);
                 if (ModifierKeys == Keys.Control | ModifierKeys == (Keys.Control | Keys.Shift))
                 {
-                    if ((key == 3 | key == 'c' | key == 'C')) // not sure why this should be 3.....
+                    if (key == Keys.C) // not sure why this should be 3.....
                     {
                         int copylen = (int)(48 * CopyLengthBox.Value);
                         if ((int)CurrentTick + copylen >= chart.Length) copylen = chart.Length - (int)CurrentTick;
@@ -808,7 +808,7 @@ namespace _8beatMap
                         Clipboard.Clear();
                         Clipboard.SetDataObject(copydata);
                     }
-                    else if ((key == 22 | key == 'v' | key == 'V'))
+                    else if (key == Keys.V)
                     {
                         Type datatype = typeof(Notedata.Tick[]);
                         IDataObject dataobject = Clipboard.GetDataObject();
@@ -885,36 +885,27 @@ namespace _8beatMap
                 }
                 else switch (key)
                 {
-                    case '/': // toggle showing numbers on keys
+                    case Keys.OemQuestion: // toggle showing numbers on keys   question is same as slash in most layouts
                         ShowTypeIdsOnNotes = !ShowTypeIdsOnNotes;
                         UpdateChart();
                         break;
 
-                    case 'P': // reopen preview window
-                    case 'p':
+                    case Keys.P: // reopen preview window
                         OpenPreviewWindow();
                         break;
                     
-                    case '[':
+                    case Keys.M:
                         OGLrenderer.clearColor = Color.FromArgb(0, 0, 0, 0);
                         break;
-                    case ']':
+                    case Keys.Oemcomma:
                         OGLrenderer.clearColor = Color.FromArgb(0, 170, 170, 170);
                         break;
-                    case '\\':
-                    case '¥': // probably not necessary...
+                    case Keys.OemPeriod:
                         OGLrenderer.clearColor = Color.FromArgb(0, 255, 255, 255);
                         break;
 
                     default:
-                        if (Char.IsDigit(key))
-                        {
-                            NoteTypeSelector.SelectedItem = currentNoteTypes.FirstOrDefault(x => x.Value == NoteTypes.NoteShortcutKeys["_" + key]);
-                        }
-                        else
-                        {
-                            NoteTypeSelector.SelectedItem = currentNoteTypes.FirstOrDefault(x => x.Value == NoteTypes.NoteShortcutKeys[key.ToString().ToUpper()]);
-                        }
+                        NoteTypeSelector.SelectedItem = currentNoteTypes.FirstOrDefault(x => x.Value == NoteTypes.NoteShortcutKeys[key]);
                         break;
                 }
             }
