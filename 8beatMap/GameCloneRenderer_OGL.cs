@@ -209,31 +209,11 @@ namespace _8beatMap
                             int eSize = (int)(halfSwipeSize * eDist);
                             Point iPoint = GetPointAlongLine(NodeStartLocs[j], NodeEndLocs[j], iDist);
                             Point ePoint = GetPointAlongLine(NodeStartLocs[swipeEndPoint.Y], NodeEndLocs[swipeEndPoint.Y], eDist);
-
-                            //float iDirection = 88888888;
-                            //if (iPoint.Y - NodeStartLocs[j].Y != 0) { iDirection = (iPoint.X - NodeStartLocs[j].X) / (float)(iPoint.Y - NodeStartLocs[j].Y) / 2f; }
-                            float eDirection = 88888888;
-                            if (ePoint.Y - NodeStartLocs[swipeEndPoint.Y].Y != 0) { eDirection = (ePoint.X - NodeStartLocs[swipeEndPoint.Y].X) / (float)(ePoint.Y - NodeStartLocs[swipeEndPoint.Y].Y) / 2f; }
-
-                            //float avgDirection = iDirection + eDirection / 2f;
-
-                            //if (iDirection == 0) iDirection = 0.0001f;
-                            //if (iDirection > 1) iDirection = 1f;
-                            //if (iDirection < -1) iDirection = -1f;
-                            //if (eDirection == 0) eDirection = 0.0001f;
-                            if (eDirection > 1) eDirection = 1f;
-                            if (eDirection < -1) eDirection = -1f;
-                            //if (avgDirection == 0) avgDirection = 0.0001f;
-                            //if (avgDirection > 1) avgDirection = 1f;
-                            //if (avgDirection < -1) avgDirection = -1f;
-
-                            //float absiDirection = iDirection;
-                            //if (iDirection < 0) absiDirection = iDirection * -1;
-                            float abseDirection = eDirection;
-                            if (eDirection < 0) abseDirection = eDirection * -1;
-                            //float absDirection = avgDirection;
-                            //if (avgDirection < 0) absDirection = avgDirection * -1;
-
+                            
+                            float endYOffset = 88888888;
+                            if (ePoint.X - NodeStartLocs[swipeEndPoint.Y].X != 0) { endYOffset = ((float)(ePoint.Y - NodeStartLocs[swipeEndPoint.Y].Y) / (float)(ePoint.X - NodeStartLocs[swipeEndPoint.Y].X)); }
+                            float angledSizeScale = 1 / (float)Math.Sqrt((Math.Pow(1, 2) + Math.Pow(endYOffset, 2)));
+                            
 
                             float sDist;
                             Point sPoint;
@@ -255,16 +235,16 @@ namespace _8beatMap
                             GL.Begin(PrimitiveType.Quads);
 
                             GL.TexCoord2(0.1, 0);
-                            GL.Vertex2(sPoint.X + sSize*eDirection, sPoint.Y + sSize - sSize*abseDirection);
+                            GL.Vertex2(sPoint.X + sSize*angledSizeScale, sPoint.Y + sSize*endYOffset*angledSizeScale);
 
                             GL.TexCoord2(0.9, 0);
-                            GL.Vertex2(ePoint.X + eSize*eDirection, ePoint.Y + eSize - eSize*abseDirection);
+                            GL.Vertex2(ePoint.X + eSize*angledSizeScale, ePoint.Y + eSize*endYOffset*angledSizeScale);
 
                             GL.TexCoord2(0.9, eDist);
-                            GL.Vertex2(ePoint.X - eSize*eDirection, ePoint.Y - eSize + eSize*abseDirection);
+                            GL.Vertex2(ePoint.X - eSize*angledSizeScale, ePoint.Y - eSize*endYOffset*angledSizeScale);
                             
                             GL.TexCoord2(0.1, sDist);
-                            GL.Vertex2(sPoint.X - sSize*eDirection, sPoint.Y - sSize + sSize*abseDirection);
+                            GL.Vertex2(sPoint.X - sSize*angledSizeScale, sPoint.Y - sSize*endYOffset*angledSizeScale);
 
                             GL.End();
                         }
