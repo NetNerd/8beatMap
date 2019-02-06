@@ -15,7 +15,7 @@ namespace _8beatMap
         private float timingAdjust = 0;
         private int hitlineAdjust = 1;
 
-        public Form1 mainform = null;
+        private Form1 mainform = null;
 
         private Skinning.Skin skin = Skinning.DefaultSkin;
 
@@ -74,9 +74,10 @@ namespace _8beatMap
             }
         }
 
-        public GameCloneRenderer_OGL(int wndWidth, int wndHeight, Skinning.Skin newskin)
+        public GameCloneRenderer_OGL(int wndWidth, int wndHeight, Form1 mainform, Skinning.Skin skin)
         {
-            skin = newskin;
+            this.mainform = mainform;
+            this.skin = skin;
             NodeStartLocs = (Point[])skin.NodeStartLocs.Clone();
             NodeEndLocs = (Point[])skin.NodeEndLocs.Clone();
             SetupNodeLocs(wndWidth, wndHeight);
@@ -116,6 +117,8 @@ namespace _8beatMap
                 myWindow.Run();
             });
 
+            System.Threading.Thread.Sleep(10);
+
             oglThread.Start();
 
             while (myWindow == null)
@@ -127,7 +130,8 @@ namespace _8beatMap
             if (myWindow != null)
             {
                 myWindow.Close();
-                myWindow = null;
+                //myWindow.Dispose(); //disposing seems to cause issues when calling run later.. in a new instance of the class...???  I don't understand this..
+                myWindow = null;      //fortunately it isn't a huge memory leak
             }
         }
 
@@ -150,13 +154,14 @@ namespace _8beatMap
 
         void RenderFrame(object sender, EventArgs e)
         {
-            if (myWindow == null) return;
+            if (myWindow == null || !myWindow.Exists) return;
             if (myWindow.WindowState == WindowState.Minimized) return;
 
             if (mainform == null) return;
 
             mainform.UpdateGameCloneChart();
 
+            //Notedata.Chart chart = mainform.GetChart(); //doesn't really make stuttering worse if used, but the current way seems safe enough and we need all the help we can get
 
             double EffectTicks = mainform.chart.ConvertTimeToTicks(new TimeSpan(EffectTime));
             double EffectFadeTicks = mainform.chart.ConvertTimeToTicks(new TimeSpan(EffectFadeTime));

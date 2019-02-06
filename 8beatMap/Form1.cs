@@ -118,7 +118,7 @@ namespace _8beatMap
         }
 
 
-        GameCloneRenderer_OGL OGLrenderer = new GameCloneRenderer_OGL(853, 480, Skinning.DefaultSkin);
+        GameCloneRenderer_OGL OGLrenderer = null;
 
         public bool ShowTypeIdsOnNotes = false;
 
@@ -274,15 +274,23 @@ namespace _8beatMap
 
         public void UpdateGameCloneChart()
         {
+            if (OGLrenderer == null)
+                return;
+
             double tick = CurrentTick;
             if (playTimer.Enabled)
             {
                 tick -= chart.ConvertTimeToTicks(TimeSpan.FromMilliseconds(VideoDelayMs+GameCloneOffsetMs));
                 //tick -= chart.ConvertTimeToTicks(TimeSpan.FromMilliseconds(MusicDelayMs));
             }
-
+            
             OGLrenderer.currentTick = tick;
             OGLrenderer.numTicksVisible = (int)chart.ConvertTimeToTicks(TimeSpan.FromMilliseconds(700));
+        }
+
+        public Notedata.Chart GetChart()
+        {
+            return chart;
         }
 
 
@@ -394,10 +402,12 @@ namespace _8beatMap
 
         private void OpenPreviewWindow()
         {
-            OGLrenderer.Stop();
-            OGLrenderer = null;
-            OGLrenderer = new GameCloneRenderer_OGL(853, 480, skin);
-            OGLrenderer.mainform = this;
+            if (OGLrenderer != null)
+            {
+                OGLrenderer.Stop();
+                OGLrenderer = null;
+            }
+            OGLrenderer = new GameCloneRenderer_OGL(853, 480, this, skin);
         }
 
         private Skinning.Skin skin = Skinning.DefaultSkin;
@@ -415,9 +425,7 @@ namespace _8beatMap
             InitializeComponent();
             
             pictureBox1.Image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
-
-            OGLrenderer.mainform = this;
-
+            
             SetSkin("8bs");
 
             AddNoteTypes();
@@ -732,14 +740,21 @@ namespace _8beatMap
         {
             if (e.CloseReason == CloseReason.ApplicationExitCall)
             {
-                OGLrenderer.Stop();
+                if (OGLrenderer != null)
+                {
+                    OGLrenderer.Stop();
+                    OGLrenderer = null;
+                }
                 return;
             }
 
             if (MessageBox.Show(DialogResMgr.GetString("ExitMessage"), DialogResMgr.GetString("ExitCaption"), MessageBoxButtons.YesNo) == DialogResult.No)
                 e.Cancel = true;
-            else
+            else if (OGLrenderer != null)
+            {
                 OGLrenderer.Stop();
+                OGLrenderer = null;
+            }
         }
 
         private void NoteCountButton_Click(object sender, EventArgs e)
@@ -895,13 +910,16 @@ namespace _8beatMap
                         break;
                     
                     case Keys.M:
-                        OGLrenderer.clearColor = Color.FromArgb(0, 0, 0, 0);
+                        if (OGLrenderer != null)
+                            OGLrenderer.clearColor = Color.FromArgb(0, 0, 0, 0);
                         break;
                     case Keys.Oemcomma:
-                        OGLrenderer.clearColor = Color.FromArgb(0, 170, 170, 170);
+                        if (OGLrenderer != null)
+                            OGLrenderer.clearColor = Color.FromArgb(0, 170, 170, 170);
                         break;
                     case Keys.OemPeriod:
-                        OGLrenderer.clearColor = Color.FromArgb(0, 255, 255, 255);
+                        if (OGLrenderer != null)
+                            OGLrenderer.clearColor = Color.FromArgb(0, 255, 255, 255);
                         break;
 
                     default:
