@@ -123,7 +123,7 @@ namespace _8beatMap
         public bool ShowTypeIdsOnNotes = false;
 
 
-        Image GetChartImage(double startTick, int tickHeight, int iconWidth, int iconHeight, Color BgCol, bool NoGrid, int Width, int Height)
+        Image GetChartImage(double startTick, int tickHeight, int iconWidth, int iconHeight, Color BgCol, bool NoGrid, int Width, int Height, float BarNumSize = 9f, float NodeIdSize = 9f, System.Drawing.Text.TextRenderingHint TextAAMode = System.Drawing.Text.TextRenderingHint.SystemDefault)
         {
             Image Bmp = new Bitmap(Width, Height);
             Graphics Grfx = Graphics.FromImage(Bmp);
@@ -131,7 +131,11 @@ namespace _8beatMap
             int width = Bmp.Width;
             int height = Bmp.Height;
 
-            Font Arial65Font = new Font("Arial", 6.5f);
+
+            //float FontScale = 72 / Grfx.DpiY; // divide by dpi for height in inches, times 72 for points
+            Font BarNumFont = new Font("Arial", BarNumSize, GraphicsUnit.Pixel);
+            Font NodeTypeFont = new Font("Arial", NodeIdSize, GraphicsUnit.Pixel);
+            Grfx.TextRenderingHint = TextAAMode;
 
             Grfx.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceCopy;
             Grfx.Clear(BgCol);
@@ -202,7 +206,7 @@ namespace _8beatMap
                         if (typeId != 0)
                         {
                             string typeStr = typeId.ToString();
-                            Grfx.DrawString(typeStr, Arial65Font, Brushes.White, iconX + halfIconWidth - typeStr.Length * 3.5f, iconY);
+                            Grfx.DrawString(typeStr, NodeTypeFont, Brushes.White, iconX + halfIconWidth - typeStr.Length * 3.5f, iconY);
                         }
                     }
                 }
@@ -212,7 +216,7 @@ namespace _8beatMap
                     if (i % 48 == 0)
                     {
                         Grfx.FillRectangle(Brushes.SlateGray, 0, height - (float)(i - startTick + 0.5) * tickHeight - 3, width, 3);
-                        Grfx.DrawString((i / 48 + 1).ToString(), Arial65Font, Brushes.DarkSlateGray, 0, height - (float)(i - startTick + 0.5) * tickHeight - 13);
+                        Grfx.DrawString((i / 48 + 1).ToString(), BarNumFont, Brushes.DarkSlateGray, 0, height - (float)(i - startTick + 0.5) * tickHeight - 4 - (int)Math.Round(BarNumSize));
                     }
                     else if (i % 12 == 0)
                     {
@@ -701,10 +705,11 @@ namespace _8beatMap
         private void ImgSaveBtn_Click(object sender, EventArgs e)
         {
             int TicksPerCol = 48 * 8; //8 bars
-            int TickHeight = 1;
-            int ColWidth = 16;
-            int NoteHeight = 1;
-            int NoteWidth = 2;
+            int TickHeight = 6;
+            int ColWidth = 11 * 8;
+            int NoteHeight = 6;
+            int NoteWidth = 11;
+            float FontSize = 6.5f;
 
             int NumCols = (chart.Ticks.Length - 1) / TicksPerCol + 1;
 
@@ -715,7 +720,7 @@ namespace _8beatMap
 
             for (int i = 0; i < NumCols; i++)
             {
-                grfx.DrawImage(GetChartImage(i * TicksPerCol, TickHeight, NoteWidth, NoteHeight, SystemColors.ControlLight, true, ColWidth, TicksPerCol * NoteHeight + 1), i + i * ColWidth, 0);
+                grfx.DrawImage(GetChartImage(i * TicksPerCol, TickHeight, NoteWidth, NoteHeight, SystemColors.ControlLight, false, ColWidth, TicksPerCol * NoteHeight + 1, FontSize, FontSize, System.Drawing.Text.TextRenderingHint.AntiAliasGridFit), i + i * ColWidth, 0);
             }
 
             img.Save("imgout.png");
@@ -819,7 +824,7 @@ namespace _8beatMap
                         {
                             copydata[i] = chart.Ticks[(int)CurrentTick + i];
                         }
-                        
+
                         Clipboard.Clear();
                         Clipboard.SetDataObject(copydata);
                     }
