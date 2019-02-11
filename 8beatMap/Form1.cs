@@ -714,15 +714,19 @@ namespace _8beatMap
             int ColPadding = 8;
             int NoteHeight = 6;
             int NoteWidth = 12;
-            float BarFontSize = 8f;
+            float BarFontSize = 8.6f;
             float TypeIdFontSize = 6.5f;
 
-            int EdgePaddingX = 8;
-            int EdgePaddingY = 8;
+            int EdgePaddingX = 10;
+            int EdgePaddingY = 10;
 
             int NumCols = (chart.Ticks.Length - 1) / TicksPerCol + 1;
 
-            Bitmap img = new Bitmap(NumCols * (ColWidth + ColPadding) - ColPadding + EdgePaddingX*2, TicksPerCol * NoteHeight + EdgePaddingY*2);
+
+            int imgWidth = NumCols * (ColWidth + ColPadding) - ColPadding + EdgePaddingX * 2;
+            int imgHeight = TicksPerCol * NoteHeight + EdgePaddingY * 2;
+
+            Bitmap img = new Bitmap(imgWidth, imgHeight);
             Graphics grfx = Graphics.FromImage(img);
 
             grfx.Clear(SystemColors.ControlDark);
@@ -733,6 +737,10 @@ namespace _8beatMap
                 grfx.DrawImage(tempimg, i * (ColWidth + ColPadding) + EdgePaddingX, EdgePaddingY);
                 tempimg.Dispose();
             }
+
+            grfx.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
+            Font InfoFont = new Font("Arial", 8.6f, GraphicsUnit.Pixel);
+            grfx.DrawString("8beatMap", InfoFont, Brushes.LightGray, EdgePaddingX, imgHeight - 10);
 
             img.Save("imgout.png");
             
