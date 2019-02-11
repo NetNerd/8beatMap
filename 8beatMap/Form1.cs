@@ -123,7 +123,7 @@ namespace _8beatMap
         public bool ShowTypeIdsOnNotes = false;
 
 
-        Image GetChartImage(double startTick, int tickHeight, int iconWidth, int iconHeight, Color BgCol, bool NoGrid, int Width, int Height, float BarNumSize = 9f, float NodeIdSize = 9f, System.Drawing.Text.TextRenderingHint TextAAMode = System.Drawing.Text.TextRenderingHint.SystemDefault)
+        Image GetChartImage(double startTick, int tickHeight, int iconWidth, int iconHeight, Color BgCol, bool NoGrid, int Width, int Height, float BarNumSize = 9f, float NodeIdSize = 9f, System.Drawing.Text.TextRenderingHint TextAAMode = System.Drawing.Text.TextRenderingHint.SystemDefault, float ShiftYTicks = 0.5f)
         {
             Image Bmp = new Bitmap(Width, Height);
             Graphics Grfx = Graphics.FromImage(Bmp);
@@ -155,6 +155,10 @@ namespace _8beatMap
             int halfIconWidth = iconWidth / 2;
             int halfIconHeight = iconHeight / 2;
 
+            int iconXOffset = 0;
+
+            if ((laneWidth - iconWidth) % 2 == 1) iconXOffset = 1; // fix spacing if odd number of padding pixels (impossible for even number)
+
             for (int i = (int)startTick - 24; i < startTick + height / tickHeight; i++)
             {
                 if (i >= chart.Length) break;
@@ -162,7 +166,7 @@ namespace _8beatMap
 
                 if (i % 48 == 0)
                 {
-                    Grfx.FillRectangle(Brushes.SlateGray, 0, height - (float)(i - startTick + 0.5) * tickHeight - 2, width, 1);
+                    Grfx.FillRectangle(Brushes.SlateGray, 0, height - (float)(i - startTick + ShiftYTicks) * tickHeight - 2, width, 1);
                 }
 
                 for (int j = 0; j < 8; j++)
@@ -174,13 +178,13 @@ namespace _8beatMap
                         Point swipeEndPoint = chart.Ticks[i].Notes[j].SwipeEndPoint;
 
                         if (swipeEndPoint.X > i)
-                            Grfx.DrawLine(new Pen(Color.LightGray, iconWidth / 3), (float)(j + 0.5) * laneWidth, height - (float)(i - startTick + 1) * tickHeight - 2, (float)(swipeEndPoint.Y + 0.5) * laneWidth, height - (float)(swipeEndPoint.X - startTick + 1) * tickHeight - 2);
+                            Grfx.DrawLine(new Pen(Color.LightGray, iconWidth / 3), (float)(j + 0.5) * laneWidth, height - (float)(i - startTick + ShiftYTicks + 0.5) * tickHeight - 2, (float)(swipeEndPoint.Y + 0.5) * laneWidth + iconXOffset, height - (float)(swipeEndPoint.X - startTick + ShiftYTicks + 0.5) * tickHeight - 2);
                             
                     }
 
 
-                    int iconX = (int)((j + 0.5) * laneWidth - halfIconWidth);
-                    int iconY = (int)Math.Ceiling(height - (i - startTick + 1.5) * tickHeight - 2);
+                    int iconX = (int)((j + 0.5) * laneWidth + iconXOffset - halfIconWidth);
+                    int iconY = (int)Math.Ceiling(height - (i - startTick + 1.0 + ShiftYTicks) * tickHeight - 2);
 
                     Color backColor = skin.EditorColours[Type.TypeName][0];
                     Color iconColor = skin.EditorColours[Type.TypeName][1];
@@ -215,16 +219,16 @@ namespace _8beatMap
                 {
                     if (i % 48 == 0)
                     {
-                        Grfx.FillRectangle(Brushes.SlateGray, 0, height - (float)(i - startTick + 0.5) * tickHeight - 3, width, 3);
-                        Grfx.DrawString((i / 48 + 1).ToString(), BarNumFont, Brushes.DarkSlateGray, 0, height - (float)(i - startTick + 0.5) * tickHeight - 4 - (int)Math.Round(BarNumSize));
+                        Grfx.FillRectangle(Brushes.SlateGray, 0, height - (float)(i - startTick + ShiftYTicks) * tickHeight - 3, width, 3);
+                        Grfx.DrawString((i / 48 + 1).ToString(), BarNumFont, Brushes.DarkSlateGray, 0, height - (float)(i - startTick + ShiftYTicks) * tickHeight - 4 - (int)Math.Round(BarNumSize));
                     }
                     else if (i % 12 == 0)
                     {
-                        Grfx.FillRectangle(Brushes.LightSlateGray, 0, height - (float)(i - startTick + 0.5) * tickHeight - 2, width, 1);
+                        Grfx.FillRectangle(Brushes.LightSlateGray, 0, height - (float)(i - startTick + ShiftYTicks) * tickHeight - 2, width, 1);
                     }
                     else if (i % 6 == 0)
                     {
-                        Grfx.FillRectangle(Brushes.LightGray, 0, height - (float)(i - startTick + 0.5) * tickHeight - 2, width, 1);
+                        Grfx.FillRectangle(Brushes.LightGray, 0, height - (float)(i - startTick + ShiftYTicks) * tickHeight - 2, width, 1);
                     }
                 }
             }
@@ -706,21 +710,28 @@ namespace _8beatMap
         {
             int TicksPerCol = 48 * 8; //8 bars
             int TickHeight = 6;
-            int ColWidth = 11 * 8;
+            int ColWidth = (12 + 5) * 8;
+            int ColPadding = 8;
             int NoteHeight = 6;
-            int NoteWidth = 11;
-            float FontSize = 6.5f;
+            int NoteWidth = 12;
+            float BarFontSize = 8f;
+            float TypeIdFontSize = 6.5f;
+
+            int EdgePaddingX = 8;
+            int EdgePaddingY = 8;
 
             int NumCols = (chart.Ticks.Length - 1) / TicksPerCol + 1;
 
-            Bitmap img = new Bitmap(NumCols * ColWidth + NumCols - 1, TicksPerCol * NoteHeight);
+            Bitmap img = new Bitmap(NumCols * (ColWidth + ColPadding) - ColPadding + EdgePaddingX*2, TicksPerCol * NoteHeight + EdgePaddingY*2);
             Graphics grfx = Graphics.FromImage(img);
 
             grfx.Clear(SystemColors.ControlDark);
 
             for (int i = 0; i < NumCols; i++)
             {
-                grfx.DrawImage(GetChartImage(i * TicksPerCol, TickHeight, NoteWidth, NoteHeight, SystemColors.ControlLight, false, ColWidth, TicksPerCol * NoteHeight + 1, FontSize, FontSize, System.Drawing.Text.TextRenderingHint.AntiAliasGridFit), i + i * ColWidth, 0);
+                Image tempimg = GetChartImage(i * TicksPerCol, TickHeight, NoteWidth, NoteHeight, SystemColors.ControlLight, false, ColWidth, TicksPerCol * NoteHeight + 1, BarFontSize, TypeIdFontSize, System.Drawing.Text.TextRenderingHint.AntiAliasGridFit, 0);
+                grfx.DrawImage(tempimg, i * (ColWidth + ColPadding) + EdgePaddingX, EdgePaddingY);
+                tempimg.Dispose();
             }
 
             img.Save("imgout.png");
