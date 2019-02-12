@@ -296,11 +296,6 @@ namespace _8beatMap
             OGLrenderer.numTicksVisible = (int)chart.ConvertTimeToTicks(TimeSpan.FromMilliseconds(700));
         }
 
-        public Notedata.Chart GetChart()
-        {
-            return chart;
-        }
-
 
         private int ConvertXCoordToNote(int X)
         {

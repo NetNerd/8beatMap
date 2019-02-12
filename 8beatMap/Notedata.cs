@@ -339,7 +339,7 @@ namespace _8beatMap
             }
         }
 
-
+        #pragma warning disable 649 // disable warnings for unassigned variables -- these are actually used for JSON import
         class JsonTick_Import
         {
             public string BAR;
@@ -363,6 +363,7 @@ namespace _8beatMap
                 }
             }
         }
+        #pragma warning restore 649
 
         class JsonTick_Export
         {

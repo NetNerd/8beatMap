@@ -14,7 +14,7 @@ namespace _8beatMap
 
         private float timingAdjust = 0;
         private int hitlineAdjust = 1;
-
+        
         private Form1 mainform = null;
 
         private Skinning.Skin skin = Skinning.DefaultSkin;
@@ -141,9 +141,9 @@ namespace _8beatMap
         
         int iconSize = 352;
         int halfIconSize = 176;
-        int holdSize = 130;
+        //int holdSize = 130;
         int halfHoldSize = 65;
-        int swipeSize = 66;
+        //int swipeSize = 66;
         int halfSwipeSize = 33;
 
         int EffectTime = 1000000;
@@ -160,11 +160,11 @@ namespace _8beatMap
             if (mainform == null) return;
 
             mainform.UpdateGameCloneChart();
+            
+            Notedata.Chart chart = mainform.chart; // doesn't seem necessary for our use case, but if I want to eliminate warnings it should be here
 
-            //Notedata.Chart chart = mainform.GetChart(); //doesn't really make stuttering worse if used, but the current way seems safe enough and we need all the help we can get
-
-            double EffectTicks = mainform.chart.ConvertTimeToTicks(new TimeSpan(EffectTime));
-            double EffectFadeTicks = mainform.chart.ConvertTimeToTicks(new TimeSpan(EffectFadeTime));
+            double EffectTicks = chart.ConvertTimeToTicks(new TimeSpan(EffectTime));
+            double EffectFadeTicks = chart.ConvertTimeToTicks(new TimeSpan(EffectFadeTime));
 
 
             GL.ClearColor(clearColor);
@@ -191,18 +191,18 @@ namespace _8beatMap
 
             for (int i = (int)currentTick + numTicksVisible + 1; i >= (int)currentTick - 48; i--) // 48 is magic from Notedata.Chart.UpdateSwipeEnd()
             {
-                if (i >= mainform.chart.Length) i = mainform.chart.Length - 1;
+                if (i >= chart.Length) i = chart.Length - 1;
                 if (i < 0) break;
 
                 for (int j = 0; j < numLanes; j++)
                 {
-                    NoteTypes.NoteTypeDef Type = mainform.chart.FindVisualNoteType(i, j);
+                    NoteTypes.NoteTypeDef Type = chart.FindVisualNoteType(i, j);
                     
                     GL.BindTexture(TextureTarget.Texture2D, textures["spr_SwipeLocus"]);
 
-                    if ((Type.DetectType == NoteTypes.DetectType.SwipeEndPoint | Type.DetectType == NoteTypes.DetectType.SwipeMid | Type.DetectType == NoteTypes.DetectType.SwipeDirChange) && !mainform.chart.Ticks[i].Notes[j].IsSwipeEnd)
+                    if ((Type.DetectType == NoteTypes.DetectType.SwipeEndPoint | Type.DetectType == NoteTypes.DetectType.SwipeMid | Type.DetectType == NoteTypes.DetectType.SwipeDirChange) && !chart.Ticks[i].Notes[j].IsSwipeEnd)
                     {
-                        Point swipeEndPoint = mainform.chart.Ticks[i].Notes[j].SwipeEndPoint;
+                        Point swipeEndPoint = chart.Ticks[i].Notes[j].SwipeEndPoint;
 
                         if (swipeEndPoint.X > i & currentTick-timingAdjust < swipeEndPoint.X & swipeEndPoint.Y < numLanes)
                         {
@@ -261,12 +261,12 @@ namespace _8beatMap
 
                     GL.BindTexture(TextureTarget.Texture2D, textures["spr_HoldLocus"]);
 
-                    if (Type.DetectType == NoteTypes.DetectType.HoldMid && (i == (int)currentTick-1 | mainform.chart.FindVisualNoteType(i - 1, j).DetectType != NoteTypes.DetectType.HoldMid))
+                    if (Type.DetectType == NoteTypes.DetectType.HoldMid && (i == (int)currentTick-1 | chart.FindVisualNoteType(i - 1, j).DetectType != NoteTypes.DetectType.HoldMid))
                     {
                         double start = i;
                         if (start < currentTick + 1 - timingAdjust) start = (int)((currentTick + 1 - timingAdjust) * 4) / 4f;
                         int end = i;
-                        while (mainform.chart.FindVisualNoteType(end, j).DetectType == NoteTypes.DetectType.HoldMid) end++;
+                        while (chart.FindVisualNoteType(end, j).DetectType == NoteTypes.DetectType.HoldMid) end++;
                         if (end <= start-1) continue;
 
                         float sDist = (float)(numTicksVisible - start + 1 + currentTick-timingAdjust) / numTicksVisible;
@@ -310,12 +310,12 @@ namespace _8beatMap
             for (int i = (int)currentTick + numTicksVisible; i >= (int)(currentTick - EffectTicks - EffectFadeTicks - 1); i--)
             //for (int i = (int)(startTick - EffectTicks - EffectFadeTicks - 1); i <= (int)startTick + numTicksVisible; i++)
             {
-                if (i >= mainform.chart.Length) i = mainform.chart.Length - 1;
+                if (i >= chart.Length) i = chart.Length - 1;
                 if (i < 0) break;
 
                 for (int j = 0; j < numLanes; j++)
                 {
-                    NoteTypes.NoteTypeDef Type = mainform.chart.FindVisualNoteType(i, j);
+                    NoteTypes.NoteTypeDef Type = chart.FindVisualNoteType(i, j);
 
                     if (Type.DetectType == NoteTypes.DetectType.None | Type.DetectType == NoteTypes.DetectType.HoldMid | Type.OGLTextureName == null) continue;
 
@@ -327,7 +327,7 @@ namespace _8beatMap
                         {
                             for (int k = 0; k < numLanes; k++)
                             {
-                                if (mainform.chart.Ticks[i].Notes[k].NoteType.IsSimul)
+                                if (chart.Ticks[i].Notes[k].NoteType.IsSimul)
                                 {
                                     NoteTex = "spr_SwipeLeftIcon_Simul";
                                     break;
@@ -339,7 +339,7 @@ namespace _8beatMap
                         {
                             for (int k = 0; k < numLanes; k++)
                             {
-                                if (mainform.chart.Ticks[i].Notes[k].NoteType.IsSimul)
+                                if (chart.Ticks[i].Notes[k].NoteType.IsSimul)
                                 {
                                     NoteTex = "spr_SwipeRightIcon_Simul";
                                     break;
