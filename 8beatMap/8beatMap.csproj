@@ -63,6 +63,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Dialogs.resx</DependentUpon>
     </Compile>
+    <Compile Include="UIColours.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

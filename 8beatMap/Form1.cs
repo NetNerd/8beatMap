@@ -186,8 +186,8 @@ namespace _8beatMap
                     int iconX = (int)((j + 0.5) * laneWidth + iconXOffset - halfIconWidth);
                     int iconY = (int)Math.Ceiling(height - (i - startTick + 1.0 + ShiftYTicks) * tickHeight - 2);
 
-                    Color backColor = skin.EditorColours[Type.TypeName][0];
-                    Color iconColor = skin.EditorColours[Type.TypeName][1];
+                    Color backColor = skin.EditorNoteColours[Type.TypeName][0];
+                    Color iconColor = skin.EditorNoteColours[Type.TypeName][1];
 
                     if (backColor.A > 0)
                         Grfx.FillRectangle(new SolidBrush(backColor), iconX, iconY, iconWidth, iconHeight);

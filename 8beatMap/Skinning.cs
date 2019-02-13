@@ -12,7 +12,7 @@ namespace _8beatMap
 
             public Dictionary<string, string> TexturePaths;
 
-            public Dictionary<string, Color[]> EditorColours;
+            public Dictionary<string, Color[]> EditorNoteColours;
 
             public Point[] NodeStartLocs;
             public Point[] NodeEndLocs;
@@ -26,7 +26,7 @@ namespace _8beatMap
             return System.IO.File.ReadAllText(path);
         }
 
-        private static Dictionary<string, Color[]> LoadColours(string defs)
+        private static Dictionary<string, Color[]> LoadNoteColours(string defs)
         {
             System.ComponentModel.TypeConverter colorConverter = System.ComponentModel.TypeDescriptor.GetConverter(typeof(Color));
             // (Color)colorConverter.ConvertFromString("#00000000")
@@ -74,6 +74,36 @@ namespace _8beatMap
             }
 
             return noteColours;
+        }
+
+        private static Dictionary<string, Color> LoadUIColours(string defs)
+        {
+            System.ComponentModel.TypeConverter colorConverter = System.ComponentModel.TypeDescriptor.GetConverter(typeof(Color));
+            // (Color)colorConverter.ConvertFromString("#00000000")
+
+            Dictionary<string, Color> uiColours_Default = new Dictionary<string, Color>
+            {
+                { UIColours.UIColourDefs.Chart_BG.TypeName, SystemColors.ControlLight },
+                { UIColours.UIColourDefs.Chart_BarLine.TypeName, Color.SlateGray },
+                { UIColours.UIColourDefs.Chart_BarText.TypeName, Color.DarkSlateGray },
+                { UIColours.UIColourDefs.Chart_QuarterLine.TypeName, Color.LightSlateGray },
+                { UIColours.UIColourDefs.Chart_EigthLine.TypeName, Color.LightGray },
+
+                { UIColours.UIColourDefs.Form_BG.TypeName, SystemColors.Control },
+            };
+            Dictionary<string, Color> uiColours = uiColours_Default;
+
+            string[] defslines = defs.Split("\n".ToCharArray());
+            for (int i = 0; i < defslines.Length; i++)
+            {
+                string cleanDef = defslines[i].Replace(" ", "");
+                string type = cleanDef.Split(":".ToCharArray())[0];
+                string val = cleanDef.Split(":".ToCharArray())[1];
+
+                uiColours[type] = (Color)colorConverter.ConvertFromString(val);
+            }
+
+            return uiColours;
         }
 
         private static Dictionary<string, string> LoadTexturePaths(string rootdir)
@@ -185,7 +215,7 @@ namespace _8beatMap
                 SkinName = skinname,
                 RootDir = rootdir,
                 TexturePaths = LoadTexturePaths(rootdir),
-                EditorColours = LoadColours(ReadFile(rootdir + "/colours.txt")),
+                EditorNoteColours = LoadNoteColours(ReadFile(rootdir + "/colours.txt")),
                 NodeStartLocs = LoadNodeStartLocs(buttonsfile),
                 NodeEndLocs = LoadNodeEndLocs(buttonsfile),
                 NumLanes = LoadNumLanes(buttonsfile),
