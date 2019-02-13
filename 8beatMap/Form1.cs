@@ -123,7 +123,7 @@ namespace _8beatMap
         public bool ShowTypeIdsOnNotes = false;
 
 
-        Image GetChartImage(double startTick, int tickHeight, int iconWidth, int iconHeight, Color BgCol, bool NoGrid, int Width, int Height, float BarNumSize = 9f, float NodeIdSize = 9f, System.Drawing.Text.TextRenderingHint TextAAMode = System.Drawing.Text.TextRenderingHint.SystemDefault, float ShiftYTicks = 0.5f)
+        Image GetChartImage(double startTick, int tickHeight, int iconWidth, int iconHeight, Color BgCol, bool NoGrid, int Width, int Height, float BarNumSize = 9f, float NodeIdSize = 9f, System.Drawing.Text.TextRenderingHint TextAAMode = System.Drawing.Text.TextRenderingHint.SystemDefault, bool DrawBarNumsAfter = false, float ShiftYTicks = 0.5f)
         {
             Image Bmp = new Bitmap(Width, Height);
             Graphics Grfx = Graphics.FromImage(Bmp);
@@ -220,7 +220,7 @@ namespace _8beatMap
                     if (i % 48 == 0)
                     {
                         Grfx.FillRectangle(Brushes.SlateGray, 0, height - (float)(i - startTick + ShiftYTicks) * tickHeight - 3, width, 3);
-                        Grfx.DrawString((i / 48 + 1).ToString(), BarNumFont, Brushes.DarkSlateGray, 0, height - (float)(i - startTick + ShiftYTicks) * tickHeight - 4 - (int)Math.Round(BarNumSize));
+                        if (!DrawBarNumsAfter) Grfx.DrawString((i / 48 + 1).ToString(), BarNumFont, Brushes.DarkSlateGray, 0, height - (float)(i - startTick + ShiftYTicks) * tickHeight - 4 - (int)Math.Round(BarNumSize));
                     }
                     else if (i % 12 == 0)
                     {
@@ -229,6 +229,21 @@ namespace _8beatMap
                     else if (i % 6 == 0)
                     {
                         Grfx.FillRectangle(Brushes.LightGray, 0, height - (float)(i - startTick + ShiftYTicks) * tickHeight - 2, width, 1);
+                    }
+                }
+            }
+
+            if (DrawBarNumsAfter)
+            {
+                for (int i = (int)startTick - 24; i < startTick + height / tickHeight; i++)
+                {
+                    if (i >= chart.Length) break;
+                    if (i < 0) i = 0;
+
+                    if (i % 48 == 0)
+                    {
+                        // draw bar number after all notes to avoid rendering issue when over holds
+                        Grfx.DrawString((i / 48 + 1).ToString(), BarNumFont, Brushes.DarkSlateGray, 0, height - (float)(i - startTick + ShiftYTicks) * tickHeight - 4 - (int)Math.Round(BarNumSize));
                     }
                 }
             }
@@ -706,14 +721,14 @@ namespace _8beatMap
             int TicksPerCol = 48 * 8; //8 bars
             int TickHeight = 6;
             int ColWidth = (12 + 5) * 8;
-            int ColPadding = 8;
+            int ColPadding = 10;
             int NoteHeight = 6;
             int NoteWidth = 12;
-            float BarFontSize = 8.6f;
+            float BarFontSize = 9f;
             float TypeIdFontSize = 6.5f;
 
-            int EdgePaddingX = 10;
-            int EdgePaddingY = 10;
+            int EdgePaddingX = 12;
+            int EdgePaddingY = 12;
 
             int NumCols = (chart.Ticks.Length - 1) / TicksPerCol + 1;
 
@@ -728,14 +743,14 @@ namespace _8beatMap
 
             for (int i = 0; i < NumCols; i++)
             {
-                Image tempimg = GetChartImage(i * TicksPerCol, TickHeight, NoteWidth, NoteHeight, SystemColors.ControlLight, false, ColWidth, TicksPerCol * NoteHeight + 1, BarFontSize, TypeIdFontSize, System.Drawing.Text.TextRenderingHint.AntiAliasGridFit, 0);
+                Image tempimg = GetChartImage(i * TicksPerCol, TickHeight, NoteWidth, NoteHeight, SystemColors.ControlLight, false, ColWidth, TicksPerCol * NoteHeight + 1, BarFontSize, TypeIdFontSize, System.Drawing.Text.TextRenderingHint.AntiAliasGridFit, true, 0);
                 grfx.DrawImage(tempimg, i * (ColWidth + ColPadding) + EdgePaddingX, EdgePaddingY);
                 tempimg.Dispose();
             }
 
             grfx.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
-            Font InfoFont = new Font("Arial", 8.6f, GraphicsUnit.Pixel);
-            grfx.DrawString("8beatMap", InfoFont, Brushes.LightGray, EdgePaddingX, imgHeight - 10);
+            Font InfoFont = new Font("Arial", 9f, GraphicsUnit.Pixel);
+            grfx.DrawString("8beatMap", InfoFont, Brushes.LightGray, EdgePaddingX, imgHeight - 11);
 
             img.Save("imgout.png");
             
