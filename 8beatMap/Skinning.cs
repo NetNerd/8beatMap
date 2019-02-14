@@ -84,6 +84,15 @@ namespace _8beatMap
             Dictionary<string, Color> uiColours_Default = new Dictionary<string, Color>
             {
                 { UIColours.UIColourDefs.Chart_BG.TypeName, SystemColors.ControlLight },
+                { UIColours.UIColourDefs.Chart_BG_Lane1.TypeName, Color.Transparent },
+                { UIColours.UIColourDefs.Chart_BG_Lane2.TypeName, Color.Transparent },
+                { UIColours.UIColourDefs.Chart_BG_Lane3.TypeName, Color.Transparent },
+                { UIColours.UIColourDefs.Chart_BG_Lane4.TypeName, Color.Transparent },
+                { UIColours.UIColourDefs.Chart_BG_Lane5.TypeName, Color.Transparent },
+                { UIColours.UIColourDefs.Chart_BG_Lane6.TypeName, Color.Transparent },
+                { UIColours.UIColourDefs.Chart_BG_Lane7.TypeName, Color.Transparent },
+                { UIColours.UIColourDefs.Chart_BG_Lane8.TypeName, Color.Transparent },
+
                 { UIColours.UIColourDefs.Chart_BarLine.TypeName, Color.SlateGray },
                 { UIColours.UIColourDefs.Chart_BarText.TypeName, Color.DarkSlateGray },
                 { UIColours.UIColourDefs.Chart_QuarterLine.TypeName, Color.LightSlateGray },
@@ -215,7 +224,7 @@ namespace _8beatMap
                 SkinName = skinname,
                 RootDir = rootdir,
                 TexturePaths = LoadTexturePaths(rootdir),
-                EditorNoteColours = LoadNoteColours(ReadFile(rootdir + "/colours.txt")),
+                EditorNoteColours = LoadNoteColours(ReadFile(rootdir + "/notecolours.txt")),
                 NodeStartLocs = LoadNodeStartLocs(buttonsfile),
                 NodeEndLocs = LoadNodeEndLocs(buttonsfile),
                 NumLanes = LoadNumLanes(buttonsfile),
