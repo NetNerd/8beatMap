@@ -98,6 +98,11 @@ namespace _8beatMap
                     GL.Enable(EnableCap.Blend);
                     GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
                     //GL.Enable(EnableCap.PolygonSmooth);  // sometimes causes diagonal lines through quads
+
+                    GL.BindTexture(TextureTarget.Texture2D, textures["spr_SwipeLocus"]);
+                    GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
+                    GL.BindTexture(TextureTarget.Texture2D, textures["spr_HoldLocus"]);
+                    GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
                 };
 
                 myWindow.Resize += (sender, e) =>
@@ -239,16 +244,16 @@ namespace _8beatMap
 
                             GL.Begin(PrimitiveType.Quads);
 
-                            GL.TexCoord2(0.1, 0);
+                            GL.TexCoord2(0, 0);
                             GL.Vertex2(sPoint.X + sSize*angledSizeScale, sPoint.Y + sSize*endYOffset*angledSizeScale);
 
-                            GL.TexCoord2(0.9, 0);
+                            GL.TexCoord2(32, 0);
                             GL.Vertex2(ePoint.X + eSize*angledSizeScale, ePoint.Y + eSize*endYOffset*angledSizeScale);
 
-                            GL.TexCoord2(0.9, eDist);
+                            GL.TexCoord2(32, eDist);
                             GL.Vertex2(ePoint.X - eSize*angledSizeScale, ePoint.Y - eSize*endYOffset*angledSizeScale);
                             
-                            GL.TexCoord2(0.1, sDist);
+                            GL.TexCoord2(0, sDist);
                             GL.Vertex2(sPoint.X - sSize*angledSizeScale, sPoint.Y - sSize*endYOffset*angledSizeScale);
 
                             GL.End();
@@ -263,7 +268,7 @@ namespace _8beatMap
 
                     if (Type.DetectType == NoteTypes.DetectType.HoldMid && (i == (int)currentTick-1 | chart.FindVisualNoteType(i - 1, j).DetectType != NoteTypes.DetectType.HoldMid))
                     {
-                        double start = i;
+                        float start = i;
                         if (start < currentTick + 1 - timingAdjust) start = (int)((currentTick + 1 - timingAdjust) * 4) / 4f;
                         int end = i;
                         while (chart.FindVisualNoteType(end, j).DetectType == NoteTypes.DetectType.HoldMid) end++;
@@ -287,16 +292,16 @@ namespace _8beatMap
 
                         GL.Begin(PrimitiveType.Quads);
 
-                        GL.TexCoord2(0, 0.9);
+                        GL.TexCoord2(0, (eDist - sDist) * numTicksVisible * 2);
                         GL.Vertex2(ePoint.X + eSize*angledSizeScale, ePoint.Y - eSize*endYOffset*angledSizeScale);
 
-                        GL.TexCoord2(0, 0.1);
+                        GL.TexCoord2(0, 0);
                         GL.Vertex2(sPoint.X + sSize*angledSizeScale, sPoint.Y - sSize*endYOffset*angledSizeScale);
 
-                        GL.TexCoord2(sDist, 0.1);
+                        GL.TexCoord2(sDist, 0);
                         GL.Vertex2(sPoint.X - sSize*angledSizeScale, sPoint.Y + sSize*endYOffset*angledSizeScale);
 
-                        GL.TexCoord2(eDist, 0.9);
+                        GL.TexCoord2(eDist, (eDist - sDist) * numTicksVisible * 2);
                         GL.Vertex2(ePoint.X - eSize*angledSizeScale, ePoint.Y + eSize*endYOffset*angledSizeScale);
 
                         GL.End();
