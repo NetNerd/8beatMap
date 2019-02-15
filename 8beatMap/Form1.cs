@@ -138,15 +138,21 @@ namespace _8beatMap
             Grfx.TextRenderingHint = TextAAMode;
 
             Grfx.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceCopy;
-            Grfx.Clear(BgCol);
+            Grfx.Clear(skin.UIColours[UIColours.UIColourDefs.Chart_BG.TypeName]);
             Grfx.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceOver;
 
-            if (!NoGrid)
+
+            Brush LaneLineBrush = new SolidBrush(skin.UIColours[UIColours.UIColourDefs.Chart_LaneLine.TypeName]);
+            Brush BarLineBrush = new SolidBrush(skin.UIColours[UIColours.UIColourDefs.Chart_BarLine.TypeName]);
+            Brush BarTextBrush = new SolidBrush(skin.UIColours[UIColours.UIColourDefs.Chart_BarText.TypeName]);
+            Brush QuarterLineBrush = new SolidBrush(skin.UIColours[UIColours.UIColourDefs.Chart_QuarterLine.TypeName]);
+            Brush EigthLineBrush = new SolidBrush(skin.UIColours[UIColours.UIColourDefs.Chart_EigthLine.TypeName]);
+
+            
+            for (int i = 0; i < 8; i++)
             {
-                for (int i = 1; i < 8; i++)
-                {
-                    Grfx.FillRectangle(new SolidBrush(Color.LightGray), i * width / 8, 0, 1, height);
-                }
+                Grfx.FillRectangle(new SolidBrush(skin.UIColours[UIColours.UIColourDefs.Chart_BG_Lane1.TypeName.Replace("1", (i+1).ToString())]), i * width / 8, 0, width / 8, height);
+                if (i > 0 & !NoGrid) Grfx.FillRectangle(LaneLineBrush, i * width / 8, 0, 1, height);
             }
             
 
@@ -166,7 +172,7 @@ namespace _8beatMap
 
                 if (i % 48 == 0)
                 {
-                    Grfx.FillRectangle(Brushes.SlateGray, 0, height - (float)(i - startTick + ShiftYTicks) * tickHeight - 2, width, 1);
+                    Grfx.FillRectangle(BarLineBrush, 0, height - (float)(i - startTick + ShiftYTicks) * tickHeight - 2, width, 1);
                 }
 
                 for (int j = 0; j < 8; j++)
@@ -219,16 +225,16 @@ namespace _8beatMap
                 {
                     if (i % 48 == 0)
                     {
-                        Grfx.FillRectangle(Brushes.SlateGray, 0, height - (float)(i - startTick + ShiftYTicks) * tickHeight - 3, width, 3);
-                        if (!DrawBarNumsAfter) Grfx.DrawString((i / 48 + 1).ToString(), BarNumFont, Brushes.DarkSlateGray, 0, height - (float)(i - startTick + ShiftYTicks) * tickHeight - 4 - (int)Math.Round(BarNumSize));
+                        Grfx.FillRectangle(BarLineBrush, 0, height - (float)(i - startTick + ShiftYTicks) * tickHeight - 3, width, 3);
+                        if (!DrawBarNumsAfter) Grfx.DrawString((i / 48 + 1).ToString(), BarNumFont, BarTextBrush, 0, height - (float)(i - startTick + ShiftYTicks) * tickHeight - 4 - (int)Math.Round(BarNumSize));
                     }
                     else if (i % 12 == 0)
                     {
-                        Grfx.FillRectangle(Brushes.LightSlateGray, 0, height - (float)(i - startTick + ShiftYTicks) * tickHeight - 2, width, 1);
+                        Grfx.FillRectangle(QuarterLineBrush, 0, height - (float)(i - startTick + ShiftYTicks) * tickHeight - 2, width, 1);
                     }
                     else if (i % 6 == 0)
                     {
-                        Grfx.FillRectangle(Brushes.LightGray, 0, height - (float)(i - startTick + ShiftYTicks) * tickHeight - 2, width, 1);
+                        Grfx.FillRectangle(EigthLineBrush, 0, height - (float)(i - startTick + ShiftYTicks) * tickHeight - 2, width, 1);
                     }
                 }
             }
@@ -243,7 +249,7 @@ namespace _8beatMap
                     if (i % 48 == 0)
                     {
                         // draw bar number after all notes to avoid rendering issue when over holds
-                        Grfx.DrawString((i / 48 + 1).ToString(), BarNumFont, Brushes.DarkSlateGray, 0, height - (float)(i - startTick + ShiftYTicks) * tickHeight - 4 - (int)Math.Round(BarNumSize));
+                        Grfx.DrawString((i / 48 + 1).ToString(), BarNumFont, BarTextBrush, 0, height - (float)(i - startTick + ShiftYTicks) * tickHeight - 4 - (int)Math.Round(BarNumSize));
                     }
                 }
             }
@@ -428,11 +434,28 @@ namespace _8beatMap
             OGLrenderer = new GameCloneRenderer_OGL(853, 480, this, skin);
         }
 
+
+        private void SetBackCol(Control elem, Color colour)
+        {
+            if (elem.HasChildren && !(elem.GetType() == typeof(NumericUpDown)))
+            {
+                elem.BackColor = colour;
+                foreach (Control control in elem.Controls)
+                {
+                    SetBackCol(control, colour);
+                }
+            }
+        }
+
         private Skinning.Skin skin = Skinning.DefaultSkin;
         private void SetSkin(string skin)
         {
             this.skin = Skinning.LoadSkin("skins/" + skin);
             UpdateChart();
+
+            SetBackCol(this, this.skin.UIColours[UIColours.UIColourDefs.Form_BG.TypeName]);
+            newplayhead.BackColor = this.skin.UIColours[UIColours.UIColourDefs.Chart_Playhead.TypeName];
+
             LoadSounds();
             OpenPreviewWindow();
         }

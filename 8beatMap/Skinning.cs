@@ -13,6 +13,7 @@ namespace _8beatMap
             public Dictionary<string, string> TexturePaths;
 
             public Dictionary<string, Color[]> EditorNoteColours;
+            public Dictionary<string, Color> UIColours;
 
             public Point[] NodeStartLocs;
             public Point[] NodeEndLocs;
@@ -66,6 +67,7 @@ namespace _8beatMap
             string[] defslines = defs.Split("\n".ToCharArray());
             for (int i = 0; i < defslines.Length; i++)
             {
+                if (defslines[i].StartsWith("#") || defslines[i].Trim().Length == 0) continue;
                 string cleanDef = defslines[i].Replace(" ", "");
                 string type = cleanDef.Split(":".ToCharArray())[0];
                 string[] vals = cleanDef.Split(":".ToCharArray())[1].Split(",".ToCharArray());
@@ -93,10 +95,13 @@ namespace _8beatMap
                 { UIColours.UIColourDefs.Chart_BG_Lane7.TypeName, Color.Transparent },
                 { UIColours.UIColourDefs.Chart_BG_Lane8.TypeName, Color.Transparent },
 
+                { UIColours.UIColourDefs.Chart_LaneLine.TypeName, Color.LightGray },
                 { UIColours.UIColourDefs.Chart_BarLine.TypeName, Color.SlateGray },
                 { UIColours.UIColourDefs.Chart_BarText.TypeName, Color.DarkSlateGray },
                 { UIColours.UIColourDefs.Chart_QuarterLine.TypeName, Color.LightSlateGray },
                 { UIColours.UIColourDefs.Chart_EigthLine.TypeName, Color.LightGray },
+
+                { UIColours.UIColourDefs.Chart_Playhead.TypeName, Color.DarkSlateGray },
 
                 { UIColours.UIColourDefs.Form_BG.TypeName, SystemColors.Control },
             };
@@ -105,6 +110,7 @@ namespace _8beatMap
             string[] defslines = defs.Split("\n".ToCharArray());
             for (int i = 0; i < defslines.Length; i++)
             {
+                if (defslines[i].StartsWith("#") || defslines[i].Trim().Length == 0) continue;
                 string cleanDef = defslines[i].Replace(" ", "");
                 string type = cleanDef.Split(":".ToCharArray())[0];
                 string val = cleanDef.Split(":".ToCharArray())[1];
@@ -225,6 +231,7 @@ namespace _8beatMap
                 RootDir = rootdir,
                 TexturePaths = LoadTexturePaths(rootdir),
                 EditorNoteColours = LoadNoteColours(ReadFile(rootdir + "/notecolours.txt")),
+                UIColours = LoadUIColours(""),
                 NodeStartLocs = LoadNodeStartLocs(buttonsfile),
                 NodeEndLocs = LoadNodeEndLocs(buttonsfile),
                 NumLanes = LoadNumLanes(buttonsfile),

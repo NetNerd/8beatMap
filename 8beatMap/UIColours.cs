@@ -26,11 +26,14 @@ namespace _8beatMap
             public static UIColourDef Chart_BG_Lane6 = new UIColourDef() { TypeName = "Chart_BG_Lane6" };
             public static UIColourDef Chart_BG_Lane7 = new UIColourDef() { TypeName = "Chart_BG_Lane7" };
             public static UIColourDef Chart_BG_Lane8 = new UIColourDef() { TypeName = "Chart_BG_Lane8" };
-
+            
+            public static UIColourDef Chart_LaneLine = new UIColourDef() { TypeName = "Chart_LaneLine" };
             public static UIColourDef Chart_BarLine = new UIColourDef() { TypeName = "Chart_BarLine" };
             public static UIColourDef Chart_BarText = new UIColourDef() { TypeName = "Chart_BarText" };
             public static UIColourDef Chart_QuarterLine = new UIColourDef() { TypeName = "Chart_QuarterLine" };
             public static UIColourDef Chart_EigthLine = new UIColourDef() { TypeName = "Chart_EigthLine" };
+
+            public static UIColourDef Chart_Playhead = new UIColourDef() { TypeName = "Chart_Playhead" };
 
             public static UIColourDef Form_BG = new UIColourDef() { TypeName = "Form_BG" };
         }
