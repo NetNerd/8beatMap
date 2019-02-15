@@ -1,0 +1,9 @@
+Chart_BG:          ControlLight
+# if desired, you can use Chart_BG_Lane1~8 to override this per-lane
+Chart_LaneLine:    LightGray
+Chart_BarLine:     SlateGray
+Chart_BarText:     DarkSlateGray
+Chart_QuarterLine: LightSlateGray
+Chart_EigthLine:   LightGray
+Chart_Playhead:    DarkSlateGray
+Form_BG:           Control

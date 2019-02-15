@@ -231,7 +231,7 @@ namespace _8beatMap
                 RootDir = rootdir,
                 TexturePaths = LoadTexturePaths(rootdir),
                 EditorNoteColours = LoadNoteColours(ReadFile(rootdir + "/notecolours.txt")),
-                UIColours = LoadUIColours(""),
+                UIColours = LoadUIColours(ReadFile(rootdir + "/uicolours.txt")),
                 NodeStartLocs = LoadNodeStartLocs(buttonsfile),
                 NodeEndLocs = LoadNodeEndLocs(buttonsfile),
                 NumLanes = LoadNumLanes(buttonsfile),
