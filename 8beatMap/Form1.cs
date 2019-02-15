@@ -151,7 +151,8 @@ namespace _8beatMap
             
             for (int i = 0; i < 8; i++)
             {
-                Grfx.FillRectangle(new SolidBrush(skin.UIColours[UIColours.UIColourDefs.Chart_BG_Lane1.TypeName.Replace("1", (i+1).ToString())]), i * width / 8, 0, width / 8, height);
+                Color col = skin.UIColours[UIColours.UIColourDefs.Chart_BG_Lane1.TypeName.Replace("1", (i + 1).ToString())];
+                if (col.A > 0) Grfx.FillRectangle(new SolidBrush(skin.UIColours[UIColours.UIColourDefs.Chart_BG_Lane1.TypeName.Replace("1", (i+1).ToString())]), i * width / 8, 0, width / 8, height);
                 if (i > 0 & !NoGrid) Grfx.FillRectangle(LaneLineBrush, i * width / 8, 0, 1, height);
             }
             
