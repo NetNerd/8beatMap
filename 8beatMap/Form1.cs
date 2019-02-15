@@ -438,7 +438,7 @@ namespace _8beatMap
 
         private void SetBackCol(Control elem, Color colour)
         {
-            if ((elem.HasChildren || elem.GetType() == typeof(Button) || elem.GetType() == typeof(ComboBox)) && !(elem.GetType() == typeof(NumericUpDown)))
+            if ((elem.HasChildren || elem.GetType() == typeof(Button) || elem.GetType() == typeof(ComboBox)) && elem.GetType() != typeof(NumericUpDown))
             {
                 elem.BackColor = colour;
                 foreach (Control control in elem.Controls)
@@ -450,8 +450,11 @@ namespace _8beatMap
 
         private void SetForeCol(Control elem, Color colour)
         {
-            elem.ForeColor = colour;
-            if (elem.HasChildren && !(elem.GetType() == typeof(NumericUpDown)))
+            if (elem.GetType() != typeof(NumericUpDown))
+            {
+                elem.ForeColor = colour;
+            }
+            if (elem.HasChildren && elem.GetType() != typeof(NumericUpDown))
             {
                 foreach (Control control in elem.Controls)
                 {
@@ -478,7 +481,7 @@ namespace _8beatMap
                 elem2.FlatStyle = style;
             }
 
-            if (elem.HasChildren && !(elem.GetType() == typeof(NumericUpDown)))
+            if (elem.HasChildren && elem.GetType() != typeof(NumericUpDown))
             {
                 foreach (Control control in elem.Controls)
                 {
@@ -496,6 +499,8 @@ namespace _8beatMap
             SetBackCol(this, this.skin.UIColours[UIColours.UIColourDefs.Form_BG.TypeName]);
             SetForeCol(this, this.skin.UIColours[UIColours.UIColourDefs.Form_Text.TypeName]);
             SetUIStyle(this, this.skin.UIStyle);
+            if (this.skin.UIStyle == FlatStyle.Flat | this.skin.UIStyle == FlatStyle.Popup) tabControl1.Appearance = TabAppearance.FlatButtons;
+            else tabControl1.Appearance = TabAppearance.Normal;
             newplayhead.BackColor = this.skin.UIColours[UIColours.UIColourDefs.Chart_Playhead.TypeName];
 
             LoadSounds();
