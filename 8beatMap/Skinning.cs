@@ -14,6 +14,7 @@ namespace _8beatMap
 
             public Dictionary<string, Color[]> EditorNoteColours;
             public Dictionary<string, Color> UIColours;
+            public System.Windows.Forms.FlatStyle UIStyle;
 
             public Point[] NodeStartLocs;
             public Point[] NodeEndLocs;
@@ -103,7 +104,8 @@ namespace _8beatMap
 
                 { UIColours.UIColourDefs.Chart_Playhead.TypeName, Color.DarkSlateGray },
 
-                { UIColours.UIColourDefs.Form_BG.TypeName, SystemColors.Control },
+                { UIColours.UIColourDefs.Form_BG.TypeName, Form1.DefaultBackColor },
+                { UIColours.UIColourDefs.Form_Text.TypeName, Form1.DefaultForeColor }
             };
             Dictionary<string, Color> uiColours = uiColours_Default;
 
@@ -119,6 +121,16 @@ namespace _8beatMap
             }
 
             return uiColours;
+        }
+
+        private static System.Windows.Forms.FlatStyle LoadUIStyle(string def)
+        {
+            def = def.Trim();
+
+            if (def == "Flat") return System.Windows.Forms.FlatStyle.Flat;
+            else if (def == "Popup") return System.Windows.Forms.FlatStyle.Popup;
+            else if (def == "Standard") return System.Windows.Forms.FlatStyle.Standard;
+            else return System.Windows.Forms.FlatStyle.System;
         }
 
         private static Dictionary<string, string> LoadTexturePaths(string rootdir)
@@ -232,6 +244,7 @@ namespace _8beatMap
                 TexturePaths = LoadTexturePaths(rootdir),
                 EditorNoteColours = LoadNoteColours(ReadFile(rootdir + "/notecolours.txt")),
                 UIColours = LoadUIColours(ReadFile(rootdir + "/uicolours.txt")),
+                UIStyle = LoadUIStyle("System"),
                 NodeStartLocs = LoadNodeStartLocs(buttonsfile),
                 NodeEndLocs = LoadNodeEndLocs(buttonsfile),
                 NumLanes = LoadNumLanes(buttonsfile),

@@ -438,12 +438,51 @@ namespace _8beatMap
 
         private void SetBackCol(Control elem, Color colour)
         {
-            if (elem.HasChildren && !(elem.GetType() == typeof(NumericUpDown)))
+            if ((elem.HasChildren || elem.GetType() == typeof(Button) || elem.GetType() == typeof(ComboBox)) && !(elem.GetType() == typeof(NumericUpDown)))
             {
                 elem.BackColor = colour;
                 foreach (Control control in elem.Controls)
                 {
                     SetBackCol(control, colour);
+                }
+            }
+        }
+
+        private void SetForeCol(Control elem, Color colour)
+        {
+            elem.ForeColor = colour;
+            if (elem.HasChildren && !(elem.GetType() == typeof(NumericUpDown)))
+            {
+                foreach (Control control in elem.Controls)
+                {
+                    SetForeCol(control, colour);
+                }
+            }
+        }
+
+        private void SetUIStyle(Control elem, FlatStyle style)
+        {
+            if (elem.GetType() == typeof(Button))
+            {
+                Button elem2 = elem as Button;
+                elem2.FlatStyle = style;
+            }
+            else if (elem.GetType() == typeof(ComboBox))
+            {
+                ComboBox elem2 = elem as ComboBox;
+                elem2.FlatStyle = style;
+            }
+            else if (elem.GetType() == typeof(CheckBox))
+            {
+                CheckBox elem2 = elem as CheckBox;
+                elem2.FlatStyle = style;
+            }
+
+            if (elem.HasChildren && !(elem.GetType() == typeof(NumericUpDown)))
+            {
+                foreach (Control control in elem.Controls)
+                {
+                    SetUIStyle(control, style);
                 }
             }
         }
@@ -455,6 +494,8 @@ namespace _8beatMap
             UpdateChart();
 
             SetBackCol(this, this.skin.UIColours[UIColours.UIColourDefs.Form_BG.TypeName]);
+            SetForeCol(this, this.skin.UIColours[UIColours.UIColourDefs.Form_Text.TypeName]);
+            SetUIStyle(this, this.skin.UIStyle);
             newplayhead.BackColor = this.skin.UIColours[UIColours.UIColourDefs.Chart_Playhead.TypeName];
 
             LoadSounds();

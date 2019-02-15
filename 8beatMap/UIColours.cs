@@ -36,6 +36,7 @@ namespace _8beatMap
             public static UIColourDef Chart_Playhead = new UIColourDef() { TypeName = "Chart_Playhead" };
 
             public static UIColourDef Form_BG = new UIColourDef() { TypeName = "Form_BG" };
+            public static UIColourDef Form_Text = new UIColourDef() { TypeName = "Form_Text" };
         }
     }
 }
