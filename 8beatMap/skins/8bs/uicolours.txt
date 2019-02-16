@@ -6,4 +6,4 @@ Chart_BarText:     DarkSlateGray
 Chart_QuarterLine: LightSlateGray
 Chart_EigthLine:   LightGray
 Chart_Playhead:    DarkSlateGray
-# additional form UI colours are available -- see the dark sample
+# additional form UI colours are available -- see dark or white skin
