@@ -908,11 +908,10 @@ namespace _8beatMap
             try
             {
                 Keys key = e.KeyCode;
-
-                //Console.WriteLine(ModifierKeys);
+                
                 if (ModifierKeys == Keys.Control | ModifierKeys == (Keys.Control | Keys.Shift))
                 {
-                    if (key == Keys.C) // not sure why this should be 3.....
+                    if (key == Keys.C)
                     {
                         int copylen = (int)(48 * CopyLengthBox.Value);
                         if ((int)CurrentTick + copylen >= chart.Length) copylen = chart.Length - (int)CurrentTick;
@@ -945,7 +944,7 @@ namespace _8beatMap
                                     chart.Ticks[(int)CurrentTick + i] = pastedata[i];
                                 }
                             }
-                            else
+                            else if (ModifierKeys == (Keys.Control | Keys.Shift))
                             {
                                 for (int i = 0; i < datalen; i++)
                                 {
