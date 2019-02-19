@@ -58,6 +58,8 @@ namespace _8beatMap
 
         public struct Chart
         {
+            public string ChartName;
+
             public Tick[] Ticks;
 
             private int ChartLen;
@@ -330,8 +332,9 @@ namespace _8beatMap
             }
 
 
-            public Chart(int Length, double BPM)
+            public Chart(int Length, double BPM, string Name="chart")
             {
+                ChartName = Name;
                 Ticks = new Tick[Length];
                 ChartLen = Length;
                 this.BPM = BPM;

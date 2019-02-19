@@ -371,6 +371,11 @@ namespace _8beatMap
             {
                 try {
                     chart = Notedata.ConvertJsonToChart(System.IO.File.ReadAllText(Path));
+
+                    string name = System.IO.Path.GetFileNameWithoutExtension(Path);
+                    if (name.EndsWith(".json")) name = name.Remove(name.Length - 5, 5);
+                    if (name.EndsWith(".dec")) name = name.Remove(name.Length - 4, 4);
+                    chart.ChartName = name;
                 }
                 catch { MessageBox.Show(DialogResMgr.GetString("ChartLoadError")); }
 
@@ -820,7 +825,7 @@ namespace _8beatMap
 
             grfx.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
             Font InfoFont = new Font("Arial", 9f, GraphicsUnit.Pixel);
-            grfx.DrawString("8beatMap", InfoFont, Brushes.LightGray, EdgePaddingX, imgHeight - 11);
+            grfx.DrawString("8beatMap - " + chart.ChartName + " (" + chart.BPM.ToString() + " BPM)", InfoFont, Brushes.LightGray, EdgePaddingX, imgHeight - 11);
 
             img.Save("imgout.png");
             
