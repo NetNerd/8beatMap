@@ -207,6 +207,7 @@
             0,
             0,
             0});
+            this.ResizeBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ResizeBox_KeyDown);
             // 
             // ResizeBtn
             // 
@@ -260,8 +261,8 @@
             // 
             this.NoteTypeSelector.DisplayMember = "Key";
             this.NoteTypeSelector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            resources.ApplyResources(this.NoteTypeSelector, "NoteTypeSelector");
             this.NoteTypeSelector.FormattingEnabled = true;
+            resources.ApplyResources(this.NoteTypeSelector, "NoteTypeSelector");
             this.NoteTypeSelector.Name = "NoteTypeSelector";
             this.NoteTypeSelector.ValueMember = "Value";
             // 
@@ -289,6 +290,7 @@
             0,
             -2147483648});
             this.NoteShiftBox.Name = "NoteShiftBox";
+            this.NoteShiftBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.NoteShiftBox_KeyDown);
             // 
             // NoteShiftBtn
             // 
@@ -419,8 +421,8 @@
             // 
             this.SkinSelector.DisplayMember = "Key";
             this.SkinSelector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            resources.ApplyResources(this.SkinSelector, "SkinSelector");
             this.SkinSelector.FormattingEnabled = true;
+            resources.ApplyResources(this.SkinSelector, "SkinSelector");
             this.SkinSelector.Name = "SkinSelector";
             this.SkinSelector.ValueMember = "Value";
             this.SkinSelector.SelectionChangeCommitted += new System.EventHandler(this.SkinSelector_SelectionChangeCommitted);

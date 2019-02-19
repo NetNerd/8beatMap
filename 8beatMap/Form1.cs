@@ -1079,5 +1079,17 @@ namespace _8beatMap
             toolTip1.SetToolTip(VolumeBar, VolumeBar.Value.ToString());
             //toolTip1.Show(VolumeBar.Value.ToString(), VolumeBar, ThumbPos, 2000);
         }
+
+        private void NoteShiftBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+                NoteShiftBtn_Click(sender, e);
+        }
+
+        private void ResizeBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+                ResizeBtn_Click(sender, e);
+        }
     }
 }

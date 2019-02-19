@@ -474,9 +474,9 @@
   <data name="&gt;&gt;OpenBtn.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
-  <data name="openFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  <metadata name="openFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
-  </data>
+  </metadata>
   <data name="openFileDialog1.Filter" xml:space="preserve">
     <value>Decrypted JSON|*.dec.json|JSON|*.json|All Files|*.*</value>
   </data>
@@ -507,9 +507,9 @@
   <data name="&gt;&gt;OpenMusicButton.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="openFileDialog2.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  <metadata name="openFileDialog2.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>158, 17</value>
-  </data>
+  </metadata>
   <data name="openFileDialog2.Filter" xml:space="preserve">
     <value>Wav Files|*.wav|All Files|*.*</value>
   </data>
@@ -540,9 +540,9 @@
   <data name="&gt;&gt;SaveChartBtn.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
-  <data name="saveFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  <metadata name="saveFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>299, 17</value>
-  </data>
+  </metadata>
   <data name="saveFileDialog1.Filter" xml:space="preserve">
     <value>Decrypted JSON|*.dec.json|All Files|*.*</value>
   </data>
@@ -1176,7 +1176,7 @@
   <data name="&gt;&gt;tabControl1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="SkinLbl.AutoSize" type="System.Boolean, mscorlib">
+    <data name="SkinLbl.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="SkinLbl.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
@@ -1299,12 +1299,12 @@
   <data name="&gt;&gt;splitContainer1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>436, 17</value>
-  </data>
-  <data name="$this.Localizable" type="System.Boolean, mscorlib">
+  </metadata>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
-  </data>
+  </metadata>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>624, 502</value>
   </data>
