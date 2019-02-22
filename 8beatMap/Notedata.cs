@@ -357,16 +357,34 @@ namespace _8beatMap
             public string BUTTON7;
             public string BUTTON8;
 
+            // short versions of button names for non-standard charts
+            public string B1;
+            public string B2;
+            public string B3;
+            public string B4;
+            public string B5;
+            public string B6;
+            public string B7;
+            public string B8;
+
             public int[] Buttons
             {
                 get
                 {
-                    return new int[] { SafeParseInt(BUTTON1), SafeParseInt(BUTTON2), SafeParseInt(BUTTON3), SafeParseInt(BUTTON4),
-                        SafeParseInt(BUTTON5), SafeParseInt(BUTTON6), SafeParseInt(BUTTON7), SafeParseInt(BUTTON8) };
+                    if (BUTTON1 != null)
+                    {
+                        return new int[] { SafeParseInt(BUTTON1), SafeParseInt(BUTTON2), SafeParseInt(BUTTON3), SafeParseInt(BUTTON4),
+                            SafeParseInt(BUTTON5), SafeParseInt(BUTTON6), SafeParseInt(BUTTON7), SafeParseInt(BUTTON8) };
+                    }
+                    else
+                    {
+                        return new int[] { SafeParseInt(B1), SafeParseInt(B2), SafeParseInt(B3), SafeParseInt(B4),
+                            SafeParseInt(B5), SafeParseInt(B6), SafeParseInt(B7), SafeParseInt(B8) };
+                    }
                 }
             }
         }
-        #pragma warning restore 649
+#pragma warning restore 649
 
         class JsonTick_Export
         {
@@ -401,7 +419,12 @@ namespace _8beatMap
 
             Chart chart = new Chart((int)Math.Ceiling((tickObjTickNumber(tickObj, tickObj.Length - 1)+1) / 48f) * 48, 1);   // forces length to a full bar
 
-            try { chart.BPM = int.Parse(tickObj[0].BAR) + int.Parse(tickObj[0].BEAT)/100f; } catch { };
+            try
+            {
+                double bpm = int.Parse(tickObj[0].BAR) + int.Parse(tickObj[0].BEAT) / 100f;
+                if (bpm > 30) chart.BPM = bpm;
+            }
+            catch { };
 
             for (int i = 1; i < tickObj.Length; i++)
             {
