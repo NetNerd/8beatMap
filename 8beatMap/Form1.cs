@@ -26,14 +26,15 @@ namespace _8beatMap
 
 
         private Timer playTimer = new Timer() { Interval = 8 };
+        DateTime playStartTime = new DateTime(0);
 
 
         private double lastTickForSmoothing = 0;
         private DateTime lastTickChange = DateTime.UtcNow;
-        
-        private double getSmoothedPlayTickTime(double rawtick)
+
+        private double getSmoothedAudioTickTime(double rawtick)
         {
-            //rawtick = getAveragedPlayTickTime(rawtick);
+            //rawtick = getAveragedAudioTickTime(rawtick);
             if (!playTimer.Enabled | DateTime.UtcNow - lastTickChange > TimeSpan.FromMilliseconds(100))
             {
                 lastTickForSmoothing = rawtick;
@@ -72,9 +73,9 @@ namespace _8beatMap
 
         private double[] prevPlayTicks = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
 
-        private double getAveragedPlayTickTime(double rawtick)
+        private double getAveragedAudioTickTime(double rawtick)
         {
-            rawtick = getSmoothedPlayTickTime(rawtick);
+            rawtick = getSmoothedAudioTickTime(rawtick);
 
             double avgTickDelta = 0;
             int numentries = 0;
@@ -148,14 +149,14 @@ namespace _8beatMap
             Brush QuarterLineBrush = new SolidBrush(skin.UIColours[UIColours.UIColourDefs.Chart_QuarterLine.TypeName]);
             Brush EigthLineBrush = new SolidBrush(skin.UIColours[UIColours.UIColourDefs.Chart_EigthLine.TypeName]);
 
-            
+
             for (int i = 0; i < 8; i++)
             {
                 Color col = skin.UIColours[UIColours.UIColourDefs.Chart_BG_Lane1.TypeName.Replace("1", (i + 1).ToString())];
-                if (col.A > 0) Grfx.FillRectangle(new SolidBrush(skin.UIColours[UIColours.UIColourDefs.Chart_BG_Lane1.TypeName.Replace("1", (i+1).ToString())]), i * width / 8, 0, width / 8, height);
+                if (col.A > 0) Grfx.FillRectangle(new SolidBrush(skin.UIColours[UIColours.UIColourDefs.Chart_BG_Lane1.TypeName.Replace("1", (i + 1).ToString())]), i * width / 8, 0, width / 8, height);
                 if (i > 0 & !NoGrid) Grfx.FillRectangle(LaneLineBrush, i * width / 8, 0, 1, height);
             }
-            
+
 
 
             float laneWidth = width / 8;
@@ -186,7 +187,7 @@ namespace _8beatMap
 
                         if (swipeEndPoint.X > i)
                             Grfx.DrawLine(new Pen(skin.EditorNoteColours[NoteTypes.NoteTypeDefs.ExtendHoldMid.TypeName][0], iconWidth / 3), (float)(j + 0.5) * laneWidth, height - (float)(i - startTick + ShiftYTicks + 0.5) * tickHeight - 2, (float)(swipeEndPoint.Y + 0.5) * laneWidth + iconXOffset, height - (float)(swipeEndPoint.X - startTick + ShiftYTicks + 0.5) * tickHeight - 2);
-                            
+
                     }
 
 
@@ -257,7 +258,7 @@ namespace _8beatMap
 
             Grfx.Dispose();
             return Bmp;
-        }        
+        }
 
 
         private void SetCurrTick(double tick)
@@ -265,23 +266,40 @@ namespace _8beatMap
             if (tick < 0) tick = 0;
             if (tick >= chart.Length) tick = chart.Length - 1;
 
-            CurrentTick = getAveragedPlayTickTime(tick);
-
-            TimeSpan ctickTime = chart.ConvertTicksToTime(tick);
-
-            if (Sound.MusicReader != null &&
-                    (Sound.MusicReader.CurrentTime < ctickTime - TimeSpan.FromMilliseconds(MusicDelayMs + 10) |
-                    Sound.MusicReader.CurrentTime > ctickTime - TimeSpan.FromMilliseconds(MusicDelayMs - 10)))
-                try {
-                    if (ctickTime < TimeSpan.FromMilliseconds(MusicDelayMs))
-                        Sound.MusicReader.CurrentTime = TimeSpan.FromMilliseconds(0);
-                    else
-                        Sound.MusicReader.CurrentTime = ctickTime - TimeSpan.FromMilliseconds(MusicDelayMs);
+            if (playTimer.Enabled)
+            {
+                double audioTick = getAveragedAudioTickTime(chart.ConvertTimeToTicks(Sound.MusicReader.CurrentTime + TimeSpan.FromMilliseconds(MusicDelayMs)));
+                if (((tick - audioTick) < 0) || ((tick - audioTick) > 10) || (Math.Abs(tick - audioTick) > chart.ConvertTimeToTicks(TimeSpan.FromMilliseconds(15))))
+                {
+                    CurrentTick = audioTick;
+                    playStartTime = DateTime.UtcNow - Sound.MusicReader.CurrentTime;
                 }
-                catch
-                { }
+                else
+                {
+                    CurrentTick = tick;
+                }
+            }
+            else
+            {
+                CurrentTick = tick;
+            }
 
-            ChartScrollBar.Value = (int)(chart.Length * TickHeight - tick * TickHeight);
+
+            TimeSpan ctickTime = chart.ConvertTicksToTime(CurrentTick);
+            if (Sound.MusicReader != null &&
+                    (Sound.MusicReader.CurrentTime < ctickTime - TimeSpan.FromMilliseconds(MusicDelayMs + 20) |
+                    Sound.MusicReader.CurrentTime > ctickTime - TimeSpan.FromMilliseconds(MusicDelayMs - 20)))
+            try
+            {
+                if (ctickTime < TimeSpan.FromMilliseconds(MusicDelayMs))
+                    Sound.MusicReader.CurrentTime = TimeSpan.FromMilliseconds(0);
+                else
+                    Sound.MusicReader.CurrentTime = ctickTime - TimeSpan.FromMilliseconds(MusicDelayMs);
+            }
+            catch
+            { }
+
+            ChartScrollBar.Value = (int)(chart.Length * TickHeight - CurrentTick * TickHeight);
         }
 
 
@@ -310,10 +328,10 @@ namespace _8beatMap
             double tick = CurrentTick;
             if (playTimer.Enabled)
             {
-                tick -= chart.ConvertTimeToTicks(TimeSpan.FromMilliseconds(VideoDelayMs+GameCloneOffsetMs));
+                tick -= chart.ConvertTimeToTicks(TimeSpan.FromMilliseconds(VideoDelayMs + GameCloneOffsetMs));
                 //tick -= chart.ConvertTimeToTicks(TimeSpan.FromMilliseconds(MusicDelayMs));
             }
-            
+
             OGLrenderer.currentTick = tick;
             OGLrenderer.numTicksVisible = (int)chart.ConvertTimeToTicks(TimeSpan.FromMilliseconds(700));
         }
@@ -321,12 +339,12 @@ namespace _8beatMap
 
         private int ConvertXCoordToNote(int X)
         {
-            return ((X - pictureBox1.Location.X) / (pictureBox1.Width/8));
+            return ((X - pictureBox1.Location.X) / (pictureBox1.Width / 8));
         }
 
         private double ConvertYCoordToTick(int Y)
         {
-            return (pictureBox1.Location.Y + pictureBox1.Height - Y - 2 + CurrentTick%1 - TickHeight/2) / TickHeight + CurrentTick;
+            return (pictureBox1.Location.Y + pictureBox1.Height - Y - 2 + CurrentTick % 1 - TickHeight / 2) / TickHeight + CurrentTick;
         }
 
 
@@ -351,6 +369,7 @@ namespace _8beatMap
 
         private void StartPlayback()
         {
+            playStartTime = DateTime.UtcNow - chart.ConvertTicksToTime(CurrentTick);
             playTimer.Enabled = true;
             Sound.PlayMusic();
         }
@@ -369,7 +388,8 @@ namespace _8beatMap
 
             if (Path.Length > 0)
             {
-                try {
+                try
+                {
                     chart = Notedata.ConvertJsonToChart(System.IO.File.ReadAllText(Path));
 
                     string name = System.IO.Path.GetFileNameWithoutExtension(Path);
@@ -408,7 +428,7 @@ namespace _8beatMap
                 currentNoteTypes.Add(NotetypeNamesResMgr.GetString(type.Key), type.Value);
                 NoteTypeSelector.Items.Add(new KeyValuePair<string, int>(NotetypeNamesResMgr.GetString(type.Key), type.Value));
             }
-            
+
             NoteTypeSelector.SelectedIndex = oldindex;
         }
 
@@ -516,9 +536,9 @@ namespace _8beatMap
         public Form1()
         {
             InitializeComponent();
-            
+
             pictureBox1.Image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
-            
+
             SetSkin("8bs");
 
             AddNoteTypes();
@@ -565,11 +585,11 @@ namespace _8beatMap
 
         static int DefaultMusicDelayMs = 10;
         int MusicDelayMs = DefaultMusicDelayMs;
-        
+
         double lastPlayTickTime = 0;
         private void playtimer_Tick(object sender, EventArgs e)
         {
-            SetCurrTick(chart.ConvertTimeToTicks(Sound.MusicReader.CurrentTime + TimeSpan.FromMilliseconds(MusicDelayMs)));
+            SetCurrTick((DateTime.UtcNow.Ticks - playStartTime.Ticks) / 287330f); // 100ns * 10000 = 1ms...  but idk what 287330 is.......
             if (lastPlayTickTime < chart.ConvertTicksToTime(CurrentTick).TotalMilliseconds - 5 | lastPlayTickTime > chart.ConvertTicksToTime(CurrentTick).TotalMilliseconds)
             {
                 lastPlayTickTime = chart.ConvertTicksToTime(CurrentTick).TotalMilliseconds;
@@ -622,7 +642,7 @@ namespace _8beatMap
                                     if (DefaultMusicDelayMs > 30)
                                         Sound.NoteSoundTrim.DelayBy = TimeSpan.FromMilliseconds(DefaultMusicDelayMs - 30);
                                     else
-                                       Sound.NoteSoundTrim.SkipOver = TimeSpan.FromMilliseconds(30 - DefaultMusicDelayMs);
+                                        Sound.NoteSoundTrim.SkipOver = TimeSpan.FromMilliseconds(30 - DefaultMusicDelayMs);
 
                                     Sound.PlayNoteSound(Sound.NoteSoundTrim);
                                 }
@@ -760,7 +780,7 @@ namespace _8beatMap
         private void OpenBtn_Click(object sender, EventArgs e)
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
-             LoadChart(openFileDialog1.FileName);
+                LoadChart(openFileDialog1.FileName);
         }
 
         private void SaveChartBtn_Click(object sender, EventArgs e)
@@ -828,7 +848,7 @@ namespace _8beatMap
             grfx.DrawString("8beatMap - " + chart.ChartName + " (" + chart.BPM.ToString() + " BPM)", InfoFont, Brushes.LightGray, EdgePaddingX, imgHeight - 11);
 
             img.Save("imgout.png");
-            
+
             grfx.Dispose();
             img.Dispose();
         }
@@ -906,14 +926,14 @@ namespace _8beatMap
 
             AddNoteTypes();
         }
-        
-    
-    private void Form1_KeyPress(object sender, KeyEventArgs e)
+
+
+        private void Form1_KeyPress(object sender, KeyEventArgs e)
         {
             try
             {
                 Keys key = e.KeyCode;
-                
+
                 if (ModifierKeys == Keys.Control | ModifierKeys == (Keys.Control | Keys.Shift))
                 {
                     if (key == Keys.C)
@@ -956,7 +976,7 @@ namespace _8beatMap
                                     for (int j = 0; j < 8; j++)
                                     {
                                         NoteTypes.NoteTypeDef note = pastedata[i].Notes[j].NoteType;
-                                        switch(note.TypeId)
+                                        switch (note.TypeId)
                                         {
                                             case 13: // FlickLeft
                                                 note = NoteTypes.NoteTypeDefs.FlickRight;
@@ -973,7 +993,7 @@ namespace _8beatMap
                                             case 14: // SwipeChangeDirR2L
                                                 note = NoteTypes.NoteTypeDefs.SwipeChangeDirL2R;
                                                 break;
-                                            
+
                                             case 12: // FlickRight
                                                 note = NoteTypes.NoteTypeDefs.FlickLeft;
                                                 break;
@@ -995,45 +1015,46 @@ namespace _8beatMap
                                                 break;
                                         }
 
-                                        chart.Ticks[(int)CurrentTick + i].Notes[7-j].NoteType = note;
+                                        chart.Ticks[(int)CurrentTick + i].Notes[7 - j].NoteType = note;
                                     }
                                 }
                             }
-                            
+
                             chart.FixSwipes();
                             UpdateChart();
                         }
 
                     }
                 }
-                else switch (key)
-                {
-                    case Keys.OemQuestion: // toggle showing numbers on keys   question is same as slash in most layouts
-                        ShowTypeIdsOnNotes = !ShowTypeIdsOnNotes;
-                        UpdateChart();
-                        break;
+                else
+                    switch (key)
+                    {
+                        case Keys.OemQuestion: // toggle showing numbers on keys   question is same as slash in most layouts
+                            ShowTypeIdsOnNotes = !ShowTypeIdsOnNotes;
+                            UpdateChart();
+                            break;
 
-                    case Keys.P: // reopen preview window
-                        OpenPreviewWindow();
-                        break;
-                    
-                    case Keys.M:
-                        if (OGLrenderer != null)
-                            OGLrenderer.clearColor = Color.FromArgb(0, 0, 0, 0);
-                        break;
-                    case Keys.Oemcomma:
-                        if (OGLrenderer != null)
-                            OGLrenderer.clearColor = Color.FromArgb(0, 170, 170, 170);
-                        break;
-                    case Keys.OemPeriod:
-                        if (OGLrenderer != null)
-                            OGLrenderer.clearColor = Color.FromArgb(0, 255, 255, 255);
-                        break;
+                        case Keys.P: // reopen preview window
+                            OpenPreviewWindow();
+                            break;
 
-                    default:
-                        NoteTypeSelector.SelectedItem = currentNoteTypes.FirstOrDefault(x => x.Value == NoteTypes.NoteShortcutKeys[key]);
-                        break;
-                }
+                        case Keys.M:
+                            if (OGLrenderer != null)
+                                OGLrenderer.clearColor = Color.FromArgb(0, 0, 0, 0);
+                            break;
+                        case Keys.Oemcomma:
+                            if (OGLrenderer != null)
+                                OGLrenderer.clearColor = Color.FromArgb(0, 170, 170, 170);
+                            break;
+                        case Keys.OemPeriod:
+                            if (OGLrenderer != null)
+                                OGLrenderer.clearColor = Color.FromArgb(0, 255, 255, 255);
+                            break;
+
+                        default:
+                            NoteTypeSelector.SelectedItem = currentNoteTypes.FirstOrDefault(x => x.Value == NoteTypes.NoteShortcutKeys[key]);
+                            break;
+                    }
             }
             catch { }
         }
