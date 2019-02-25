@@ -141,13 +141,15 @@
       <VerFile>$(IntermediateOutputPath)gitver</VerFile>
     </PropertyGroup>
 
-    <!-- get the hash to the temp file.-->
+    <!-- get current commit hash to GitVersion -->
     <Exec
       Command="git describe --long --always --dirty"
       ConsoleToMsBuild="true"
     >
       <Output TaskParameter="ConsoleOutput" ItemName="GitVersion" />
     </Exec>
+    
+    <!-- get revision number to GitCount -->
     <Exec
       Command="git rev-list --count --first-parent master"
       ConsoleToMsBuild="true"
@@ -155,10 +157,19 @@
       <Output TaskParameter="ConsoleOutput" ItemName="GitCount" />
     </Exec>
     
-    <!-- Set the BuildHash property to contain the GitVersion, if it wasn't already set.-->
+    <!-- get branch to GitBranch -->
+    <Exec
+      Command="git rev-parse --abbrev-ref HEAD"
+      ConsoleToMsBuild="true"
+    >
+      <Output TaskParameter="ConsoleOutput" ItemName="GitBranch" />
+    </Exec>
+    
+    <!-- set properties to our git info, if it wasn't already set -->
     <PropertyGroup>
       <BuildHash>@(GitVersion)</BuildHash>
       <BuildRevision>@(GitCount)</BuildRevision>
+      <BuildBranch>@(GitBranch)</BuildBranch>
     </PropertyGroup>    
   </Target>
 
@@ -174,7 +185,7 @@
     <!-- defines the AssemblyInformationalVersion attribute that will be written -->
     <ItemGroup>
       <AssemblyAttributes Include="AssemblyInformationalVersion">
-        <_Parameter1>$(BuildHash)</_Parameter1>
+        <_Parameter1>@(GitBranch)-$(BuildHash)</_Parameter1>
       </AssemblyAttributes>
       <AssemblyAttributes Include="AssemblyVersion">
         <_Parameter1>1.0.0.$(BuildRevision)</_Parameter1>
