@@ -391,10 +391,13 @@ namespace _8beatMap
                 try {
                     chart = Notedata.ConvertJsonToChart(System.IO.File.ReadAllText(Path));
 
-                    string name = System.IO.Path.GetFileNameWithoutExtension(Path);
-                    if (name.EndsWith(".json")) name = name.Remove(name.Length - 5, 5);
-                    if (name.EndsWith(".dec")) name = name.Remove(name.Length - 4, 4);
-                    chart.ChartName = name;
+                    if (chart.ChartName == "" || chart.ChartName == "chart")
+                    {
+                        string name = System.IO.Path.GetFileNameWithoutExtension(Path);
+                        if (name.EndsWith(".json")) name = name.Remove(name.Length - 5, 5);
+                        if (name.EndsWith(".dec")) name = name.Remove(name.Length - 4, 4);
+                        chart.ChartName = name;
+                    }
                 }
                 catch { MessageBox.Show(DialogResMgr.GetString("ChartLoadError")); }
 
@@ -458,61 +461,7 @@ namespace _8beatMap
             }
             OGLrenderer = new GameCloneRenderer_OGL(853, 480, this, skin);
         }
-
-
-        private void SetBackCol(Control elem, Color colour)
-        {
-            if ((elem.HasChildren || elem.GetType() == typeof(Button) || elem.GetType() == typeof(ComboBox)) && elem.GetType() != typeof(NumericUpDown))
-            {
-                elem.BackColor = colour;
-                foreach (Control control in elem.Controls)
-                {
-                    SetBackCol(control, colour);
-                }
-            }
-        }
-
-        private void SetForeCol(Control elem, Color colour)
-        {
-            if (elem.GetType() != typeof(NumericUpDown))
-            {
-                elem.ForeColor = colour;
-            }
-            if (elem.HasChildren && elem.GetType() != typeof(NumericUpDown))
-            {
-                foreach (Control control in elem.Controls)
-                {
-                    SetForeCol(control, colour);
-                }
-            }
-        }
-
-        private void SetUIStyle(Control elem, FlatStyle style)
-        {
-            if (elem.GetType() == typeof(Button))
-            {
-                Button elem2 = elem as Button;
-                elem2.FlatStyle = style;
-            }
-            else if (elem.GetType() == typeof(ComboBox))
-            {
-                ComboBox elem2 = elem as ComboBox;
-                elem2.FlatStyle = style;
-            }
-            else if (elem.GetType() == typeof(CheckBox))
-            {
-                CheckBox elem2 = elem as CheckBox;
-                elem2.FlatStyle = style;
-            }
-
-            if (elem.HasChildren && elem.GetType() != typeof(NumericUpDown))
-            {
-                foreach (Control control in elem.Controls)
-                {
-                    SetUIStyle(control, style);
-                }
-            }
-        }
+        
 
         private Skinning.Skin skin = Skinning.DefaultSkin;
         private void SetSkin(string skin)
@@ -520,9 +469,9 @@ namespace _8beatMap
             this.skin = Skinning.LoadSkin("skins/" + skin);
             UpdateChart();
 
-            SetBackCol(this, this.skin.UIColours[UIColours.UIColourDefs.Form_BG.TypeName]);
-            SetForeCol(this, this.skin.UIColours[UIColours.UIColourDefs.Form_Text.TypeName]);
-            SetUIStyle(this, this.skin.UIStyle);
+            Skinning.SetBackCol(this, this.skin.UIColours[UIColours.UIColourDefs.Form_BG.TypeName]);
+            Skinning.SetForeCol(this, this.skin.UIColours[UIColours.UIColourDefs.Form_Text.TypeName]);
+            Skinning.SetUIStyle(this, this.skin.UIStyle);
             if (this.skin.UIStyle == FlatStyle.Flat | this.skin.UIStyle == FlatStyle.Popup) tabControl1.Appearance = TabAppearance.FlatButtons;
             else tabControl1.Appearance = TabAppearance.Normal;
             newplayhead.BackColor = this.skin.UIColours[UIColours.UIColourDefs.Chart_Playhead.TypeName];
@@ -1121,6 +1070,16 @@ namespace _8beatMap
         {
             if (e.KeyCode == Keys.Enter)
                 ResizeBtn_Click(sender, e);
+        }
+
+        private void ChartInfoButton_Click(object sender, EventArgs e)
+        {
+            ChartInfoDialog chartInfo = new ChartInfoDialog(skin, chart.ChartName, chart.ChartAuthor);
+            if (chartInfo.ShowDialog() == DialogResult.OK)
+            {
+                chart.ChartName = chartInfo.result[0];
+                chart.ChartAuthor = chartInfo.result[1];
+            }
         }
     }
 }

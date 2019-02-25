@@ -163,7 +163,7 @@
     <value>chartSettingsTab</value>
   </data>
   <data name="&gt;&gt;BPMbox.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="BPMLbl.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -199,7 +199,7 @@
     <value>chartSettingsTab</value>
   </data>
   <data name="&gt;&gt;BPMLbl.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="PlayBtn.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
@@ -400,7 +400,7 @@
     <value>chartSettingsTab</value>
   </data>
   <data name="&gt;&gt;ResizeLbl.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="ResizeBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>119, 39</value>
@@ -421,7 +421,7 @@
     <value>chartSettingsTab</value>
   </data>
   <data name="&gt;&gt;ResizeBox.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="ResizeBtn.Location" type="System.Drawing.Point, System.Drawing">
     <value>181, 37</value>
@@ -445,7 +445,7 @@
     <value>chartSettingsTab</value>
   </data>
   <data name="&gt;&gt;ResizeBtn.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="OpenBtn.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
@@ -981,6 +981,30 @@
   <data name="&gt;&gt;editorSettingsTab.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <data name="ChartInfoButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 95</value>
+  </data>
+  <data name="ChartInfoButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="ChartInfoButton.TabIndex" type="System.Int32, mscorlib">
+    <value>70</value>
+  </data>
+  <data name="ChartInfoButton.Text" xml:space="preserve">
+    <value>Chart Info</value>
+  </data>
+  <data name="&gt;&gt;ChartInfoButton.Name" xml:space="preserve">
+    <value>ChartInfoButton</value>
+  </data>
+  <data name="&gt;&gt;ChartInfoButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ChartInfoButton.Parent" xml:space="preserve">
+    <value>chartSettingsTab</value>
+  </data>
+  <data name="&gt;&gt;ChartInfoButton.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="chartSettingsTab.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 23</value>
   </data>
@@ -1176,7 +1200,7 @@
   <data name="&gt;&gt;tabControl1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-    <data name="SkinLbl.AutoSize" type="System.Boolean, mscorlib">
+  <data name="SkinLbl.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="SkinLbl.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">

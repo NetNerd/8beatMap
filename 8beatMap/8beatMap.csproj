@@ -58,6 +58,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChartInfoDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChartInfoDialog.Designer.cs">
+      <DependentUpon>ChartInfoDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -81,6 +87,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Skinning.cs" />
     <Compile Include="Sound.cs" />
+    <EmbeddedResource Include="ChartInfoDialog.resx">
+      <DependentUpon>ChartInfoDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Dialogs.ja.resx" />
     <EmbeddedResource Include="Dialogs.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -140,37 +149,21 @@
       <!-- temp file for the git version (lives in "obj" folder)-->
       <VerFile>$(IntermediateOutputPath)gitver</VerFile>
     </PropertyGroup>
-
     <!-- get current commit hash to GitVersion -->
-    <Exec
-      Command="git describe --long --always --dirty"
-      IgnoreExitCode="true"
-      ConsoleToMsBuild="true"
-    >
+    <Exec Command="git describe --long --always --dirty" IgnoreExitCode="true" ConsoleToMsBuild="true">
       <Output TaskParameter="ConsoleOutput" ItemName="GitVersion" />
-      <Output TaskParameter="ExitCode" ItemName="GitVersionExitCode"/>
+      <Output TaskParameter="ExitCode" ItemName="GitVersionExitCode" />
     </Exec>
-    
     <!-- get revision number to GitCount -->
-    <Exec
-      Command="git rev-list --count --first-parent master"
-      IgnoreExitCode="true"
-      ConsoleToMsBuild="true"
-    >
+    <Exec Command="git rev-list --count --first-parent master" IgnoreExitCode="true" ConsoleToMsBuild="true">
       <Output TaskParameter="ConsoleOutput" ItemName="GitCount" />
-      <Output TaskParameter="ExitCode" ItemName="GitCountExitCode"/>
+      <Output TaskParameter="ExitCode" ItemName="GitCountExitCode" />
     </Exec>
-    
     <!-- get branch to GitBranch -->
-    <Exec
-      Command="git rev-parse --abbrev-ref HEAD"
-      IgnoreExitCode="true"
-      ConsoleToMsBuild="true"
-    >
+    <Exec Command="git rev-parse --abbrev-ref HEAD" IgnoreExitCode="true" ConsoleToMsBuild="true">
       <Output TaskParameter="ConsoleOutput" ItemName="GitBranch" />
-      <Output TaskParameter="ExitCode" ItemName="GitBranchExitCode"/>
+      <Output TaskParameter="ExitCode" ItemName="GitBranchExitCode" />
     </Exec>
-    
     <!-- set properties to our git info, if it wasn't already set -->
     <PropertyGroup>
       <BuildHash Condition="'@(GitVersionExitCode)' == 0">@(GitVersion)</BuildHash>
@@ -178,7 +171,6 @@
       <BuildBranch Condition="'@(GitBranchExitCode)' == 0">@(GitBranch)</BuildBranch>
     </PropertyGroup>
   </Target>
-
   <Target Name="WriteGitHash" BeforeTargets="CoreCompile">
     <!-- names the obj/.../CustomAssemblyInfo.cs file -->
     <PropertyGroup>
@@ -194,7 +186,8 @@
         <_Parameter1 Condition="'$(BuildBranch)' != '' And '$(BuildHash)' != ''">$(BuildBranch)-$(BuildHash)</_Parameter1>
         <_Parameter1 Condition="'$(BuildBranch)' != '' And '$(BuildHash)' == ''">$(BuildBranch)</_Parameter1>
         <_Parameter1 Condition="'$(BuildBranch)' == '' And '$(BuildHash)' != ''">$(BuildHash)</_Parameter1>
-        <_Parameter1 Condition="'$(BuildBranch)' == '' And '$(BuildHash)' == ''"></_Parameter1>
+        <_Parameter1 Condition="'$(BuildBranch)' == '' And '$(BuildHash)' == ''">
+        </_Parameter1>
       </AssemblyAttributes>
       <AssemblyAttributes Include="AssemblyVersion">
         <_Parameter1 Condition="'$(BuildRevision)' != ''">1.0.0.$(BuildRevision)</_Parameter1>

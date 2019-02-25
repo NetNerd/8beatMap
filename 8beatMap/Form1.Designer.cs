@@ -75,6 +75,7 @@
             this.AudioDelayBox = new System.Windows.Forms.NumericUpDown();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.ChartInfoButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.BPMbox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.newplayhead)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ZoomBox)).BeginInit();
@@ -429,6 +430,7 @@
             // 
             // chartSettingsTab
             // 
+            this.chartSettingsTab.Controls.Add(this.ChartInfoButton);
             this.chartSettingsTab.Controls.Add(this.BPMLbl);
             this.chartSettingsTab.Controls.Add(this.BPMbox);
             this.chartSettingsTab.Controls.Add(this.ResizeLbl);
@@ -506,6 +508,13 @@
             // toolTip1
             // 
             this.toolTip1.ShowAlways = true;
+            // 
+            // ChartInfoButton
+            // 
+            resources.ApplyResources(this.ChartInfoButton, "ChartInfoButton");
+            this.ChartInfoButton.Name = "ChartInfoButton";
+            this.ChartInfoButton.UseVisualStyleBackColor = true;
+            this.ChartInfoButton.Click += new System.EventHandler(this.ChartInfoButton_Click);
             // 
             // Form1
             // 
@@ -595,6 +604,7 @@
         private System.Windows.Forms.Label VolumeLbl;
         private System.Windows.Forms.TrackBar VolumeBar;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Button ChartInfoButton;
     }
 }
 

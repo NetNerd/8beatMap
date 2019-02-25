@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace _8beatMap
 {
@@ -254,5 +255,61 @@ namespace _8beatMap
         }
 
         public static Skin DefaultSkin = LoadSkin("skins/8bs");
+
+
+
+        public static void SetBackCol(Control elem, Color colour)
+        {
+            if ((elem.HasChildren || elem.GetType() == typeof(Button) || elem.GetType() == typeof(ComboBox)) && elem.GetType() != typeof(NumericUpDown))
+            {
+                elem.BackColor = colour;
+                foreach (Control control in elem.Controls)
+                {
+                    SetBackCol(control, colour);
+                }
+            }
+        }
+
+        public static void SetForeCol(Control elem, Color colour)
+        {
+            if (elem.GetType() != typeof(NumericUpDown))
+            {
+                elem.ForeColor = colour;
+            }
+            if (elem.HasChildren && elem.GetType() != typeof(NumericUpDown))
+            {
+                foreach (Control control in elem.Controls)
+                {
+                    SetForeCol(control, colour);
+                }
+            }
+        }
+
+        public static void SetUIStyle(Control elem, FlatStyle style)
+        {
+            if (elem.GetType() == typeof(Button))
+            {
+                Button elem2 = elem as Button;
+                elem2.FlatStyle = style;
+            }
+            else if (elem.GetType() == typeof(ComboBox))
+            {
+                ComboBox elem2 = elem as ComboBox;
+                elem2.FlatStyle = style;
+            }
+            else if (elem.GetType() == typeof(CheckBox))
+            {
+                CheckBox elem2 = elem as CheckBox;
+                elem2.FlatStyle = style;
+            }
+
+            if (elem.HasChildren && elem.GetType() != typeof(NumericUpDown))
+            {
+                foreach (Control control in elem.Controls)
+                {
+                    SetUIStyle(control, style);
+                }
+            }
+        }
     }
 }

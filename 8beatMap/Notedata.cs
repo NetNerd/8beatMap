@@ -59,6 +59,7 @@ namespace _8beatMap
         public struct Chart
         {
             public string ChartName;
+            public string ChartAuthor;
 
             public Tick[] Ticks;
 
@@ -332,9 +333,10 @@ namespace _8beatMap
             }
 
 
-            public Chart(int Length, double BPM, string Name="chart")
+            public Chart(int Length, double BPM, string Name="chart", string Author="")
             {
                 ChartName = Name;
+                ChartAuthor = Author;
                 Ticks = new Tick[Length];
                 ChartLen = Length;
                 this.BPM = BPM;
@@ -419,12 +421,38 @@ namespace _8beatMap
 
             Chart chart = new Chart((int)Math.Ceiling((tickObjTickNumber(tickObj, tickObj.Length - 1)+1) / 48f) * 48, 1);   // forces length to a full bar
 
+            bool gotBPM = false;
             try
             {
                 double bpm = int.Parse(tickObj[0].BAR) + int.Parse(tickObj[0].BEAT) / 100f;
-                if (bpm > 30) chart.BPM = bpm;
+                if (bpm > 30)
+                {
+                    chart.BPM = bpm;
+                    gotBPM = true;
+                }
             }
             catch { };
+
+            if (gotBPM && tickObj[0].BUTTON1 != null)
+            {
+                if(tickObj[0].BUTTON1.Length > 0) chart.ChartName = tickObj[0].BUTTON1;
+                if (tickObj[0].BUTTON2.Length > 0) chart.ChartAuthor = tickObj[0].BUTTON2;
+            }
+            else if (gotBPM && tickObj[0].B1 != null)
+            {
+                if (tickObj[0].B1.Length > 0) chart.ChartName = tickObj[0].B1;
+                if (tickObj[0].B2.Length > 0) chart.ChartAuthor = tickObj[0].B2;
+            }
+
+            if (!gotBPM) // there may be data in tick 0
+            {
+                try
+                {
+                    for (int j = 0; j < 8; j++)
+                        chart.Ticks[tickObjTickNumber(tickObj, 0)].Notes[j].NoteType = NoteTypes.NoteTypeDefs.gettypebyid(tickObj[0].Buttons[j]);
+                }
+                catch { }
+            }
 
             for (int i = 1; i < tickObj.Length; i++)
             {
@@ -436,6 +464,17 @@ namespace _8beatMap
 
             chart.FixSwipes();
             return chart;
+        }
+
+
+        private static string ReplaceFirst(this string text, string search, string replace)
+        {
+            int pos = text.IndexOf(search);
+            if (pos < 0)
+            {
+                return text;
+            }
+            return text.Substring(0, pos) + replace + text.Substring(pos + search.Length);
         }
 
         public static String ConvertChartToJson(Chart chart)
@@ -461,7 +500,9 @@ namespace _8beatMap
                 tickObj.Add(NewTick);
             }
 
-            return JsonConvert.SerializeObject(tickObj).Replace("null", "\"\"").Replace(":0", ":\"\"").Replace("R\":\"\"", "R\":0").Replace("T\":\"\"", "T\":0");
+            return JsonConvert.SerializeObject(tickObj).Replace("null", "\"\"").Replace(":0", ":\"\"")
+                .Replace("R\":\"\"", "R\":0").Replace("T\":\"\"", "T\":0")
+                .ReplaceFirst("\"BUTTON1\":\"\"", "\"BUTTON1\":\"" + chart.ChartName + "\"").ReplaceFirst("\"BUTTON2\":\"\"", "\"BUTTON2\":\"" + chart.ChartAuthor + "\"");
         }
 
         public static String ConvertChartToJson_Small(Chart chart)
@@ -496,7 +537,9 @@ namespace _8beatMap
                 }
             }
 
-            return JsonConvert.SerializeObject(tickObj).Replace("null", "\"\"").Replace(":0", ":\"\"").Replace("R\":\"\"", "R\":0").Replace("T\":\"\"", "T\":0");
+            return JsonConvert.SerializeObject(tickObj).Replace("null", "\"\"").Replace(":0", ":\"\"")
+                .Replace("R\":\"\"", "R\":0").Replace("T\":\"\"", "T\":0")
+                .ReplaceFirst("\"BUTTON1\":\"\"", "\"BUTTON1\":\"" + chart.ChartName + "\"").ReplaceFirst("\"BUTTON2\":\"\"", "\"BUTTON2\":\"" + chart.ChartAuthor + "\"");
         }
     }
 }
