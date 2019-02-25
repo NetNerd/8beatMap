@@ -149,7 +149,7 @@
       <Output TaskParameter="ConsoleOutput" ItemName="GitVersion" />
     </Exec>
     <Exec
-      Command="git rev-list --count --first-parent HEAD"
+      Command="git rev-list --count --first-parent master"
       ConsoleToMsBuild="true"
     >
       <Output TaskParameter="ConsoleOutput" ItemName="GitCount" />
