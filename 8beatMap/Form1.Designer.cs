@@ -360,7 +360,7 @@
             131072});
             resources.ApplyResources(this.CopyLengthBox, "CopyLengthBox");
             this.CopyLengthBox.Maximum = new decimal(new int[] {
-            4,
+            8,
             0,
             0,
             0});
