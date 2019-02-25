@@ -27,7 +27,7 @@ namespace _8beatMap
         private DateTime PlaybackVideoTickStartTime = DateTime.UtcNow;
 
 
-        private Timer playTimer = new Timer() { Interval = 8 };
+        private System.Timers.Timer playTimer = new System.Timers.Timer(1000/120d);
 
 
         private double lastTickForSmoothing = 0;
@@ -555,7 +555,8 @@ namespace _8beatMap
             SetCurrTick(0);
             UpdateChart();
 
-            playTimer.Tick += playtimer_Tick;
+            playTimer.SynchronizingObject = this;
+            playTimer.Elapsed += playtimer_Tick;
         }
 
 
@@ -582,9 +583,18 @@ namespace _8beatMap
         }
 
 
+
+        private void invokePlaytimer_Tick(object sender, EventArgs e)
+        {
+            if (this.InvokeRequired)
+                this.Invoke((MethodInvoker)delegate () { playtimer_Tick(sender, e); });
+            else
+                playtimer_Tick(sender, e);
+        }
+
         static int DefaultMusicDelayMs = 10;
         int MusicDelayMs = DefaultMusicDelayMs;
-        
+
         private void playtimer_Tick(object sender, EventArgs e)
         {
             SetCurrTick(chart.ConvertTimeToTicks(Sound.MusicReader.CurrentTime + TimeSpan.FromMilliseconds(MusicDelayMs)));
