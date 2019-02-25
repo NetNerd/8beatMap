@@ -23,6 +23,8 @@ namespace _8beatMap
         private int IconHeight = 10;
         private double CurrentTick = 0;
         private double LastTick = 0;
+        
+        private DateTime PlaybackVideoTickStartTime = DateTime.UtcNow;
 
 
         private Timer playTimer = new Timer() { Interval = 8 };
@@ -267,7 +269,20 @@ namespace _8beatMap
 
             CurrentTick = getAveragedPlayTickTime(tick);
 
+
             TimeSpan ctickTime = chart.ConvertTicksToTime(tick);
+
+
+            // this is a mess, but by using clock times for video playback I can help smooth out any remaining jitter
+            // it almost works...
+            TimeSpan currvidtime = DateTime.UtcNow - PlaybackVideoTickStartTime;
+
+            if (Math.Abs((ctickTime - currvidtime).Ticks) > TimeSpan.FromMilliseconds(25).Ticks)
+            {
+                PlaybackVideoTickStartTime = DateTime.UtcNow - ctickTime;
+                currvidtime = ctickTime;
+            }
+
 
             if (Sound.MusicReader != null &&
                     (Sound.MusicReader.CurrentTime < ctickTime - TimeSpan.FromMilliseconds(MusicDelayMs + 10) |
@@ -294,6 +309,8 @@ namespace _8beatMap
             double tick = CurrentTick;
             if (playTimer.Enabled)
             {
+                // derive ticks from time if in playback (if not use current tick)
+                tick = chart.ConvertTimeToTicks(DateTime.UtcNow - PlaybackVideoTickStartTime);
                 tick -= chart.ConvertTimeToTicks(TimeSpan.FromMilliseconds(VideoDelayMs));
                 //tick -= chart.ConvertTimeToTicks(TimeSpan.FromMilliseconds(MusicDelayMs));
             }
@@ -310,6 +327,7 @@ namespace _8beatMap
             double tick = CurrentTick;
             if (playTimer.Enabled)
             {
+                tick = chart.ConvertTimeToTicks(DateTime.UtcNow - PlaybackVideoTickStartTime);
                 tick -= chart.ConvertTimeToTicks(TimeSpan.FromMilliseconds(VideoDelayMs+GameCloneOffsetMs));
                 //tick -= chart.ConvertTimeToTicks(TimeSpan.FromMilliseconds(MusicDelayMs));
             }
