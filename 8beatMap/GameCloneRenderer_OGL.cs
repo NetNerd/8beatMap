@@ -383,8 +383,15 @@ namespace _8beatMap
                 //Console.WriteLine("b");
             }
             //else Console.WriteLine("c");
-            
-            myWindow.SwapBuffers();
+
+            try
+            {
+                myWindow.SwapBuffers();
+            }
+            catch
+            {
+                //myWindow.Close();
+            }
             //GL.Finish();
 
             //Console.WriteLine(myWindow.RenderFrequency);
