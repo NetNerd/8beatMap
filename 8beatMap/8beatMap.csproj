@@ -144,33 +144,39 @@
     <!-- get current commit hash to GitVersion -->
     <Exec
       Command="git describe --long --always --dirty"
+      IgnoreExitCode="true"
       ConsoleToMsBuild="true"
     >
       <Output TaskParameter="ConsoleOutput" ItemName="GitVersion" />
+      <Output TaskParameter="ExitCode" ItemName="GitVersionExitCode"/>
     </Exec>
     
     <!-- get revision number to GitCount -->
     <Exec
       Command="git rev-list --count --first-parent master"
+      IgnoreExitCode="true"
       ConsoleToMsBuild="true"
     >
       <Output TaskParameter="ConsoleOutput" ItemName="GitCount" />
+      <Output TaskParameter="ExitCode" ItemName="GitCountExitCode"/>
     </Exec>
     
     <!-- get branch to GitBranch -->
     <Exec
       Command="git rev-parse --abbrev-ref HEAD"
+      IgnoreExitCode="true"
       ConsoleToMsBuild="true"
     >
       <Output TaskParameter="ConsoleOutput" ItemName="GitBranch" />
+      <Output TaskParameter="ExitCode" ItemName="GitBranchExitCode"/>
     </Exec>
     
     <!-- set properties to our git info, if it wasn't already set -->
     <PropertyGroup>
-      <BuildHash>@(GitVersion)</BuildHash>
-      <BuildRevision>@(GitCount)</BuildRevision>
-      <BuildBranch>@(GitBranch)</BuildBranch>
-    </PropertyGroup>    
+      <BuildHash Condition="'@(GitVersionExitCode)' == 0">@(GitVersion)</BuildHash>
+      <BuildRevision Condition="'@(GitCountExitCode)' == 0">@(GitCount)</BuildRevision>
+      <BuildBranch Condition="'@(GitBranchExitCode)' == 0">@(GitBranch)</BuildBranch>
+    </PropertyGroup>
   </Target>
 
   <Target Name="WriteGitHash" BeforeTargets="CoreCompile">
@@ -184,11 +190,15 @@
     </ItemGroup>
     <!-- defines the AssemblyInformationalVersion attribute that will be written -->
     <ItemGroup>
-      <AssemblyAttributes Include="AssemblyInformationalVersion">
-        <_Parameter1>@(GitBranch)-$(BuildHash)</_Parameter1>
+      <AssemblyAttributes Include="AssemblyInformationalVersion" Condition="'$(BuildBranch)' != '' Or '$(BuildHash)' != ''">
+        <_Parameter1 Condition="'$(BuildBranch)' != '' And '$(BuildHash)' != ''">$(BuildBranch)-$(BuildHash)</_Parameter1>
+        <_Parameter1 Condition="'$(BuildBranch)' != '' And '$(BuildHash)' == ''">$(BuildBranch)</_Parameter1>
+        <_Parameter1 Condition="'$(BuildBranch)' == '' And '$(BuildHash)' != ''">$(BuildHash)</_Parameter1>
+        <_Parameter1 Condition="'$(BuildBranch)' == '' And '$(BuildHash)' == ''"></_Parameter1>
       </AssemblyAttributes>
       <AssemblyAttributes Include="AssemblyVersion">
-        <_Parameter1>1.0.0.$(BuildRevision)</_Parameter1>
+        <_Parameter1 Condition="'$(BuildRevision)' != ''">1.0.0.$(BuildRevision)</_Parameter1>
+        <_Parameter1 Condition="'$(BuildRevision)' == ''">1.0.0</_Parameter1>
       </AssemblyAttributes>
     </ItemGroup>
     <!-- writes the attribute to the customAssemblyInfo file -->
