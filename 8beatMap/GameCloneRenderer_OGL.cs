@@ -8,6 +8,7 @@ namespace _8beatMap
     class GameCloneRenderer_OGL
     {
         private GameWindow myWindow = null;
+        private System.Diagnostics.Stopwatch FrameStopwatch = new System.Diagnostics.Stopwatch();
 
         public double currentTick = 0;
         public int numTicksVisible = 24;
@@ -104,7 +105,7 @@ namespace _8beatMap
                 myWindow.RenderFrame += new EventHandler<OpenTK.FrameEventArgs>(RenderFrame);
 
 
-                myWindow.TargetRenderFrequency = 60;
+                //myWindow.TargetRenderFrequency = 60;
                 myWindow.Run();
             });
 
@@ -149,6 +150,8 @@ namespace _8beatMap
             if (myWindow.WindowState == WindowState.Minimized) return;
 
             if (mainform == null) return;
+            
+            FrameStopwatch.Restart();
 
             mainform.UpdateGameCloneChart();
             
@@ -366,9 +369,22 @@ namespace _8beatMap
             }
 
 
+            FrameStopwatch.Stop();
+            int sleeptime = (int)(1000*1f/DisplayDevice.Default.RefreshRate) - (int)FrameStopwatch.ElapsedMilliseconds - 3;
+            if (sleeptime > 0)
+            {
+                System.Threading.Thread.Sleep(sleeptime);
+                //Console.WriteLine("a");
+            }
+            else if (sleeptime < 0)
+            {
+                System.Threading.Thread.Sleep(10);
+                //Console.WriteLine("b");
+            }
+            //else Console.WriteLine("c");
+            
             myWindow.SwapBuffers();
             //GL.Finish();
-            System.Threading.Thread.Sleep(12);
 
             //Console.WriteLine(myWindow.RenderFrequency);
         }
