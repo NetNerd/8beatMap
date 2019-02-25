@@ -198,4 +198,7 @@
   <data name="VolumeLbl.Text" xml:space="preserve">
     <value>ボーリューム：</value>
   </data>
+  <data name="ChartInfoButton.Text" xml:space="preserve">
+    <value>譜面作品情報</value>
+  </data>
 </root>
