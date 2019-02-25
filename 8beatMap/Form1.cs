@@ -581,15 +581,11 @@ namespace _8beatMap
         {
             StopPlayback();
         }
+        
 
-
-
-        private void invokePlaytimer_Tick(object sender, EventArgs e)
+        private void LogMissedTick(object sender, EventArgs e)
         {
-            if (this.InvokeRequired)
-                this.Invoke((MethodInvoker)delegate () { playtimer_Tick(sender, e); });
-            else
-                playtimer_Tick(sender, e);
+            //Console.WriteLine("missed playtimer tick");
         }
 
         static int DefaultMusicDelayMs = 10;
@@ -597,6 +593,9 @@ namespace _8beatMap
 
         private void playtimer_Tick(object sender, EventArgs e)
         {
+            playTimer.Elapsed -= playtimer_Tick; //avoid being called again if still running, but don't interrupt timing
+            playTimer.Elapsed += LogMissedTick;
+
             SetCurrTick(chart.ConvertTimeToTicks(Sound.MusicReader.CurrentTime + TimeSpan.FromMilliseconds(MusicDelayMs)));
             UpdateChart(); //(update graphics)
 
@@ -670,6 +669,9 @@ namespace _8beatMap
             {
                 StopPlayback();
             }
+
+            playTimer.Elapsed += playtimer_Tick;
+            playTimer.Elapsed -= LogMissedTick;
         }
 
         private void BPMbox_ValueChanged(object sender, EventArgs e)
