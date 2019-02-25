@@ -148,10 +148,17 @@
     >
       <Output TaskParameter="ConsoleOutput" ItemName="GitVersion" />
     </Exec>
+    <Exec
+      Command="git rev-list --count --first-parent HEAD"
+      ConsoleToMsBuild="true"
+    >
+      <Output TaskParameter="ConsoleOutput" ItemName="GitCount" />
+    </Exec>
     
     <!-- Set the BuildHash property to contain the GitVersion, if it wasn't already set.-->
     <PropertyGroup>
       <BuildHash>@(GitVersion)</BuildHash>
+      <BuildRevision>@(GitCount)</BuildRevision>
     </PropertyGroup>    
   </Target>
 
@@ -167,7 +174,10 @@
     <!-- defines the AssemblyInformationalVersion attribute that will be written -->
     <ItemGroup>
       <AssemblyAttributes Include="AssemblyInformationalVersion">
-        <_Parameter1>"$(BuildHash)"</_Parameter1>
+        <_Parameter1>$(BuildHash)</_Parameter1>
+      </AssemblyAttributes>
+      <AssemblyAttributes Include="AssemblyVersion">
+        <_Parameter1>1.0.0.$(BuildRevision)</_Parameter1>
       </AssemblyAttributes>
     </ItemGroup>
     <!-- writes the attribute to the customAssemblyInfo file -->
