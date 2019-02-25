@@ -72,11 +72,11 @@ namespace _8beatMap
         }
 
 
-        private double[] prevPlayTicks = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
+        private double[] prevPlayTicks = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
 
         private double getAveragedPlayTickTime(double rawtick)
         {
-            rawtick = getSmoothedPlayTickTime(rawtick);
+            rawtick = (rawtick + getSmoothedPlayTickTime(rawtick)) / 2d;
 
             double avgTickDelta = 0;
             int numentries = 0;
@@ -303,7 +303,7 @@ namespace _8beatMap
 
         int VideoDelayMs = 110;
         int GameCloneOffsetMs = -20;
-
+        
         public void UpdateChart()
         {
             double tick = CurrentTick;
@@ -327,6 +327,7 @@ namespace _8beatMap
             double tick = CurrentTick;
             if (playTimer.Enabled)
             {
+                // derive ticks from time if in playback (if not use current tick)
                 tick = chart.ConvertTimeToTicks(DateTime.UtcNow - PlaybackVideoTickStartTime);
                 tick -= chart.ConvertTimeToTicks(TimeSpan.FromMilliseconds(VideoDelayMs+GameCloneOffsetMs));
                 //tick -= chart.ConvertTimeToTicks(TimeSpan.FromMilliseconds(MusicDelayMs));
@@ -584,15 +585,10 @@ namespace _8beatMap
         static int DefaultMusicDelayMs = 10;
         int MusicDelayMs = DefaultMusicDelayMs;
         
-        double lastPlayTickTime = 0;
         private void playtimer_Tick(object sender, EventArgs e)
         {
             SetCurrTick(chart.ConvertTimeToTicks(Sound.MusicReader.CurrentTime + TimeSpan.FromMilliseconds(MusicDelayMs)));
-            if (lastPlayTickTime < chart.ConvertTicksToTime(CurrentTick).TotalMilliseconds - 5 | lastPlayTickTime > chart.ConvertTicksToTime(CurrentTick).TotalMilliseconds)
-            {
-                lastPlayTickTime = chart.ConvertTicksToTime(CurrentTick).TotalMilliseconds;
-                UpdateChart(); //(update graphics)
-            }
+            UpdateChart(); //(update graphics)
 
             if ((int)CurrentTick != (int)LastTick)
             {
