@@ -87,8 +87,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Skinning.cs" />
     <Compile Include="Sound.cs" />
+    <EmbeddedResource Include="ChartInfoDialog.ja.resx">
+      <DependentUpon>ChartInfoDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ChartInfoDialog.resx">
       <DependentUpon>ChartInfoDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogs.ja.resx" />
     <EmbeddedResource Include="Dialogs.resx">

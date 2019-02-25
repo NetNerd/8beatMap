@@ -33,7 +33,6 @@ namespace _8beatMap
         private void OKBtn_Click(object sender, EventArgs e)
         {
             result = new string[2] { SongNameBox.Text, AuthorBox.Text};
-            this.DialogResult = DialogResult.OK;
             this.Close();
         }
     }

@@ -123,10 +123,10 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="SongNameLbl.Location" type="System.Drawing.Point, System.Drawing">
-    <value>14, 16</value>
+    <value>14, 17</value>
   </data>
   <data name="SongNameLbl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>66, 13</value>
+    <value>74, 13</value>
   </data>
   <data name="SongNameLbl.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -147,10 +147,10 @@
     <value>5</value>
   </data>
   <data name="SongNameBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>86, 13</value>
+    <value>94, 14</value>
   </data>
   <data name="SongNameBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>236, 20</value>
+    <value>228, 21</value>
   </data>
   <data name="SongNameBox.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -168,10 +168,10 @@
     <value>4</value>
   </data>
   <data name="AuthorBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>86, 41</value>
+    <value>94, 41</value>
   </data>
   <data name="AuthorBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>236, 20</value>
+    <value>228, 21</value>
   </data>
   <data name="AuthorBox.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -196,10 +196,10 @@
     <value>NoControl</value>
   </data>
   <data name="AuthorLbl.Location" type="System.Drawing.Point, System.Drawing">
-    <value>14, 44</value>
+    <value>14, 45</value>
   </data>
   <data name="AuthorLbl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>41, 13</value>
+    <value>74, 14</value>
   </data>
   <data name="AuthorLbl.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -273,9 +273,6 @@
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>6, 13</value>
-  </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>334, 122</value>
   </data>
