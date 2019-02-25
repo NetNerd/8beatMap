@@ -83,7 +83,8 @@ namespace _8beatMap
 
                     GL.Enable(EnableCap.Texture2D);
                     GL.Enable(EnableCap.Blend);
-                    GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+                    //GL.BlendFuncSeparate(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha, BlendingFactorSrc.One, BlendingFactorDest.OneMinusSrcAlpha);
+                    GL.BlendFunc(BlendingFactorSrc.One, BlendingFactorDest.OneMinusSrcAlpha);
                     //GL.Enable(EnableCap.PolygonSmooth);  // sometimes causes diagonal lines through quads
 
                     GL.BindTexture(TextureTarget.Texture2D, textures["spr_SwipeLocus"]);
@@ -181,7 +182,7 @@ namespace _8beatMap
 
 
 
-            GL.Color4(1f, 1f, 1f, 0.65f); //transparency
+            GL.Color4(0.65f, 0.65f, 0.65f, 0.65f); //transparency
 
             for (int i = (int)currentTick + numTicksVisible + 1; i >= (int)currentTick - 48; i--) // 48 is magic from Notedata.Chart.UpdateSwipeEnd()
             {
@@ -358,7 +359,7 @@ namespace _8beatMap
                         int effectSize = (int)(iconSize * 2.0f);
                         float effectOpacity = 1 - (float)((currentTick+hitlineAdjust - EffectTicks - i - 1) / EffectFadeTicks * 0.8f);
 
-                        GL.Color4(1f, 1f, 1f, effectOpacity);
+                        GL.Color4(effectOpacity, effectOpacity, effectOpacity, effectOpacity);
 
                         //Grfx.DrawImage(spr_HitEffect, new Rectangle((int)NodeEndLocs[j].X - effectSize / 2, (int)NodeEndLocs[j].Y - effectSize / 2, effectSize, effectSize), 0, 0, spr_HitEffect.Width, spr_HitEffect.Height, GraphicsUnit.Pixel, effectTranspAttr);
                         DrawFilledRect(NodeEndLocs[j].X - effectSize / 2, NodeEndLocs[j].Y - effectSize / 2, effectSize, effectSize, "spr_HitEffect");
@@ -424,7 +425,7 @@ namespace _8beatMap
 
 
             System.Drawing.Imaging.BitmapData bmpData = bmp.LockBits(new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height),
-                System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
 
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, bmp.Width, bmp.Height, 0, PixelFormat.Bgra, PixelType.UnsignedByte, bmpData.Scan0);
 
