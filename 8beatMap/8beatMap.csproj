@@ -154,21 +154,31 @@
       <!-- temp file for the git version (lives in "obj" folder)-->
       <VerFile>$(IntermediateOutputPath)gitver</VerFile>
     </PropertyGroup>
+    
     <!-- get current commit hash to GitVersion -->
     <Exec Command="git describe --long --always --dirty" IgnoreExitCode="true" ConsoleToMsBuild="true">
       <Output TaskParameter="ConsoleOutput" ItemName="GitVersion" />
       <Output TaskParameter="ExitCode" ItemName="GitVersionExitCode" />
     </Exec>
+    
+    <!-- get HEAD's fork point from master to GitCountCommit -->
+    <Exec Command="git merge-base master HEAD" IgnoreExitCode="true" ConsoleToMsBuild="true">
+      <Output TaskParameter="ConsoleOutput" ItemName="GitCountCommit" />
+      <Output TaskParameter="ExitCode" ItemName="GitCountCommitExitCode" />
+    </Exec>
+    
     <!-- get revision number to GitCount -->
-    <Exec Command="git rev-list --count --first-parent master" IgnoreExitCode="true" ConsoleToMsBuild="true">
+    <Exec Command="git rev-list --count --first-parent @(GitCountCommit)" IgnoreExitCode="true" ConsoleToMsBuild="true" Condition="'@(GitCountCommitExitCode)' == 0">
       <Output TaskParameter="ConsoleOutput" ItemName="GitCount" />
       <Output TaskParameter="ExitCode" ItemName="GitCountExitCode" />
     </Exec>
+    
     <!-- get branch to GitBranch -->
     <Exec Command="git rev-parse --abbrev-ref HEAD" IgnoreExitCode="true" ConsoleToMsBuild="true">
       <Output TaskParameter="ConsoleOutput" ItemName="GitBranch" />
       <Output TaskParameter="ExitCode" ItemName="GitBranchExitCode" />
     </Exec>
+    
     <!-- set properties to our git info, if it wasn't already set -->
     <PropertyGroup>
       <BuildHash Condition="'@(GitVersionExitCode)' == 0">@(GitVersion)</BuildHash>
