@@ -469,12 +469,15 @@ namespace _8beatMap
             this.skin = Skinning.LoadSkin("skins/" + skin);
             UpdateChart();
 
+            SuspendLayout();
             Skinning.SetBackCol(this, this.skin.UIColours[UIColours.UIColourDefs.Form_BG.TypeName]);
             Skinning.SetForeCol(this, this.skin.UIColours[UIColours.UIColourDefs.Form_Text.TypeName]);
             Skinning.SetUIStyle(this, this.skin.UIStyle);
             if (this.skin.UIStyle == FlatStyle.Flat | this.skin.UIStyle == FlatStyle.Popup) tabControl1.Appearance = TabAppearance.FlatButtons;
             else tabControl1.Appearance = TabAppearance.Normal;
             newplayhead.BackColor = this.skin.UIColours[UIColours.UIColourDefs.Chart_Playhead.TypeName];
+            ResumeLayout(false);
+            PerformLayout();
 
             LoadSounds();
             OpenPreviewWindow();
@@ -484,7 +487,14 @@ namespace _8beatMap
         public Form1()
         {
             InitializeComponent();
-            
+
+            this.SuspendLayout();
+            this.Font = new Font(SystemFonts.MessageBoxFont.FontFamily, 8.8f);
+            //this.Font = new System.Drawing.Font(System.Drawing.SystemFonts.MessageBoxFont.FontFamily, System.Drawing.SystemFonts.MessageBoxFont.SizeInPoints);
+            this.AutoScaleMode = AutoScaleMode.None;
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
             pictureBox1.Image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             
             SetSkin("8bs");
@@ -877,7 +887,8 @@ namespace _8beatMap
                 foreach (Control Ctrl in Tab.Controls)
                     resources.ApplyResources(Ctrl, Ctrl.Name);
             }
-            ResumeLayout();
+            ResumeLayout(false);
+            PerformLayout();
 
             AddNoteTypes();
         }

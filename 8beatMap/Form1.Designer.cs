@@ -519,9 +519,6 @@
             // Form1
             // 
             resources.ApplyResources(this, "$this");
-            this.Font = new System.Drawing.Font(System.Drawing.SystemFonts.MessageBoxFont.FontFamily, 8.8f);
-            //this.Font = new System.Drawing.Font(System.Drawing.SystemFonts.MessageBoxFont.FontFamily, System.Drawing.SystemFonts.MessageBoxFont.SizeInPoints);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.newplayhead);
             this.Controls.Add(this.ChartScrollBar);

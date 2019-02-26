@@ -77,9 +77,6 @@
             this.AcceptButton = this.OKBtn;
             this.CancelButton = this.CancelBtn;
             resources.ApplyResources(this, "$this");
-            this.Font = new System.Drawing.Font(System.Drawing.SystemFonts.MessageBoxFont.FontFamily, 8.8f);
-            //this.Font = new System.Drawing.Font(System.Drawing.SystemFonts.MessageBoxFont.FontFamily, System.Drawing.SystemFonts.MessageBoxFont.SizeInPoints);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.CancelBtn);
             this.Controls.Add(this.OKBtn);
             this.Controls.Add(this.AuthorBox);
