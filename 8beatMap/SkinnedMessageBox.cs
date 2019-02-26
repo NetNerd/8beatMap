@@ -28,9 +28,6 @@ namespace _8beatMap
         public SkinnedMessageBox(Skinning.Skin skin, string message, string caption="", MessageBoxButtons buttons = MessageBoxButtons.OK)
         {
             InitComponentNew();
-            Skinning.SetBackCol(this, skin.UIColours[UIColours.UIColourDefs.Form_BG.TypeName]);
-            Skinning.SetForeCol(this, skin.UIColours[UIColours.UIColourDefs.Form_Text.TypeName]);
-            Skinning.SetUIStyle(this, skin.UIStyle);
 
             this.Text = caption;
             MessageLbl.Text = message;
@@ -106,6 +103,11 @@ namespace _8beatMap
                 Controls.Add(IgnoreBtn);
                 this.CancelButton = IgnoreBtn;
             }
+
+
+            Skinning.SetBackCol(this, skin.UIColours[UIColours.UIColourDefs.Form_BG.TypeName]);
+            Skinning.SetForeCol(this, skin.UIColours[UIColours.UIColourDefs.Form_Text.TypeName]);
+            Skinning.SetUIStyle(this, skin.UIStyle);
         }
 
         private void SkinnedMessageBox_FormClosed(object sender, FormClosedEventArgs e)
