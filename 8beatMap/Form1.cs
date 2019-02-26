@@ -399,11 +399,11 @@ namespace _8beatMap
                         chart.ChartName = name;
                     }
                 }
-                catch { MessageBox.Show(DialogResMgr.GetString("ChartLoadError")); }
+                catch { SkinnedMessageBoxMaker.ShowMessageBox(skin, DialogResMgr.GetString("ChartLoadError")); }
 
                 if (chart.BPM == 1)
                 {
-                    MessageBox.Show(DialogResMgr.GetString("ChartLoadNoBPM"));
+                    SkinnedMessageBoxMaker.ShowMessageBox(skin, DialogResMgr.GetString("ChartLoadNoBPM"));
                     chart.BPM = 120;
                 }
                 ResizeBox.Value = chart.Length / 48;
@@ -532,7 +532,7 @@ namespace _8beatMap
                 StartPlayback();
             else
             {
-                MessageBox.Show(DialogResMgr.GetString("PlaybackNoMusicError"));
+                SkinnedMessageBoxMaker.ShowMessageBox(skin, DialogResMgr.GetString("PlaybackNoMusicError"));
             }
         }
 
@@ -842,7 +842,7 @@ namespace _8beatMap
                 return;
             }
 
-            if (MessageBox.Show(DialogResMgr.GetString("ExitMessage"), DialogResMgr.GetString("ExitCaption"), MessageBoxButtons.YesNo) == DialogResult.No)
+            if (SkinnedMessageBoxMaker.ShowMessageBox(skin, DialogResMgr.GetString("ExitMessage"), DialogResMgr.GetString("ExitCaption"), MessageBoxButtons.YesNo) == DialogResult.No)
                 e.Cancel = true;
             else if (OGLrenderer != null)
             {
@@ -853,7 +853,7 @@ namespace _8beatMap
 
         private void NoteCountButton_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(String.Format(DialogResMgr.GetString("NoteCountMessage"), chart.NoteCount));
+            SkinnedMessageBoxMaker.ShowMessageBox(skin, String.Format(DialogResMgr.GetString("NoteCountMessage"), chart.NoteCount));
         }
 
         private void AutoSimulBtn_Click(object sender, EventArgs e)
@@ -1091,6 +1091,7 @@ namespace _8beatMap
                 chart.ChartName = chartInfo.result[0];
                 chart.ChartAuthor = chartInfo.result[1];
             }
+            chartInfo.Dispose();
         }
     }
 }
