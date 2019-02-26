@@ -30,8 +30,6 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SkinnedMessageBox));
             this.MessageLbl = new System.Windows.Forms.Label();
-            this.OKBtn = new System.Windows.Forms.Button();
-            this.CancelBtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // MessageLbl
@@ -39,27 +37,9 @@
             resources.ApplyResources(this.MessageLbl, "MessageLbl");
             this.MessageLbl.Name = "MessageLbl";
             // 
-            // OKBtn
-            // 
-            resources.ApplyResources(this.OKBtn, "OKBtn");
-            this.OKBtn.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.OKBtn.Name = "OKBtn";
-            this.OKBtn.UseVisualStyleBackColor = true;
-            // 
-            // CancelBtn
-            // 
-            resources.ApplyResources(this.CancelBtn, "CancelBtn");
-            this.CancelBtn.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelBtn.Name = "CancelBtn";
-            this.CancelBtn.UseVisualStyleBackColor = true;
-            // 
             // SkinnedMessageBox
             // 
-            this.AcceptButton = this.OKBtn;
             resources.ApplyResources(this, "$this");
-            this.CancelButton = this.CancelBtn;
-            this.Controls.Add(this.CancelBtn);
-            this.Controls.Add(this.OKBtn);
             this.Controls.Add(this.MessageLbl);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
@@ -74,7 +54,5 @@
         #endregion
 
         private System.Windows.Forms.Label MessageLbl;
-        private System.Windows.Forms.Button OKBtn;
-        private System.Windows.Forms.Button CancelBtn;
     }
 }

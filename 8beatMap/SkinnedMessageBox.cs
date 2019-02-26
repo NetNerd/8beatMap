@@ -35,31 +35,54 @@ namespace _8beatMap
             this.Text = caption;
             MessageLbl.Text = message;
 
-            OKBtn.Text = DialogResMgr.GetString("BtnOK");
-            CancelBtn.Text = DialogResMgr.GetString("BtnCancel");
-
             if (buttons == MessageBoxButtons.AbortRetryIgnore || buttons == MessageBoxButtons.YesNoCancel)
             {
                 throw new ArgumentException("Only one or two buttons are supported");
             }
 
-            if (buttons == MessageBoxButtons.OKCancel || buttons == MessageBoxButtons.YesNo || buttons == MessageBoxButtons.RetryCancel)
+
+            int btnWidth = 75;
+            int btnPadding = 12;
+
+            if (buttons == MessageBoxButtons.OK)
             {
-                OKBtn.Left = OKBtn.Left - (this.ClientSize.Width - OKBtn.Left);
-                CancelBtn.Top = OKBtn.Top;
-                CancelBtn.Enabled = true;
+                Button OKBtn = new Button { Text = DialogResMgr.GetString("BtnOK"), DialogResult = DialogResult.OK, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth };
+                OKBtn.Location = new Point(ClientSize.Width - btnWidth - btnPadding, ClientSize.Height - OKBtn.Height - btnPadding);
+                Controls.Add(OKBtn);
+                this.AcceptButton = OKBtn;
             }
-            if (buttons == MessageBoxButtons.YesNo)
+            else if (buttons == MessageBoxButtons.OKCancel)
             {
-                OKBtn.DialogResult = DialogResult.Yes;
-                CancelBtn.DialogResult = DialogResult.No;
-                OKBtn.Text = DialogResMgr.GetString("BtnYes");
-                CancelBtn.Text = DialogResMgr.GetString("BtnNo");
+                Button OKBtn = new Button { Text = DialogResMgr.GetString("BtnOK"), DialogResult = DialogResult.OK, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth };
+                OKBtn.Location = new Point(ClientSize.Width - btnWidth * 2 - btnPadding * 2, ClientSize.Height - OKBtn.Height - btnPadding);
+                Controls.Add(OKBtn);
+                this.AcceptButton = OKBtn;
+                Button CancelBtn = new Button { Text = DialogResMgr.GetString("BtnCancel"), DialogResult = DialogResult.Cancel, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth };
+                CancelBtn.Location = new Point(ClientSize.Width - btnWidth - btnPadding, ClientSize.Height - CancelBtn.Height - btnPadding);
+                Controls.Add(CancelBtn);
+                this.CancelButton = CancelBtn;
+            }
+            else if (buttons == MessageBoxButtons.YesNo)
+            {
+                Button YesBtn = new Button { Text = DialogResMgr.GetString("BtnYes"), DialogResult = DialogResult.Yes, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth };
+                YesBtn.Location = new Point(ClientSize.Width - btnWidth * 2 - btnPadding * 2, ClientSize.Height - YesBtn.Height - btnPadding);
+                Controls.Add(YesBtn);
+                this.AcceptButton = YesBtn;
+                Button NoBtn = new Button { Text = DialogResMgr.GetString("BtnNo"), DialogResult = DialogResult.No, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth };
+                NoBtn.Location = new Point(ClientSize.Width - btnWidth - btnPadding, ClientSize.Height - NoBtn.Height - btnPadding);
+                Controls.Add(NoBtn);
+                this.CancelButton = NoBtn;
             }
             else if (buttons == MessageBoxButtons.RetryCancel)
             {
-                OKBtn.DialogResult = DialogResult.Retry;
-                OKBtn.Text = DialogResMgr.GetString("BtnRetry");
+                Button RetryBtn = new Button { Text = DialogResMgr.GetString("BtnRetry"), DialogResult = DialogResult.Retry, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth };
+                RetryBtn.Location = new Point(ClientSize.Width - btnWidth * 2 - btnPadding * 2, ClientSize.Height - RetryBtn.Height - btnPadding);
+                Controls.Add(RetryBtn);
+                this.AcceptButton = RetryBtn;
+                Button CancelBtn = new Button { Text = DialogResMgr.GetString("BtnCancel"), DialogResult = DialogResult.Cancel, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth };
+                CancelBtn.Location = new Point(ClientSize.Width - btnWidth - btnPadding, ClientSize.Height - CancelBtn.Height - btnPadding);
+                Controls.Add(CancelBtn);
+                this.CancelButton = CancelBtn;
             }
         }
 
@@ -70,8 +93,8 @@ namespace _8beatMap
 
         private void SkinnedMessageBox_FormClosed(object sender, FormClosedEventArgs e)
         {
-            if (this.DialogResult == DialogResult.None || this.DialogResult == DialogResult.Cancel)
-                this.DialogResult = CancelBtn.DialogResult;
+            if (CancelButton != null && (this.DialogResult == DialogResult.None || this.DialogResult == DialogResult.Cancel))
+                this.DialogResult = CancelButton.DialogResult;
         }
     }
 
