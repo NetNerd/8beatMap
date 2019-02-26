@@ -61,7 +61,7 @@ namespace _8beatMap {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Abort.
+        ///   Looks up a localized string similar to &amp;Abort.
         /// </summary>
         internal static string BtnAbort {
             get {
@@ -70,7 +70,7 @@ namespace _8beatMap {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cancel.
+        ///   Looks up a localized string similar to &amp;Cancel.
         /// </summary>
         internal static string BtnCancel {
             get {
@@ -79,7 +79,7 @@ namespace _8beatMap {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ignore.
+        ///   Looks up a localized string similar to &amp;Ignore.
         /// </summary>
         internal static string BtnIgnore {
             get {
@@ -88,7 +88,7 @@ namespace _8beatMap {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No.
+        ///   Looks up a localized string similar to &amp;No.
         /// </summary>
         internal static string BtnNo {
             get {
@@ -97,7 +97,7 @@ namespace _8beatMap {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to OK.
+        ///   Looks up a localized string similar to &amp;OK.
         /// </summary>
         internal static string BtnOK {
             get {
@@ -106,7 +106,7 @@ namespace _8beatMap {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Retry.
+        ///   Looks up a localized string similar to &amp;Retry.
         /// </summary>
         internal static string BtnRetry {
             get {
@@ -115,7 +115,7 @@ namespace _8beatMap {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Yes.
+        ///   Looks up a localized string similar to &amp;Yes.
         /// </summary>
         internal static string BtnYes {
             get {

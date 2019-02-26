@@ -124,6 +124,9 @@
     <value>作者：</value>
   </data>
   <data name="CancelBtn.Text" xml:space="preserve">
-    <value>キャンセル</value>
+    <value>キャンセル(&amp;C)</value>
+  </data>
+  <data name="OKBtn.Text" xml:space="preserve">
+    <value>&amp;OK</value>
   </data>
 </root>

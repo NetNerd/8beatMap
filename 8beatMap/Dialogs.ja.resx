@@ -118,25 +118,25 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="BtnAbort" xml:space="preserve">
-    <value>中止</value>
+    <value>中止(&amp;A)</value>
   </data>
   <data name="BtnCancel" xml:space="preserve">
-    <value>キャンセル</value>
+    <value>キャンセル(&amp;C)</value>
   </data>
   <data name="BtnIgnore" xml:space="preserve">
-    <value>無視</value>
+    <value>無視(&amp;I)</value>
   </data>
   <data name="BtnNo" xml:space="preserve">
-    <value>いいえ</value>
+    <value>いいえ(&amp;N)</value>
   </data>
   <data name="BtnOK" xml:space="preserve">
-    <value>OK</value>
+    <value>&amp;OK</value>
   </data>
   <data name="BtnRetry" xml:space="preserve">
-    <value>再試行</value>
+    <value>再試行(&amp;R)</value>
   </data>
   <data name="BtnYes" xml:space="preserve">
-    <value>はい</value>
+    <value>はい(&amp;Y)</value>
   </data>
   <data name="ChartLoadError" xml:space="preserve">
     <value>譜面を読み込みでエラーが会った</value>
