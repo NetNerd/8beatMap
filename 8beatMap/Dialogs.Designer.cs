@@ -61,11 +61,29 @@ namespace _8beatMap {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Abort.
+        /// </summary>
+        internal static string BtnAbort {
+            get {
+                return ResourceManager.GetString("BtnAbort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         internal static string BtnCancel {
             get {
                 return ResourceManager.GetString("BtnCancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ignore.
+        /// </summary>
+        internal static string BtnIgnore {
+            get {
+                return ResourceManager.GetString("BtnIgnore", resourceCulture);
             }
         }
         

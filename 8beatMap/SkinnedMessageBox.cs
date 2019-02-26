@@ -35,12 +35,6 @@ namespace _8beatMap
             this.Text = caption;
             MessageLbl.Text = message;
 
-            if (buttons == MessageBoxButtons.AbortRetryIgnore || buttons == MessageBoxButtons.YesNoCancel)
-            {
-                throw new ArgumentException("Only one or two buttons are supported");
-            }
-
-
             int btnWidth = 75;
             int btnPadding = 12;
 
@@ -84,11 +78,34 @@ namespace _8beatMap
                 Controls.Add(CancelBtn);
                 this.CancelButton = CancelBtn;
             }
-        }
-
-        public SkinnedMessageBox()
-        {
-            InitComponentNew();
+            else if (buttons == MessageBoxButtons.YesNoCancel)
+            {
+                Button YesBtn = new Button { Text = DialogResMgr.GetString("BtnYes"), DialogResult = DialogResult.Yes, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth };
+                YesBtn.Location = new Point(ClientSize.Width - btnWidth * 3 - btnPadding * 3, ClientSize.Height - YesBtn.Height - btnPadding);
+                Controls.Add(YesBtn);
+                this.AcceptButton = YesBtn;
+                Button NoBtn = new Button { Text = DialogResMgr.GetString("BtnNo"), DialogResult = DialogResult.No, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth };
+                NoBtn.Location = new Point(ClientSize.Width - btnWidth * 2 - btnPadding * 2, ClientSize.Height - NoBtn.Height - btnPadding);
+                Controls.Add(NoBtn);
+                Button CancelBtn = new Button { Text = DialogResMgr.GetString("BtnCancel"), DialogResult = DialogResult.Cancel, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth };
+                CancelBtn.Location = new Point(ClientSize.Width - btnWidth - btnPadding, ClientSize.Height - CancelBtn.Height - btnPadding);
+                Controls.Add(CancelBtn);
+                this.CancelButton = CancelBtn;
+            }
+            else if (buttons == MessageBoxButtons.AbortRetryIgnore)
+            {
+                Button AbortBtn = new Button { Text = DialogResMgr.GetString("BtnAbort"), DialogResult = DialogResult.Abort, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth };
+                AbortBtn.Location = new Point(ClientSize.Width - btnWidth * 3 - btnPadding * 3, ClientSize.Height - AbortBtn.Height - btnPadding);
+                Controls.Add(AbortBtn);
+                this.AcceptButton = AbortBtn;
+                Button RetryBtn = new Button { Text = DialogResMgr.GetString("BtnRetry"), DialogResult = DialogResult.Retry, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth };
+                RetryBtn.Location = new Point(ClientSize.Width - btnWidth * 2 - btnPadding * 2, ClientSize.Height - RetryBtn.Height - btnPadding);
+                Controls.Add(RetryBtn);
+                Button IgnoreBtn = new Button { Text = DialogResMgr.GetString("BtnIgnore"), DialogResult = DialogResult.Ignore, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth };
+                IgnoreBtn.Location = new Point(ClientSize.Width - btnWidth - btnPadding, ClientSize.Height - IgnoreBtn.Height - btnPadding);
+                Controls.Add(IgnoreBtn);
+                this.CancelButton = IgnoreBtn;
+            }
         }
 
         private void SkinnedMessageBox_FormClosed(object sender, FormClosedEventArgs e)

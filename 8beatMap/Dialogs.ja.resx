@@ -117,8 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BtnAbort" xml:space="preserve">
+    <value>中止</value>
+  </data>
   <data name="BtnCancel" xml:space="preserve">
     <value>キャンセル</value>
+  </data>
+  <data name="BtnIgnore" xml:space="preserve">
+    <value>無視</value>
   </data>
   <data name="BtnNo" xml:space="preserve">
     <value>いいえ</value>
@@ -127,7 +133,7 @@
     <value>OK</value>
   </data>
   <data name="BtnRetry" xml:space="preserve">
-    <value>リトライ</value>
+    <value>再試行</value>
   </data>
   <data name="BtnYes" xml:space="preserve">
     <value>はい</value>
