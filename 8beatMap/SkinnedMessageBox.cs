@@ -12,6 +12,8 @@ namespace _8beatMap
 {
     public partial class SkinnedMessageBox : Form
     {
+        System.Resources.ResourceManager DialogResMgr = new System.Resources.ResourceManager("_8beatMap.Dialogs", System.Reflection.Assembly.GetEntryAssembly());
+
         private void InitComponentNew()
         {
             InitializeComponent();
@@ -33,6 +35,9 @@ namespace _8beatMap
             this.Text = caption;
             MessageLbl.Text = message;
 
+            OKBtn.Text = DialogResMgr.GetString("BtnOK");
+            CancelBtn.Text = DialogResMgr.GetString("BtnCancel");
+
             if (buttons == MessageBoxButtons.AbortRetryIgnore || buttons == MessageBoxButtons.YesNoCancel)
             {
                 throw new ArgumentException("Only one or two buttons are supported");
@@ -40,18 +45,21 @@ namespace _8beatMap
 
             if (buttons == MessageBoxButtons.OKCancel || buttons == MessageBoxButtons.YesNo || buttons == MessageBoxButtons.RetryCancel)
             {
-                OKbtn.Left = OKbtn.Left - (this.ClientSize.Width - OKbtn.Left);
-                CancelBtn.Top = OKbtn.Top;
+                OKBtn.Left = OKBtn.Left - (this.ClientSize.Width - OKBtn.Left);
+                CancelBtn.Top = OKBtn.Top;
                 CancelBtn.Enabled = true;
             }
             if (buttons == MessageBoxButtons.YesNo)
             {
-                OKbtn.DialogResult = DialogResult.Yes;
+                OKBtn.DialogResult = DialogResult.Yes;
                 CancelBtn.DialogResult = DialogResult.No;
+                OKBtn.Text = DialogResMgr.GetString("BtnYes");
+                CancelBtn.Text = DialogResMgr.GetString("BtnNo");
             }
             else if (buttons == MessageBoxButtons.RetryCancel)
             {
-                OKbtn.DialogResult = DialogResult.Retry;
+                OKBtn.DialogResult = DialogResult.Retry;
+                OKBtn.Text = DialogResMgr.GetString("BtnRetry");
             }
         }
 

@@ -30,7 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SkinnedMessageBox));
             this.MessageLbl = new System.Windows.Forms.Label();
-            this.OKbtn = new System.Windows.Forms.Button();
+            this.OKBtn = new System.Windows.Forms.Button();
             this.CancelBtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -39,12 +39,12 @@
             resources.ApplyResources(this.MessageLbl, "MessageLbl");
             this.MessageLbl.Name = "MessageLbl";
             // 
-            // OKbtn
+            // OKBtn
             // 
-            resources.ApplyResources(this.OKbtn, "OKbtn");
-            this.OKbtn.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.OKbtn.Name = "OKbtn";
-            this.OKbtn.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.OKBtn, "OKBtn");
+            this.OKBtn.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.OKBtn.Name = "OKBtn";
+            this.OKBtn.UseVisualStyleBackColor = true;
             // 
             // CancelBtn
             // 
@@ -55,11 +55,11 @@
             // 
             // SkinnedMessageBox
             // 
-            this.AcceptButton = this.OKbtn;
+            this.AcceptButton = this.OKBtn;
             resources.ApplyResources(this, "$this");
             this.CancelButton = this.CancelBtn;
             this.Controls.Add(this.CancelBtn);
-            this.Controls.Add(this.OKbtn);
+            this.Controls.Add(this.OKBtn);
             this.Controls.Add(this.MessageLbl);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
@@ -74,7 +74,7 @@
         #endregion
 
         private System.Windows.Forms.Label MessageLbl;
-        private System.Windows.Forms.Button OKbtn;
+        private System.Windows.Forms.Button OKBtn;
         private System.Windows.Forms.Button CancelBtn;
     }
 }

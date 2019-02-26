@@ -150,31 +150,31 @@
   <data name="&gt;&gt;MessageLbl.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="OKbtn.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+  <data name="OKBtn.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
   </data>
-  <data name="OKbtn.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="OKBtn.Location" type="System.Drawing.Point, System.Drawing">
     <value>247, 67</value>
   </data>
-  <data name="OKbtn.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="OKBtn.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
   </data>
-  <data name="OKbtn.TabIndex" type="System.Int32, mscorlib">
+  <data name="OKBtn.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="OKbtn.Text" xml:space="preserve">
+  <data name="OKBtn.Text" xml:space="preserve">
     <value>OK</value>
   </data>
-  <data name="&gt;&gt;OKbtn.Name" xml:space="preserve">
-    <value>OKbtn</value>
+  <data name="&gt;&gt;OKBtn.Name" xml:space="preserve">
+    <value>OKBtn</value>
   </data>
-  <data name="&gt;&gt;OKbtn.Type" xml:space="preserve">
+  <data name="&gt;&gt;OKBtn.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;OKbtn.Parent" xml:space="preserve">
+  <data name="&gt;&gt;OKBtn.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;OKbtn.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;OKBtn.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
   <data name="CancelBtn.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
