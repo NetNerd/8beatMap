@@ -272,7 +272,7 @@ namespace _8beatMap
 
         public static void SetForeCol(Control elem, Color colour)
         {
-            if (elem.GetType() != typeof(NumericUpDown))
+            if (elem.GetType() != typeof(NumericUpDown) && elem.GetType() != typeof(TextBox))
             {
                 elem.ForeColor = colour;
             }
