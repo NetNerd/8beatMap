@@ -14,6 +14,7 @@ namespace _8beatMap
     {
         private void InitComponentNew()
         {
+            InitializeComponent();
             this.SuspendLayout();
             this.Font = new Font(SystemFonts.MessageBoxFont.FontFamily, 8.8f);
             //this.Font = new System.Drawing.Font(System.Drawing.SystemFonts.MessageBoxFont.FontFamily, System.Drawing.SystemFonts.MessageBoxFont.SizeInPoints);
