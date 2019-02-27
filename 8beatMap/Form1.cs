@@ -17,7 +17,7 @@ namespace _8beatMap
         System.Resources.ResourceManager DialogResMgr = new System.Resources.ResourceManager("_8beatMap.Dialogs", System.Reflection.Assembly.GetEntryAssembly());
         System.Resources.ResourceManager NotetypeNamesResMgr = new System.Resources.ResourceManager("_8beatMap.NotetypeNames", System.Reflection.Assembly.GetEntryAssembly());
 
-        public Notedata.Chart chart = new Notedata.Chart(32 * 48, 120);
+        public Notedata.Chart chart = new Notedata.Chart(32 * 48, 120, "New Chart");
         private int TickHeight = 10;
         private int IconWidth = 20;
         private int IconHeight = 10;
@@ -382,6 +382,12 @@ namespace _8beatMap
         }
 
 
+        private void UpdateWindowTitle()
+        {
+            if (chart.SongName != "") this.Text = "8beatMap - " + chart.SongName;
+            else this.Text = "8beatMap";
+        }
+
         private void LoadChart(string Path)
         {
             StopPlayback();
@@ -391,13 +397,15 @@ namespace _8beatMap
                 try {
                     chart = Notedata.ConvertJsonToChart(System.IO.File.ReadAllText(Path));
 
-                    if (chart.ChartName == "" || chart.ChartName == "chart")
+                    if (chart.SongName == "")
                     {
                         string name = System.IO.Path.GetFileNameWithoutExtension(Path);
                         if (name.EndsWith(".json")) name = name.Remove(name.Length - 5, 5);
                         if (name.EndsWith(".dec")) name = name.Remove(name.Length - 4, 4);
-                        chart.ChartName = name;
+                        chart.SongName = name;
                     }
+
+                    UpdateWindowTitle();
                 }
                 catch { SkinnedMessageBoxMaker.ShowMessageBox(skin, DialogResMgr.GetString("ChartLoadError")); }
 
@@ -487,6 +495,7 @@ namespace _8beatMap
         public Form1()
         {
             InitializeComponent();
+            UpdateWindowTitle();
 
             this.SuspendLayout();
             this.Font = new Font(SystemFonts.MessageBoxFont.FontFamily, 8.8f);
@@ -810,7 +819,8 @@ namespace _8beatMap
 
             grfx.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
             Font InfoFont = new Font("Arial", 9f, GraphicsUnit.Pixel);
-            grfx.DrawString("8beatMap - " + chart.ChartName + " (" + chart.BPM.ToString() + " BPM)", InfoFont, Brushes.LightGray, EdgePaddingX, imgHeight - 11);
+            if (chart.SongName != "") grfx.DrawString("8beatMap - " + chart.SongName + " (" + chart.BPM.ToString() + " BPM)", InfoFont, Brushes.LightGray, EdgePaddingX, imgHeight - 11);
+            else grfx.DrawString("8beatMap - ??? (" + chart.BPM.ToString() + " BPM)", InfoFont, Brushes.LightGray, EdgePaddingX, imgHeight - 11);
 
             img.Save("imgout.png");
             
@@ -1085,13 +1095,15 @@ namespace _8beatMap
 
         private void ChartInfoButton_Click(object sender, EventArgs e)
         {
-            ChartInfoDialog chartInfo = new ChartInfoDialog(skin, chart.ChartName, chart.ChartAuthor);
+            ChartInfoDialog chartInfo = new ChartInfoDialog(skin, chart.SongName, chart.Author);
             if (chartInfo.ShowDialog() == DialogResult.OK)
             {
-                chart.ChartName = chartInfo.result[0];
-                chart.ChartAuthor = chartInfo.result[1];
+                chart.SongName = chartInfo.result[0];
+                chart.Author = chartInfo.result[1];
             }
             chartInfo.Dispose();
+
+            UpdateWindowTitle();
         }
     }
 }

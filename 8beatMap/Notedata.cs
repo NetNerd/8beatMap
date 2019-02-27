@@ -58,8 +58,19 @@ namespace _8beatMap
 
         public struct Chart
         {
-            public string ChartName;
-            public string ChartAuthor;
+            private string ChartName;
+            public string SongName
+            {
+                get { return ChartName; }
+                set { ChartName = value.Trim(); }
+            }
+
+            private string ChartAuthor;
+            public string Author
+            {
+                get { return ChartAuthor; }
+                set { ChartAuthor = value.Trim(); }
+            }
 
             public Tick[] Ticks;
 
@@ -333,10 +344,10 @@ namespace _8beatMap
             }
 
 
-            public Chart(int Length, double BPM, string Name="chart", string Author="")
+            public Chart(int Length, double BPM, string Name="", string Author="")
             {
-                ChartName = Name;
-                ChartAuthor = Author;
+                ChartName = Name.Trim();
+                ChartAuthor = Author.Trim();
                 Ticks = new Tick[Length];
                 ChartLen = Length;
                 this.BPM = BPM;
@@ -435,13 +446,13 @@ namespace _8beatMap
 
             if (gotBPM && tickObj[0].BUTTON1 != null)
             {
-                if(tickObj[0].BUTTON1.Length > 0) chart.ChartName = tickObj[0].BUTTON1;
-                if (tickObj[0].BUTTON2.Length > 0) chart.ChartAuthor = tickObj[0].BUTTON2;
+                if(tickObj[0].BUTTON1.Length > 0) chart.SongName = tickObj[0].BUTTON1;
+                if (tickObj[0].BUTTON2.Length > 0) chart.Author = tickObj[0].BUTTON2;
             }
             else if (gotBPM && tickObj[0].B1 != null)
             {
-                if (tickObj[0].B1.Length > 0) chart.ChartName = tickObj[0].B1;
-                if (tickObj[0].B2.Length > 0) chart.ChartAuthor = tickObj[0].B2;
+                if (tickObj[0].B1.Length > 0) chart.SongName = tickObj[0].B1;
+                if (tickObj[0].B2.Length > 0) chart.Author = tickObj[0].B2;
             }
 
             if (!gotBPM) // there may be data in tick 0
@@ -502,7 +513,7 @@ namespace _8beatMap
 
             return JsonConvert.SerializeObject(tickObj).Replace("null", "\"\"").Replace(":0", ":\"\"")
                 .Replace("R\":\"\"", "R\":0").Replace("T\":\"\"", "T\":0")
-                .ReplaceFirst("\"BUTTON1\":\"\"", "\"BUTTON1\":\"" + chart.ChartName + "\"").ReplaceFirst("\"BUTTON2\":\"\"", "\"BUTTON2\":\"" + chart.ChartAuthor + "\"");
+                .ReplaceFirst("\"BUTTON1\":\"\"", "\"BUTTON1\":\"" + chart.SongName + "\"").ReplaceFirst("\"BUTTON2\":\"\"", "\"BUTTON2\":\"" + chart.Author + "\"");
         }
 
         public static String ConvertChartToJson_Small(Chart chart)
@@ -539,7 +550,7 @@ namespace _8beatMap
 
             return JsonConvert.SerializeObject(tickObj).Replace("null", "\"\"").Replace(":0", ":\"\"")
                 .Replace("R\":\"\"", "R\":0").Replace("T\":\"\"", "T\":0")
-                .ReplaceFirst("\"BUTTON1\":\"\"", "\"BUTTON1\":\"" + chart.ChartName + "\"").ReplaceFirst("\"BUTTON2\":\"\"", "\"BUTTON2\":\"" + chart.ChartAuthor + "\"");
+                .ReplaceFirst("\"BUTTON1\":\"\"", "\"BUTTON1\":\"" + chart.SongName + "\"").ReplaceFirst("\"BUTTON2\":\"\"", "\"BUTTON2\":\"" + chart.Author + "\"");
         }
     }
 }
