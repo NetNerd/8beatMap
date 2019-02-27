@@ -17,6 +17,8 @@ namespace _8beatMap
         System.Resources.ResourceManager DialogResMgr = new System.Resources.ResourceManager("_8beatMap.Dialogs", System.Reflection.Assembly.GetEntryAssembly());
         System.Resources.ResourceManager NotetypeNamesResMgr = new System.Resources.ResourceManager("_8beatMap.NotetypeNames", System.Reflection.Assembly.GetEntryAssembly());
 
+        System.Collections.Specialized.NameValueCollection AppSettings = System.Configuration.ConfigurationManager.AppSettings;
+
         public Notedata.Chart chart = new Notedata.Chart(32 * 48, 120, "New Chart");
         private int TickHeight = 10;
         private int IconWidth = 20;
@@ -512,8 +514,14 @@ namespace _8beatMap
             this.PerformLayout();
 
             pictureBox1.Image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
-            
-            SetSkin("8bs");
+
+
+            DefaultMusicDelayMs = int.Parse(AppSettings["DefaultMusicDelay"] ?? DefaultMusicDelayMs.ToString());
+            VideoDelayMs = int.Parse(AppSettings["VideoDelay"] ?? VideoDelayMs.ToString());
+            GameCloneOffsetMs = int.Parse(AppSettings["PreviewTimingOffset"] ?? GameCloneOffsetMs.ToString());
+            Sound.Latency = int.Parse(AppSettings["AudioLatency"] ?? Sound.Latency.ToString());
+
+            SetSkin(AppSettings["Skin"] ?? "8bs");
 
             AddNoteTypes();
             PopulateSkins();
@@ -847,6 +855,38 @@ namespace _8beatMap
             NoteShiftBox.Value = 0;
         }
 
+
+        private void SaveConfig()
+        {
+            try
+            {
+                var configFile = System.Configuration.ConfigurationManager.OpenExeConfiguration(System.Configuration.ConfigurationUserLevel.None);
+                var settings = configFile.AppSettings.Settings;
+
+                if (settings["DefaultMusicDelay"] == null) settings.Add("DefaultMusicDelay", DefaultMusicDelayMs.ToString());
+                else settings["DefaultMusicDelay"].Value = DefaultMusicDelayMs.ToString();
+
+                if (settings["VideoDelay"] == null) settings.Add("VideoDelay", VideoDelayMs.ToString());
+                else settings["VideoDelay"].Value = VideoDelayMs.ToString();
+
+                if (settings["PreviewTimingOffset"] == null) settings.Add("PreviewTimingOffset", GameCloneOffsetMs.ToString());
+                else settings["PreviewTimingOffset"].Value = GameCloneOffsetMs.ToString();
+
+                if (settings["AudioLatency"] == null) settings.Add("AudioLatency", Sound.Latency.ToString());
+                else settings["AudioLatency"].Value = Sound.Latency.ToString();
+
+                if (settings["Skin"] == null) settings.Add("Skin", skin.SkinName);
+                else settings["Skin"].Value = skin.SkinName;
+
+                configFile.Save(System.Configuration.ConfigurationSaveMode.Modified);
+                System.Configuration.ConfigurationManager.RefreshSection(configFile.AppSettings.SectionInformation.Name);
+            }
+            catch (System.Configuration.ConfigurationErrorsException)
+            {
+                SkinnedMessageBoxMaker.ShowMessageBox(skin, "Error writing app settings.");
+            }
+        }
+
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (e.CloseReason == CloseReason.ApplicationExitCall)
@@ -856,15 +896,22 @@ namespace _8beatMap
                     OGLrenderer.Stop();
                     OGLrenderer = null;
                 }
+
+                SaveConfig();
                 return;
             }
 
             if (SkinnedMessageBoxMaker.ShowMessageBox(skin, DialogResMgr.GetString("ExitMessage"), DialogResMgr.GetString("ExitCaption"), MessageBoxButtons.YesNo) == DialogResult.No)
                 e.Cancel = true;
-            else if (OGLrenderer != null)
+            else
             {
-                OGLrenderer.Stop();
-                OGLrenderer = null;
+                if (OGLrenderer != null)
+                {
+                    OGLrenderer.Stop();
+                    OGLrenderer = null;
+                }
+
+                SaveConfig();
             }
         }
 

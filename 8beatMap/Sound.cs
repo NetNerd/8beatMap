@@ -121,6 +121,18 @@ namespace _8beatMap
             VolMixer.Volume = vol;
         }
 
+        static public int Latency
+        {
+            get
+            {
+                return WaveOut.DesiredLatency;
+            }
+            set
+            {
+                WaveOut.DesiredLatency = value;
+            }
+        }
+
         static public int TryGetMp3FileStartDelay(string path)
         {
             int ms = 0;
