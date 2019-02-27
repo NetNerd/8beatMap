@@ -890,6 +890,7 @@ namespace _8beatMap
             SuspendLayout();
             ComponentResourceManager resources = new ComponentResourceManager(typeof(Form1));
             resources.ApplyResources(this, "$this");
+            UpdateWindowTitle();
             foreach (Control Ctrl in Controls)
                 resources.ApplyResources(Ctrl, Ctrl.Name);
 
@@ -904,6 +905,7 @@ namespace _8beatMap
                 foreach (Control Ctrl in Tab.Controls)
                     resources.ApplyResources(Ctrl, Ctrl.Name);
             }
+
             ResumeLayout(false);
             PerformLayout();
 
