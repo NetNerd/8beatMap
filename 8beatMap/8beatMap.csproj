@@ -202,6 +202,14 @@
       <BuildRevision Condition="'@(GitCountExitCode)' == 0">@(GitCount)</BuildRevision>
       <BuildBranch Condition="'@(GitBranchExitCode)' == 0">@(GitBranch)</BuildBranch>
     </PropertyGroup>
+    <ItemGroup>
+      <BuildVersion Condition="'$(BuildRevision)' != ''" Include="1.0.0.$(BuildRevision)"/>
+      <BuildVersion Condition="'$(BuildRevision)' == ''" Include="1.0.0"/>
+      
+      <BuildVersionDetail Condition="'$(BuildBranch)' != '' And '$(BuildHash)' != ''" Include="$(BuildBranch)-$(BuildHash)"/>
+      <BuildVersionDetail Condition="'$(BuildBranch)' != '' And '$(BuildHash)' == ''" Include="$(BuildBranch)"/>
+      <BuildVersionDetail Condition="'$(BuildBranch)' == '' And '$(BuildHash)' != ''" Include="$(BuildHash)"/>
+    </ItemGroup>
   </Target>
   <Target Name="WriteGitHash" BeforeTargets="CoreCompile">
     <!-- names the obj/.../CustomAssemblyInfo.cs file -->
@@ -214,19 +222,22 @@
     </ItemGroup>
     <!-- defines the AssemblyInformationalVersion attribute that will be written -->
     <ItemGroup>
-      <AssemblyAttributes Include="AssemblyInformationalVersion" Condition="'$(BuildBranch)' != '' Or '$(BuildHash)' != ''">
-        <_Parameter1 Condition="'$(BuildBranch)' != '' And '$(BuildHash)' != ''">$(BuildBranch)-$(BuildHash)</_Parameter1>
-        <_Parameter1 Condition="'$(BuildBranch)' != '' And '$(BuildHash)' == ''">$(BuildBranch)</_Parameter1>
-        <_Parameter1 Condition="'$(BuildBranch)' == '' And '$(BuildHash)' != ''">$(BuildHash)</_Parameter1>
-        <_Parameter1 Condition="'$(BuildBranch)' == '' And '$(BuildHash)' == ''">
-        </_Parameter1>
+      <AssemblyAttributes Include="AssemblyInformationalVersion" Condition="'@(BuildVersionDetail)' != ''">
+        <_Parameter1>@(BuildVersionDetail)</_Parameter1>
       </AssemblyAttributes>
       <AssemblyAttributes Include="AssemblyVersion">
-        <_Parameter1 Condition="'$(BuildRevision)' != ''">1.0.0.$(BuildRevision)</_Parameter1>
-        <_Parameter1 Condition="'$(BuildRevision)' == ''">1.0.0</_Parameter1>
+        <_Parameter1>@(BuildVersion)</_Parameter1>
       </AssemblyAttributes>
     </ItemGroup>
     <!-- writes the attribute to the customAssemblyInfo file -->
     <WriteCodeFragment Language="C#" OutputFile="$(CustomAssemblyInfoFile)" AssemblyAttributes="@(AssemblyAttributes)" />
   </Target>
+  <PropertyGroup>
+    <PostBuildEventDependsOn>
+      $(PostBuildEventDependsOn);
+      GetGitHash;
+    </PostBuildEventDependsOn>
+    <PostBuildEvent>rm "zips\8beatMap.@(BuildVersion)-@(BuildVersionDetail)-$(ConfigurationName).zip"
+7z a "zips\8beatMap.@(BuildVersion)-@(BuildVersionDetail)-$(ConfigurationName).zip" 8beatMap.exe 8beatMap.pdb NAudio.dll Newtonsoft.Json.dll OpenTK.dll OpenTK.dll.config ja skins ../../../readme.txt ../../../license.txt</PostBuildEvent>
+  </PropertyGroup>
 </Project>
