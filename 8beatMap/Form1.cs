@@ -462,12 +462,19 @@ namespace _8beatMap
 
         private void OpenPreviewWindow()
         {
+            int wndWidth = 853;
+            int wndHeight = 480;
+
             if (OGLrenderer != null)
             {
+                Point wndSize = OGLrenderer.WindowSize;
+                wndWidth = wndSize.X;
+                wndHeight = wndSize.Y;
                 OGLrenderer.Stop();
                 OGLrenderer = null;
             }
-            OGLrenderer = new GameCloneRenderer_OGL(853, 480, this, skin);
+
+            OGLrenderer = new GameCloneRenderer_OGL(wndWidth, wndHeight, this, skin);
         }
         
 

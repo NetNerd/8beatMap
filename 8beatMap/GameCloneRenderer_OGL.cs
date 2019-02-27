@@ -24,6 +24,17 @@ namespace _8beatMap
 
         public Color clearColor = Color.FromArgb(0, 0, 0, 0);
 
+        public Point WindowSize
+        {
+            get
+            {
+                if (myWindow != null)
+                    return new Point(myWindow.Width, myWindow.Height);
+                else
+                    return new Point(0, 0);
+            }
+        }
+
 
         Point[] NodeStartLocs_raw = { new Point(223, 77), new Point(320, 100), new Point(419, 114), new Point(519, 119), new Point(617, 119), new Point(717, 114), new Point(816, 100), new Point(923, 77) };
         Point[] NodeStartLocs = { new Point(223, 640 - 77), new Point(320, 640 - 100), new Point(419, 640 - 114), new Point(519, 640 - 119), new Point(617, 640 - 119), new Point(717, 640 - 114), new Point(816, 640 - 100), new Point(923, 640 - 77) };
