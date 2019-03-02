@@ -520,6 +520,10 @@ namespace _8beatMap
             VideoDelayMs = int.Parse(AppSettings["VideoDelay"] ?? VideoDelayMs.ToString());
             GameCloneOffsetMs = int.Parse(AppSettings["PreviewTimingOffset"] ?? GameCloneOffsetMs.ToString());
             Sound.Latency = int.Parse(AppSettings["AudioLatency"] ?? Sound.Latency.ToString());
+            TickHeight = int.Parse(AppSettings["ChartZoom"] ?? TickHeight.ToString());
+            NoteSoundBox.Checked = bool.Parse(AppSettings["NoteSounds"] ?? NoteSoundBox.Checked.ToString());
+            PauseOnSeek.Checked = bool.Parse(AppSettings["PauseOnSeek"] ?? PauseOnSeek.Checked.ToString());
+            VolumeBar.Value = int.Parse(AppSettings["Volume"] ?? VolumeBar.Value.ToString());
 
             SetSkin(AppSettings["Skin"] ?? "8bs");
 
@@ -528,9 +532,11 @@ namespace _8beatMap
 
             MusicDelayMs = (int)AudioDelayBox.Value + DefaultMusicDelayMs;
             Sound.SetVolume(VolumeBar.Value / 100f);
-
-            ActiveControl = ZoomLbl;
             toolTip1.SetToolTip(VolumeBar, VolumeBar.Value.ToString());
+
+            ZoomBox.Value = TickHeight;
+            
+            ActiveControl = ZoomLbl;
 
             Sound.InitWaveOut();
 
@@ -877,6 +883,18 @@ namespace _8beatMap
 
                 if (settings["Skin"] == null) settings.Add("Skin", skin.SkinName);
                 else settings["Skin"].Value = skin.SkinName;
+
+                if (settings["ChartZoom"] == null) settings.Add("ChartZoom", TickHeight.ToString());
+                else settings["ChartZoom"].Value = TickHeight.ToString();
+
+                if (settings["NoteSounds"] == null) settings.Add("NoteSounds", NoteSoundBox.Checked.ToString());
+                else settings["NoteSounds"].Value = NoteSoundBox.Checked.ToString();
+
+                if (settings["PauseOnSeek"] == null) settings.Add("PauseOnSeek", PauseOnSeek.Checked.ToString());
+                else settings["PauseOnSeek"].Value = PauseOnSeek.Checked.ToString();
+
+                if (settings["Volume"] == null) settings.Add("Volume", VolumeBar.Value.ToString());
+                else settings["Volume"].Value = VolumeBar.Value.ToString();
 
                 configFile.Save(System.Configuration.ConfigurationSaveMode.Modified);
                 System.Configuration.ConfigurationManager.RefreshSection(configFile.AppSettings.SectionInformation.Name);
