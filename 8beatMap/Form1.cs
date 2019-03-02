@@ -270,6 +270,8 @@ namespace _8beatMap
             if (tick >= chart.Length) tick = chart.Length - 1;
 
             CurrentTick = getAveragedPlayTickTime(tick);
+            if (CurrentTick < 0) CurrentTick = 0;
+            if (CurrentTick >= chart.Length) CurrentTick = chart.Length - 1;
 
 
             TimeSpan ctickTime = chart.ConvertTicksToTime(tick);
