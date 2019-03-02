@@ -372,6 +372,7 @@ namespace _8beatMap
 
         private void StartPlayback()
         {
+            PlaybackVideoTickStartTime = DateTime.UtcNow - chart.ConvertTicksToTime(CurrentTick);
             playTimer.Enabled = true;
             Sound.PlayMusic();
         }
