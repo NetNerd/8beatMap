@@ -300,7 +300,7 @@ namespace _8beatMap
                 catch
                 { }
 
-            ChartScrollBar.Value = (int)(chart.Length * TickHeight - tick * TickHeight);
+            ChartScrollBar.Value = (int)(chart.Length * TickHeight - CurrentTick * TickHeight);
         }
 
 
