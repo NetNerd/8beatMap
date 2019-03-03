@@ -120,9 +120,10 @@ namespace _8beatMap
             if (icon != MessageBoxIcon.None)
             {
                 int iconsize = 32;
-                int textpadding = 2;
+                int iconpadding = 12;
+                int textpadding = -8;
 
-                PictureBox iconPB = new PictureBox() { Width = iconsize, Height = iconsize, Top = 8, Left = 8, AccessibleName = "Icon" };
+                PictureBox iconPB = new PictureBox() { Width = iconsize, Height = iconsize, Top = 10, Left = 10, AccessibleName = "Icon" };
 
                 // there are many duplicated values:
                 // https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.messageboxicon?view=netframework-4.7.2
@@ -152,8 +153,8 @@ namespace _8beatMap
                     iconPB.AccessibleDescription = "Information";
                 }
 
-                MessageLbl.Left += (iconsize + textpadding);
-                MessageLbl.Width -= (iconsize + textpadding);
+                MessageLbl.Left += (iconsize + iconpadding + textpadding);
+                MessageLbl.Width -= (iconsize + iconpadding + textpadding);
                 Controls.Add(iconPB);
             }
 
