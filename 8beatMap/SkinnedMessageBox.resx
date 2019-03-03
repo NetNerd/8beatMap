@@ -127,10 +127,7 @@
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="MessageLbl.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>14, 0, 14, 0</value>
-  </data>
-  <data name="MessageLbl.MaximumSize" type="System.Drawing.Size, System.Drawing">
-    <value>0, 45</value>
+    <value>14, 0, 14, 45</value>
   </data>
   <data name="MessageLbl.Size" type="System.Drawing.Size, System.Drawing">
     <value>0, 13</value>
