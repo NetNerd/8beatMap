@@ -81,7 +81,7 @@ namespace _8beatMap
         {
             WaveMixer.RemoveMixerInput(MusicResamp);
         }
-        static public void LoadMusic(string path)
+        static private void LoadMusicInt(string path)
         {
             if (path.Length > 0)
             {
@@ -92,13 +92,36 @@ namespace _8beatMap
                     MusicReader = new AudioFileReader(path);
                     MusicResamp = new NAudio.Wave.SampleProviders.WdlResamplingSampleProvider(MusicReader, 44100);
                 }
-                catch
+                catch (Exception ex)
                 {
                     MusicReader = null;
                     MusicResamp = null;
-                    System.Windows.Forms.MessageBox.Show(DialogResMgr.GetString("MusicLoadError"));
-                    return;
+                    throw ex;
+                    //System.Windows.Forms.MessageBox.Show(DialogResMgr.GetString("MusicLoadError"));
+                    //return;
                 }
+            }
+        }
+        static public void LoadMusic(string path)
+        {
+            try
+            {
+                LoadMusicInt(path);
+            }
+            catch
+            {
+                SkinnedMessageBoxMaker.ShowMessageBox(DialogResMgr.GetString("MusicLoadError"), "", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+            }
+        }
+        static public void LoadMusic(string path, Skinning.Skin errorskin)
+        {
+            try
+            {
+                LoadMusicInt(path);
+            }
+            catch
+            {
+                SkinnedMessageBoxMaker.ShowMessageBox(errorskin, DialogResMgr.GetString("MusicLoadError"), "", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
             }
         }
         static public void InitWaveOut()

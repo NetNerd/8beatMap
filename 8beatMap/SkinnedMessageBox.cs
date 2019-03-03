@@ -196,6 +196,13 @@ namespace _8beatMap
 
     public static class SkinnedMessageBoxMaker
     {
+        public static Skinning.Skin defaultskin = Skinning.DefaultSkin;
+
+        public static DialogResult ShowMessageBox(string message, string caption = "", MessageBoxButtons buttons = MessageBoxButtons.OK, MessageBoxIcon icon = MessageBoxIcon.None, MessageBoxDefaultButton defaultbutton = MessageBoxDefaultButton.Button1)
+        {
+            return ShowMessageBox(defaultskin, message, caption, buttons, icon, defaultbutton);
+        }
+
         public static DialogResult ShowMessageBox(Skinning.Skin skin, string message, string caption = "", MessageBoxButtons buttons = MessageBoxButtons.OK, MessageBoxIcon icon = MessageBoxIcon.None, MessageBoxDefaultButton defaultbutton = MessageBoxDefaultButton.Button1)
         {
             SkinnedMessageBox mb = new SkinnedMessageBox(skin, message, caption, buttons, icon, defaultbutton);
