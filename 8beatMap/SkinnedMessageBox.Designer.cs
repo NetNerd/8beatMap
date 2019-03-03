@@ -46,6 +46,7 @@
             this.MinimizeBox = false;
             this.Name = "SkinnedMessageBox";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.SkinnedMessageBox_FormClosed);
+            this.Shown += new System.EventHandler(this.SkinnedMessageBox_Shown);
             this.ResumeLayout(false);
             this.PerformLayout();
 

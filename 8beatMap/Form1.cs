@@ -926,7 +926,7 @@ namespace _8beatMap
                 return;
             }
 
-            if (SkinnedMessageBoxMaker.ShowMessageBox(skin, DialogResMgr.GetString("ExitMessage"), DialogResMgr.GetString("ExitCaption"), MessageBoxButtons.YesNo) == DialogResult.No)
+            if (SkinnedMessageBoxMaker.ShowMessageBox(skin, DialogResMgr.GetString("ExitMessage"), DialogResMgr.GetString("ExitCaption"), MessageBoxButtons.YesNo, MessageBoxIcon.None, MessageBoxDefaultButton.Button2) == DialogResult.No)
                 e.Cancel = true;
             else
             {
