@@ -42,38 +42,33 @@ namespace _8beatMap
         private double getSmoothedPlayTickTime(double rawtick)
         {
             //rawtick = getAveragedPlayTickTime(rawtick);
-            if (!this.IsPlaying | DateTime.UtcNow - lastTickChange > TimeSpan.FromMilliseconds(100))
+
+            TimeSpan timeDelta = DateTime.UtcNow - lastTickChange;
+            double interpTick = lastTickForSmoothing + chart.ConvertTimeToTicks(timeDelta);
+            double absdiff = Math.Abs(rawtick - interpTick);
+            Console.WriteLine(absdiff);
+
+            if (!this.IsPlaying || timeDelta > TimeSpan.FromMilliseconds(1000) || absdiff > 0.75)
             {
                 lastTickForSmoothing = rawtick;
                 lastTickChange = DateTime.UtcNow;
                 return lastTickForSmoothing;
             }
-            else if (Math.Abs(rawtick - lastTickForSmoothing) > 5)
-            {
-                TimeSpan timeDelta = DateTime.UtcNow - lastTickChange;
-                lastTickForSmoothing = (rawtick + (lastTickForSmoothing + chart.ConvertTimeToTicks(timeDelta))) / 2;
-                lastTickChange = DateTime.UtcNow;
-                return lastTickForSmoothing;
-            }
-            else if (Math.Abs(rawtick - lastTickForSmoothing) > 1)
-            {
-                TimeSpan timeDelta = DateTime.UtcNow - lastTickChange;
-                double interpTick = lastTickForSmoothing + chart.ConvertTimeToTicks(timeDelta);
 
-                if (Math.Abs(rawtick - interpTick) > 0.4)
-                {
-                    lastTickForSmoothing = ((lastTickForSmoothing + chart.ConvertTimeToTicks(timeDelta)) * 3 + rawtick) / 4;
-                    lastTickChange = DateTime.UtcNow;
-                    timeDelta = TimeSpan.Zero;
-                }
-                //lastTickForSmoothing = ((lastTickForSmoothing + chart.ConvertTimeToTicks(timeDelta))*7 + rawtick) / 8;
-                //lastTickChange = DateTime.UtcNow;
-                return lastTickForSmoothing + chart.ConvertTimeToTicks(timeDelta);
+
+            if (absdiff > 1) absdiff = 1;
+            int tenAbsdiff = (int)(absdiff * 10);
+
+            if (absdiff > 0.2)
+            {
+                lastTickForSmoothing = (interpTick * (10 - tenAbsdiff) + rawtick) / (11 - tenAbsdiff);
+                lastTickChange = DateTime.UtcNow;
+
+                return lastTickForSmoothing;
             }
             else
             {
-                TimeSpan timeDelta = DateTime.UtcNow - lastTickChange;
-                return lastTickForSmoothing + chart.ConvertTimeToTicks(timeDelta);
+                return interpTick;
             }
         }
 
@@ -82,7 +77,8 @@ namespace _8beatMap
 
         private double getAveragedPlayTickTime(double rawtick)
         {
-            rawtick = (rawtick + getSmoothedPlayTickTime(rawtick)) / 2d;
+            //return getSmoothedPlayTickTime(rawtick);
+            rawtick = (rawtick + getSmoothedPlayTickTime(rawtick) * 2) / 3d;
 
             double avgTickDelta = 0;
             int numentries = 0;
@@ -101,7 +97,7 @@ namespace _8beatMap
 
             double averagedTick = prevPlayTicks[0] + avgTickDelta;
 
-            if (Math.Abs(rawtick - averagedTick) > 5 | !this.IsPlaying) // averaged tick is too different to raw tick or playtimer isn't enabled -- reset all to default state
+            if (Math.Abs(rawtick - averagedTick) > 2 | !this.IsPlaying) // averaged tick is too different to raw tick or playtimer isn't enabled -- reset all to default state
             {
                 prevPlayTicks[0] = rawtick;
                 for (int i = 1; i < prevPlayTicks.Length; i++)
@@ -340,7 +336,7 @@ namespace _8beatMap
                 tick -= chart.ConvertTimeToTicks(TimeSpan.FromMilliseconds(VideoDelayMs+GameCloneOffsetMs));
                 //tick -= chart.ConvertTimeToTicks(TimeSpan.FromMilliseconds(MusicDelayMs));
             }
-            
+
             OGLrenderer.currentTick = tick;
             OGLrenderer.numTicksVisible = (int)chart.ConvertTimeToTicks(TimeSpan.FromMilliseconds(700));
         }
