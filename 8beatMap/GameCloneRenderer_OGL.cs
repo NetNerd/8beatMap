@@ -383,6 +383,13 @@ namespace _8beatMap
 
             FrameStopwatch.Stop();
             int sleeptime = (int)(1000*1f/DisplayDevice.Default.RefreshRate) - (int)FrameStopwatch.ElapsedMilliseconds - 3;
+
+            //only render at 30fps if not playing and we would otherwise be rendering faster
+            if (!mainform.IsPlaying && DisplayDevice.Default.RefreshRate > 30)
+            {
+                sleeptime = (int)(1000*1f/30) - (int)FrameStopwatch.ElapsedMilliseconds - 3;
+            }
+            
             if (sleeptime > 0)
             {
                 System.Threading.Thread.Sleep(sleeptime);
@@ -394,7 +401,7 @@ namespace _8beatMap
                 //Console.WriteLine("b");
             }
             //else Console.WriteLine("c");
-
+            
             try
             {
                 myWindow.SwapBuffers();

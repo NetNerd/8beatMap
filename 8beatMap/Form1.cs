@@ -30,6 +30,10 @@ namespace _8beatMap
 
 
         private System.Timers.Timer playTimer = new System.Timers.Timer(1000/120d);
+        public bool IsPlaying
+        {
+            get { return playTimer.Enabled; }
+        }
 
 
         private double lastTickForSmoothing = 0;
