@@ -25,7 +25,7 @@ namespace _8beatMap
             this.PerformLayout();
         }
 
-        public SkinnedMessageBox(Skinning.Skin skin, string message, string caption="", MessageBoxButtons buttons = MessageBoxButtons.OK)
+        public SkinnedMessageBox(Skinning.Skin skin, string message, string caption="", MessageBoxButtons buttons = MessageBoxButtons.OK, MessageBoxIcon icon = MessageBoxIcon.None)
         {
             InitComponentNew();
 
@@ -105,6 +105,47 @@ namespace _8beatMap
             }
 
 
+            if (icon != MessageBoxIcon.None)
+            {
+                int iconsize = 32;
+                int textpadding = 2;
+
+                PictureBox iconPB = new PictureBox() { Width = iconsize, Height = iconsize, Top = 8, Left = 8, AccessibleName = "Icon" };
+
+                // there are many duplicated values:
+                // https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.messageboxicon?view=netframework-4.7.2
+                if (icon == MessageBoxIcon.Error) // also Hand and Stop
+                {
+                    Icon erricon = new Icon(SystemIcons.Error, iconsize, iconsize);
+                    iconPB.Image = erricon.ToBitmap();
+                    iconPB.AccessibleDescription = "Error";
+                }
+                else if (icon == MessageBoxIcon.Question)
+                {
+                    Icon qicon = new Icon(SystemIcons.Question, iconsize, iconsize);
+                    iconPB.Image = qicon.ToBitmap();
+                    iconPB.AccessibleDescription = "Question";
+                }
+                else if (icon == MessageBoxIcon.Warning) // also Exclamation
+                {
+                    Icon warnicon = new Icon(SystemIcons.Warning, iconsize, iconsize);
+                    iconPB.Image = warnicon.ToBitmap();
+                    iconPB.AccessibleDescription = "Warning";
+                    textpadding -= 2; // triangle shape looks worse without this
+                }
+                else if (icon == MessageBoxIcon.Information) // also Asterisk
+                {
+                    Icon infoicon = new Icon(SystemIcons.Information, iconsize, iconsize);
+                    iconPB.Image = infoicon.ToBitmap();
+                    iconPB.AccessibleDescription = "Information";
+                }
+
+                MessageLbl.Left += (iconsize + textpadding);
+                MessageLbl.Width -= (iconsize + textpadding);
+                Controls.Add(iconPB);
+            }
+
+
             Skinning.SetBackCol(this, skin.UIColours[UIColours.UIColourDefs.Form_BG.TypeName]);
             Skinning.SetForeCol(this, skin.UIColours[UIColours.UIColourDefs.Form_Text.TypeName]);
             Skinning.SetUIStyle(this, skin.UIStyle);
@@ -119,9 +160,9 @@ namespace _8beatMap
 
     public static class SkinnedMessageBoxMaker
     {
-        public static DialogResult ShowMessageBox(Skinning.Skin skin, string message, string caption = "", MessageBoxButtons buttons = MessageBoxButtons.OK)
+        public static DialogResult ShowMessageBox(Skinning.Skin skin, string message, string caption = "", MessageBoxButtons buttons = MessageBoxButtons.OK, MessageBoxIcon icon = MessageBoxIcon.None)
         {
-            SkinnedMessageBox mb = new SkinnedMessageBox(skin, message, caption, buttons);
+            SkinnedMessageBox mb = new SkinnedMessageBox(skin, message, caption, buttons, icon);
             DialogResult res = mb.ShowDialog();
             mb.Dispose();
             return res;
