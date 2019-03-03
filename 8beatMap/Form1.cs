@@ -42,7 +42,7 @@ namespace _8beatMap
         private double getSmoothedPlayTickTime(double rawtick)
         {
             //rawtick = getAveragedPlayTickTime(rawtick);
-            if (!playTimer.Enabled | DateTime.UtcNow - lastTickChange > TimeSpan.FromMilliseconds(100))
+            if (!this.IsPlaying | DateTime.UtcNow - lastTickChange > TimeSpan.FromMilliseconds(100))
             {
                 lastTickForSmoothing = rawtick;
                 lastTickChange = DateTime.UtcNow;
@@ -101,7 +101,7 @@ namespace _8beatMap
 
             double averagedTick = prevPlayTicks[0] + avgTickDelta;
 
-            if (Math.Abs(rawtick - averagedTick) > 5 | !playTimer.Enabled) // averaged tick is too different to raw tick or playtimer isn't enabled -- reset all to default state
+            if (Math.Abs(rawtick - averagedTick) > 5 | !this.IsPlaying) // averaged tick is too different to raw tick or playtimer isn't enabled -- reset all to default state
             {
                 prevPlayTicks[0] = rawtick;
                 for (int i = 1; i < prevPlayTicks.Length; i++)
@@ -315,7 +315,7 @@ namespace _8beatMap
         public void UpdateChart()
         {
             double tick = CurrentTick;
-            if (playTimer.Enabled)
+            if (this.IsPlaying)
             {
                 // derive ticks from time if in playback (if not use current tick)
                 tick = chart.ConvertTimeToTicks(DateTime.UtcNow - PlaybackVideoTickStartTime);
@@ -333,7 +333,7 @@ namespace _8beatMap
                 return;
 
             double tick = CurrentTick;
-            if (playTimer.Enabled)
+            if (this.IsPlaying)
             {
                 // derive ticks from time if in playback (if not use current tick)
                 tick = chart.ConvertTimeToTicks(DateTime.UtcNow - PlaybackVideoTickStartTime);
