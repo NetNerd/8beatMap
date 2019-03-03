@@ -35,81 +35,82 @@ namespace _8beatMap
             MessageLbl.Text = message;
 
             int btnWidth = 75;
+            int btnHeight = 23;
             int btnPadding = 12;
 
             Button[] buttonrefs = { null, null, null };
 
             if (buttons == MessageBoxButtons.OK)
             {
-                Button OKBtn = new Button { Text = DialogResMgr.GetString("BtnOK"), DialogResult = DialogResult.OK, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth };
-                OKBtn.Location = new Point(ClientSize.Width - btnWidth - btnPadding, ClientSize.Height - OKBtn.Height - btnPadding);
+                Button OKBtn = new Button { Text = DialogResMgr.GetString("BtnOK"), DialogResult = DialogResult.OK, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth, Height = btnHeight };
+                OKBtn.Location = new Point(ClientSize.Width - btnWidth - btnPadding, ClientSize.Height - btnHeight - btnPadding);
                 Controls.Add(OKBtn);
                 buttonrefs[0] = OKBtn;
             }
             else if (buttons == MessageBoxButtons.OKCancel)
             {
-                Button OKBtn = new Button { Text = DialogResMgr.GetString("BtnOK"), DialogResult = DialogResult.OK, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth };
-                OKBtn.Location = new Point(ClientSize.Width - btnWidth * 2 - btnPadding * 2, ClientSize.Height - OKBtn.Height - btnPadding);
+                Button OKBtn = new Button { Text = DialogResMgr.GetString("BtnOK"), DialogResult = DialogResult.OK, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth, Height = btnHeight };
+                OKBtn.Location = new Point(ClientSize.Width - btnWidth * 2 - btnPadding * 2, ClientSize.Height - btnHeight - btnPadding);
                 Controls.Add(OKBtn);
                 buttonrefs[0] = OKBtn;
-                Button CancelBtn = new Button { Text = DialogResMgr.GetString("BtnCancel"), DialogResult = DialogResult.Cancel, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth };
-                CancelBtn.Location = new Point(ClientSize.Width - btnWidth - btnPadding, ClientSize.Height - CancelBtn.Height - btnPadding);
+                Button CancelBtn = new Button { Text = DialogResMgr.GetString("BtnCancel"), DialogResult = DialogResult.Cancel, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth, Height = btnHeight };
+                CancelBtn.Location = new Point(ClientSize.Width - btnWidth - btnPadding, ClientSize.Height - btnHeight - btnPadding);
                 Controls.Add(CancelBtn);
                 this.CancelButton = CancelBtn;
                 buttonrefs[1] = CancelBtn;
             }
             else if (buttons == MessageBoxButtons.YesNo)
             {
-                Button YesBtn = new Button { Text = DialogResMgr.GetString("BtnYes"), DialogResult = DialogResult.Yes, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth };
-                YesBtn.Location = new Point(ClientSize.Width - btnWidth * 2 - btnPadding * 2, ClientSize.Height - YesBtn.Height - btnPadding);
+                Button YesBtn = new Button { Text = DialogResMgr.GetString("BtnYes"), DialogResult = DialogResult.Yes, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth, Height = btnHeight };
+                YesBtn.Location = new Point(ClientSize.Width - btnWidth * 2 - btnPadding * 2, ClientSize.Height - btnHeight - btnPadding);
                 Controls.Add(YesBtn);
                 buttonrefs[0] = YesBtn;
-                Button NoBtn = new Button { Text = DialogResMgr.GetString("BtnNo"), DialogResult = DialogResult.No, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth };
-                NoBtn.Location = new Point(ClientSize.Width - btnWidth - btnPadding, ClientSize.Height - NoBtn.Height - btnPadding);
+                Button NoBtn = new Button { Text = DialogResMgr.GetString("BtnNo"), DialogResult = DialogResult.No, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth, Height = btnHeight };
+                NoBtn.Location = new Point(ClientSize.Width - btnWidth - btnPadding, ClientSize.Height - btnHeight - btnPadding);
                 Controls.Add(NoBtn);
                 this.CancelButton = NoBtn;
                 buttonrefs[1] = NoBtn;
             }
             else if (buttons == MessageBoxButtons.RetryCancel)
             {
-                Button RetryBtn = new Button { Text = DialogResMgr.GetString("BtnRetry"), DialogResult = DialogResult.Retry, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth };
-                RetryBtn.Location = new Point(ClientSize.Width - btnWidth * 2 - btnPadding * 2, ClientSize.Height - RetryBtn.Height - btnPadding);
+                Button RetryBtn = new Button { Text = DialogResMgr.GetString("BtnRetry"), DialogResult = DialogResult.Retry, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth, Height = btnHeight };
+                RetryBtn.Location = new Point(ClientSize.Width - btnWidth * 2 - btnPadding * 2, ClientSize.Height - btnHeight - btnPadding);
                 Controls.Add(RetryBtn);
                 buttonrefs[0] = RetryBtn;
-                Button CancelBtn = new Button { Text = DialogResMgr.GetString("BtnCancel"), DialogResult = DialogResult.Cancel, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth };
-                CancelBtn.Location = new Point(ClientSize.Width - btnWidth - btnPadding, ClientSize.Height - CancelBtn.Height - btnPadding);
+                Button CancelBtn = new Button { Text = DialogResMgr.GetString("BtnCancel"), DialogResult = DialogResult.Cancel, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth, Height = btnHeight };
+                CancelBtn.Location = new Point(ClientSize.Width - btnWidth - btnPadding, ClientSize.Height - btnHeight - btnPadding);
                 Controls.Add(CancelBtn);
                 this.CancelButton = CancelBtn;
                 buttonrefs[1] = CancelBtn;
             }
             else if (buttons == MessageBoxButtons.YesNoCancel)
             {
-                Button YesBtn = new Button { Text = DialogResMgr.GetString("BtnYes"), DialogResult = DialogResult.Yes, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth };
-                YesBtn.Location = new Point(ClientSize.Width - btnWidth * 3 - btnPadding * 3, ClientSize.Height - YesBtn.Height - btnPadding);
+                Button YesBtn = new Button { Text = DialogResMgr.GetString("BtnYes"), DialogResult = DialogResult.Yes, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth, Height = btnHeight };
+                YesBtn.Location = new Point(ClientSize.Width - btnWidth * 3 - btnPadding * 3, ClientSize.Height - btnHeight - btnPadding);
                 Controls.Add(YesBtn);
                 buttonrefs[0] = YesBtn;
-                Button NoBtn = new Button { Text = DialogResMgr.GetString("BtnNo"), DialogResult = DialogResult.No, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth };
-                NoBtn.Location = new Point(ClientSize.Width - btnWidth * 2 - btnPadding * 2, ClientSize.Height - NoBtn.Height - btnPadding);
+                Button NoBtn = new Button { Text = DialogResMgr.GetString("BtnNo"), DialogResult = DialogResult.No, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth, Height = btnHeight };
+                NoBtn.Location = new Point(ClientSize.Width - btnWidth * 2 - btnPadding * 2, ClientSize.Height - btnHeight - btnPadding);
                 Controls.Add(NoBtn);
                 buttonrefs[1] = NoBtn;
-                Button CancelBtn = new Button { Text = DialogResMgr.GetString("BtnCancel"), DialogResult = DialogResult.Cancel, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth };
-                CancelBtn.Location = new Point(ClientSize.Width - btnWidth - btnPadding, ClientSize.Height - CancelBtn.Height - btnPadding);
+                Button CancelBtn = new Button { Text = DialogResMgr.GetString("BtnCancel"), DialogResult = DialogResult.Cancel, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth, Height = btnHeight };
+                CancelBtn.Location = new Point(ClientSize.Width - btnWidth - btnPadding, ClientSize.Height - btnHeight - btnPadding);
                 Controls.Add(CancelBtn);
                 this.CancelButton = CancelBtn;
                 buttonrefs[2] = CancelBtn;
             }
             else if (buttons == MessageBoxButtons.AbortRetryIgnore)
             {
-                Button AbortBtn = new Button { Text = DialogResMgr.GetString("BtnAbort"), DialogResult = DialogResult.Abort, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth };
-                AbortBtn.Location = new Point(ClientSize.Width - btnWidth * 3 - btnPadding * 3, ClientSize.Height - AbortBtn.Height - btnPadding);
+                Button AbortBtn = new Button { Text = DialogResMgr.GetString("BtnAbort"), DialogResult = DialogResult.Abort, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth, Height = btnHeight };
+                AbortBtn.Location = new Point(ClientSize.Width - btnWidth * 3 - btnPadding * 3, ClientSize.Height - btnHeight - btnPadding);
                 Controls.Add(AbortBtn);
                 buttonrefs[0] = AbortBtn;
-                Button RetryBtn = new Button { Text = DialogResMgr.GetString("BtnRetry"), DialogResult = DialogResult.Retry, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth };
-                RetryBtn.Location = new Point(ClientSize.Width - btnWidth * 2 - btnPadding * 2, ClientSize.Height - RetryBtn.Height - btnPadding);
+                Button RetryBtn = new Button { Text = DialogResMgr.GetString("BtnRetry"), DialogResult = DialogResult.Retry, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth, Height = btnHeight };
+                RetryBtn.Location = new Point(ClientSize.Width - btnWidth * 2 - btnPadding * 2, ClientSize.Height - btnHeight - btnPadding);
                 Controls.Add(RetryBtn);
                 buttonrefs[2] = RetryBtn;
-                Button IgnoreBtn = new Button { Text = DialogResMgr.GetString("BtnIgnore"), DialogResult = DialogResult.Ignore, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth };
-                IgnoreBtn.Location = new Point(ClientSize.Width - btnWidth - btnPadding, ClientSize.Height - IgnoreBtn.Height - btnPadding);
+                Button IgnoreBtn = new Button { Text = DialogResMgr.GetString("BtnIgnore"), DialogResult = DialogResult.Ignore, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth, Height = btnHeight };
+                IgnoreBtn.Location = new Point(ClientSize.Width - btnWidth - btnPadding, ClientSize.Height - btnHeight - btnPadding);
                 Controls.Add(IgnoreBtn);
                 this.CancelButton = IgnoreBtn;
                 buttonrefs[3] = IgnoreBtn;
