@@ -527,6 +527,7 @@ namespace _8beatMap
             NoteSoundBox.Checked = bool.Parse(AppSettings["NoteSounds"] ?? NoteSoundBox.Checked.ToString());
             PauseOnSeek.Checked = bool.Parse(AppSettings["PauseOnSeek"] ?? PauseOnSeek.Checked.ToString());
             VolumeBar.Value = int.Parse(AppSettings["Volume"] ?? VolumeBar.Value.ToString());
+            UseBeepNoteSounds = bool.Parse(AppSettings["UseBeepNoteSounds"] ?? UseBeepNoteSounds.ToString());
 
             SetSkin(AppSettings["Skin"] ?? "8bs");
 
@@ -582,6 +583,7 @@ namespace _8beatMap
 
         static int DefaultMusicDelayMs = 10;
         int MusicDelayMs = DefaultMusicDelayMs;
+        bool UseBeepNoteSounds = false;
 
         private void playtimer_Tick(object sender, EventArgs e)
         {
@@ -607,7 +609,7 @@ namespace _8beatMap
                         {
                             NoteTypes.NoteTypeDef note = chart.FindVisualNoteType(i, j);
 
-                            if (Sound.NoteSoundWave != null)
+                            if (Sound.NoteSoundWave != null && Sound.NoteSoundWave_Swipe != null && !UseBeepNoteSounds)
                             {
                                 if (note.DetectType == NoteTypes.DetectType.Tap | note.DetectType == NoteTypes.DetectType.Hold | note.DetectType == NoteTypes.DetectType.GbsClock)
                                 {
@@ -650,7 +652,6 @@ namespace _8beatMap
                                 //Sound.NoteSoundTrim.DelayBy = TimeSpan.FromMilliseconds(MusicDelayMs + 5);
                                 Sound.NoteSoundTrim.DelayBy = TimeSpan.FromMilliseconds(DefaultMusicDelayMs + 5);
                                 Sound.PlayNoteSound(Sound.NoteSoundTrim);
-                                return;
                             }
                         }
                     }
@@ -898,6 +899,9 @@ namespace _8beatMap
 
                 if (settings["Volume"] == null) settings.Add("Volume", VolumeBar.Value.ToString());
                 else settings["Volume"].Value = VolumeBar.Value.ToString();
+                
+                if (settings["UseBeepNoteSounds"] == null) settings.Add("UseBeepNoteSounds", UseBeepNoteSounds.ToString());
+                else settings["UseBeepNoteSounds"].Value = UseBeepNoteSounds.ToString().ToString();
 
                 configFile.Save(System.Configuration.ConfigurationSaveMode.Modified);
                 System.Configuration.ConfigurationManager.RefreshSection(configFile.AppSettings.SectionInformation.Name);
