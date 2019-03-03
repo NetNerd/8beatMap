@@ -46,7 +46,6 @@ namespace _8beatMap
             TimeSpan timeDelta = DateTime.UtcNow - lastTickChange;
             double interpTick = lastTickForSmoothing + chart.ConvertTimeToTicks(timeDelta);
             double absdiff = Math.Abs(rawtick - interpTick);
-            Console.WriteLine(absdiff);
 
             if (!this.IsPlaying || timeDelta > TimeSpan.FromMilliseconds(1000) || absdiff > 0.75)
             {
