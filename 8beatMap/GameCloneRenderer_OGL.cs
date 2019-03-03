@@ -433,8 +433,7 @@ namespace _8beatMap
             catch
             {
                 bmp = new Bitmap(1, 1);
-                //System.Windows.Forms.MessageBox.Show("Error: Missing texture image(s) for preview display.");
-                System.Windows.Forms.MessageBox.Show(DialogResMgr.GetString("MissingTextureError"));
+                SkinnedMessageBoxMaker.ShowMessageBox(skin, DialogResMgr.GetString("MissingTextureError"), "", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
                 Stop();
             }
 
