@@ -472,8 +472,11 @@ namespace _8beatMap
             if (OGLrenderer != null)
             {
                 Point wndSize = OGLrenderer.WindowSize;
-                wndWidth = wndSize.X;
-                wndHeight = wndSize.Y;
+                if (wndSize.X > 0 && wndSize.Y > 0)
+                {
+                    wndWidth = wndSize.X;
+                    wndHeight = wndSize.Y;
+                }
                 OGLrenderer.Stop();
                 OGLrenderer = null;
             }
