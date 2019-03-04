@@ -203,12 +203,11 @@
       <BuildBranch Condition="'@(GitBranchExitCode)' == 0">@(GitBranch)</BuildBranch>
     </PropertyGroup>
     <ItemGroup>
-      <BuildVersion Condition="'$(BuildRevision)' != ''" Include="1.0.0.$(BuildRevision)"/>
-      <BuildVersion Condition="'$(BuildRevision)' == ''" Include="1.0.0"/>
-      
-      <BuildVersionDetail Condition="'$(BuildBranch)' != '' And '$(BuildHash)' != ''" Include="$(BuildBranch)-$(BuildHash)"/>
-      <BuildVersionDetail Condition="'$(BuildBranch)' != '' And '$(BuildHash)' == ''" Include="$(BuildBranch)"/>
-      <BuildVersionDetail Condition="'$(BuildBranch)' == '' And '$(BuildHash)' != ''" Include="$(BuildHash)"/>
+      <BuildVersion Condition="'$(BuildRevision)' != ''" Include="1.0.0.$(BuildRevision)" />
+      <BuildVersion Condition="'$(BuildRevision)' == ''" Include="1.0.0" />
+      <BuildVersionDetail Condition="'$(BuildBranch)' != '' And '$(BuildHash)' != ''" Include="$(BuildBranch)-$(BuildHash)" />
+      <BuildVersionDetail Condition="'$(BuildBranch)' != '' And '$(BuildHash)' == ''" Include="$(BuildBranch)" />
+      <BuildVersionDetail Condition="'$(BuildBranch)' == '' And '$(BuildHash)' != ''" Include="$(BuildHash)" />
     </ItemGroup>
   </Target>
   <Target Name="WriteGitHash" BeforeTargets="CoreCompile">
@@ -237,7 +236,14 @@
       $(PostBuildEventDependsOn);
       GetGitHash;
     </PostBuildEventDependsOn>
-    <PostBuildEvent>rm "zips\8beatMap.@(BuildVersion)-@(BuildVersionDetail)-$(ConfigurationName).zip"
-7z a "zips\8beatMap.@(BuildVersion)-@(BuildVersionDetail)-$(ConfigurationName).zip" 8beatMap.exe 8beatMap.pdb NAudio.dll Newtonsoft.Json.dll OpenTK.dll OpenTK.dll.config ja skins ../../../readme.txt ../../../license.txt</PostBuildEvent>
+    <ZipfileDir>zips</ZipfileDir>
+    <ZipfileName>8beatMap.@(BuildVersion)-@(BuildVersionDetail)-$(ConfigurationName).zip</ZipfileName>
+    <PostBuildEvent>mkdir "$(ZipfileDir)/tmp"
+mv $(ZipfileDir)/$(ZipfileName) $(ZipfileDir)/tmp/
+rm $(ZipfileDir)/8beatMap*-dirty-$(ConfigurationName).zip
+mv $(ZipfileDir)/tmp/$(ZipfileName) $(ZipfileDir)/
+rmdir "$(ZipfileDir)/tmp"
+7z u "$(ZipfileDir)/$(ZipfileName)" 8beatMap.exe 8beatMap.pdb NAudio.dll Newtonsoft.Json.dll OpenTK.dll OpenTK.dll.config ja ../../../readme.txt ../../../license.txt
+7z u "$(ZipfileDir)/skins.zip" ../../skins -xr!*.psd</PostBuildEvent>
   </PropertyGroup>
 </Project>
