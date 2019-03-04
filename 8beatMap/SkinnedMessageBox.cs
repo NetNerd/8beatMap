@@ -27,9 +27,16 @@ namespace _8beatMap
 
         private Button btnToFocus = null;
 
-        public SkinnedMessageBox(Skinning.Skin skin, string message, string caption="", MessageBoxButtons buttons = MessageBoxButtons.OK, MessageBoxIcon icon = MessageBoxIcon.None, MessageBoxDefaultButton defaultbutton = MessageBoxDefaultButton.Button1)
+        public SkinnedMessageBox(Skinning.Skin skin, Form owner, string message, string caption="", MessageBoxButtons buttons = MessageBoxButtons.OK, MessageBoxIcon icon = MessageBoxIcon.None, MessageBoxDefaultButton defaultbutton = MessageBoxDefaultButton.Button1)
         {
             InitComponentNew();
+
+            if (owner != null)
+            {
+                this.Owner = owner;
+            }
+
+            this.ShowInTaskbar = false;
 
             this.Text = caption;
             MessageLbl.Text = message;
@@ -132,18 +139,21 @@ namespace _8beatMap
                     Icon erricon = new Icon(SystemIcons.Error, iconsize, iconsize);
                     iconPB.Image = erricon.ToBitmap();
                     iconPB.AccessibleDescription = "Error";
+                    //this.Icon = SystemIcons.Error;
                 }
                 else if (icon == MessageBoxIcon.Question)
                 {
                     Icon qicon = new Icon(SystemIcons.Question, iconsize, iconsize);
                     iconPB.Image = qicon.ToBitmap();
                     iconPB.AccessibleDescription = "Question";
+                    //this.Icon = SystemIcons.Question;
                 }
                 else if (icon == MessageBoxIcon.Warning) // also Exclamation
                 {
                     Icon warnicon = new Icon(SystemIcons.Warning, iconsize, iconsize);
                     iconPB.Image = warnicon.ToBitmap();
                     iconPB.AccessibleDescription = "Warning";
+                    //this.Icon = SystemIcons.Warning;
                     textpadding -= 2; // triangle shape looks worse without this
                 }
                 else if (icon == MessageBoxIcon.Information) // also Asterisk
@@ -151,6 +161,7 @@ namespace _8beatMap
                     Icon infoicon = new Icon(SystemIcons.Information, iconsize, iconsize);
                     iconPB.Image = infoicon.ToBitmap();
                     iconPB.AccessibleDescription = "Information";
+                    //this.Icon = SystemIcons.Information;
                 }
 
                 MessageLbl.Left += (iconsize + iconpadding + textpadding);
@@ -199,14 +210,28 @@ namespace _8beatMap
     {
         public static Skinning.Skin defaultskin = Skinning.DefaultSkin;
 
+        // no skin, no owner
         public static DialogResult ShowMessageBox(string message, string caption = "", MessageBoxButtons buttons = MessageBoxButtons.OK, MessageBoxIcon icon = MessageBoxIcon.None, MessageBoxDefaultButton defaultbutton = MessageBoxDefaultButton.Button1)
         {
-            return ShowMessageBox(defaultskin, message, caption, buttons, icon, defaultbutton);
+            return ShowMessageBox(defaultskin, null, message, caption, buttons, icon, defaultbutton);
         }
 
+        // no skin, has owner
+        public static DialogResult ShowMessageBox(Form owner, string message, string caption = "", MessageBoxButtons buttons = MessageBoxButtons.OK, MessageBoxIcon icon = MessageBoxIcon.None, MessageBoxDefaultButton defaultbutton = MessageBoxDefaultButton.Button1)
+        {
+            return ShowMessageBox(defaultskin, owner, message, caption, buttons, icon, defaultbutton);
+        }
+
+        // has skin, no owner
         public static DialogResult ShowMessageBox(Skinning.Skin skin, string message, string caption = "", MessageBoxButtons buttons = MessageBoxButtons.OK, MessageBoxIcon icon = MessageBoxIcon.None, MessageBoxDefaultButton defaultbutton = MessageBoxDefaultButton.Button1)
         {
-            SkinnedMessageBox mb = new SkinnedMessageBox(skin, message, caption, buttons, icon, defaultbutton);
+            return ShowMessageBox(skin, null, message, caption, buttons, icon, defaultbutton);
+        }
+
+        // has skin, has owner
+        public static DialogResult ShowMessageBox(Skinning.Skin skin, Form owner, string message, string caption = "", MessageBoxButtons buttons = MessageBoxButtons.OK, MessageBoxIcon icon = MessageBoxIcon.None, MessageBoxDefaultButton defaultbutton = MessageBoxDefaultButton.Button1)
+        {
+            SkinnedMessageBox mb = new SkinnedMessageBox(skin, owner, message, caption, buttons, icon, defaultbutton);
             DialogResult res = mb.ShowDialog();
             mb.Dispose();
             return res;
