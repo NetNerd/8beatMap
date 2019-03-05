@@ -73,7 +73,8 @@ namespace _8beatMap
 
                 Padding lblMargin = new Padding(14, 0, 14, 45);
                 Point lblLocation = new Point(14, 14);
-                Label MessageLbl = new Label() { Text = message, AutoSize = true, Margin = lblMargin, Location = lblLocation };
+                Size lblMinSize = new Size(this.ClientSize.Width - lblLocation.X - lblMargin.Right, 0);
+                Label MessageLbl = new Label() { Text = message, AutoSize = true, Margin = lblMargin, Location = lblLocation, MinimumSize = lblMinSize};
                 Controls.Add(MessageLbl);
 
                 if (buttons == MessageBoxButtons.OK)
@@ -167,8 +168,9 @@ namespace _8beatMap
                         //this.Icon = SystemIcons.Information;
                     }
 
-                    MessageLbl.Left += (iconsize + iconpadding + textpadding);
+                    MessageLbl.MinimumSize = new Size(MessageLbl.MinimumSize.Width - (iconsize + iconpadding + textpadding), MessageLbl.MinimumSize.Height);
                     MessageLbl.Width -= (iconsize + iconpadding + textpadding);
+                    MessageLbl.Left += (iconsize + iconpadding + textpadding);
                     Controls.Add(iconPB);
                 }
 
