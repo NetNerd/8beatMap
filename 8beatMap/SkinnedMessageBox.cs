@@ -15,7 +15,6 @@ namespace _8beatMap
         private class SkinnedMessageBoxForm : Form
         {
             System.Resources.ResourceManager DialogResMgr = new System.Resources.ResourceManager("_8beatMap.Dialogs", System.Reflection.Assembly.GetEntryAssembly());
-            private Button btnToFocus = null;
 
             private void InitComponentNew()
             {
@@ -30,7 +29,6 @@ namespace _8beatMap
                 this.MinimizeBox = false;
                 this.ShowInTaskbar = false;
                 this.FormClosed += new FormClosedEventHandler(SkinnedMessageBoxForm_FormClosed);
-                this.Shown += new EventHandler(SkinnedMessageBoxForm_Shown);
 
                 this.Font = new Font(SystemFonts.MessageBoxFont.FontFamily, 8.8f);
                 //this.Font = new System.Drawing.Font(System.Drawing.SystemFonts.MessageBoxFont.FontFamily, System.Drawing.SystemFonts.MessageBoxFont.SizeInPoints);
@@ -40,13 +38,35 @@ namespace _8beatMap
                 this.PerformLayout();
             }
 
-            public SkinnedMessageBoxForm(Skinning.Skin skin, Form owner, string message, string caption = "", MessageBoxButtons buttons = MessageBoxButtons.OK, MessageBoxIcon icon = MessageBoxIcon.None, MessageBoxDefaultButton defaultbutton = MessageBoxDefaultButton.Button1)
+
+            private readonly int btnWidth = 75;
+            private readonly int btnHeight = 23;
+            private readonly int btnPadding = 12;
+
+            private Button[] buttonrefs = { null, null, null };
+            private int numbuttons = 1;
+
+            private Button AddBtn(string text, DialogResult result, int btnNumber)
+            {
+                Button btn = new Button { Text = text, DialogResult = result, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth, Height = btnHeight };
+                btn.Location = new Point(ClientSize.Width - btnWidth * (numbuttons-btnNumber) - btnPadding * (numbuttons-btnNumber), ClientSize.Height - btnHeight - btnPadding);
+                Controls.Add(btn);
+                buttonrefs[btnNumber] = btn;
+                return btn;
+            }
+
+
+            public SkinnedMessageBoxForm(Skinning.Skin skin, IWin32Window owner, string message, string caption = "", MessageBoxButtons buttons = MessageBoxButtons.OK, MessageBoxIcon icon = MessageBoxIcon.None, MessageBoxDefaultButton defaultbutton = MessageBoxDefaultButton.Button1)
             {
                 InitComponentNew();
 
+                //if (owner != null)
+                //{
+                //    this.Owner = owner;
+                //}
                 if (owner != null)
                 {
-                    this.Owner = owner;
+                    Owner = Control.FromHandle(owner.Handle).FindForm();
                 }
 
                 this.Text = caption;
@@ -56,86 +76,47 @@ namespace _8beatMap
                 Label MessageLbl = new Label() { Text = message, AutoSize = true, Margin = lblMargin, Location = lblLocation };
                 Controls.Add(MessageLbl);
 
-                int btnWidth = 75;
-                int btnHeight = 23;
-                int btnPadding = 12;
-
-                Button[] buttonrefs = { null, null, null };
-
                 if (buttons == MessageBoxButtons.OK)
                 {
-                    Button OKBtn = new Button { Text = DialogResMgr.GetString("BtnOK"), DialogResult = DialogResult.OK, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth, Height = btnHeight };
-                    OKBtn.Location = new Point(ClientSize.Width - btnWidth - btnPadding, ClientSize.Height - btnHeight - btnPadding);
-                    Controls.Add(OKBtn);
-                    buttonrefs[0] = OKBtn;
+                    numbuttons = 1;
+                    AddBtn(DialogResMgr.GetString("BtnOK"), DialogResult.OK, 0);
                 }
                 else if (buttons == MessageBoxButtons.OKCancel)
                 {
-                    Button OKBtn = new Button { Text = DialogResMgr.GetString("BtnOK"), DialogResult = DialogResult.OK, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth, Height = btnHeight };
-                    OKBtn.Location = new Point(ClientSize.Width - btnWidth * 2 - btnPadding * 2, ClientSize.Height - btnHeight - btnPadding);
-                    Controls.Add(OKBtn);
-                    buttonrefs[0] = OKBtn;
-                    Button CancelBtn = new Button { Text = DialogResMgr.GetString("BtnCancel"), DialogResult = DialogResult.Cancel, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth, Height = btnHeight };
-                    CancelBtn.Location = new Point(ClientSize.Width - btnWidth - btnPadding, ClientSize.Height - btnHeight - btnPadding);
-                    Controls.Add(CancelBtn);
+                    numbuttons = 2;
+                    AddBtn(DialogResMgr.GetString("BtnOK"), DialogResult.OK, 0);
+                    Button CancelBtn = AddBtn(DialogResMgr.GetString("BtnCancel"), DialogResult.Cancel, 1);
                     this.CancelButton = CancelBtn;
-                    buttonrefs[1] = CancelBtn;
                 }
                 else if (buttons == MessageBoxButtons.YesNo)
                 {
-                    Button YesBtn = new Button { Text = DialogResMgr.GetString("BtnYes"), DialogResult = DialogResult.Yes, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth, Height = btnHeight };
-                    YesBtn.Location = new Point(ClientSize.Width - btnWidth * 2 - btnPadding * 2, ClientSize.Height - btnHeight - btnPadding);
-                    Controls.Add(YesBtn);
-                    buttonrefs[0] = YesBtn;
-                    Button NoBtn = new Button { Text = DialogResMgr.GetString("BtnNo"), DialogResult = DialogResult.No, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth, Height = btnHeight };
-                    NoBtn.Location = new Point(ClientSize.Width - btnWidth - btnPadding, ClientSize.Height - btnHeight - btnPadding);
-                    Controls.Add(NoBtn);
+                    numbuttons = 2;
+                    AddBtn(DialogResMgr.GetString("BtnYes"), DialogResult.Yes, 0);
+                    Button NoBtn = AddBtn(DialogResMgr.GetString("BtnNo"), DialogResult.No, 1);
                     this.CancelButton = NoBtn;
-                    buttonrefs[1] = NoBtn;
                 }
                 else if (buttons == MessageBoxButtons.RetryCancel)
                 {
-                    Button RetryBtn = new Button { Text = DialogResMgr.GetString("BtnRetry"), DialogResult = DialogResult.Retry, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth, Height = btnHeight };
-                    RetryBtn.Location = new Point(ClientSize.Width - btnWidth * 2 - btnPadding * 2, ClientSize.Height - btnHeight - btnPadding);
-                    Controls.Add(RetryBtn);
-                    buttonrefs[0] = RetryBtn;
-                    Button CancelBtn = new Button { Text = DialogResMgr.GetString("BtnCancel"), DialogResult = DialogResult.Cancel, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth, Height = btnHeight };
-                    CancelBtn.Location = new Point(ClientSize.Width - btnWidth - btnPadding, ClientSize.Height - btnHeight - btnPadding);
-                    Controls.Add(CancelBtn);
+                    numbuttons = 2;
+                    AddBtn(DialogResMgr.GetString("BtnRetry"), DialogResult.Retry, 0);
+                    Button CancelBtn = AddBtn(DialogResMgr.GetString("BtnCancel"), DialogResult.Cancel, 1);
                     this.CancelButton = CancelBtn;
-                    buttonrefs[1] = CancelBtn;
                 }
                 else if (buttons == MessageBoxButtons.YesNoCancel)
                 {
-                    Button YesBtn = new Button { Text = DialogResMgr.GetString("BtnYes"), DialogResult = DialogResult.Yes, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth, Height = btnHeight };
-                    YesBtn.Location = new Point(ClientSize.Width - btnWidth * 3 - btnPadding * 3, ClientSize.Height - btnHeight - btnPadding);
-                    Controls.Add(YesBtn);
-                    buttonrefs[0] = YesBtn;
-                    Button NoBtn = new Button { Text = DialogResMgr.GetString("BtnNo"), DialogResult = DialogResult.No, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth, Height = btnHeight };
-                    NoBtn.Location = new Point(ClientSize.Width - btnWidth * 2 - btnPadding * 2, ClientSize.Height - btnHeight - btnPadding);
-                    Controls.Add(NoBtn);
-                    buttonrefs[1] = NoBtn;
-                    Button CancelBtn = new Button { Text = DialogResMgr.GetString("BtnCancel"), DialogResult = DialogResult.Cancel, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth, Height = btnHeight };
-                    CancelBtn.Location = new Point(ClientSize.Width - btnWidth - btnPadding, ClientSize.Height - btnHeight - btnPadding);
-                    Controls.Add(CancelBtn);
+                    numbuttons = 3;
+                    AddBtn(DialogResMgr.GetString("BtnYes"), DialogResult.Yes, 0);
+                    AddBtn(DialogResMgr.GetString("BtnNo"), DialogResult.No, 1);
+                    Button CancelBtn = AddBtn(DialogResMgr.GetString("BtnCancel"), DialogResult.Cancel, 2);
                     this.CancelButton = CancelBtn;
-                    buttonrefs[2] = CancelBtn;
                 }
                 else if (buttons == MessageBoxButtons.AbortRetryIgnore)
                 {
-                    Button AbortBtn = new Button { Text = DialogResMgr.GetString("BtnAbort"), DialogResult = DialogResult.Abort, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth, Height = btnHeight };
-                    AbortBtn.Location = new Point(ClientSize.Width - btnWidth * 3 - btnPadding * 3, ClientSize.Height - btnHeight - btnPadding);
-                    Controls.Add(AbortBtn);
-                    buttonrefs[0] = AbortBtn;
-                    Button RetryBtn = new Button { Text = DialogResMgr.GetString("BtnRetry"), DialogResult = DialogResult.Retry, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth, Height = btnHeight };
-                    RetryBtn.Location = new Point(ClientSize.Width - btnWidth * 2 - btnPadding * 2, ClientSize.Height - btnHeight - btnPadding);
-                    Controls.Add(RetryBtn);
-                    buttonrefs[2] = RetryBtn;
-                    Button IgnoreBtn = new Button { Text = DialogResMgr.GetString("BtnIgnore"), DialogResult = DialogResult.Ignore, Anchor = AnchorStyles.Bottom | AnchorStyles.Right, Width = btnWidth, Height = btnHeight };
-                    IgnoreBtn.Location = new Point(ClientSize.Width - btnWidth - btnPadding, ClientSize.Height - btnHeight - btnPadding);
-                    Controls.Add(IgnoreBtn);
+                    numbuttons = 3;
+                    AddBtn(DialogResMgr.GetString("BtnAbort"), DialogResult.Abort, 0);
+                    AddBtn(DialogResMgr.GetString("BtnRetry"), DialogResult.Retry, 1);
+                    Button IgnoreBtn = AddBtn(DialogResMgr.GetString("BtnIgnore"), DialogResult.Ignore, 2);
                     this.CancelButton = IgnoreBtn;
-                    buttonrefs[3] = IgnoreBtn;
                 }
 
 
@@ -187,31 +168,25 @@ namespace _8beatMap
                 if (defaultbutton == MessageBoxDefaultButton.Button1)
                 {
                     this.AcceptButton = buttonrefs[0];
-                    btnToFocus = buttonrefs[0]; // can't focus until after form is shown
+                    ActiveControl = buttonrefs[0];
                 }
                 else if (defaultbutton == MessageBoxDefaultButton.Button2)
                 {
                     if (buttonrefs[1] == null) throw new ArgumentOutOfRangeException("defaultbutton", "defaultbutton cannot be set to a button number that does not exist");
                     this.AcceptButton = buttonrefs[1];
-                    btnToFocus = buttonrefs[1]; // can't focus until after form is shown
+                    ActiveControl = buttonrefs[1];
                 }
                 else if (defaultbutton == MessageBoxDefaultButton.Button3)
                 {
                     if (buttonrefs[2] == null) throw new ArgumentOutOfRangeException("defaultbutton", "defaultbutton cannot be set to a button number that does not exist");
                     this.AcceptButton = buttonrefs[2];
-                    btnToFocus = buttonrefs[2]; // can't focus until after form is shown
+                    ActiveControl = buttonrefs[2];
                 }
 
 
                 Skinning.SetBackCol(this, skin.UIColours[UIColours.UIColourDefs.Form_BG.TypeName]);
                 Skinning.SetForeCol(this, skin.UIColours[UIColours.UIColourDefs.Form_Text.TypeName]);
                 Skinning.SetUIStyle(this, skin.UIStyle);
-            }
-
-            private void SkinnedMessageBoxForm_Shown(object sender, EventArgs e)
-            {
-                if (btnToFocus != null)
-                    btnToFocus.Focus();
             }
 
             private void SkinnedMessageBoxForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -230,7 +205,7 @@ namespace _8beatMap
         }
 
         // no skin, has owner
-        public static DialogResult Show(Form owner, string message, string caption = "", MessageBoxButtons buttons = MessageBoxButtons.OK, MessageBoxIcon icon = MessageBoxIcon.None, MessageBoxDefaultButton defaultbutton = MessageBoxDefaultButton.Button1)
+        public static DialogResult Show(IWin32Window owner, string message, string caption = "", MessageBoxButtons buttons = MessageBoxButtons.OK, MessageBoxIcon icon = MessageBoxIcon.None, MessageBoxDefaultButton defaultbutton = MessageBoxDefaultButton.Button1)
         {
             return Show(defaultskin, owner, message, caption, buttons, icon, defaultbutton);
         }
@@ -242,7 +217,7 @@ namespace _8beatMap
         }
 
         // has skin, has owner
-        public static DialogResult Show(Skinning.Skin skin, Form owner, string message, string caption = "", MessageBoxButtons buttons = MessageBoxButtons.OK, MessageBoxIcon icon = MessageBoxIcon.None, MessageBoxDefaultButton defaultbutton = MessageBoxDefaultButton.Button1)
+        public static DialogResult Show(Skinning.Skin skin, IWin32Window owner, string message, string caption = "", MessageBoxButtons buttons = MessageBoxButtons.OK, MessageBoxIcon icon = MessageBoxIcon.None, MessageBoxDefaultButton defaultbutton = MessageBoxDefaultButton.Button1)
         {
             SkinnedMessageBoxForm mb = new SkinnedMessageBoxForm(skin, owner, message, caption, buttons, icon, defaultbutton);
             DialogResult res = mb.ShowDialog();
