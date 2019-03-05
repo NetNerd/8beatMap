@@ -79,7 +79,9 @@ namespace _8beatMap
                 if (buttons == MessageBoxButtons.OK)
                 {
                     numbuttons = 1;
-                    AddBtn(DialogResMgr.GetString("BtnOK"), DialogResult.OK, 0);
+                    Button OkBtn = AddBtn(DialogResMgr.GetString("BtnOK"), DialogResult.OK, 0);
+                    this.CancelButton = OkBtn;
+                    //(not sure why, but this matches official .NET behaviour)
                 }
                 else if (buttons == MessageBoxButtons.OKCancel)
                 {
@@ -94,6 +96,7 @@ namespace _8beatMap
                     AddBtn(DialogResMgr.GetString("BtnYes"), DialogResult.Yes, 0);
                     Button NoBtn = AddBtn(DialogResMgr.GetString("BtnNo"), DialogResult.No, 1);
                     this.CancelButton = NoBtn;
+                    //(official .NET doesn't set cancel button, but this seems pretty clear to me...)
                 }
                 else if (buttons == MessageBoxButtons.RetryCancel)
                 {
@@ -115,9 +118,13 @@ namespace _8beatMap
                     numbuttons = 3;
                     AddBtn(DialogResMgr.GetString("BtnAbort"), DialogResult.Abort, 0);
                     AddBtn(DialogResMgr.GetString("BtnRetry"), DialogResult.Retry, 1);
-                    Button IgnoreBtn = AddBtn(DialogResMgr.GetString("BtnIgnore"), DialogResult.Ignore, 2);
-                    this.CancelButton = IgnoreBtn;
+                    AddBtn(DialogResMgr.GetString("BtnIgnore"), DialogResult.Ignore, 2);
+                    //this.CancelButton = IgnoreBtn;
+                    //(official .NET doesn't set cancel button)
                 }
+
+                if (this.CancelButton == null)
+                    this.ControlBox = false;
 
 
                 if (icon != MessageBoxIcon.None)
@@ -187,6 +194,10 @@ namespace _8beatMap
                 Skinning.SetBackCol(this, skin.UIColours[UIColours.UIColourDefs.Form_BG.TypeName]);
                 Skinning.SetForeCol(this, skin.UIColours[UIColours.UIColourDefs.Form_Text.TypeName]);
                 Skinning.SetUIStyle(this, skin.UIStyle);
+
+                //Can use this to compare against official .NET
+                //DialogResult test = MessageBox.Show("test", "", MessageBoxButtons.YesNo);
+                //Console.WriteLine(test);
             }
 
             private void SkinnedMessageBoxForm_FormClosed(object sender, FormClosedEventArgs e)
