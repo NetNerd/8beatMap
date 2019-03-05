@@ -411,11 +411,11 @@ namespace _8beatMap
 
                     UpdateWindowTitle();
                 }
-                catch { SkinnedMessageBoxMaker.ShowMessageBox(skin, DialogResMgr.GetString("ChartLoadError"), "", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                catch { SkinnedMessageBox.Show(skin, DialogResMgr.GetString("ChartLoadError"), "", MessageBoxButtons.OK, MessageBoxIcon.Error); }
 
                 if (chart.BPM == 1)
                 {
-                    SkinnedMessageBoxMaker.ShowMessageBox(skin, DialogResMgr.GetString("ChartLoadNoBPM"), "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    SkinnedMessageBox.Show(skin, DialogResMgr.GetString("ChartLoadNoBPM"), "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     chart.BPM = 120;
                 }
                 ResizeBox.Value = chart.Length / 48;
@@ -501,7 +501,7 @@ namespace _8beatMap
             ResumeLayout(false);
             PerformLayout();
 
-            SkinnedMessageBoxMaker.defaultskin = this.skin;
+            SkinnedMessageBox.defaultskin = this.skin;
 
             LoadSounds();
             OpenPreviewWindow();
@@ -570,7 +570,7 @@ namespace _8beatMap
                 StartPlayback();
             else
             {
-                SkinnedMessageBoxMaker.ShowMessageBox(skin, DialogResMgr.GetString("PlaybackNoMusicError"), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                SkinnedMessageBox.Show(skin, DialogResMgr.GetString("PlaybackNoMusicError"), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -912,7 +912,7 @@ namespace _8beatMap
             }
             catch (System.Configuration.ConfigurationErrorsException)
             {
-                SkinnedMessageBoxMaker.ShowMessageBox(skin, "Error writing app settings.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                SkinnedMessageBox.Show(skin, "Error writing app settings.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -930,7 +930,7 @@ namespace _8beatMap
                 return;
             }
 
-            if (SkinnedMessageBoxMaker.ShowMessageBox(skin, DialogResMgr.GetString("ExitMessage"), DialogResMgr.GetString("ExitCaption"), MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.No)
+            if (SkinnedMessageBox.Show(skin, DialogResMgr.GetString("ExitMessage"), DialogResMgr.GetString("ExitCaption"), MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.No)
                 e.Cancel = true;
             else
             {
@@ -946,7 +946,7 @@ namespace _8beatMap
 
         private void NoteCountButton_Click(object sender, EventArgs e)
         {
-            SkinnedMessageBoxMaker.ShowMessageBox(skin, String.Format(DialogResMgr.GetString("NoteCountMessage"), chart.NoteCount));
+            SkinnedMessageBox.Show(skin, String.Format(DialogResMgr.GetString("NoteCountMessage"), chart.NoteCount));
         }
 
         private void AutoSimulBtn_Click(object sender, EventArgs e)

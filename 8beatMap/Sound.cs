@@ -110,7 +110,7 @@ namespace _8beatMap
             }
             catch
             {
-                SkinnedMessageBoxMaker.ShowMessageBox(DialogResMgr.GetString("MusicLoadError"), "", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                SkinnedMessageBox.Show(DialogResMgr.GetString("MusicLoadError"), "", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
             }
         }
         static public void LoadMusic(string path, Skinning.Skin errorskin)
@@ -121,7 +121,7 @@ namespace _8beatMap
             }
             catch
             {
-                SkinnedMessageBoxMaker.ShowMessageBox(errorskin, DialogResMgr.GetString("MusicLoadError"), "", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                SkinnedMessageBox.Show(errorskin, DialogResMgr.GetString("MusicLoadError"), "", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
             }
         }
         static public void InitWaveOut()
