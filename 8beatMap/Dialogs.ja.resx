@@ -163,4 +163,8 @@ BPMの設定するを忘れないください</value>
   <data name="PlaybackNoMusicError" xml:space="preserve">
     <value>再生のために、音楽を読み込んでください</value>
   </data>
+  <data name="SkinLoadError" xml:space="preserve">
+    <value>スキンを読み込んでエラーが会った：{0}
+このスキンは存在するのをチェックしてもう一度8beatMapを実行してください。</value>
+  </data>
 </root>

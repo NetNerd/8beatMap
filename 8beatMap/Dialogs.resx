@@ -163,4 +163,8 @@ Set it in the BPM box for notes to move at the right speed.</value>
   <data name="PlaybackNoMusicError" xml:space="preserve">
     <value>A music file must be loaded for playback to work.</value>
   </data>
+  <data name="SkinLoadError" xml:space="preserve">
+    <value>Unable to load skin: {0}
+Please ensure it exists then run the program again.</value>
+  </data>
 </root>

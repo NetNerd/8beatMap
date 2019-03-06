@@ -195,5 +195,15 @@ namespace _8beatMap {
                 return ResourceManager.GetString("PlaybackNoMusicError", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to load skin: {0}
+        ///Please ensure it exists then run the program again..
+        /// </summary>
+        internal static string SkinLoadError {
+            get {
+                return ResourceManager.GetString("SkinLoadError", resourceCulture);
+            }
+        }
     }
 }

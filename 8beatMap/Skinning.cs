@@ -6,6 +6,8 @@ namespace _8beatMap
 {
     public static class Skinning
     {
+        private static System.Resources.ResourceManager DialogResMgr = new System.Resources.ResourceManager("_8beatMap.Dialogs", System.Reflection.Assembly.GetEntryAssembly());
+
         public struct Skin
         {
             public string SkinName;
@@ -235,23 +237,37 @@ namespace _8beatMap
 
         public static Skin LoadSkin(string rootdir)
         {
-            string skinname = new System.IO.DirectoryInfo(rootdir).Name;
-
-            string buttonsfile = ReadFile(rootdir + "/buttons.txt");
-            Skin output = new Skin
+            try
             {
-                SkinName = skinname,
-                RootDir = rootdir,
-                TexturePaths = LoadTexturePaths(rootdir),
-                EditorNoteColours = LoadNoteColours(ReadFile(rootdir + "/notecolours.txt")),
-                UIColours = LoadUIColours(ReadFile(rootdir + "/uicolours.txt")),
-                UIStyle = LoadUIStyle(ReadFile(rootdir + "/uistyle.txt")),
-                NodeStartLocs = LoadNodeStartLocs(buttonsfile),
-                NodeEndLocs = LoadNodeEndLocs(buttonsfile),
-                NumLanes = LoadNumLanes(buttonsfile),
-                SoundPaths = LoadSoundPaths(rootdir)
-            };
-            return output;
+                string skinname = new System.IO.DirectoryInfo(rootdir).Name;
+
+                string buttonsfile = ReadFile(rootdir + "/buttons.txt");
+                Skin output = new Skin
+                {
+                    SkinName = skinname,
+                    RootDir = rootdir,
+                    TexturePaths = LoadTexturePaths(rootdir),
+                    EditorNoteColours = LoadNoteColours(ReadFile(rootdir + "/notecolours.txt")),
+                    UIColours = LoadUIColours(ReadFile(rootdir + "/uicolours.txt")),
+                    UIStyle = LoadUIStyle(ReadFile(rootdir + "/uistyle.txt")),
+                    NodeStartLocs = LoadNodeStartLocs(buttonsfile),
+                    NodeEndLocs = LoadNodeEndLocs(buttonsfile),
+                    NumLanes = LoadNumLanes(buttonsfile),
+                    SoundPaths = LoadSoundPaths(rootdir)
+                };
+                return output;
+            }
+            catch
+            {
+                Skin failskin = new Skin {
+                    SkinName = "fallback skin",
+                    UIColours = LoadUIColours(""),
+                    UIStyle = LoadUIStyle("")
+                };
+                SkinnedMessageBox.Show(failskin, string.Format(DialogResMgr.GetString("SkinLoadError"), rootdir), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                System.Environment.Exit(0);
+                return failskin; // just for compiler to be satisfied
+            }
         }
 
         public static Skin DefaultSkin = LoadSkin("skins/8bs");
