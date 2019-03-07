@@ -535,6 +535,8 @@ namespace _8beatMap
             pictureBox1.Image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
 
 
+            Properties.Settings.Default.Upgrade();
+
             DefaultMusicDelayMs = Properties.Settings.Default.DefaultMusicDelay;
             VideoDelayMs = Properties.Settings.Default.VideoDelay;
             GameCloneOffsetMs = Properties.Settings.Default.PreviewTimingOffset;
