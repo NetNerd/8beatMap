@@ -16,9 +16,7 @@ namespace _8beatMap
     {
         System.Resources.ResourceManager DialogResMgr = new System.Resources.ResourceManager("_8beatMap.Dialogs", System.Reflection.Assembly.GetEntryAssembly());
         System.Resources.ResourceManager NotetypeNamesResMgr = new System.Resources.ResourceManager("_8beatMap.NotetypeNames", System.Reflection.Assembly.GetEntryAssembly());
-
-        System.Collections.Specialized.NameValueCollection AppSettings = System.Configuration.ConfigurationManager.AppSettings;
-
+        
         public Notedata.Chart chart = new Notedata.Chart(32 * 48, 120, "New Chart");
         private int TickHeight = 10;
         private int IconWidth = 20;
@@ -537,17 +535,17 @@ namespace _8beatMap
             pictureBox1.Image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
 
 
-            DefaultMusicDelayMs = int.Parse(AppSettings["DefaultMusicDelay"] ?? DefaultMusicDelayMs.ToString());
-            VideoDelayMs = int.Parse(AppSettings["VideoDelay"] ?? VideoDelayMs.ToString());
-            GameCloneOffsetMs = int.Parse(AppSettings["PreviewTimingOffset"] ?? GameCloneOffsetMs.ToString());
-            Sound.Latency = int.Parse(AppSettings["AudioLatency"] ?? Sound.Latency.ToString());
-            TickHeight = int.Parse(AppSettings["ChartZoom"] ?? TickHeight.ToString());
-            NoteSoundBox.Checked = bool.Parse(AppSettings["NoteSounds"] ?? NoteSoundBox.Checked.ToString());
-            PauseOnSeek.Checked = bool.Parse(AppSettings["PauseOnSeek"] ?? PauseOnSeek.Checked.ToString());
-            VolumeBar.Value = int.Parse(AppSettings["Volume"] ?? VolumeBar.Value.ToString());
-            UseBeepNoteSounds = bool.Parse(AppSettings["UseBeepNoteSounds"] ?? UseBeepNoteSounds.ToString());
+            DefaultMusicDelayMs = Properties.Settings.Default.DefaultMusicDelay;
+            VideoDelayMs = Properties.Settings.Default.VideoDelay;
+            GameCloneOffsetMs = Properties.Settings.Default.PreviewTimingOffset;
+            Sound.Latency = Properties.Settings.Default.AudioLatency;
+            TickHeight = Properties.Settings.Default.ChartZoom;
+            NoteSoundBox.Checked = Properties.Settings.Default.NoteSounds;
+            PauseOnSeek.Checked = Properties.Settings.Default.PauseOnSeek;
+            VolumeBar.Value = Properties.Settings.Default.Volume;
+            UseBeepNoteSounds = Properties.Settings.Default.UseBeepNoteSounds;
 
-            SetSkin(AppSettings["Skin"] ?? "8bs");
+            SetSkin(Properties.Settings.Default.Skin);
 
             AddNoteTypes();
             PopulateSkins();
@@ -893,43 +891,20 @@ namespace _8beatMap
         {
             try
             {
-                var configFile = System.Configuration.ConfigurationManager.OpenExeConfiguration(System.Configuration.ConfigurationUserLevel.None);
-                var settings = configFile.AppSettings.Settings;
+                Properties.Settings.Default.DefaultMusicDelay = DefaultMusicDelayMs;
+                Properties.Settings.Default.VideoDelay = VideoDelayMs;
+                Properties.Settings.Default.PreviewTimingOffset = GameCloneOffsetMs;
+                Properties.Settings.Default.AudioLatency = Sound.Latency;
+                Properties.Settings.Default.Skin = skin.SkinName;
+                Properties.Settings.Default.ChartZoom = TickHeight;
+                Properties.Settings.Default.NoteSounds = NoteSoundBox.Checked;
+                Properties.Settings.Default.PauseOnSeek = PauseOnSeek.Checked;
+                Properties.Settings.Default.Volume = VolumeBar.Value;
+                Properties.Settings.Default.UseBeepNoteSounds = UseBeepNoteSounds;
 
-                if (settings["DefaultMusicDelay"] == null) settings.Add("DefaultMusicDelay", DefaultMusicDelayMs.ToString());
-                else settings["DefaultMusicDelay"].Value = DefaultMusicDelayMs.ToString();
-
-                if (settings["VideoDelay"] == null) settings.Add("VideoDelay", VideoDelayMs.ToString());
-                else settings["VideoDelay"].Value = VideoDelayMs.ToString();
-
-                if (settings["PreviewTimingOffset"] == null) settings.Add("PreviewTimingOffset", GameCloneOffsetMs.ToString());
-                else settings["PreviewTimingOffset"].Value = GameCloneOffsetMs.ToString();
-
-                if (settings["AudioLatency"] == null) settings.Add("AudioLatency", Sound.Latency.ToString());
-                else settings["AudioLatency"].Value = Sound.Latency.ToString();
-
-                if (settings["Skin"] == null) settings.Add("Skin", skin.SkinName);
-                else settings["Skin"].Value = skin.SkinName;
-
-                if (settings["ChartZoom"] == null) settings.Add("ChartZoom", TickHeight.ToString());
-                else settings["ChartZoom"].Value = TickHeight.ToString();
-
-                if (settings["NoteSounds"] == null) settings.Add("NoteSounds", NoteSoundBox.Checked.ToString());
-                else settings["NoteSounds"].Value = NoteSoundBox.Checked.ToString();
-
-                if (settings["PauseOnSeek"] == null) settings.Add("PauseOnSeek", PauseOnSeek.Checked.ToString());
-                else settings["PauseOnSeek"].Value = PauseOnSeek.Checked.ToString();
-
-                if (settings["Volume"] == null) settings.Add("Volume", VolumeBar.Value.ToString());
-                else settings["Volume"].Value = VolumeBar.Value.ToString();
-                
-                if (settings["UseBeepNoteSounds"] == null) settings.Add("UseBeepNoteSounds", UseBeepNoteSounds.ToString());
-                else settings["UseBeepNoteSounds"].Value = UseBeepNoteSounds.ToString().ToString();
-
-                configFile.Save(System.Configuration.ConfigurationSaveMode.Modified);
-                System.Configuration.ConfigurationManager.RefreshSection(configFile.AppSettings.SectionInformation.Name);
+                Properties.Settings.Default.Save();
             }
-            catch (System.Configuration.ConfigurationErrorsException)
+            catch
             {
                 SkinnedMessageBox.Show(skin, "Error writing app settings.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
