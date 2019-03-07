@@ -87,6 +87,8 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ChartInfoDialog";
+            this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.ResumeLayout(false);
             this.PerformLayout();
 

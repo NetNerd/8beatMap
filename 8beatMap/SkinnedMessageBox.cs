@@ -28,6 +28,12 @@ namespace _8beatMap
                 this.MaximizeBox = false;
                 this.MinimizeBox = false;
                 this.ShowInTaskbar = false;
+                this.ShowIcon = false;
+                try
+                {
+                    this.Icon = Application.OpenForms[0].Icon;
+                }
+                catch { }
                 this.FormClosed += new FormClosedEventHandler(SkinnedMessageBoxForm_FormClosed);
 
                 this.Font = new Font(SystemFonts.MessageBoxFont.FontFamily, 8.8f);

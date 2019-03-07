@@ -72,7 +72,7 @@ namespace _8beatMap
             }
         }
 
-        public GameCloneRenderer_OGL(int wndWidth, int wndHeight, Form1 mainform, Skinning.Skin skin)
+        public GameCloneRenderer_OGL(int wndWidth, int wndHeight, Form1 mainform, Skinning.Skin skin, Icon icon)
         {
             this.mainform = mainform;
             this.skin = skin;
@@ -82,7 +82,7 @@ namespace _8beatMap
 
             System.Threading.Thread oglThread = new System.Threading.Thread(() =>
             {
-                myWindow = new GameWindow(wndWidth, wndHeight, OpenTK.Graphics.GraphicsMode.Default, "8beatMap Preview Window");
+                myWindow = new GameWindow(wndWidth, wndHeight, OpenTK.Graphics.GraphicsMode.Default, "8beatMap Preview Window") { Icon = icon };
                 myWindow.VSync = OpenTK.VSyncMode.Adaptive;
 
 

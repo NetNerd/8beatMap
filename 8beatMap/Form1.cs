@@ -481,7 +481,7 @@ namespace _8beatMap
                 OGLrenderer = null;
             }
 
-            OGLrenderer = new GameCloneRenderer_OGL(wndWidth, wndHeight, this, skin);
+            OGLrenderer = new GameCloneRenderer_OGL(wndWidth, wndHeight, this, skin, this.Icon);
         }
         
 

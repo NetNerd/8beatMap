@@ -16,6 +16,11 @@ namespace _8beatMap
         {
             InitializeComponent();
             this.SuspendLayout();
+            try
+            {
+                this.Icon = Application.OpenForms[0].Icon;
+            }
+            catch { }
             this.Font = new Font(SystemFonts.MessageBoxFont.FontFamily, 8.8f);
             //this.Font = new System.Drawing.Font(System.Drawing.SystemFonts.MessageBoxFont.FontFamily, System.Drawing.SystemFonts.MessageBoxFont.SizeInPoints);
             this.AutoScaleMode = AutoScaleMode.None;
