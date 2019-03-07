@@ -42,9 +42,10 @@ namespace _8beatMap
         int numLanes = 8;
 
 
-        static System.Resources.ResourceManager DialogResMgr = new System.Resources.ResourceManager("_8beatMap.Dialogs", System.Reflection.Assembly.GetEntryAssembly());
+        private static System.Resources.ResourceManager DialogResMgr = new System.Resources.ResourceManager("_8beatMap.Dialogs", System.Reflection.Assembly.GetEntryAssembly());
+        private static System.Resources.ResourceManager IconResMgr = new System.Resources.ResourceManager("_8beatMap.GameCloneRenderer_OGL", System.Reflection.Assembly.GetEntryAssembly());
 
-        
+
         private void SetupNodeLocs(int wndWidth, int wndHeight)
         {
             viewHeight = wndHeight * 1136 / wndWidth;
@@ -82,7 +83,7 @@ namespace _8beatMap
 
             System.Threading.Thread oglThread = new System.Threading.Thread(() =>
             {
-                myWindow = new GameWindow(wndWidth, wndHeight, OpenTK.Graphics.GraphicsMode.Default, "8beatMap Preview Window") { Icon = icon };
+                myWindow = new GameWindow(wndWidth, wndHeight, OpenTK.Graphics.GraphicsMode.Default, "8beatMap Preview Window") { Icon = (Icon)IconResMgr.GetObject("Icon") };
                 myWindow.VSync = OpenTK.VSyncMode.Adaptive;
 
 
