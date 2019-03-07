@@ -243,6 +243,9 @@ namespace _8beatMap
 
                         if (NoteType.DetectType == NoteTypes.DetectType.Tap | NoteType.DetectType == NoteTypes.DetectType.Hold | NoteType.DetectType == NoteTypes.DetectType.GbsClock)
                             SimulNum_Hold++;
+
+                        if (NoteType.TypeId == NoteTypes.NoteTypeDefs.ExtendHoldMid.TypeId && Ticks[i].Notes[j].NoteType.TypeId != NoteTypes.NoteTypeDefs.Hold.TypeId)
+                            Ticks[i].SetNote(NoteTypes.NoteTypeDefs.Hold, j, ref this);
                     }
 
                     if (SimulNum_Tap > 1)
