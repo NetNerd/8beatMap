@@ -247,7 +247,7 @@ echo (Move build from temp directory back to zips directory)
 mv $(ZipfileDir)/tmp/$(ZipfileName) $(ZipfileDir)/
 rmdir "$(ZipfileDir)/tmp"
 echo Updating zip files...
-7z u "$(ZipfileDir)/$(ZipfileName)" 8beatMap.exe 8beatMap.pdb NAudio.dll Newtonsoft.Json.dll OpenTK.dll OpenTK.dll.config ja ../../../readme.txt ../../../license.txt
+7z u "$(ZipfileDir)/$(ZipfileName)" 8beatMap.exe 8beatMap.pdb NAudio.dll Newtonsoft.Json.dll OpenTK.dll OpenTK.dll.config ja ../../../readme.txt ../../../license.txt ../../skin*/8bs -xr!*.psd
 7z u "$(ZipfileDir)/skins.zip" ../../skins -xr!*.psd</PostBuildEvent>
   </PropertyGroup>
 </Project>
