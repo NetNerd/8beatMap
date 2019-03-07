@@ -468,20 +468,25 @@ namespace _8beatMap
         {
             int wndWidth = 853;
             int wndHeight = 480;
+            int wndX = -99999;
+            int wndY = -99999;
 
             if (OGLrenderer != null)
             {
                 Point wndSize = OGLrenderer.WindowSize;
+                Point wndLoc = OGLrenderer.WindowLocation;
                 if (wndSize.X > 0 && wndSize.Y > 0)
                 {
                     wndWidth = wndSize.X;
                     wndHeight = wndSize.Y;
+                    wndX = wndLoc.X;
+                    wndY = wndLoc.Y;
                 }
                 OGLrenderer.Stop();
                 OGLrenderer = null;
             }
 
-            OGLrenderer = new GameCloneRenderer_OGL(wndWidth, wndHeight, this, skin);
+            OGLrenderer = new GameCloneRenderer_OGL(wndWidth, wndHeight, wndX, wndY, this, skin);
         }
 
         private void OpenPreviewWindow()
