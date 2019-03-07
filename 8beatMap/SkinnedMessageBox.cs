@@ -34,6 +34,7 @@ namespace _8beatMap
                     this.Icon = Application.OpenForms[0].Icon;
                 }
                 catch { }
+                this.Shown += new EventHandler(SkinnedMessageBoxForm_Shown);
                 this.FormClosed += new FormClosedEventHandler(SkinnedMessageBoxForm_FormClosed);
 
                 this.Font = new Font(SystemFonts.MessageBoxFont.FontFamily, 8.8f);
@@ -206,6 +207,12 @@ namespace _8beatMap
                 //Can use this to compare against official .NET
                 //DialogResult test = MessageBox.Show("test", "", MessageBoxButtons.YesNo);
                 //Console.WriteLine(test);
+
+            }
+
+            private void SkinnedMessageBoxForm_Shown(object sender, EventArgs e)
+            {
+                this.Activate();
             }
 
             private void SkinnedMessageBoxForm_FormClosed(object sender, FormClosedEventArgs e)
