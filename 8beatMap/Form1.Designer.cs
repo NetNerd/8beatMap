@@ -528,6 +528,7 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyPress);
             this.Resize += new System.EventHandler(this.Form1_Resize);
+            this.Shown += new System.EventHandler(this.Form1_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.BPMbox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.newplayhead)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ZoomBox)).EndInit();

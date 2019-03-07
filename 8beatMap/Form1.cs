@@ -464,7 +464,7 @@ namespace _8beatMap
             }
         }
 
-        private void OpenPreviewWindow()
+        private void OpenPreviewWindow_Int()
         {
             int wndWidth = 853;
             int wndHeight = 480;
@@ -481,7 +481,14 @@ namespace _8beatMap
                 OGLrenderer = null;
             }
 
-            OGLrenderer = new GameCloneRenderer_OGL(wndWidth, wndHeight, this, skin, this.Icon);
+            OGLrenderer = new GameCloneRenderer_OGL(wndWidth, wndHeight, this, skin);
+        }
+
+        private void OpenPreviewWindow()
+        {
+            // use a thread to avoid blocking UI
+            System.Threading.Thread thread = new System.Threading.Thread(OpenPreviewWindow_Int);
+            thread.Start();
         }
         
 
@@ -504,7 +511,9 @@ namespace _8beatMap
             SkinnedMessageBox.defaultskin = this.skin;
 
             LoadSounds();
-            OpenPreviewWindow();
+
+            if (this.Visible)
+                OpenPreviewWindow();
         }
 
 
@@ -554,6 +563,11 @@ namespace _8beatMap
 
             playTimer.SynchronizingObject = this;
             playTimer.Elapsed += playtimer_Tick;
+        }
+
+        private void Form1_Shown(object sender, EventArgs e)
+        {
+            OpenPreviewWindow();
         }
 
 

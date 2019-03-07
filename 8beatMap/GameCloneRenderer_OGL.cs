@@ -73,7 +73,7 @@ namespace _8beatMap
             }
         }
 
-        public GameCloneRenderer_OGL(int wndWidth, int wndHeight, Form1 mainform, Skinning.Skin skin, Icon icon)
+        public GameCloneRenderer_OGL(int wndWidth, int wndHeight, Form1 mainform, Skinning.Skin skin)
         {
             this.mainform = mainform;
             this.skin = skin;
