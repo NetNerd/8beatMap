@@ -75,6 +75,10 @@ namespace _8beatMap
                 {
                     Owner = Control.FromHandle(owner.Handle).FindForm();
                 }
+                else
+                {
+                    Owner = Form.ActiveForm;
+                }
 
                 this.Text = caption;
 
@@ -131,6 +135,10 @@ namespace _8beatMap
                     //this.CancelButton = IgnoreBtn;
                     //(official .NET doesn't set cancel button)
                 }
+                else
+                {
+                    throw new InvalidEnumArgumentException("buttons", (int)buttons, typeof(MessageBoxButtons));
+                }
 
                 if (this.CancelButton == null)
                     this.ControlBox = false;
@@ -179,6 +187,10 @@ namespace _8beatMap
                         //this.Icon = SystemIcons.Information;
                         System.Media.SystemSounds.Asterisk.Play();
                     }
+                    else
+                    {
+                        throw new InvalidEnumArgumentException("icon", (int)icon, typeof(MessageBoxIcon));
+                    }
 
                     MessageLbl.MinimumSize = new Size(MessageLbl.MinimumSize.Width - (iconsize + iconpadding + textpadding), MessageLbl.MinimumSize.Height);
                     MessageLbl.Left += (iconsize + iconpadding + textpadding);
@@ -201,6 +213,10 @@ namespace _8beatMap
                     if (buttonrefs[2] == null) throw new ArgumentOutOfRangeException("defaultbutton", "defaultbutton cannot be set to a button number that does not exist");
                     this.AcceptButton = buttonrefs[2];
                     ActiveControl = buttonrefs[2];
+                }
+                else
+                {
+                    throw new InvalidEnumArgumentException("defaultbutton", (int)defaultbutton, typeof(MessageBoxDefaultButton));
                 }
 
 
