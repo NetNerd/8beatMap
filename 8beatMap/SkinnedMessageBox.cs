@@ -152,6 +152,7 @@ namespace _8beatMap
                         iconPB.Image = erricon.ToBitmap();
                         iconPB.AccessibleDescription = "Error";
                         //this.Icon = SystemIcons.Error;
+                        System.Media.SystemSounds.Hand.Play();
                     }
                     else if (icon == MessageBoxIcon.Question)
                     {
@@ -159,6 +160,7 @@ namespace _8beatMap
                         iconPB.Image = qicon.ToBitmap();
                         iconPB.AccessibleDescription = "Question";
                         //this.Icon = SystemIcons.Question;
+                        System.Media.SystemSounds.Question.Play();
                     }
                     else if (icon == MessageBoxIcon.Warning) // also Exclamation
                     {
@@ -167,6 +169,7 @@ namespace _8beatMap
                         iconPB.AccessibleDescription = "Warning";
                         //this.Icon = SystemIcons.Warning;
                         textpadding -= 2; // triangle shape looks worse without this
+                        System.Media.SystemSounds.Exclamation.Play();
                     }
                     else if (icon == MessageBoxIcon.Information) // also Asterisk
                     {
@@ -174,6 +177,7 @@ namespace _8beatMap
                         iconPB.Image = infoicon.ToBitmap();
                         iconPB.AccessibleDescription = "Information";
                         //this.Icon = SystemIcons.Information;
+                        System.Media.SystemSounds.Asterisk.Play();
                     }
 
                     MessageLbl.MinimumSize = new Size(MessageLbl.MinimumSize.Width - (iconsize + iconpadding + textpadding), MessageLbl.MinimumSize.Height);
