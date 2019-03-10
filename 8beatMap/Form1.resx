@@ -474,9 +474,9 @@
   <data name="&gt;&gt;OpenBtn.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
-  <data name="openFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  <metadata name="openFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
-  </data>
+  </metadata>
   <data name="openFileDialog1.Filter" xml:space="preserve">
     <value>Decrypted JSON|*.dec.json|JSON|*.json|All Files|*.*</value>
   </data>
@@ -507,9 +507,9 @@
   <data name="&gt;&gt;OpenMusicButton.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="openFileDialog2.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  <metadata name="openFileDialog2.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>158, 17</value>
-  </data>
+  </metadata>
   <data name="openFileDialog2.Filter" xml:space="preserve">
     <value>Wav Files|*.wav|All Files|*.*</value>
   </data>
@@ -540,9 +540,9 @@
   <data name="&gt;&gt;SaveChartBtn.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
-  <data name="saveFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  <metadata name="saveFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>299, 17</value>
-  </data>
+  </metadata>
   <data name="saveFileDialog1.Filter" xml:space="preserve">
     <value>Decrypted JSON|*.dec.json|All Files|*.*</value>
   </data>
@@ -592,7 +592,7 @@
     <value>editorToolsTab</value>
   </data>
   <data name="&gt;&gt;NoteTypeSelector.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="NoteTypeLbl.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -628,13 +628,13 @@
     <value>editorToolsTab</value>
   </data>
   <data name="&gt;&gt;NoteTypeLbl.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="NoteShiftLbl.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="NoteShiftLbl.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 80</value>
+    <value>3, 94</value>
   </data>
   <data name="NoteShiftLbl.MaximumSize" type="System.Drawing.Size, System.Drawing">
     <value>110, 0</value>
@@ -664,10 +664,10 @@
     <value>editorToolsTab</value>
   </data>
   <data name="&gt;&gt;NoteShiftLbl.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>10</value>
   </data>
   <data name="NoteShiftBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>119, 77</value>
+    <value>119, 91</value>
   </data>
   <data name="NoteShiftBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>56, 21</value>
@@ -685,13 +685,13 @@
     <value>editorToolsTab</value>
   </data>
   <data name="&gt;&gt;NoteShiftBox.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="NoteShiftBtn.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="NoteShiftBtn.Location" type="System.Drawing.Point, System.Drawing">
-    <value>181, 76</value>
+    <value>181, 90</value>
   </data>
   <data name="NoteShiftBtn.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -712,7 +712,7 @@
     <value>editorToolsTab</value>
   </data>
   <data name="&gt;&gt;NoteShiftBtn.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="NoteSoundBox.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -769,7 +769,7 @@
     <value>editorToolsTab</value>
   </data>
   <data name="&gt;&gt;NoteCountButton.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="AutoSimulBtn.Location" type="System.Drawing.Point, System.Drawing">
     <value>119, 31</value>
@@ -793,7 +793,7 @@
     <value>editorToolsTab</value>
   </data>
   <data name="&gt;&gt;AutoSimulBtn.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="LangChangeBtn.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
@@ -847,7 +847,7 @@
     <value>NoControl</value>
   </data>
   <data name="PreviewWndBtn.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 164</value>
+    <value>6, 178</value>
   </data>
   <data name="PreviewWndBtn.Size" type="System.Drawing.Size, System.Drawing">
     <value>107, 23</value>
@@ -868,7 +868,7 @@
     <value>editorToolsTab</value>
   </data>
   <data name="&gt;&gt;PreviewWndBtn.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="CopyLengthLabel.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -877,7 +877,7 @@
     <value>NoControl</value>
   </data>
   <data name="CopyLengthLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 116</value>
+    <value>3, 130</value>
   </data>
   <data name="CopyLengthLabel.MaximumSize" type="System.Drawing.Size, System.Drawing">
     <value>110, 0</value>
@@ -907,10 +907,10 @@
     <value>editorToolsTab</value>
   </data>
   <data name="&gt;&gt;CopyLengthLabel.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="CopyLengthBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>119, 120</value>
+    <value>119, 134</value>
   </data>
   <data name="CopyLengthBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>56, 21</value>
@@ -928,7 +928,34 @@
     <value>editorToolsTab</value>
   </data>
   <data name="&gt;&gt;CopyLengthBox.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
+  </data>
+  <data name="ChartDifficultyBtn.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="ChartDifficultyBtn.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 60</value>
+  </data>
+  <data name="ChartDifficultyBtn.Size" type="System.Drawing.Size, System.Drawing">
+    <value>90, 23</value>
+  </data>
+  <data name="ChartDifficultyBtn.TabIndex" type="System.Int32, mscorlib">
+    <value>62</value>
+  </data>
+  <data name="ChartDifficultyBtn.Text" xml:space="preserve">
+    <value>Difficulty</value>
+  </data>
+  <data name="&gt;&gt;ChartDifficultyBtn.Name" xml:space="preserve">
+    <value>ChartDifficultyBtn</value>
+  </data>
+  <data name="&gt;&gt;ChartDifficultyBtn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ChartDifficultyBtn.Parent" xml:space="preserve">
+    <value>editorToolsTab</value>
+  </data>
+  <data name="&gt;&gt;ChartDifficultyBtn.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="editorToolsTab.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 23</value>
@@ -1323,12 +1350,12 @@
   <data name="&gt;&gt;splitContainer1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>436, 17</value>
-  </data>
-  <data name="$this.Localizable" type="System.Boolean, mscorlib">
+  </metadata>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
-  </data>
+  </metadata>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>624, 502</value>
   </data>

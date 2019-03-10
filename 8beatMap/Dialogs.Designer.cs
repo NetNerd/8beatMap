@@ -124,6 +124,15 @@ namespace _8beatMap {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The chart difficulty level is approximately {0}..
+        /// </summary>
+        internal static string ChartDifficultyMessage {
+            get {
+                return ResourceManager.GetString("ChartDifficultyMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to load chart..
         /// </summary>
         internal static string ChartLoadError {

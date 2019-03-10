@@ -138,6 +138,9 @@
   <data name="BtnYes" xml:space="preserve">
     <value>&amp;Yes</value>
   </data>
+  <data name="ChartDifficultyMessage" xml:space="preserve">
+    <value>The chart difficulty level is approximately {0}.</value>
+  </data>
   <data name="ChartLoadError" xml:space="preserve">
     <value>Unable to load chart.</value>
   </data>
