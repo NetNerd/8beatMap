@@ -235,14 +235,14 @@ namespace _8beatMap
                         }
                     }
 
-                    int weighted_out = 0;
-                    weighted_out += (int)(metric_notefreq * (BPM / 140) * 150); // factor in BPM because higher BPM is harder
-                    weighted_out += metric_notedistance / 2000;
+                    double weighted_out = 0;
+                    weighted_out += metric_notefreq * (BPM / 140) * 300; // factor in BPM because higher BPM is harder
+                    weighted_out += metric_notedistance * Math.Sqrt(BPM / 140) / 2000;
                     weighted_out += metric_numflicks / 20;
                     weighted_out += metric_numclocks / 20;
                     weighted_out += metric_numswipes / 25;
 
-                    return (int)(weighted_out * 0.48);
+                    return (int)(weighted_out * 0.28);
                 }
             }
 
