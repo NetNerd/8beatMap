@@ -127,7 +127,7 @@ namespace _8beatMap
                     }
 
                     if (lastnotetick == 0)
-                        return -1;
+                        return 0;
                     
                     float metric_notefreq = NoteCount/(float)lastnotetick; // just number of notes/ticks
 
@@ -148,7 +148,7 @@ namespace _8beatMap
 
                         for (int j = 0; j < 8; j++)
                         {
-                            if (thisticknotes[j].NoteType.NotNode == false)
+                            if (thisticknotes[j].NoteType.NotNode == false && thisticknotes[j].NoteType.DetectType != NoteTypes.DetectType.SwipeMid)
                             {
                                 thisticknotescount++;
 
@@ -173,13 +173,13 @@ namespace _8beatMap
                             // we should find the most optimal movement if there's multiple possibilities
                             for (int j = 0; j < 8; j++)
                             {
-                                if (thisticknotes[j].NoteType.NotNode) continue;
+                                if (thisticknotes[j].NoteType.NotNode || thisticknotes[j].NoteType.DetectType == NoteTypes.DetectType.SwipeMid) continue;
 
                                 int bestscore = 999;
 
                                 for (int k = 0; k < 8; k++)
                                 {
-                                    if (lastnotes[k].NoteType.NotNode) continue;
+                                    if (lastnotes[k].NoteType.NotNode || thisticknotes[j].NoteType.DetectType == NoteTypes.DetectType.SwipeMid) continue;
 
                                     float newscore = Math.Abs(j - k); // get positive distance 
                                     if (newscore == 0) newscore = 2f; // override 0 distance to best value
@@ -198,13 +198,13 @@ namespace _8beatMap
                             // we should find the shortest distance for each note to reflect that both hands should move
                             for (int j = 0; j < 8; j++)
                             {
-                                if (thisticknotes[j].NoteType.NotNode) continue;
+                                if (thisticknotes[j].NoteType.NotNode || thisticknotes[j].NoteType.DetectType == NoteTypes.DetectType.SwipeMid) continue;
                                 
                                 int closestlane = 20;
 
                                 for (int k = 0; k < 8; k++)
                                 {
-                                    if (lastnotes[k].NoteType.NotNode) continue;
+                                    if (lastnotes[k].NoteType.NotNode || thisticknotes[j].NoteType.DetectType == NoteTypes.DetectType.SwipeMid) continue;
 
                                     int dist = Math.Abs(j - k); // get positive distance 
                                     if (dist < Math.Abs(j - closestlane)) closestlane = k;
