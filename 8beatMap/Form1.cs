@@ -942,7 +942,7 @@ namespace _8beatMap
 
         private void NoteCountButton_Click(object sender, EventArgs e)
         {
-            SkinnedMessageBox.Show(skin, String.Format(DialogResMgr.GetString("NoteCountMessage"), chart.NoteCount));
+            SkinnedMessageBox.Show(skin, String.Format(DialogResMgr.GetString("NoteCountMessage"), chart.AutoDifficultyScore));
         }
 
         private void AutoSimulBtn_Click(object sender, EventArgs e)
