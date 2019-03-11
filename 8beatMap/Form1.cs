@@ -468,6 +468,7 @@ namespace _8beatMap
             int wndHeight = 480;
             int wndX = -99999;
             int wndY = -99999;
+            OpenTK.WindowState wndState = OpenTK.WindowState.Normal;
 
             if (OGLrenderer != null)
             {
@@ -479,12 +480,14 @@ namespace _8beatMap
                     wndHeight = wndSize.Y;
                     wndX = wndLoc.X;
                     wndY = wndLoc.Y;
+                    wndState = OGLrenderer.WindowState;
+                    if (wndState != OpenTK.WindowState.Maximized) wndState = OpenTK.WindowState.Normal;
                 }
                 OGLrenderer.Stop();
                 OGLrenderer = null;
             }
 
-            OGLrenderer = new GameCloneRenderer_OGL(wndWidth, wndHeight, wndX, wndY, this, skin);
+            OGLrenderer = new GameCloneRenderer_OGL(wndWidth, wndHeight, wndX, wndY, wndState, this, skin);
         }
 
         private void OpenPreviewWindow()
