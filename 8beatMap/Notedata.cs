@@ -109,6 +109,14 @@ namespace _8beatMap
                 }
             }
 
+
+
+
+            private bool shouldUseThisNoteForAutoDifficulty(Note note)
+            {
+                return note.NoteType.NotNode == false && note.NoteType.DetectType != NoteTypes.DetectType.SwipeMid && !(note.NoteType.DetectType == NoteTypes.DetectType.SwipeEndPoint && note.IsSwipeEnd);
+            }
+
             public int AutoDifficultyScore
             {
                 get
@@ -148,7 +156,7 @@ namespace _8beatMap
 
                         for (int j = 0; j < 8; j++)
                         {
-                            if (thisticknotes[j].NoteType.NotNode == false && thisticknotes[j].NoteType.DetectType != NoteTypes.DetectType.SwipeMid)
+                            if (shouldUseThisNoteForAutoDifficulty(thisticknotes[j]))
                             {
                                 thisticknotescount++;
 
@@ -173,13 +181,13 @@ namespace _8beatMap
                             // we should find the most optimal movement if there's multiple possibilities
                             for (int j = 0; j < 8; j++)
                             {
-                                if (thisticknotes[j].NoteType.NotNode || thisticknotes[j].NoteType.DetectType == NoteTypes.DetectType.SwipeMid) continue;
+                                if (!shouldUseThisNoteForAutoDifficulty(thisticknotes[j])) continue;
 
                                 int bestscore = 999;
 
                                 for (int k = 0; k < 8; k++)
                                 {
-                                    if (lastnotes[k].NoteType.NotNode || thisticknotes[j].NoteType.DetectType == NoteTypes.DetectType.SwipeMid) continue;
+                                    if (!shouldUseThisNoteForAutoDifficulty(lastnotes[k])) continue;
 
                                     float newscore = Math.Abs(j - k); // get positive distance 
                                     if (newscore == 0) newscore = 2f; // override 0 distance to best value
@@ -198,13 +206,13 @@ namespace _8beatMap
                             // we should find the shortest distance for each note to reflect that both hands should move
                             for (int j = 0; j < 8; j++)
                             {
-                                if (thisticknotes[j].NoteType.NotNode || thisticknotes[j].NoteType.DetectType == NoteTypes.DetectType.SwipeMid) continue;
+                                if (!shouldUseThisNoteForAutoDifficulty(thisticknotes[j])) continue;
                                 
                                 int closestlane = 20;
 
                                 for (int k = 0; k < 8; k++)
                                 {
-                                    if (lastnotes[k].NoteType.NotNode || thisticknotes[j].NoteType.DetectType == NoteTypes.DetectType.SwipeMid) continue;
+                                    if (!shouldUseThisNoteForAutoDifficulty(lastnotes[k])) continue;
 
                                     int dist = Math.Abs(j - k); // get positive distance 
                                     if (dist < Math.Abs(j - closestlane)) closestlane = k;
@@ -236,13 +244,13 @@ namespace _8beatMap
                     }
 
                     double weighted_out = 0;
-                    weighted_out += metric_notefreq * (BPM / 140) * 300; // factor in BPM because higher BPM is harder
-                    weighted_out += metric_notedistance * Math.Sqrt(BPM / 140) / 2000;
-                    weighted_out += metric_numflicks / 20;
-                    weighted_out += metric_numclocks / 20;
-                    weighted_out += metric_numswipes / 25;
+                    weighted_out += metric_notefreq * (BPM / 140) * 200; // factor in BPM because higher BPM is harder
+                    weighted_out += metric_notedistance * Math.Sqrt(BPM / 140) / 1500;
+                    weighted_out += metric_numflicks / 15f;
+                    weighted_out += metric_numclocks / 10f;
+                    weighted_out += metric_numswipes / 25f;
 
-                    return (int)(weighted_out * 0.28);
+                    return (int)(weighted_out * 0.38);
                 }
             }
 
