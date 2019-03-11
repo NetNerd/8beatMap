@@ -44,6 +44,16 @@ namespace _8beatMap
                     return new Point(-99999, -99999);
             }
         }
+        public WindowState WindowState
+        {
+            get
+            {
+                if (myWindow != null)
+                    return myWindow.WindowState;
+                else
+                    return WindowState.Normal;
+            }
+        }
 
 
         Point[] NodeStartLocs_raw = { new Point(223, 77), new Point(320, 100), new Point(419, 114), new Point(519, 119), new Point(617, 119), new Point(717, 114), new Point(816, 100), new Point(923, 77) };
@@ -83,7 +93,7 @@ namespace _8beatMap
             }
         }
 
-        public GameCloneRenderer_OGL(int wndWidth, int wndHeight, int wndX, int wndY, Form1 mainform, Skinning.Skin skin)
+        public GameCloneRenderer_OGL(int wndWidth, int wndHeight, int wndX, int wndY, WindowState wndState, Form1 mainform, Skinning.Skin skin)
         {
             this.mainform = mainform;
             this.skin = skin;
@@ -94,11 +104,12 @@ namespace _8beatMap
             System.Threading.Thread oglThread = new System.Threading.Thread(() =>
             {
                 myWindow = new GameWindow(wndWidth, wndHeight, OpenTK.Graphics.GraphicsMode.Default, "8beatMap Preview Window") { Icon = (Icon)IconResMgr.GetObject("Icon") };
-                if (wndX != -99999 | wndY != -99999)
+                if ((wndX != -99999 | wndY != -99999) && wndState != WindowState.Maximized)
                 {
                     myWindow.X = wndX;
                     myWindow.Y = wndY;
                 }
+                myWindow.WindowState = wndState;
                 myWindow.VSync = OpenTK.VSyncMode.Adaptive;
 
 
