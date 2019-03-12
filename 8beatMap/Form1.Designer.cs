@@ -68,6 +68,7 @@
             this.SkinLbl = new System.Windows.Forms.Label();
             this.SkinSelector = new System.Windows.Forms.ComboBox();
             this.chartSettingsTab = new System.Windows.Forms.TabPage();
+            this.ChartInfoButton = new System.Windows.Forms.Button();
             this.audioSettingsTab = new System.Windows.Forms.TabPage();
             this.VolumeBar = new System.Windows.Forms.TrackBar();
             this.VolumeLbl = new System.Windows.Forms.Label();
@@ -75,7 +76,7 @@
             this.AudioDelayBox = new System.Windows.Forms.NumericUpDown();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.ChartInfoButton = new System.Windows.Forms.Button();
+            this.ChartDifficultyBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.BPMbox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.newplayhead)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ZoomBox)).BeginInit();
@@ -389,6 +390,7 @@
             // 
             // editorToolsTab
             // 
+            this.editorToolsTab.Controls.Add(this.ChartDifficultyBtn);
             this.editorToolsTab.Controls.Add(this.NoteTypeLbl);
             this.editorToolsTab.Controls.Add(this.PreviewWndBtn);
             this.editorToolsTab.Controls.Add(this.CopyLengthBox);
@@ -438,6 +440,13 @@
             this.chartSettingsTab.Controls.Add(this.ResizeBtn);
             resources.ApplyResources(this.chartSettingsTab, "chartSettingsTab");
             this.chartSettingsTab.Name = "chartSettingsTab";
+            // 
+            // ChartInfoButton
+            // 
+            resources.ApplyResources(this.ChartInfoButton, "ChartInfoButton");
+            this.ChartInfoButton.Name = "ChartInfoButton";
+            this.ChartInfoButton.UseVisualStyleBackColor = true;
+            this.ChartInfoButton.Click += new System.EventHandler(this.ChartInfoButton_Click);
             // 
             // audioSettingsTab
             // 
@@ -509,12 +518,12 @@
             // 
             this.toolTip1.ShowAlways = true;
             // 
-            // ChartInfoButton
+            // ChartDifficultyBtn
             // 
-            resources.ApplyResources(this.ChartInfoButton, "ChartInfoButton");
-            this.ChartInfoButton.Name = "ChartInfoButton";
-            this.ChartInfoButton.UseVisualStyleBackColor = true;
-            this.ChartInfoButton.Click += new System.EventHandler(this.ChartInfoButton_Click);
+            resources.ApplyResources(this.ChartDifficultyBtn, "ChartDifficultyBtn");
+            this.ChartDifficultyBtn.Name = "ChartDifficultyBtn";
+            this.ChartDifficultyBtn.UseVisualStyleBackColor = true;
+            this.ChartDifficultyBtn.Click += new System.EventHandler(this.ChartDifficultyBtn_Click);
             // 
             // Form1
             // 
@@ -526,9 +535,9 @@
             this.KeyPreview = true;
             this.Name = "Form1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
+            this.Shown += new System.EventHandler(this.Form1_Shown);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyPress);
             this.Resize += new System.EventHandler(this.Form1_Resize);
-            this.Shown += new System.EventHandler(this.Form1_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.BPMbox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.newplayhead)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ZoomBox)).EndInit();
@@ -603,6 +612,7 @@
         private System.Windows.Forms.TrackBar VolumeBar;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Button ChartInfoButton;
+        private System.Windows.Forms.Button ChartDifficultyBtn;
     }
 }
 

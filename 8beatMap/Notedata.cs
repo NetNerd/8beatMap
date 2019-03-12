@@ -109,6 +109,151 @@ namespace _8beatMap
                 }
             }
 
+
+
+
+            private bool shouldUseThisNoteForAutoDifficulty(Note note)
+            {
+                return note.NoteType.NotNode == false && note.NoteType.DetectType != NoteTypes.DetectType.SwipeMid && !(note.NoteType.DetectType == NoteTypes.DetectType.SwipeEndPoint && note.IsSwipeEnd);
+            }
+
+            public int AutoDifficultyScore
+            {
+                get
+                {
+                    int lastnotetick = 0;
+
+                    for (int i = 0; i < Length; i++)
+                    {
+                        for (int j = 0; j < 8; j++)
+                        {
+                            if (this.Ticks[i].Notes[j].NoteType.TypeId != NoteTypes.NoteTypeDefs.None.TypeId)
+                            {
+                                lastnotetick = i;
+                            }
+                        }
+                    }
+
+                    if (lastnotetick == 0)
+                        return 0;
+                    
+                    float metric_notefreq = NoteCount/(float)lastnotetick; // just number of notes/ticks
+
+                    int metric_notedistance = 0; // based on X, Y distance from previous notes
+                    
+                    int metric_numswipes = 0;
+                    int metric_numflicks = 0;
+                    int metric_numclocks = 0;
+
+                    int lastnotestick = 0;
+                    Note[] lastnotes = this.Ticks[0].Notes;
+                    int lastnotescount = 0;
+
+                    for (int i = 0; i < Length; i++) // processing loop
+                    {
+                        Note[] thisticknotes = this.Ticks[i].Notes;
+                        int thisticknotescount = 0;
+
+                        for (int j = 0; j < 8; j++)
+                        {
+                            if (shouldUseThisNoteForAutoDifficulty(thisticknotes[j]))
+                            {
+                                thisticknotescount++;
+
+                                if (thisticknotes[j].NoteType.DetectType == NoteTypes.DetectType.SwipeEndPoint && !thisticknotes[j].IsSwipeEnd)
+                                {
+                                    metric_numswipes += 1;
+                                }
+                                else if (thisticknotes[j].NoteType.DetectType == NoteTypes.DetectType.Flick || thisticknotes[j].NoteType.DetectType == NoteTypes.DetectType.GbsFlick)
+                                {
+                                    metric_numflicks += 1;
+                                }
+                                else if (thisticknotes[j].NoteType.DetectType == NoteTypes.DetectType.GbsClock)
+                                {
+                                    metric_numclocks += 1;
+                                }
+                            }
+                        }
+
+                        if (thisticknotescount == 1)
+                        {
+                            // a distance of two (maybe three) is easy to hit always, larger depends on previous tick also having only one note
+                            // we should find the most optimal movement if there's multiple possibilities
+                            for (int j = 0; j < 8; j++)
+                            {
+                                if (!shouldUseThisNoteForAutoDifficulty(thisticknotes[j])) continue;
+
+                                int bestscore = 999;
+
+                                for (int k = 0; k < 8; k++)
+                                {
+                                    if (!shouldUseThisNoteForAutoDifficulty(lastnotes[k])) continue;
+
+                                    float newscore = Math.Abs(j - k); // get positive distance 
+                                    if (newscore == 0) newscore = 2f; // override 0 distance to best value
+                                    newscore = Math.Abs(newscore - 2f); // normalise to easiest notes
+                                    newscore = newscore / ((i - lastnotestick)*0.1f * (i - lastnotestick)*0.1f); // divide by ((i - lastnotestick)*0.1)^2 to not penalize after greater time
+
+                                    if (newscore < bestscore) bestscore = (int)newscore;
+                                }
+
+                                metric_notedistance += bestscore;
+                            }
+                        }
+                        else if (thisticknotescount == 2)
+                        {
+                            // a distance of two (maybe three) is easy to hit always, larger depends on previous tick also having only one note
+                            // we should find the shortest distance for each note to reflect that both hands should move
+                            for (int j = 0; j < 8; j++)
+                            {
+                                if (!shouldUseThisNoteForAutoDifficulty(thisticknotes[j])) continue;
+                                
+                                int closestlane = 20;
+
+                                for (int k = 0; k < 8; k++)
+                                {
+                                    if (!shouldUseThisNoteForAutoDifficulty(lastnotes[k])) continue;
+
+                                    int dist = Math.Abs(j - k); // get positive distance 
+                                    if (dist < Math.Abs(j - closestlane)) closestlane = k;
+                                }
+
+                                float newscore = Math.Abs(j - closestlane); // get positive distance 
+                                if (newscore == 0) newscore = 2f; // override 0 distance to best value
+                                newscore = Math.Abs(newscore - 2f); // normalise to easiest notes
+                                newscore = newscore / ((i - lastnotestick) * 0.1f * (i - lastnotestick) * 0.1f); // divide by ((i - lastnotestick)*0.1)^2 to not penalize after greater time
+                                
+                                metric_notedistance += (int)newscore;
+                            }
+                        }
+                        else if (thisticknotescount == 3)
+                        {
+                            metric_notedistance += 70; // hardest possible normally should be around 20...  so this seems fair
+                        }
+                        else if (thisticknotescount >= 4)
+                        {
+                            metric_notedistance += thisticknotescount*25; // this is a ridiculous case for 8bs...  so it's fair
+                        }
+
+                        if (thisticknotescount > 0)
+                        {
+                            lastnotestick = i;
+                            lastnotes = thisticknotes;
+                            lastnotescount = thisticknotescount;
+                        }
+                    }
+
+                    double weighted_out = 0;
+                    weighted_out += metric_notefreq * (BPM / 140) * 200; // factor in BPM because higher BPM is harder
+                    weighted_out += metric_notedistance * Math.Sqrt(BPM / 140) / 1500;
+                    weighted_out += metric_numflicks / 15f;
+                    weighted_out += metric_numclocks / 10f;
+                    weighted_out += metric_numswipes / 25f;
+
+                    return (int)(weighted_out * 0.38);
+                }
+            }
+
             public double BPM;
 
 

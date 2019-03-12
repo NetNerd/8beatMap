@@ -948,6 +948,11 @@ namespace _8beatMap
             SkinnedMessageBox.Show(skin, String.Format(DialogResMgr.GetString("NoteCountMessage"), chart.NoteCount));
         }
 
+        private void ChartDifficultyBtn_Click(object sender, EventArgs e)
+        {
+            SkinnedMessageBox.Show(skin, String.Format(DialogResMgr.GetString("ChartDifficultyMessage"), chart.AutoDifficultyScore));
+        }
+
         private void AutoSimulBtn_Click(object sender, EventArgs e)
         {
             chart.AutoSetSimulNotes();

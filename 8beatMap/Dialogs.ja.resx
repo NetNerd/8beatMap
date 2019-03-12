@@ -138,6 +138,9 @@
   <data name="BtnYes" xml:space="preserve">
     <value>はい(&amp;Y)</value>
   </data>
+  <data name="ChartDifficultyMessage" xml:space="preserve">
+    <value>譜面の難易度はやく{0}</value>
+  </data>
   <data name="ChartLoadError" xml:space="preserve">
     <value>譜面を読み込みでエラーが会った</value>
   </data>
