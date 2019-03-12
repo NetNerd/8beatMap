@@ -63,7 +63,7 @@ namespace _8beatMap
             }
 
 
-            public SkinnedMessageBoxForm(Skinning.Skin skin, IWin32Window owner, string message, string caption = "", MessageBoxButtons buttons = MessageBoxButtons.OK, MessageBoxIcon icon = MessageBoxIcon.None, MessageBoxDefaultButton defaultbutton = MessageBoxDefaultButton.Button1)
+            public SkinnedMessageBoxForm(Skinning.Skin skin, IWin32Window owner, string message, string caption = "", MessageBoxButtons buttons = MessageBoxButtons.OK, MessageBoxIcon icon = MessageBoxIcon.None, MessageBoxDefaultButton defaultbutton = MessageBoxDefaultButton.Button1, MessageBoxOptions options = 0)
             {
                 InitComponentNew();
 
@@ -219,13 +219,40 @@ namespace _8beatMap
                     throw new InvalidEnumArgumentException("defaultbutton", (int)defaultbutton, typeof(MessageBoxDefaultButton));
                 }
 
+                
+                // MessageBoxOptions are more like flags than concrete settings.
+                // For ease of use, we assume default value is whatever winforms gives us in current locale -- but we override if any value is set
+                if ((options & MessageBoxOptions.RightAlign) == MessageBoxOptions.RightAlign) MessageLbl.TextAlign = ContentAlignment.TopRight;
+                else if (options != 0) MessageLbl.TextAlign = ContentAlignment.TopLeft;
+
+                // RtlReading should be what actually affects layout, and RightAlign only affects the text label
+                if ((options & MessageBoxOptions.RtlReading) == MessageBoxOptions.RtlReading)
+                {
+                    foreach (Control control in this.Controls)
+                    {
+                        control.Left = this.ClientSize.Width - control.Right;
+                        control.RightToLeft = RightToLeft.Yes;
+                    }
+                    this.RightToLeft = RightToLeft.Yes;
+                    this.RightToLeftLayout = true;
+                }
+                else if (options != 0)
+                {
+                    foreach (Control control in this.Controls)
+                    {
+                        control.RightToLeft = RightToLeft.No;
+                    }
+                    this.RightToLeft = RightToLeft.No;
+                    this.RightToLeftLayout = false;
+                }
+
 
                 Skinning.SetBackCol(this, skin.UIColours[UIColours.UIColourDefs.Form_BG.TypeName]);
                 Skinning.SetForeCol(this, skin.UIColours[UIColours.UIColourDefs.Form_Text.TypeName]);
                 Skinning.SetUIStyle(this, skin.UIStyle);
 
                 //Can use this to compare against official .NET
-                //DialogResult test = MessageBox.Show("test", "", MessageBoxButtons.YesNo);
+                //DialogResult test = MessageBox.Show("test test test test test test test test test test test test", "", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.RtlReading);
                 //Console.WriteLine(test);
 
             }
@@ -245,27 +272,27 @@ namespace _8beatMap
         public static Skinning.Skin defaultskin = Skinning.DefaultSkin;
 
         // no skin, no owner
-        public static DialogResult Show(string message, string caption = "", MessageBoxButtons buttons = MessageBoxButtons.OK, MessageBoxIcon icon = MessageBoxIcon.None, MessageBoxDefaultButton defaultbutton = MessageBoxDefaultButton.Button1)
+        public static DialogResult Show(string message, string caption = "", MessageBoxButtons buttons = MessageBoxButtons.OK, MessageBoxIcon icon = MessageBoxIcon.None, MessageBoxDefaultButton defaultbutton = MessageBoxDefaultButton.Button1, MessageBoxOptions options = 0)
         {
-            return Show(defaultskin, null, message, caption, buttons, icon, defaultbutton);
+            return Show(defaultskin, null, message, caption, buttons, icon, defaultbutton, options);
         }
 
         // no skin, has owner
-        public static DialogResult Show(IWin32Window owner, string message, string caption = "", MessageBoxButtons buttons = MessageBoxButtons.OK, MessageBoxIcon icon = MessageBoxIcon.None, MessageBoxDefaultButton defaultbutton = MessageBoxDefaultButton.Button1)
+        public static DialogResult Show(IWin32Window owner, string message, string caption = "", MessageBoxButtons buttons = MessageBoxButtons.OK, MessageBoxIcon icon = MessageBoxIcon.None, MessageBoxDefaultButton defaultbutton = MessageBoxDefaultButton.Button1, MessageBoxOptions options = 0)
         {
-            return Show(defaultskin, owner, message, caption, buttons, icon, defaultbutton);
+            return Show(defaultskin, owner, message, caption, buttons, icon, defaultbutton, options);
         }
 
         // has skin, no owner
-        public static DialogResult Show(Skinning.Skin skin, string message, string caption = "", MessageBoxButtons buttons = MessageBoxButtons.OK, MessageBoxIcon icon = MessageBoxIcon.None, MessageBoxDefaultButton defaultbutton = MessageBoxDefaultButton.Button1)
+        public static DialogResult Show(Skinning.Skin skin, string message, string caption = "", MessageBoxButtons buttons = MessageBoxButtons.OK, MessageBoxIcon icon = MessageBoxIcon.None, MessageBoxDefaultButton defaultbutton = MessageBoxDefaultButton.Button1, MessageBoxOptions options = 0)
         {
-            return Show(skin, null, message, caption, buttons, icon, defaultbutton);
+            return Show(skin, null, message, caption, buttons, icon, defaultbutton, options);
         }
 
         // has skin, has owner
-        public static DialogResult Show(Skinning.Skin skin, IWin32Window owner, string message, string caption = "", MessageBoxButtons buttons = MessageBoxButtons.OK, MessageBoxIcon icon = MessageBoxIcon.None, MessageBoxDefaultButton defaultbutton = MessageBoxDefaultButton.Button1)
+        public static DialogResult Show(Skinning.Skin skin, IWin32Window owner, string message, string caption = "", MessageBoxButtons buttons = MessageBoxButtons.OK, MessageBoxIcon icon = MessageBoxIcon.None, MessageBoxDefaultButton defaultbutton = MessageBoxDefaultButton.Button1, MessageBoxOptions options = 0)
         {
-            SkinnedMessageBoxForm mb = new SkinnedMessageBoxForm(skin, owner, message, caption, buttons, icon, defaultbutton);
+            SkinnedMessageBoxForm mb = new SkinnedMessageBoxForm(skin, owner, message, caption, buttons, icon, defaultbutton, options);
             DialogResult res = mb.ShowDialog();
             mb.Dispose();
             return res;
