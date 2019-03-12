@@ -48,6 +48,11 @@ M：プレビューウィンドウの背景色を黒にする
 Ctrl+C：「コピー長さ」で設定した小節数をクリップボードにコピー。
 Ctrl+V：コピーしたデータを再生位置でペースト。
 Ctrl+Shift+V：左右反転ペースト。
+Ctrl+Q：オート同時風ノード（Qは同時に押すのショートカットキー）
+Ctrl+1：ノードを数える（1は押すのショートカットキー）
+Ctrl+D：譜面難易度（Dはディフィカルティ）
+Ctrl+B：迅速BPM設定
+Ctrl+I：譜面作品情報（Iはインフォメーション）
 （海外キーボードでは異なる可能性があります）
 
 
@@ -93,6 +98,11 @@ M: Make preview window background black
 Ctrl+C: Copy the amount of bars set as copy length (starting from the playhead) to the clipboard.
 Ctrl+V: Paste data from the clipboard at the playhead.
 Ctrl+Shift+V: Paste mirrored.
+Ctrl+Q: Auto SumulNotes (Q is SimulTap note type)
+Ctrl+1: Note Count (1 is Tap note type)
+Ctrl+D: Difficulty
+Ctrl+B: Quickly set BPM
+Ctrl+I: Chart Info
 (may differ with international keyboard layouts)
 
 

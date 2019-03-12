@@ -1015,6 +1015,9 @@ namespace _8beatMap
 
                         Clipboard.Clear();
                         Clipboard.SetDataObject(copydata, true);
+
+                        e.Handled = true;
+                        e.SuppressKeyPress = true;
                     }
                     else if (key == Keys.V)
                     {
@@ -1089,6 +1092,41 @@ namespace _8beatMap
                             UpdateChart();
                         }
 
+                        e.Handled = true;
+                        e.SuppressKeyPress = true;
+
+                    }
+                    else if(key == Keys.Q)
+                    {
+                        AutoSimulBtn_Click(null, null);
+                        e.Handled = true;
+                        e.SuppressKeyPress = true;
+                    }
+                    else if (key == Keys.D1)
+                    {
+                        NoteCountButton_Click(null, null);
+                        e.Handled = true;
+                        e.SuppressKeyPress = true;
+                    }
+                    else if (key == Keys.D)
+                    {
+                        ChartDifficultyBtn_Click(null, null);
+                        e.Handled = true;
+                        e.SuppressKeyPress = true;
+                    }
+                    else if (key == Keys.B)
+                    {
+                        if(tabControl1.SelectedTab != chartSettingsTab) tabControl1.SelectedTab = chartSettingsTab;
+                        if (!BPMbox.Focused) BPMbox.Focus();
+                        BPMbox.Select(0, BPMbox.Value.ToString("F1").Length);
+                        e.Handled = true;
+                        e.SuppressKeyPress = true;
+                    }
+                    else if (key == Keys.I)
+                    {
+                        ChartInfoButton_Click(null, null);
+                        e.Handled = true;
+                        e.SuppressKeyPress = true;
                     }
                 }
                 else switch (key)
