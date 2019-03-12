@@ -1014,7 +1014,7 @@ namespace _8beatMap
                         }
 
                         Clipboard.Clear();
-                        Clipboard.SetDataObject(copydata);
+                        Clipboard.SetDataObject(copydata, true);
                     }
                     else if (key == Keys.V)
                     {
