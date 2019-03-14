@@ -420,10 +420,13 @@ namespace _8beatMap
                 }
             }
             
-            if (((int)currentTick + hitlineAdjust - 1) < 0) DrawCharacterLine(64, 16, 32, skin.ComboFont, chart.Ticks[0].ComboNumber.ToString());
-            else if (((int)currentTick + hitlineAdjust - 1) >= chart.Length) DrawCharacterLine(64, 16, 32, skin.ComboFont, chart.Ticks[chart.Length - 1].ComboNumber.ToString());
-            else DrawCharacterLine(64, 16, 32, skin.ComboFont, chart.Ticks[(int)currentTick + hitlineAdjust - 1].ComboNumber.ToString());
+            //if (((int)currentTick + hitlineAdjust - 1) < 0) DrawCharacterLine(64, 16, 32, skin.ComboFont, chart.Ticks[0].ComboNumber.ToString());
+            //else if (((int)currentTick + hitlineAdjust - 1) >= chart.Length) DrawCharacterLine(64, 16, 32, skin.ComboFont, chart.Ticks[chart.Length - 1].ComboNumber.ToString());
+            //else DrawCharacterLine(64, 16, 32, skin.ComboFont, chart.Ticks[(int)currentTick + hitlineAdjust - 1].ComboNumber.ToString());
             //DrawCharacterLine(64, 64, 32, skin.ComboFont, "01189998819991197253", 80);
+            //DrawCharacterLine(64, 64, 32, skin.ComboFont, "88", 160);
+            //DrawCharacterLine(64, 96, 32, skin.ComboFont, "88", 160, 1);
+            //DrawCharacterLine(64, 128, 32, skin.ComboFont, "88", 160, 2);
 
             FrameStopwatch.Stop();
             int sleeptime = (int)(1000*1f/DisplayDevice.Default.RefreshRate) - (int)FrameStopwatch.ElapsedMilliseconds - 3;
@@ -599,18 +602,27 @@ namespace _8beatMap
             }
             return total * height / font.CommonInfo.LineHeight;
         }
-        int DrawCharacterLine(int x, int y, int height, BMFontReader.BMFont font, string str, int maxwidth = 0)
+        int DrawCharacterLine(int x, int y, int height, BMFontReader.BMFont font, string str, int maxwidth = 0, int align = 0)
         {
             if (maxwidth > 0)
             {
                 int maxchrs = str.Length * maxwidth / GetStringLength(height, font, str);
                 maxchrs += 2;
-                if (maxchrs > str.Length) maxchrs = str.Length;
-                str = str.Remove(maxchrs);
+                if (maxchrs < str.Length) str = str.Remove(maxchrs);
 
                 while (GetStringLength(height, font, str) > maxwidth)
                     str = str.Remove(str.Length - 1, 1);
+
+                if (align == 1)
+                {
+                    x += (maxwidth - GetStringLength(height, font, str)) / 2;
+                }
+                else if (align == 2)
+                {
+                    x += maxwidth - GetStringLength(height, font, str);
+                }
             }
+
             for (int i = 0; i < str.Length; i++)
             {
                 x += DrawCharacter(x, y, height, font, str[i]);
