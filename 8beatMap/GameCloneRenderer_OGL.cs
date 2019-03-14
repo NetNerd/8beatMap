@@ -91,6 +91,18 @@ namespace _8beatMap
                 else
                     textures[tex.Key] = LoadTexture(tex.Value);
             }
+
+            for (int i = 0; i < skin.ComboFont.PageTexPaths.Length; i++)
+            {
+                if (skin.ComboFont.PageTexPaths[i] == null) continue;
+
+                string texkey = "combofont_" + i.ToString();
+                string texpath = skin.ComboFont.PageTexPaths[i];
+                if (!textures.ContainsKey(texkey))
+                    textures.Add(texkey, LoadTexture(texpath));
+                else
+                    textures[texkey] = LoadTexture(texpath);
+            }
         }
 
         public GameCloneRenderer_OGL(int wndWidth, int wndHeight, int wndX, int wndY, WindowState wndState, Form1 mainform, Skinning.Skin skin)
@@ -404,9 +416,13 @@ namespace _8beatMap
                     }
 
                     GL.Color4(1f, 1f, 1f, 1f);
+
                 }
             }
-
+            
+            //if (((int)currentTick + hitlineAdjust - 1) < 0) DrawCharacterLine(64, 16, 32, skin.ComboFont, chart.Ticks[0].ComboNumber.ToString());
+            //else if (((int)currentTick + hitlineAdjust - 1) >= chart.Length) DrawCharacterLine(64, 16, 32, skin.ComboFont, chart.Ticks[chart.Length - 1].ComboNumber.ToString());
+            //else DrawCharacterLine(64, 16, 32, skin.ComboFont, chart.Ticks[(int)currentTick + hitlineAdjust - 1].ComboNumber.ToString());
 
             FrameStopwatch.Stop();
             int sleeptime = (int)(1000*1f/DisplayDevice.Default.RefreshRate) - (int)FrameStopwatch.ElapsedMilliseconds - 3;
@@ -526,6 +542,56 @@ namespace _8beatMap
         void DrawFilledRect(int x, int y, int width, int height, string textureName)
         {
             DrawFilledRect(x, y, width, height, textures[textureName]);
+        }
+
+        int DrawCharacter(int x, int y, int height, BMFontReader.BMFont font, char chr)
+        {
+            if (!font.Characters.ContainsKey(chr)) return 0;
+
+            BMFontReader.CharacterInfo chrinfo = font.Characters[chr];
+
+            // X1, Y1 is top left
+            float texCoordX1 = (float)chrinfo.TexCoordX / font.CommonInfo.TexScaleWidth;
+            float texCoordX2 = texCoordX1 + (float)chrinfo.Width / font.CommonInfo.TexScaleWidth;
+            float texCoordY1 = (float)chrinfo.TexCoordY / font.CommonInfo.TexScaleHeight;
+            float texCoordY2 = texCoordY1 + (float)chrinfo.Height / font.CommonInfo.TexScaleHeight;
+
+            int width = chrinfo.Width * height / chrinfo.Height;
+
+            int texture = textures["combofont_" + chrinfo.TexturePage.ToString()];
+            GL.BindTexture(TextureTarget.Texture2D, texture);
+
+            GL.Begin(PrimitiveType.Quads);
+
+            // Top-Left
+            GL.TexCoord2(texCoordX1, texCoordY1);
+            GL.Vertex2(x, y + height);
+
+            // Top-Right
+            GL.TexCoord2(texCoordX2, texCoordY1);
+            GL.Vertex2(x + width, y + height);
+
+            // Bottom-Right
+            GL.TexCoord2(texCoordX2, texCoordY2);
+            GL.Vertex2(x + width, y);
+
+            // Bottom-Left
+            GL.TexCoord2(texCoordX1, texCoordY2);
+            GL.Vertex2(x, y);
+
+            GL.End();
+
+            return chrinfo.XAdvance * height / chrinfo.Height;
+        }
+        int DrawCharacterLine(int x, int y, int height, BMFontReader.BMFont font, string str, int maxwidth = 0)
+        {
+            for (int i = 0; i < str.Length; i++)
+            {
+                if (maxwidth > 0 && x >= maxwidth) return i;
+                x += DrawCharacter(x, y, height, font, str[i]);
+            }
+
+            return -1;
         }
     }
 }
