@@ -6,18 +6,30 @@ using System.Threading.Tasks;
 
 namespace _8beatMap
 {
-    class BMFontReader
+    public static class BMFontReader
     {
         private static Dictionary<string, string> getTagParams(string line)
         {
             Dictionary<string, string> outdict = new Dictionary<string, string>();
-            string[] rawparams = line.Split();
-
+            string[] rawparams = line.Split(' ');
+            
             outdict.Add("tagtype", rawparams[0]);
+
+            // fix any mistakes in splitting
+            for (int i = 1; i < rawparams.Length; i++)
+            {
+                if (!rawparams[i].Contains("="))
+                {
+                    rawparams[i] = rawparams[i - 1] + " " + rawparams[i];
+                    rawparams[i - 1] = null;
+                }
+            }
 
             for (int i = 1; i < rawparams.Length; i++)
             {
-                string[] paramsplit = rawparams[i].Split("=".ToCharArray(), 1);
+                if (rawparams[i] == null) continue;
+
+                string[] paramsplit = rawparams[i].Split("=".ToCharArray(), 2);
                 if (outdict.ContainsKey(paramsplit[0])) outdict[paramsplit[0]] = paramsplit[1];
                 else outdict.Add(paramsplit[0], paramsplit[1]); 
             }
@@ -215,7 +227,7 @@ namespace _8beatMap
                         case "page":
                             {
                                 int texId = int.Parse(tag["id"]);
-                                if (PageTexPaths.Length <= texId) Array.Resize(ref PageTexPaths, texId);
+                                if (PageTexPaths.Length <= texId) Array.Resize(ref PageTexPaths, texId+1);
                                 PageTexPaths[texId] = baseDir + "/" + tag["file"];
                                 break;
                             }

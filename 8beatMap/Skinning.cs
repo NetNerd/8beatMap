@@ -24,6 +24,8 @@ namespace _8beatMap
             public int NumLanes;
 
             public Dictionary<string, string> SoundPaths;
+
+            public BMFontReader.BMFont ComboFont;
         }
 
         private static string ReadFile(string path)
@@ -253,7 +255,8 @@ namespace _8beatMap
                     NodeStartLocs = LoadNodeStartLocs(buttonsfile),
                     NodeEndLocs = LoadNodeEndLocs(buttonsfile),
                     NumLanes = LoadNumLanes(buttonsfile),
-                    SoundPaths = LoadSoundPaths(rootdir)
+                    SoundPaths = LoadSoundPaths(rootdir),
+                    ComboFont = new BMFontReader.BMFont(rootdir + "/font/font_combo.fnt")
                 };
                 return output;
             }
