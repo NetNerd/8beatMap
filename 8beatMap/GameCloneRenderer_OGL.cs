@@ -420,9 +420,10 @@ namespace _8beatMap
                 }
             }
             
-            //if (((int)currentTick + hitlineAdjust - 1) < 0) DrawCharacterLine(64, 16, 32, skin.ComboFont, chart.Ticks[0].ComboNumber.ToString());
-            //else if (((int)currentTick + hitlineAdjust - 1) >= chart.Length) DrawCharacterLine(64, 16, 32, skin.ComboFont, chart.Ticks[chart.Length - 1].ComboNumber.ToString());
-            //else DrawCharacterLine(64, 16, 32, skin.ComboFont, chart.Ticks[(int)currentTick + hitlineAdjust - 1].ComboNumber.ToString());
+            if (((int)currentTick + hitlineAdjust - 1) < 0) DrawCharacterLine(64, 16, 32, skin.ComboFont, chart.Ticks[0].ComboNumber.ToString());
+            else if (((int)currentTick + hitlineAdjust - 1) >= chart.Length) DrawCharacterLine(64, 16, 32, skin.ComboFont, chart.Ticks[chart.Length - 1].ComboNumber.ToString());
+            else DrawCharacterLine(64, 16, 32, skin.ComboFont, chart.Ticks[(int)currentTick + hitlineAdjust - 1].ComboNumber.ToString());
+            //DrawCharacterLine(64, 64, 32, skin.ComboFont, "01189998819991197253", 80);
 
             FrameStopwatch.Stop();
             int sleeptime = (int)(1000*1f/DisplayDevice.Default.RefreshRate) - (int)FrameStopwatch.ElapsedMilliseconds - 3;
@@ -550,13 +551,18 @@ namespace _8beatMap
 
             BMFontReader.CharacterInfo chrinfo = font.Characters[chr];
 
+            float sizescale = (float)height / font.CommonInfo.LineHeight;
+
             // X1, Y1 is top left
             float texCoordX1 = (float)chrinfo.TexCoordX / font.CommonInfo.TexScaleWidth;
             float texCoordX2 = texCoordX1 + (float)chrinfo.Width / font.CommonInfo.TexScaleWidth;
             float texCoordY1 = (float)chrinfo.TexCoordY / font.CommonInfo.TexScaleHeight;
             float texCoordY2 = texCoordY1 + (float)chrinfo.Height / font.CommonInfo.TexScaleHeight;
 
-            int width = chrinfo.Width * height / chrinfo.Height;
+            int quadX1 = x + (int)(chrinfo.XOffset * sizescale);
+            int quadX2 = quadX1 + (int)(chrinfo.Width * sizescale);
+            int quadY1 = y + (int)(chrinfo.YOffset * sizescale);
+            int quadY2 = quadY1 + (int)(chrinfo.Height * sizescale);
 
             int texture = textures["combofont_" + chrinfo.TexturePage.ToString()];
             GL.BindTexture(TextureTarget.Texture2D, texture);
@@ -565,33 +571,52 @@ namespace _8beatMap
 
             // Top-Left
             GL.TexCoord2(texCoordX1, texCoordY1);
-            GL.Vertex2(x, y + height);
+            GL.Vertex2(quadX1, quadY2);
 
             // Top-Right
             GL.TexCoord2(texCoordX2, texCoordY1);
-            GL.Vertex2(x + width, y + height);
+            GL.Vertex2(quadX2, quadY2);
 
             // Bottom-Right
             GL.TexCoord2(texCoordX2, texCoordY2);
-            GL.Vertex2(x + width, y);
+            GL.Vertex2(quadX2, quadY1);
 
             // Bottom-Left
             GL.TexCoord2(texCoordX1, texCoordY2);
-            GL.Vertex2(x, y);
+            GL.Vertex2(quadX1, quadY1);
 
             GL.End();
 
-            return chrinfo.XAdvance * height / chrinfo.Height;
+            return chrinfo.XAdvance * height / font.CommonInfo.LineHeight;
+        }
+
+        int GetStringLength(int height, BMFontReader.BMFont font, string str)
+        {
+            int total = 0;
+            foreach (char chr in str)
+            {
+                if (font.Characters.ContainsKey(chr)) total += font.Characters[chr].XAdvance;
+            }
+            return total * height / font.CommonInfo.LineHeight;
         }
         int DrawCharacterLine(int x, int y, int height, BMFontReader.BMFont font, string str, int maxwidth = 0)
         {
+            if (maxwidth > 0)
+            {
+                int maxchrs = str.Length * maxwidth / GetStringLength(height, font, str);
+                maxchrs += 2;
+                if (maxchrs > str.Length) maxchrs = str.Length;
+                str = str.Remove(maxchrs);
+
+                while (GetStringLength(height, font, str) > maxwidth)
+                    str = str.Remove(str.Length - 1, 1);
+            }
             for (int i = 0; i < str.Length; i++)
             {
-                if (maxwidth > 0 && x >= maxwidth) return i;
                 x += DrawCharacter(x, y, height, font, str[i]);
             }
 
-            return -1;
+            return str.Length;
         }
     }
 }
