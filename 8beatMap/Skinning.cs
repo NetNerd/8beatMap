@@ -305,18 +305,15 @@ namespace _8beatMap
         {
             if (elem.GetType() == typeof(Button))
             {
-                Button elem2 = elem as Button;
-                elem2.FlatStyle = style;
+                ((Button)elem).FlatStyle = style;
             }
             else if (elem.GetType() == typeof(ComboBox))
             {
-                ComboBox elem2 = elem as ComboBox;
-                elem2.FlatStyle = style;
+                ((ComboBox)elem).FlatStyle = style;
             }
             else if (elem.GetType() == typeof(CheckBox))
             {
-                CheckBox elem2 = elem as CheckBox;
-                elem2.FlatStyle = style;
+                ((CheckBox)elem).FlatStyle = style;
             }
 
             if (elem.HasChildren && elem.GetType() != typeof(NumericUpDown))
