@@ -114,9 +114,10 @@ namespace _8beatMap
 
 
 
-            private bool shouldUseThisNoteForAutoDifficulty(Note note)
+            private bool shouldUseThisNoteForAutoDifficulty(int tick, int lane)
             {
-                return note.NoteType.NotNode == false && note.NoteType.DetectType != NoteTypes.DetectType.SwipeMid && !(note.NoteType.DetectType == NoteTypes.DetectType.SwipeEndPoint && note.IsSwipeEnd);
+                NoteTypes.NoteTypeDef note = FindVisualNoteType(tick, lane);
+                return note.NotNode == false && note.DetectType != NoteTypes.DetectType.SwipeMid && !(note.DetectType == NoteTypes.DetectType.SwipeEndPoint && Ticks[tick].Notes[lane].IsSwipeEnd);
             }
 
             public int AutoDifficultyScore
@@ -158,7 +159,7 @@ namespace _8beatMap
 
                         for (int j = 0; j < 8; j++)
                         {
-                            if (shouldUseThisNoteForAutoDifficulty(thisticknotes[j]))
+                            if (shouldUseThisNoteForAutoDifficulty(i, j))
                             {
                                 thisticknotescount++;
 
@@ -183,13 +184,13 @@ namespace _8beatMap
                             // we should find the most optimal movement if there's multiple possibilities
                             for (int j = 0; j < 8; j++)
                             {
-                                if (!shouldUseThisNoteForAutoDifficulty(thisticknotes[j])) continue;
+                                if (!shouldUseThisNoteForAutoDifficulty(i, j)) continue;
 
                                 int bestscore = 999;
 
                                 for (int k = 0; k < 8; k++)
                                 {
-                                    if (!shouldUseThisNoteForAutoDifficulty(lastnotes[k])) continue;
+                                    if (!shouldUseThisNoteForAutoDifficulty(lastnotestick, k)) continue;
 
                                     float newscore = Math.Abs(j - k); // get positive distance 
                                     if (newscore == 0) newscore = 2f; // override 0 distance to best value
@@ -208,13 +209,13 @@ namespace _8beatMap
                             // we should find the shortest distance for each note to reflect that both hands should move
                             for (int j = 0; j < 8; j++)
                             {
-                                if (!shouldUseThisNoteForAutoDifficulty(thisticknotes[j])) continue;
+                                if (!shouldUseThisNoteForAutoDifficulty(i, j)) continue;
                                 
                                 int closestlane = 20;
 
                                 for (int k = 0; k < 8; k++)
                                 {
-                                    if (!shouldUseThisNoteForAutoDifficulty(lastnotes[k])) continue;
+                                    if (!shouldUseThisNoteForAutoDifficulty(lastnotestick, k)) continue;
 
                                     int dist = Math.Abs(j - k); // get positive distance 
                                     if (dist < Math.Abs(j - closestlane)) closestlane = k;
@@ -247,12 +248,12 @@ namespace _8beatMap
 
                     double weighted_out = 0;
                     weighted_out += metric_notefreq * (BPM / 140) * 200; // factor in BPM because higher BPM is harder
-                    weighted_out += metric_notedistance * Math.Sqrt(BPM / 140) / 1500;
+                    weighted_out += metric_notedistance * (BPM / 140) / 200;
                     weighted_out += metric_numflicks / 15f;
                     weighted_out += metric_numclocks / 10f;
                     weighted_out += metric_numswipes / 25f;
 
-                    return (int)(weighted_out * 0.38);
+                    return (int)(weighted_out * 0.375);
                 }
             }
 
