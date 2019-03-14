@@ -1088,7 +1088,7 @@ namespace _8beatMap
                                 }
                             }
                             
-                            chart.FixSwipes();
+                            chart.FixNoteInfo();
                             UpdateChart();
                         }
 

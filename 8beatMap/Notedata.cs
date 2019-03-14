@@ -39,6 +39,8 @@ namespace _8beatMap
                 }
             }
 
+            public int ComboNumber;
+
 
             //using SetNote is preffered over directly setting notes because it handles fixing the swipe cache for you. Either way works though.
             public void SetNote(NoteTypes.NoteTypeDef Note, int Lane, ref Chart chart)
@@ -51,7 +53,7 @@ namespace _8beatMap
                 }
                 NoteArray[Lane].NoteType = Note;
 
-                chart.FixSwipes();
+                chart.FixNoteInfo();
             }
         }
 
@@ -84,7 +86,7 @@ namespace _8beatMap
                     {
                         Array.Resize(ref Ticks, value);
                         ChartLen = value;
-                        FixSwipes();
+                        FixNoteInfo();
                     }
                 }
             }
@@ -322,16 +324,22 @@ namespace _8beatMap
             }
 
 
-            public void FixSwipes()
+            public void FixNoteInfo()
             {
                 UsedSwipes = new bool[Length,8];
+                int combo = 0;
                 for (int i = 0; i < Length; i++)
                 {
                     for (int j = 0; j < 8; j++)
                     {
                         Ticks[i].Notes[j].IsSwipeEnd = false;
                         Ticks[i].Notes[j].SwipeEndPoint = new System.Drawing.Point();
+
+                        NoteTypes.NoteTypeDef NoteType = FindVisualNoteType(i, j);
+                        if (NoteType.NotNode != true && NoteType.DetectType != NoteTypes.DetectType.SwipeMid)
+                            combo++;
                     }
+                    Ticks[i].ComboNumber = combo;
                 }
                 for (int i = 0; i < Length; i++)
                 {
@@ -488,7 +496,7 @@ namespace _8beatMap
                     }
                 }
 
-                FixSwipes();
+                FixNoteInfo();
             }
 
 
@@ -621,7 +629,7 @@ namespace _8beatMap
                     chart.Ticks[tickObjTickNumber(tickObj, i)].Notes[j].NoteType = NoteTypes.NoteTypeDefs.gettypebyid(tickObj[i].Buttons[j]);
             }
 
-            chart.FixSwipes();
+            chart.FixNoteInfo();
             return chart;
         }
 
