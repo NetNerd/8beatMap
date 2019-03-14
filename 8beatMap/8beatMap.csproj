@@ -71,6 +71,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BMFontReader.cs" />
     <Compile Include="SkinnedMessageBox.cs" />
     <Compile Include="ChartInfoDialog.cs">
       <SubType>Form</SubType>
