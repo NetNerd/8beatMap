@@ -440,7 +440,8 @@ namespace _8beatMap
             //DrawCharacterLine(64, 64, 32, skin.ComboFont, "88", 160);
             //DrawCharacterLine(64, 96, 32, skin.ComboFont, "88", 160, 1);
             //DrawCharacterLine(64, 128, 32, skin.ComboFont, "88", 160, 2);
-            //DrawCharacterLine(64, 96, 32, skin.ComboFont, "This is a test!--@♪", 800, 0, 0);
+            //DrawCharacterLine(64, 96, 32, skin.ComboFont, "This is a test!---!!!@♪", 200, 0, 0);
+            //DrawFilledRect(64, 64, 200, 24, "spr_HoldLocus");
 
             FrameStopwatch.Stop();
             int sleeptime = (int)(1000*1f/DisplayDevice.Default.RefreshRate) - (int)FrameStopwatch.ElapsedMilliseconds - 3;
@@ -608,46 +609,53 @@ namespace _8beatMap
             return (int)(chrinfo.XAdvance * sizescale);
         }
 
-        int GetStringLength(int height, BMFontReader.BMFont font, string str, int chrtracking = -2)
+        // returns { NumberOfCharacters(that will fit), WidthInPixels(of characters that fit) }
+        int[] GetLineLength(int height, BMFontReader.BMFont font, string str, int maxwidth, int chrtracking = -2)
         {
-            if (font.CommonInfo.LineHeight == 0) return 1;
+            if (font.CommonInfo.LineHeight == 0) return new int[] { 0, 0 };
             float sizescale = (float)height / font.CommonInfo.LineHeight;
 
-            int total = 0;
+            int totalwidth = 0;
             for (int i = 0; i < str.Length; i++)
             {
-                if (font.Characters.ContainsKey(str[i])) total += (int)((font.Characters[str[i]].XAdvance + chrtracking) * sizescale);
+                int newtotalwidth = totalwidth;
+                if (font.Characters.ContainsKey(str[i])) newtotalwidth += (int)((font.Characters[str[i]].XAdvance + chrtracking) * sizescale);
+                else newtotalwidth += height * 2 / 3;
                 if (font.KernPairs.Count > 0 && i < str.Length - 1)
                 {
                     Tuple<char, char> pair = new Tuple<char, char>(str[i], str[i + 1]); ;
-                    if (font.KernPairs.ContainsKey(pair)) total += (int)((font.KernPairs[pair].Amount) * sizescale);
+                    if (font.KernPairs.ContainsKey(pair)) newtotalwidth += (int)((font.KernPairs[pair].Amount) * sizescale);
                 }
-            }
-            total -= (int)(chrtracking * sizescale); // because we should use the true cursor position at end, not the adjusted one for next character
 
-            if (total == 0) total = 1;
-            return total;
+                if (newtotalwidth >= maxwidth)
+                {
+                    totalwidth -= (int)(chrtracking * sizescale); // because we should use the true cursor position at end, not the adjusted one for next character
+                    return new int[] { i, totalwidth }; // when new character doesn't fit return index
+                                                        // index is always character number - 1
+                }
+                totalwidth = newtotalwidth;
+            }
+
+            totalwidth -= (int)(chrtracking * sizescale); // because we should use the true cursor position at end, not the adjusted one for next character
+            return new int[] { str.Length, totalwidth }; // only reached if not triggered early
         }
+
         int DrawCharacterLine(int x, int y, int height, BMFontReader.BMFont font, string str, int maxwidth = 0, int align = 0, int chrtracking = -2)
         {
             if (font.CommonInfo.LineHeight == 0) return 0;
 
             if (maxwidth > 0)
             {
-                int maxchrs = str.Length * maxwidth / GetStringLength(height, font, str, chrtracking);
-                maxchrs += 2;
-                if (maxchrs < str.Length) str = str.Remove(maxchrs);
-
-                while (GetStringLength(height, font, str, chrtracking) > maxwidth)
-                    str = str.Remove(str.Length - 1, 1);
+                int[] maxchrs = GetLineLength(height, font, str, maxwidth, chrtracking);
+                if (maxchrs[0] < str.Length) str = str.Remove(maxchrs[0]);
 
                 if (align == 1)
                 {
-                    x += (maxwidth - GetStringLength(height, font, str, chrtracking)) / 2;
+                    x += (maxwidth - maxchrs[1]) / 2;
                 }
                 else if (align == 2)
                 {
-                    x += maxwidth - GetStringLength(height, font, str, chrtracking);
+                    x += maxwidth - maxchrs[1];
                 }
             }
 
