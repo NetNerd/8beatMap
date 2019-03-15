@@ -28,9 +28,34 @@ namespace _8beatMap
             public BMFontReader.BMFont ComboFont;
         }
 
+        public static Skin ShowUnskinnedErrorMessage(string extrainfo)
+        {
+            Skin failskin = new Skin
+            {
+                SkinName = "fallback skin",
+                UIColours = LoadUIColours(""),
+                UIStyle = LoadUIStyle("")
+            };
+            SkinnedMessageBox.Show(failskin, string.Format(DialogResMgr.GetString("SkinLoadError"), extrainfo), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            return failskin; // can use this to keep compiler happy where we must return something
+        }
+
         private static string ReadFile(string path)
         {
             return System.IO.File.ReadAllText(path);
+        }
+        private static string ReadFile_EmptyStringIfException(string path)
+        {
+            try
+            {
+                return ReadFile(path);
+            }
+            catch
+            {
+                ShowUnskinnedErrorMessage("can't load file \"" + path + "\".");
+                return "";
+            }
         }
 
         private static Dictionary<string, Color[]> LoadNoteColours(string defs)
@@ -75,6 +100,7 @@ namespace _8beatMap
             {
                 if (defslines[i].StartsWith("#") || defslines[i].Trim().Length == 0) continue;
                 string cleanDef = defslines[i].Replace(" ", "");
+                if (!cleanDef.Contains(":")) continue;
                 string type = cleanDef.Split(":".ToCharArray())[0];
                 string[] vals = cleanDef.Split(":".ToCharArray())[1].Split(",".ToCharArray());
 
@@ -119,6 +145,7 @@ namespace _8beatMap
             {
                 if (defslines[i].StartsWith("#") || defslines[i].Trim().Length == 0) continue;
                 string cleanDef = defslines[i].Replace(" ", "");
+                if (!cleanDef.Contains(":")) continue;
                 string type = cleanDef.Split(":".ToCharArray())[0];
                 string val = cleanDef.Split(":".ToCharArray())[1];
 
@@ -195,7 +222,9 @@ namespace _8beatMap
             {
                 if (i >= maxlanes) break;
 
+                if (!defslines[i].Contains(" ")) continue;
                 string[] pointstrs = defslines[i].Split(" ".ToCharArray());
+                if (!pointstrs[0].Contains(",")) continue;
                 string[] startstrs = pointstrs[0].Split(",".ToCharArray());
                 Point start = new Point(int.Parse(startstrs[0]), int.Parse(startstrs[1]));
                 
@@ -213,7 +242,9 @@ namespace _8beatMap
             {
                 if (i >= maxlanes) break;
 
+                if (!defslines[i].Contains(" ")) continue;
                 string[] pointstrs = defslines[i].Split(" ".ToCharArray());
+                if (!pointstrs[0].Contains(",")) continue;
                 string[] endstrs = pointstrs[1].Split(",".ToCharArray());
                 Point end = new Point(int.Parse(endstrs[0]), int.Parse(endstrs[1]));
                 
@@ -227,7 +258,9 @@ namespace _8beatMap
             string[] defslines = defs.Split("\n".ToCharArray());
             for (int i = 0; i < defslines.Length; i++)
             {
+                if (!defslines[i].Contains(" ")) continue;
                 string[] pointstrs = defslines[i].Split(" ".ToCharArray());
+                if (!pointstrs[0].Contains(",")) continue;
                 string[] startstrs = pointstrs[0].Split(",".ToCharArray());
                 Point start = new Point(int.Parse(startstrs[0]), int.Parse(startstrs[1]));
 
@@ -242,32 +275,37 @@ namespace _8beatMap
             try
             {
                 string skinname = new System.IO.DirectoryInfo(rootdir).Name;
+                try
+                {
+                    if (new System.IO.DirectoryInfo(rootdir).Exists == false) throw new System.Exception();
+                }
+                catch
+                {
+                    ShowUnskinnedErrorMessage("skin \"" + skinname + "\" does not exist.");
+                    skinname = "?";
+                }
 
-                string buttonsfile = ReadFile(rootdir + "/buttons.txt");
+                string buttonsfile = ReadFile_EmptyStringIfException(rootdir + "/buttons.txt");
                 Skin output = new Skin
                 {
                     SkinName = skinname,
                     RootDir = rootdir,
                     TexturePaths = LoadTexturePaths(rootdir),
-                    EditorNoteColours = LoadNoteColours(ReadFile(rootdir + "/notecolours.txt")),
-                    UIColours = LoadUIColours(ReadFile(rootdir + "/uicolours.txt")),
-                    UIStyle = LoadUIStyle(ReadFile(rootdir + "/uistyle.txt")),
+                    EditorNoteColours = LoadNoteColours(ReadFile_EmptyStringIfException(rootdir + "/notecolours.txt")),
+                    UIColours = LoadUIColours(ReadFile_EmptyStringIfException(rootdir + "/uicolours.txt")),
+                    UIStyle = LoadUIStyle(ReadFile_EmptyStringIfException(rootdir + "/uistyle.txt")),
                     NodeStartLocs = LoadNodeStartLocs(buttonsfile),
                     NodeEndLocs = LoadNodeEndLocs(buttonsfile),
                     NumLanes = LoadNumLanes(buttonsfile),
                     SoundPaths = LoadSoundPaths(rootdir),
                     ComboFont = new BMFontReader.BMFont(rootdir + "/font/font_combo.fnt")
                 };
+
                 return output;
             }
             catch
             {
-                Skin failskin = new Skin {
-                    SkinName = "fallback skin",
-                    UIColours = LoadUIColours(""),
-                    UIStyle = LoadUIStyle("")
-                };
-                SkinnedMessageBox.Show(failskin, string.Format(DialogResMgr.GetString("SkinLoadError"), rootdir), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Skin failskin = ShowUnskinnedErrorMessage("fatal error");
                 System.Environment.Exit(0);
                 return failskin; // just for compiler to be satisfied
             }

@@ -480,7 +480,7 @@ namespace _8beatMap
             catch
             {
                 bmp = new Bitmap(1, 1);
-                SkinnedMessageBox.Show(skin, DialogResMgr.GetString("MissingTextureError"), "", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                SkinnedMessageBox.Show(skin, DialogResMgr.GetString("MissingTextureError") + "\n(" + path + ")", "", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
                 Stop();
             }
 

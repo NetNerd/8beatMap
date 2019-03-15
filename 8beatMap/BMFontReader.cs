@@ -18,9 +18,10 @@ namespace _8beatMap
             // fix any mistakes in splitting
             for (int i = 1; i < rawparams.Length; i++)
             {
-                if (!rawparams[i].Contains("="))
+                string tmpstr = rawparams[i - 1].Replace("\\\"", ""); // ignore escaped quotes
+                if ((tmpstr.Count(x =>  x == '"') % 2) == 1) // if there's an odd number of quotes in previous string (currently in a quote)
                 {
-                    rawparams[i] = rawparams[i - 1] + " " + rawparams[i];
+                    rawparams[i] = rawparams[i - 1] + " " + rawparams[i]; // make both strings into one with a space separating them
                     rawparams[i - 1] = null;
                 }
             }
@@ -160,6 +161,23 @@ namespace _8beatMap
             public int Amount;
         }
 
+        private static string ReadFile(string path)
+        {
+            return System.IO.File.ReadAllText(path);
+        }
+        private static string ReadFile_EmptyStringIfException(string path)
+        {
+            try
+            {
+                return ReadFile(path);
+            }
+            catch
+            {
+                Skinning.ShowUnskinnedErrorMessage("can't load file \"" + path + "\".");
+                return "";
+            }
+        }
+
         public class BMFont
         {
             public FontGenInfo GenInfo;
@@ -170,9 +188,17 @@ namespace _8beatMap
 
             public BMFont(string path)
             {
-                string baseDir = new System.IO.FileInfo(path).Directory.FullName;
+                string baseDir;
+                try
+                {
+                    baseDir = new System.IO.FileInfo(path).Directory.FullName;
+                }
+                catch
+                {
+                    return;
+                }
 
-                string infoStr = System.IO.File.ReadAllText(path);
+                string infoStr = ReadFile_EmptyStringIfException(path);
 
                 string[] infoLines = infoStr.Split("\n".ToCharArray());
 
