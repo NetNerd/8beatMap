@@ -196,6 +196,8 @@ namespace _8beatMap
                 {"spr_Chara6", rootdir + "/charaimg/6.png"},
                 {"spr_Chara7", rootdir + "/charaimg/7.png"},
                 {"spr_Chara8", rootdir + "/charaimg/8.png"},
+
+                {"spr_ComboText", rootdir + "/font/txt_combo.png"},
             };
 
             return TexturePaths_Default;

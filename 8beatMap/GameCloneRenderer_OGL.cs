@@ -427,7 +427,8 @@ namespace _8beatMap
             if (chart.Ticks[comboTick].ComboNumber > 1)
             {
                 // disabled until complete and I can add an option to toggle it
-                // DrawCharacterLine(1136 - 192, viewHeight - 64, 48, skin.ComboFont, chart.Ticks[comboTick].ComboNumber.ToString(), 192, 1);
+                // DrawCharacterLine(1136 - 192, viewHeight - 80, 48, skin.ComboFont, chart.Ticks[comboTick].ComboNumber.ToString(), 192, 1, -4);
+                // DrawFilledRect(1136 - 192 / 2 - 121 / 2, viewHeight - 80 - 30, 121, 30, "spr_ComboText");
             }
             //DrawCharacterLine(64, 64, 32, skin.ComboFont, "01189998819991197253", 80);
             //DrawCharacterLine(64, 64, 32, skin.ComboFont, "88", 160);
@@ -559,7 +560,8 @@ namespace _8beatMap
             if (!font.Characters.ContainsKey(chr)) return height*2/3;
 
             BMFontReader.CharacterInfo chrinfo = font.Characters[chr];
-
+            
+            if (font.CommonInfo.LineHeight == 0) return 0;
             float sizescale = (float)height / font.CommonInfo.LineHeight;
 
             // X1, Y1 is top left
@@ -570,7 +572,7 @@ namespace _8beatMap
 
             int quadX1 = x + (int)(chrinfo.XOffset * sizescale);
             int quadX2 = quadX1 + (int)(chrinfo.Width * sizescale);
-            int quadY1 = y + (int)(chrinfo.YOffset * sizescale);
+            int quadY1 = y - (int)(chrinfo.YOffset * sizescale);
             int quadY2 = quadY1 + (int)(chrinfo.Height * sizescale);
 
             int texture = textures["combofont_" + chrinfo.TexturePage.ToString()];
@@ -595,45 +597,48 @@ namespace _8beatMap
             GL.Vertex2(quadX1, quadY1);
 
             GL.End();
-
-            if (font.CommonInfo.LineHeight == 0) return 0;
-            else return chrinfo.XAdvance * height / font.CommonInfo.LineHeight;
+            
+            return (int)(chrinfo.XAdvance * sizescale);
         }
 
-        int GetStringLength(int height, BMFontReader.BMFont font, string str)
+        int GetStringLength(int height, BMFontReader.BMFont font, string str, int chrtracking = -2)
         {
+            if (font.CommonInfo.LineHeight == 0) return 1;
+            float sizescale = (float)height / font.CommonInfo.LineHeight;
+
             int total = 0;
             foreach (char chr in str)
             {
-                if (font.Characters.ContainsKey(chr)) total += font.Characters[chr].XAdvance;
+                if (font.Characters.ContainsKey(chr)) total += (int)((font.Characters[chr].XAdvance + chrtracking) * sizescale);
             }
-            if (font.CommonInfo.LineHeight == 0) return 1;
-            else return total * height / font.CommonInfo.LineHeight;
+            if (total == 0) total = 1;
+            return total;
         }
-        int DrawCharacterLine(int x, int y, int height, BMFontReader.BMFont font, string str, int maxwidth = 0, int align = 0)
+        int DrawCharacterLine(int x, int y, int height, BMFontReader.BMFont font, string str, int maxwidth = 0, int align = 0, int chrtracking = -2)
         {
             if (maxwidth > 0)
             {
-                int maxchrs = str.Length * maxwidth / GetStringLength(height, font, str);
+                int maxchrs = str.Length * maxwidth / GetStringLength(height, font, str, chrtracking);
                 maxchrs += 2;
                 if (maxchrs < str.Length) str = str.Remove(maxchrs);
 
-                while (GetStringLength(height, font, str) > maxwidth)
+                while (GetStringLength(height, font, str, chrtracking) > maxwidth)
                     str = str.Remove(str.Length - 1, 1);
 
                 if (align == 1)
                 {
-                    x += (maxwidth - GetStringLength(height, font, str)) / 2;
+                    x += (maxwidth - GetStringLength(height, font, str, chrtracking)) / 2;
                 }
                 else if (align == 2)
                 {
-                    x += maxwidth - GetStringLength(height, font, str);
+                    x += maxwidth - GetStringLength(height, font, str, chrtracking);
                 }
             }
 
             for (int i = 0; i < str.Length; i++)
             {
                 x += DrawCharacter(x, y, height, font, str[i]);
+                x += chrtracking;
             }
 
             return str.Length;
