@@ -440,7 +440,7 @@ namespace _8beatMap
             //DrawCharacterLine(64, 64, 32, skin.ComboFont, "88", 160);
             //DrawCharacterLine(64, 96, 32, skin.ComboFont, "88", 160, 1);
             //DrawCharacterLine(64, 128, 32, skin.ComboFont, "88", 160, 2);
-            //DrawCharacterLine(64, 96, 32, skin.ComboFont, "Cc", 160, 0, 0);
+            //DrawCharacterLine(64, 96, 32, skin.ComboFont, "This is a test!--@♪", 800, 0, 0);
 
             FrameStopwatch.Stop();
             int sleeptime = (int)(1000*1f/DisplayDevice.Default.RefreshRate) - (int)FrameStopwatch.ElapsedMilliseconds - 3;
@@ -579,8 +579,8 @@ namespace _8beatMap
 
             int quadX1 = x + (int)(chrinfo.XOffset * sizescale);
             int quadX2 = quadX1 + (int)(chrinfo.Width * sizescale);
-            int quadY1 = y - (int)(chrinfo.Height * sizescale) - (int)(chrinfo.YOffset * sizescale) - (int)((font.CommonInfo.LineHeight * sizescale) - (font.CommonInfo.BaseHeight * sizescale)) + (int)(font.CommonInfo.LineHeight * sizescale);
-            int quadY2 = quadY1 + (int)(chrinfo.Height * sizescale);
+            int quadY2 = y + (int)((font.CommonInfo.BaseHeight * sizescale) - (chrinfo.YOffset * sizescale));
+            int quadY1 = quadY2 - (int)(chrinfo.Height * sizescale); // turns out it's actually easier to find the top Y coord first for a BMFont
 
             int texture = textures["combofont_" + chrinfo.TexturePage.ToString()];
             GL.BindTexture(TextureTarget.Texture2D, texture);
