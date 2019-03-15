@@ -11,9 +11,9 @@ namespace _8beatMap
         private static Dictionary<string, string> getTagParams(string line)
         {
             Dictionary<string, string> outdict = new Dictionary<string, string>();
-            string[] rawparams = line.Split(' ');
+            string[] rawparams = line.Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
             
-            outdict.Add("tagtype", rawparams[0]);
+            if(rawparams.Length > 0) outdict.Add("tagtype", rawparams[0]);
 
             // fix any mistakes in splitting
             for (int i = 1; i < rawparams.Length; i++)
@@ -52,6 +52,7 @@ namespace _8beatMap
 
         private static string RemoveQuotes(string str)
         {
+            str = str.Trim();
             if (str.First() == '"' && str.Last() == '"')
             {
                 str = str.Remove(0, 1);
@@ -205,6 +206,7 @@ namespace _8beatMap
                 for (int i = 0; i < infoLines.Length; i++)
                 {
                     Dictionary<string, string> tag = getTagParams(infoLines[i]);
+                    if (!tag.ContainsKey("tagtype")) continue;
 
                     switch(tag["tagtype"])
                     {
