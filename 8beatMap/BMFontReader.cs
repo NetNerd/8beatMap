@@ -11,7 +11,7 @@ namespace _8beatMap
         private static Dictionary<string, string> getTagParams(string line)
         {
             Dictionary<string, string> outdict = new Dictionary<string, string>();
-            string[] rawparams = line.Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+            string[] rawparams = line.Trim().Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
             
             if(rawparams.Length > 0) outdict.Add("tagtype", rawparams[0]);
 
@@ -28,7 +28,7 @@ namespace _8beatMap
 
             for (int i = 1; i < rawparams.Length; i++)
             {
-                if (rawparams[i] == null) continue;
+                if (rawparams[i] == null || !rawparams[i].Contains("=")) continue;
 
                 string[] paramsplit = rawparams[i].Split("=".ToCharArray(), 2);
                 if (outdict.ContainsKey(paramsplit[0])) outdict[paramsplit[0]] = paramsplit[1];
