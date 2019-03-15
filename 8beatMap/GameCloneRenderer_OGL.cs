@@ -424,18 +424,18 @@ namespace _8beatMap
             if (comboTick < 0) comboTick = 0;
             else if (comboTick >= chart.Length) comboTick = chart.Length - 1;
 
-            if (chart.Ticks[comboTick].ComboNumber > 1)
-            {
-                // disabled until complete and I can add an option to toggle it
-                //int textsize = 48;
-                //if (skin.ComboFont.CommonInfo.LineHeight > 0) textsize = skin.ComboFont.CommonInfo.LineHeight;
-                //int numX = 1040;
-                //int numY = viewHeight - 8;
-                //int textX = numX;
-                //int textY = viewHeight - 128;
-                //DrawCharacterLine(numX - 128, numY - textsize, textsize, skin.ComboFont, chart.Ticks[comboTick].ComboNumber.ToString(), 256, 1, -4);
-                //DrawFilledRect(textX - 128, textY, 256, 64, "spr_ComboText");
-            }
+            // disabled until complete and I can add an option to toggle it
+            //if (chart.Ticks[comboTick].ComboNumber > 1)
+            //{
+            //    int textsize = 48;
+            //    if (skin.ComboFont.CommonInfo.LineHeight > 0) textsize = skin.ComboFont.CommonInfo.LineHeight;
+            //    int numX = 1040;
+            //    int numY = viewHeight - 8;
+            //    int textX = numX;
+            //    int textY = viewHeight - 128;
+            //    DrawCharacterLine(numX - 128, numY - textsize, textsize, skin.ComboFont, chart.Ticks[comboTick].ComboNumber.ToString(), 256, 1, -4);
+            //    DrawFilledRect(textX - 128, textY, 256, 64, "spr_ComboText");
+            //}
             //DrawCharacterLine(64, 64, 32, skin.ComboFont, "01189998819991197253", 80);
             //DrawCharacterLine(64, 64, 32, skin.ComboFont, "88", 160);
             //DrawCharacterLine(64, 96, 32, skin.ComboFont, "88", 160, 1);
@@ -614,15 +614,24 @@ namespace _8beatMap
             float sizescale = (float)height / font.CommonInfo.LineHeight;
 
             int total = 0;
-            foreach (char chr in str)
+            for (int i = 0; i < str.Length; i++)
             {
-                if (font.Characters.ContainsKey(chr)) total += (int)((font.Characters[chr].XAdvance + chrtracking) * sizescale);
+                if (font.Characters.ContainsKey(str[i])) total += (int)((font.Characters[str[i]].XAdvance + chrtracking) * sizescale);
+                if (font.KernPairs.Count > 0 && i < str.Length - 1)
+                {
+                    Tuple<char, char> pair = new Tuple<char, char>(str[i], str[i + 1]); ;
+                    if (font.KernPairs.ContainsKey(pair)) total += (int)((font.KernPairs[pair].Amount) * sizescale);
+                }
             }
+            total -= (int)(chrtracking * sizescale); // because we should use the true cursor position at end, not the adjusted one for next character
+
             if (total == 0) total = 1;
             return total;
         }
         int DrawCharacterLine(int x, int y, int height, BMFontReader.BMFont font, string str, int maxwidth = 0, int align = 0, int chrtracking = -2)
         {
+            if (font.CommonInfo.LineHeight == 0) return 0;
+
             if (maxwidth > 0)
             {
                 int maxchrs = str.Length * maxwidth / GetStringLength(height, font, str, chrtracking);
@@ -646,6 +655,12 @@ namespace _8beatMap
             {
                 x += DrawCharacter(x, y, height, font, str[i]);
                 x += chrtracking;
+
+                if (font.KernPairs.Count > 0 && i < str.Length - 1)
+                {
+                    Tuple<char, char> pair = new Tuple<char, char>(str[i], str[i + 1]);
+                    if (font.KernPairs.ContainsKey(pair)) x += (int)((font.KernPairs[pair].Amount) * (float)height / font.CommonInfo.LineHeight);
+                }
             }
 
             return str.Length;

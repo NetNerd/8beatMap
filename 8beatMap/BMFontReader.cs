@@ -184,7 +184,7 @@ namespace _8beatMap
             public FontGenInfo GenInfo;
             public FontCommonInfo CommonInfo;
             public Dictionary<char, CharacterInfo> Characters = new Dictionary<char, CharacterInfo>();
-            public Dictionary<char, KerningInfo> KernPairs = new Dictionary<char, KerningInfo>();
+            public Dictionary<Tuple<char, char>, KerningInfo> KernPairs = new Dictionary<Tuple<char, char>, KerningInfo>();
             public string[] PageTexPaths = { };
 
             public BMFont(string path)
@@ -300,8 +300,9 @@ namespace _8beatMap
                                 thisKrn.CharTwoId = int.Parse(tag["second"]);
                                 thisKrn.Amount = int.Parse(tag["amount"]);
 
-                                if (KernPairs.ContainsKey(thisKrn.CharOne)) KernPairs[thisKrn.CharOne] = thisKrn;
-                                else KernPairs.Add(thisKrn.CharOne, thisKrn);
+                                Tuple<char, char> pairkey = new Tuple<char, char>(thisKrn.CharOne, thisKrn.CharTwo);
+                                if (KernPairs.ContainsKey(pairkey)) KernPairs[pairkey] = thisKrn;
+                                else KernPairs.Add(pairkey, thisKrn);
                                 break;
                             }
                         default:
