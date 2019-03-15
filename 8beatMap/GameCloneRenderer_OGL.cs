@@ -256,9 +256,9 @@ namespace _8beatMap
 
                             float iDist = (float)(numTicksVisible - i + currentTick-timingAdjust) / numTicksVisible;
                             float eDist = (float)(numTicksVisible - swipeEndPoint.X + currentTick-timingAdjust) / numTicksVisible;
-                            int eSize = (int)(halfSwipeSize * eDist);
-                            Point iPoint = GetPointAlongLine(NodeStartLocs[j], NodeEndLocs[j], iDist);
-                            Point ePoint = GetPointAlongLine(NodeStartLocs[swipeEndPoint.Y], NodeEndLocs[swipeEndPoint.Y], eDist);
+                            float eSize = halfSwipeSize * eDist;
+                            PointF iPoint = GetPointAlongLineF(NodeStartLocs[j], NodeEndLocs[j], iDist);
+                            PointF ePoint = GetPointAlongLineF(NodeStartLocs[swipeEndPoint.Y], NodeEndLocs[swipeEndPoint.Y], eDist);
                             
                             float endYOffset = 88888888;
                             if (ePoint.X - NodeStartLocs[swipeEndPoint.Y].X != 0) { endYOffset = ((float)(ePoint.Y - NodeStartLocs[swipeEndPoint.Y].Y) / (float)(ePoint.X - NodeStartLocs[swipeEndPoint.Y].X)); }
@@ -266,7 +266,7 @@ namespace _8beatMap
                             
 
                             float sDist;
-                            Point sPoint;
+                            PointF sPoint;
                             if (i >= currentTick-timingAdjust)
                             {
                                 sDist = iDist;
@@ -275,11 +275,11 @@ namespace _8beatMap
                             else
                             {
                                 sDist = (float)(numTicksVisible - sTick + currentTick-timingAdjust) / numTicksVisible;
-                                sPoint = GetPointAlongLine(iPoint, ePoint, ((float)currentTick-timingAdjust - i) / (swipeEndPoint.X - i));
+                                sPoint = GetPointAlongLineF(iPoint, ePoint, ((float)currentTick-timingAdjust - i) / (swipeEndPoint.X - i));
                                 //Point sPoint = GetPointAlongLine(ePoint, iPoint, sDist / iDist);
                             }
 
-                            int sSize = (int)(halfSwipeSize * sDist);
+                            float sSize = halfSwipeSize * sDist;
 
 
                             GL.Begin(PrimitiveType.Quads);
@@ -394,19 +394,19 @@ namespace _8beatMap
 
                         float icnDist = (float)(numTicksVisible - i + currentTick-timingAdjust) / numTicksVisible;
                         if (icnDist < 0) icnDist = 0;
-                        Point icnPoint = GetPointAlongLine(NodeStartLocs[j], NodeEndLocs[j], icnDist);
-                        int icnSize = (int)(iconSize * icnDist);
+                        PointF icnPoint = GetPointAlongLineF(NodeStartLocs[j], NodeEndLocs[j], icnDist);
+                        float icnSize = iconSize * icnDist;
                         DrawFilledRect(icnPoint.X - icnSize / 2, icnPoint.Y - icnSize / 2, icnSize, icnSize, NoteTex);
 
                     }
                     else if (i > (int)(currentTick+hitlineAdjust - EffectTicks - 1))
                     {
-                        int effectSize = (int)(((currentTick+hitlineAdjust - i - 1) / EffectTicks + 1) * iconSize);
+                        float effectSize = (float)(((currentTick+hitlineAdjust - i - 1) / EffectTicks + 1) * iconSize);
                         DrawFilledRect(NodeEndLocs[j].X - effectSize / 2, NodeEndLocs[j].Y - effectSize / 2, effectSize, effectSize, "spr_HitEffect");
                     }
                     else if (i >= (int)(currentTick+hitlineAdjust - EffectTicks - EffectFadeTicks - 1))
                     {
-                        int effectSize = (int)(iconSize * 2.0f);
+                        float effectSize = iconSize * 2.0f;
                         float effectOpacity = 1 - (float)((currentTick+hitlineAdjust - EffectTicks - i - 1) / EffectFadeTicks * 0.8f);
 
                         GL.Color4(effectOpacity, effectOpacity, effectOpacity, effectOpacity);
@@ -440,8 +440,8 @@ namespace _8beatMap
             //DrawCharacterLine(64, 64, 32, skin.ComboFont, "88", 160);
             //DrawCharacterLine(64, 96, 32, skin.ComboFont, "88", 160, 1);
             //DrawCharacterLine(64, 128, 32, skin.ComboFont, "88", 160, 2);
-            //DrawCharacterLine(64, 96, 32, skin.ComboFont, "This is a test!---!!!@♪", 200, 0, 0);
-            //DrawFilledRect(64, 64, 200, 24, "spr_HoldLocus");
+            //DrawCharacterLine(64, 96, 32, skin.ComboFont, "This is a test!---!!!@♪", 205, 0, 0);
+            //DrawFilledRect(64, 64, 205, 24, "spr_HoldLocus");
 
             FrameStopwatch.Stop();
             int sleeptime = (int)(1000*1f/DisplayDevice.Default.RefreshRate) - (int)FrameStopwatch.ElapsedMilliseconds - 3;
@@ -482,6 +482,10 @@ namespace _8beatMap
             return new Point(start.X + (int)((end.X - start.X) * distance), start.Y + (int)((end.Y - start.Y) * distance));
         }
         PointF GetPointAlongLineF(Point start, Point end, float distance)
+        {
+            return new PointF(start.X + (end.X - start.X) * distance, start.Y + (end.Y - start.Y) * distance);
+        }
+        PointF GetPointAlongLineF(PointF start, PointF end, float distance)
         {
             return new PointF(start.X + (end.X - start.X) * distance, start.Y + (end.Y - start.Y) * distance);
         }
@@ -530,7 +534,7 @@ namespace _8beatMap
         }
 
 
-        void DrawRect(int x, int y, int width, int height)
+        void DrawRect(float x, float y, float width, float height)
         {
             GL.Begin(PrimitiveType.Quads);
 
@@ -553,24 +557,24 @@ namespace _8beatMap
             GL.End();
         }
 
-        void DrawFilledRect(int x, int y, int width, int height, int texture)
+        void DrawFilledRect(float x, float y, float width, float height, int texture)
         {
             GL.BindTexture(TextureTarget.Texture2D, texture);
             DrawRect(x, y, width, height);
         }
-        void DrawFilledRect(int x, int y, int width, int height, string textureName)
+        void DrawFilledRect(float x, float y, float width, float height, string textureName)
         {
             DrawFilledRect(x, y, width, height, textures[textureName]);
         }
 
-        int DrawCharacter(int x, int y, int height, BMFontReader.BMFont font, char chr)
+        float DrawCharacter(float x, float y, float height, BMFontReader.BMFont font, char chr)
         {
             if (!font.Characters.ContainsKey(chr)) return height*2/3;
 
             BMFontReader.CharacterInfo chrinfo = font.Characters[chr];
             
             if (font.CommonInfo.LineHeight == 0) return 0;
-            float sizescale = (float)height / font.CommonInfo.LineHeight;
+            float sizescale = height / font.CommonInfo.LineHeight;
 
             // X1, Y1 is top left
             float texCoordX1 = (float)chrinfo.TexCoordX / font.CommonInfo.TexScaleWidth;
@@ -579,10 +583,10 @@ namespace _8beatMap
             float texCoordY2 = texCoordY1 + (float)chrinfo.Height / font.CommonInfo.TexScaleHeight;
 
             // X1, Y2 is top left
-            int quadX1 = x + (int)(chrinfo.XOffset * sizescale);
-            int quadX2 = quadX1 + (int)(chrinfo.Width * sizescale);
-            int quadY2 = y + (int)((font.CommonInfo.BaseHeight * sizescale) - (chrinfo.YOffset * sizescale));
-            int quadY1 = quadY2 - (int)(chrinfo.Height * sizescale); // turns out it's actually easier to find the top Y coord first for a BMFont
+            float quadX1 = x + (chrinfo.XOffset * sizescale);
+            float quadX2 = quadX1 + (chrinfo.Width * sizescale);
+            float quadY2 = y + ((font.CommonInfo.BaseHeight * sizescale) - (chrinfo.YOffset * sizescale));
+            float quadY1 = quadY2 - (chrinfo.Height * sizescale); // turns out it's actually easier to find the top Y coord first for a BMFont
 
             int texture = textures["combofont_" + chrinfo.TexturePage.ToString()];
             GL.BindTexture(TextureTarget.Texture2D, texture);
@@ -607,41 +611,41 @@ namespace _8beatMap
 
             GL.End();
             
-            return (int)(chrinfo.XAdvance * sizescale);
+            return chrinfo.XAdvance * sizescale;
         }
 
         // returns { NumberOfCharacters(that will fit), WidthInPixels(of characters that fit) }
-        int[] GetLineLength(int height, BMFontReader.BMFont font, string str, int maxwidth, int chrtracking = -2)
+        int[] GetLineLength(float height, BMFontReader.BMFont font, string str, int maxwidth, float chrtracking = -2)
         {
             if (font.CommonInfo.LineHeight == 0) return new int[] { 0, 0 };
-            float sizescale = (float)height / font.CommonInfo.LineHeight;
+            float sizescale = height / font.CommonInfo.LineHeight;
 
-            int totalwidth = 0;
+            float totalwidth = 0;
             for (int i = 0; i < str.Length; i++)
             {
-                int newtotalwidth = totalwidth;
-                if (font.Characters.ContainsKey(str[i])) newtotalwidth += (int)((font.Characters[str[i]].XAdvance + chrtracking) * sizescale);
-                else newtotalwidth += height * 2 / 3;
+                float newtotalwidth = totalwidth;
+                if (font.Characters.ContainsKey(str[i])) newtotalwidth += ((font.Characters[str[i]].XAdvance + chrtracking) * sizescale);
+                else newtotalwidth += height*2/3;
                 if (font.KernPairs.Count > 0 && i < str.Length - 1)
                 {
                     Tuple<char, char> pair = new Tuple<char, char>(str[i], str[i + 1]); ;
-                    if (font.KernPairs.ContainsKey(pair)) newtotalwidth += (int)((font.KernPairs[pair].Amount) * sizescale);
+                    if (font.KernPairs.ContainsKey(pair)) newtotalwidth += ((font.KernPairs[pair].Amount) * sizescale);
                 }
 
                 if (newtotalwidth >= maxwidth)
                 {
-                    totalwidth -= (int)(chrtracking * sizescale); // because we should use the true cursor position at end, not the adjusted one for next character
-                    return new int[] { i, totalwidth }; // when new character doesn't fit return index
+                    totalwidth -= chrtracking * sizescale; // because we should use the true cursor position at end, not the adjusted one for next character
+                    return new int[] { i, (int)totalwidth }; // when new character doesn't fit return index
                                                         // index is always character number - 1
                 }
                 totalwidth = newtotalwidth;
             }
 
-            totalwidth -= (int)(chrtracking * sizescale); // because we should use the true cursor position at end, not the adjusted one for next character
-            return new int[] { str.Length, totalwidth }; // only reached if not triggered early
+            totalwidth -= chrtracking * sizescale; // because we should use the true cursor position at end, not the adjusted one for next character
+            return new int[] { str.Length, (int)totalwidth }; // only reached if not triggered early
         }
 
-        int DrawCharacterLine(int x, int y, int height, BMFontReader.BMFont font, string str, int maxwidth = 0, int align = 0, int chrtracking = -2)
+        int DrawCharacterLine(float x, float y, float height, BMFontReader.BMFont font, string str, int maxwidth = 0, int align = 0, float chrtracking = -2)
         {
             if (font.CommonInfo.LineHeight == 0) return 0;
 
@@ -668,7 +672,7 @@ namespace _8beatMap
                 if (font.KernPairs.Count > 0 && i < str.Length - 1)
                 {
                     Tuple<char, char> pair = new Tuple<char, char>(str[i], str[i + 1]);
-                    if (font.KernPairs.ContainsKey(pair)) x += (int)((font.KernPairs[pair].Amount) * (float)height / font.CommonInfo.LineHeight);
+                    if (font.KernPairs.ContainsKey(pair)) x += font.KernPairs[pair].Amount * height / font.CommonInfo.LineHeight;
                 }
             }
 
