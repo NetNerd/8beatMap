@@ -427,8 +427,14 @@ namespace _8beatMap
             if (chart.Ticks[comboTick].ComboNumber > 1)
             {
                 // disabled until complete and I can add an option to toggle it
-                //DrawCharacterLine(1136 - 192, viewHeight - 56, 48, skin.ComboFont, chart.Ticks[comboTick].ComboNumber.ToString(), 192, 1, -4);
-                //DrawFilledRect(1136 - 192 / 2 - 121 / 2, viewHeight - 56 - 30 - 28, 121, 30, "spr_ComboText");
+                //int textsize = 48;
+                //if (skin.ComboFont.CommonInfo.LineHeight > 0) textsize = skin.ComboFont.CommonInfo.LineHeight;
+                //int numX = 1040;
+                //int numY = viewHeight - 8;
+                //int textX = numX;
+                //int textY = viewHeight - 128;
+                //DrawCharacterLine(numX - 128, numY - textsize, textsize, skin.ComboFont, chart.Ticks[comboTick].ComboNumber.ToString(), 256, 1, -4);
+                //DrawFilledRect(textX - 128, textY, 256, 64, "spr_ComboText");
             }
             //DrawCharacterLine(64, 64, 32, skin.ComboFont, "01189998819991197253", 80);
             //DrawCharacterLine(64, 64, 32, skin.ComboFont, "88", 160);
