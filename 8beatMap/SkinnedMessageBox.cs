@@ -292,8 +292,12 @@ namespace _8beatMap
         // has skin, has owner
         public static DialogResult Show(Skinning.Skin skin, IWin32Window owner, string message, string caption = "", MessageBoxButtons buttons = MessageBoxButtons.OK, MessageBoxIcon icon = MessageBoxIcon.None, MessageBoxDefaultButton defaultbutton = MessageBoxDefaultButton.Button1, MessageBoxOptions options = 0)
         {
+            // I probably shouldn't do this, but from what I can tell this should be safe enough -- out of thread owner is allowed
+            // and it only seems to appear when debugging (???)
+            Control.CheckForIllegalCrossThreadCalls = false;
             SkinnedMessageBoxForm mb = new SkinnedMessageBoxForm(skin, owner, message, caption, buttons, icon, defaultbutton, options);
             DialogResult res = mb.ShowDialog();
+            Control.CheckForIllegalCrossThreadCalls = true;
             mb.Dispose();
             return res;
         }
