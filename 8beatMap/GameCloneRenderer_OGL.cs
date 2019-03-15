@@ -590,7 +590,8 @@ namespace _8beatMap
 
             GL.End();
 
-            return chrinfo.XAdvance * height / font.CommonInfo.LineHeight;
+            if (font.CommonInfo.LineHeight == 0) return 0;
+            else return chrinfo.XAdvance * height / font.CommonInfo.LineHeight;
         }
 
         int GetStringLength(int height, BMFontReader.BMFont font, string str)
@@ -600,7 +601,8 @@ namespace _8beatMap
             {
                 if (font.Characters.ContainsKey(chr)) total += font.Characters[chr].XAdvance;
             }
-            return total * height / font.CommonInfo.LineHeight;
+            if (font.CommonInfo.LineHeight == 0) return 1;
+            else return total * height / font.CommonInfo.LineHeight;
         }
         int DrawCharacterLine(int x, int y, int height, BMFontReader.BMFont font, string str, int maxwidth = 0, int align = 0)
         {
