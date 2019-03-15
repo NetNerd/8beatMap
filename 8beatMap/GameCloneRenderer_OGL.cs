@@ -419,16 +419,22 @@ namespace _8beatMap
 
                 }
             }
-            
-            //if (((int)currentTick + hitlineAdjust - 1) < 0) DrawCharacterLine(64, 16, 32, skin.ComboFont, chart.Ticks[0].ComboNumber.ToString());
-            //else if (((int)currentTick + hitlineAdjust - 1) >= chart.Length) DrawCharacterLine(64, 16, 32, skin.ComboFont, chart.Ticks[chart.Length - 1].ComboNumber.ToString());
-            //else DrawCharacterLine(64, 16, 32, skin.ComboFont, chart.Ticks[(int)currentTick + hitlineAdjust - 1].ComboNumber.ToString());
+
+            int comboTick = (int)currentTick + hitlineAdjust - 1;
+            if (comboTick < 0) comboTick = 0;
+            else if (comboTick >= chart.Length) comboTick = chart.Length - 1;
+
+            if (chart.Ticks[comboTick].ComboNumber > 1)
+            {
+                // disabled until complete and I can add an option to toggle it
+                // DrawCharacterLine(1136 - 192, viewHeight - 64, 48, skin.ComboFont, chart.Ticks[comboTick].ComboNumber.ToString(), 192, 1);
+            }
             //DrawCharacterLine(64, 64, 32, skin.ComboFont, "01189998819991197253", 80);
             //DrawCharacterLine(64, 64, 32, skin.ComboFont, "88", 160);
             //DrawCharacterLine(64, 96, 32, skin.ComboFont, "88", 160, 1);
             //DrawCharacterLine(64, 128, 32, skin.ComboFont, "88", 160, 2);
 
-            FrameStopwatch.Stop();
+                FrameStopwatch.Stop();
             int sleeptime = (int)(1000*1f/DisplayDevice.Default.RefreshRate) - (int)FrameStopwatch.ElapsedMilliseconds - 3;
 
             //only render at 30fps if not playing and we would otherwise be rendering faster
@@ -550,7 +556,7 @@ namespace _8beatMap
 
         int DrawCharacter(int x, int y, int height, BMFontReader.BMFont font, char chr)
         {
-            if (!font.Characters.ContainsKey(chr)) return 0;
+            if (!font.Characters.ContainsKey(chr)) return height*2/3;
 
             BMFontReader.CharacterInfo chrinfo = font.Characters[chr];
 
