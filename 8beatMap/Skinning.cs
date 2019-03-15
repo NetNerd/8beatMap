@@ -274,10 +274,12 @@ namespace _8beatMap
         {
             try
             {
-                string skinname = new System.IO.DirectoryInfo(rootdir).Name;
+                string skinname = "";
                 try
                 {
-                    if (new System.IO.DirectoryInfo(rootdir).Exists == false) throw new System.Exception();
+                    System.IO.DirectoryInfo dirinfo = new System.IO.DirectoryInfo(rootdir);
+                    skinname = dirinfo.Name;
+                    if (!dirinfo.Exists) throw new System.Exception();
                 }
                 catch
                 {
