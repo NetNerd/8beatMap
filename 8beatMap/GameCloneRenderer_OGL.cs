@@ -427,8 +427,8 @@ namespace _8beatMap
             if (chart.Ticks[comboTick].ComboNumber > 1)
             {
                 // disabled until complete and I can add an option to toggle it
-                //DrawCharacterLine(1136 - 192, viewHeight - 24, 48, skin.ComboFont, chart.Ticks[comboTick].ComboNumber.ToString(), 192, 1, -4);
-                //DrawFilledRect(1136 - 192 / 2 - 121 / 2, viewHeight - 24 - 48 - 30 - 6, 121, 30, "spr_ComboText");
+                //DrawCharacterLine(1136 - 192, viewHeight - 56, 48, skin.ComboFont, chart.Ticks[comboTick].ComboNumber.ToString(), 192, 1, -4);
+                //DrawFilledRect(1136 - 192 / 2 - 121 / 2, viewHeight - 56 - 30 - 28, 121, 30, "spr_ComboText");
             }
             //DrawCharacterLine(64, 64, 32, skin.ComboFont, "01189998819991197253", 80);
             //DrawCharacterLine(64, 64, 32, skin.ComboFont, "88", 160);
@@ -573,8 +573,8 @@ namespace _8beatMap
 
             int quadX1 = x + (int)(chrinfo.XOffset * sizescale);
             int quadX2 = quadX1 + (int)(chrinfo.Width * sizescale);
-            int quadY2 = y - (int)(chrinfo.YOffset * sizescale);
-            int quadY1 = quadY2 - (int)(chrinfo.Height * sizescale);
+            int quadY1 = y - (int)(chrinfo.Height * sizescale) - (int)(chrinfo.YOffset * sizescale) - (int)((font.CommonInfo.LineHeight * sizescale) - (font.CommonInfo.BaseHeight * sizescale)) + (int)(font.CommonInfo.LineHeight * sizescale);
+            int quadY2 = quadY1 + (int)(chrinfo.Height * sizescale);
 
             int texture = textures["combofont_" + chrinfo.TexturePage.ToString()];
             GL.BindTexture(TextureTarget.Texture2D, texture);
