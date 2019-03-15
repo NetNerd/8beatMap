@@ -578,6 +578,7 @@ namespace _8beatMap
             float texCoordY1 = (float)chrinfo.TexCoordY / font.CommonInfo.TexScaleHeight;
             float texCoordY2 = texCoordY1 + (float)chrinfo.Height / font.CommonInfo.TexScaleHeight;
 
+            // X1, Y2 is top left
             int quadX1 = x + (int)(chrinfo.XOffset * sizescale);
             int quadX2 = quadX1 + (int)(chrinfo.Width * sizescale);
             int quadY2 = y + (int)((font.CommonInfo.BaseHeight * sizescale) - (chrinfo.YOffset * sizescale));
