@@ -142,5 +142,17 @@ namespace _8beatMap.Properties {
                 this["UseBeepNoteSounds"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AreSettingsInit {
+            get {
+                return ((bool)(this["AreSettingsInit"]));
+            }
+            set {
+                this["AreSettingsInit"] = value;
+            }
+        }
     }
 }
