@@ -441,7 +441,8 @@ namespace _8beatMap
             //DrawCharactersAligned(64, 64, 32, skin.ComboTextInfo.Font, "88", 160);
             //DrawCharactersAligned(64, 96, 32, skin.ComboTextInfo.Font, "88", 160, 1);
             //DrawCharactersAligned(64, 128, 32, skin.ComboTextInfo.Font, "88", 160, 2);
-            //DrawCharactersAligned(64, 96, 32, skin.ComboTextInfo.Font, "This is a test!---!!!@♪", 205, 0, 0);
+            //DrawCharactersAligned(64, 96, 32, skin.ComboTextInfo.Font, "This Ti is a test!---!!!@♪", 205, 0, 0);
+            //DrawCharactersAligned(64, 96, 32, skin.ComboTextInfo.Font, "😃☺😃☻😃", 205, 0, 0);
             //DrawFilledRect(64, 64, 205, 24, "spr_HoldLocus");
 
             FrameStopwatch.Stop();
@@ -594,10 +595,12 @@ namespace _8beatMap
             {
                 float newtotalwidth = totalwidth; // don't touch totalwidth until this iteration is done
 
+                int utf32Char = char.ConvertToUtf32(str, i);
+
                 bool fontHasChar = false;
-                if (font.Characters.ContainsKey(str[i]))
+                if (font.Characters.ContainsKey(utf32Char))
                 {
-                    newtotalwidth += ((font.Characters[str[i]].XAdvance + chrtracking) * sizescale);
+                    newtotalwidth += ((font.Characters[utf32Char].XAdvance + chrtracking) * sizescale);
                     fontHasChar = true;
                 }
                 else newtotalwidth += height * 2 / 3; // advance by some amount anyway, even if no character (could also draw missing character glyph if I want)
@@ -611,7 +614,7 @@ namespace _8beatMap
                 }
                 else if (fontHasChar) // character does fit
                 {
-                    BMFontReader.CharacterInfo chrinfo = font.Characters[str[i]];
+                    BMFontReader.CharacterInfo chrinfo = font.Characters[utf32Char];
 
                     // X, Y is bottom left
                     float texCoordX = (float)chrinfo.TexCoordX / font.CommonInfo.TexScaleWidth;
@@ -636,12 +639,14 @@ namespace _8beatMap
                     DrawRect(quadX, quadY, quadWidth, quadHeight, new RectangleF(texCoordX, texCoordY, texCoordWidth, texCoordHeight), true);
                 }
                 
+                if (utf32Char > 0xffff) i += 1; // if greater than 0xffff it was a pair. add 1 now to get right next character for kerning
+                                                // don't add it earlier because that would affect return value (relies on previous character being at i-1)
 
                 // adjust next char position for kerning if needed
                 // this is after our if case so it can't affect whether previous character should fit or not
                 if (font.KernPairs.Count > 0 && i < str.Length - 1)
                 {
-                    Tuple<char, char> pair = new Tuple<char, char>(str[i], str[i + 1]); ;
+                    Tuple<int, int> pair = new Tuple<int, int>(utf32Char, char.ConvertToUtf32(str, i+1)); ;
                     if (font.KernPairs.ContainsKey(pair)) newtotalwidth += ((font.KernPairs[pair].Amount) * sizescale);
                 }
 
@@ -667,7 +672,9 @@ namespace _8beatMap
             {
                 float newtotalwidth = totalwidth; // don't touch totalwidth until this iteration is done
 
-                if (font.Characters.ContainsKey(str[i])) newtotalwidth += ((font.Characters[str[i]].XAdvance + chrtracking) * sizescale);
+                int utf32Char = char.ConvertToUtf32(str, i);
+
+                if (font.Characters.ContainsKey(utf32Char)) newtotalwidth += ((font.Characters[utf32Char].XAdvance + chrtracking) * sizescale);
                 else newtotalwidth += height * 2 / 3; // advance by some amount anyway, even if no character (could also draw missing character glyph if I want)
 
                 if (maxwidth > 0 && newtotalwidth >= maxwidth) // character doesn't fit
@@ -677,12 +684,14 @@ namespace _8beatMap
                                                         // index is always character number - 1
                 }
 
+                if (utf32Char > 0xffff) i += 1; // if greater than 0xffff it was a pair. add 1 now to get right next character for kerning
+                                                // don't add it earlier because that would affect return value (relies on previous character being at i-1)
 
                 // adjust next char position for kerning if needed
                 // this is after our if case so it can't affect whether previous character should fit or not
                 if (font.KernPairs.Count > 0 && i < str.Length - 1)
                 {
-                    Tuple<char, char> pair = new Tuple<char, char>(str[i], str[i + 1]); ;
+                    Tuple<int, int> pair = new Tuple<int, int>(utf32Char, char.ConvertToUtf32(str, i + 1)); ;
                     if (font.KernPairs.ContainsKey(pair)) newtotalwidth += ((font.KernPairs[pair].Amount) * sizescale);
                 }
 

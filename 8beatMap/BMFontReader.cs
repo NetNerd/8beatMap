@@ -111,17 +111,6 @@ namespace _8beatMap
         public struct CharacterInfo
         {
             public int Id;
-            public char Char
-            {
-                get
-                {
-                    return (char)Id;
-                }
-                set
-                {
-                    Id = (int)value;
-                }
-            }
             public int TexCoordX;
             public int TexCoordY;
             public int Width;
@@ -135,30 +124,8 @@ namespace _8beatMap
 
         public struct KerningInfo
         {
-            public int CharOneId;
-            public char CharOne
-            {
-                get
-                {
-                    return (char)CharOneId;
-                }
-                set
-                {
-                    CharOneId = (int)value;
-                }
-            }
-            public int CharTwoId;
-            public char CharTwo
-            {
-                get
-                {
-                    return (char)CharTwoId;
-                }
-                set
-                {
-                    CharTwoId = (int)value;
-                }
-            }
+            public int CharOne;
+            public int CharTwo;
             public int Amount;
         }
 
@@ -183,8 +150,8 @@ namespace _8beatMap
         {
             public FontGenInfo GenInfo;
             public FontCommonInfo CommonInfo;
-            public Dictionary<char, CharacterInfo> Characters = new Dictionary<char, CharacterInfo>();
-            public Dictionary<Tuple<char, char>, KerningInfo> KernPairs = new Dictionary<Tuple<char, char>, KerningInfo>();
+            public Dictionary<int, CharacterInfo> Characters = new Dictionary<int, CharacterInfo>();
+            public Dictionary<Tuple<int, int>, KerningInfo> KernPairs = new Dictionary<Tuple<int, int>, KerningInfo>();
             public string[] PageTexPaths = { };
 
             public BMFont(string path)
@@ -288,19 +255,19 @@ namespace _8beatMap
                                 if (tag.ContainsKey("chnl"))
                                     thisChr.Channels = (CharacterChannels)int.Parse(tag["chnl"]);
 
-                                if (Characters.ContainsKey(thisChr.Char)) Characters[thisChr.Char] = thisChr;
-                                else Characters.Add(thisChr.Char, thisChr);
+                                if (Characters.ContainsKey(thisChr.Id)) Characters[thisChr.Id] = thisChr;
+                                else Characters.Add(thisChr.Id, thisChr);
                                 break;
                             }
 
                         case "kerning":
                             {
                                 KerningInfo thisKrn = new KerningInfo();
-                                thisKrn.CharOneId = int.Parse(tag["first"]);
-                                thisKrn.CharTwoId = int.Parse(tag["second"]);
+                                thisKrn.CharOne = int.Parse(tag["first"]);
+                                thisKrn.CharTwo = int.Parse(tag["second"]);
                                 thisKrn.Amount = int.Parse(tag["amount"]);
 
-                                Tuple<char, char> pairkey = new Tuple<char, char>(thisKrn.CharOne, thisKrn.CharTwo);
+                                Tuple<int, int> pairkey = new Tuple<int, int>(thisKrn.CharOne, thisKrn.CharTwo);
                                 if (KernPairs.ContainsKey(pairkey)) KernPairs[pairkey] = thisKrn;
                                 else KernPairs.Add(pairkey, thisKrn);
                                 break;
