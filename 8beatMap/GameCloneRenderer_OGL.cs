@@ -534,27 +534,33 @@ namespace _8beatMap
         }
 
 
-        void DrawRect(float x, float y, float width, float height)
+        void DrawRect(float x, float y, float width, float height, RectangleF uv)
         {
             GL.Begin(PrimitiveType.Quads);
 
             // Top-Left
-            GL.TexCoord2(0, 0);
+            GL.TexCoord2(uv.Left, uv.Y-uv.Height);
             GL.Vertex2(x, y+height);
 
             // Top-Right
-            GL.TexCoord2(1, 0);
+            GL.TexCoord2(uv.Right, uv.Y - uv.Height);
             GL.Vertex2(x+width, y+height);
 
             // Bottom-Right
-            GL.TexCoord2(1, 1);
+            GL.TexCoord2(uv.Right, uv.Y);
             GL.Vertex2(x+width, y);
 
             // Bottom-Left
-            GL.TexCoord2(0, 1);
+            GL.TexCoord2(uv.Left, uv.Y);
             GL.Vertex2(x, y);
 
             GL.End();
+        }
+
+        private static RectangleF defaultUVrect = new RectangleF(0, 1, 1, 1);
+        void DrawRect(float x, float y, float width, float height)
+        {
+            DrawRect(x, y, width, height, defaultUVrect);
         }
 
         void DrawFilledRect(float x, float y, float width, float height, int texture)
@@ -567,7 +573,7 @@ namespace _8beatMap
             DrawFilledRect(x, y, width, height, textures[textureName]);
         }
 
-        float DrawCharacter(float x, float y, float height, BMFontReader.BMFont font, char chr)
+        float DrawCharacter(float x, float y, float height, BMFontReader.BMFont font, char chr, bool skipBindTexture = false)
         {
             if (!font.Characters.ContainsKey(chr)) return height*2/3;
 
@@ -576,40 +582,25 @@ namespace _8beatMap
             if (font.CommonInfo.LineHeight == 0) return 0;
             float sizescale = height / font.CommonInfo.LineHeight;
 
-            // X1, Y1 is top left
-            float texCoordX1 = (float)chrinfo.TexCoordX / font.CommonInfo.TexScaleWidth;
-            float texCoordX2 = texCoordX1 + (float)chrinfo.Width / font.CommonInfo.TexScaleWidth;
-            float texCoordY1 = (float)chrinfo.TexCoordY / font.CommonInfo.TexScaleHeight;
-            float texCoordY2 = texCoordY1 + (float)chrinfo.Height / font.CommonInfo.TexScaleHeight;
+            // X, Y is bottom left
+            float texCoordX = (float)chrinfo.TexCoordX / font.CommonInfo.TexScaleWidth;
+            float texCoordWidth = (float)chrinfo.Width / font.CommonInfo.TexScaleWidth;
+            float texCoordHeight = (float)chrinfo.Height / font.CommonInfo.TexScaleHeight;
+            float texCoordY = (float)chrinfo.TexCoordY / font.CommonInfo.TexScaleHeight + texCoordHeight;
 
-            // X1, Y2 is top left
-            float quadX1 = x + (chrinfo.XOffset * sizescale);
-            float quadX2 = quadX1 + (chrinfo.Width * sizescale);
-            float quadY2 = y + ((font.CommonInfo.BaseHeight * sizescale) - (chrinfo.YOffset * sizescale));
-            float quadY1 = quadY2 - (chrinfo.Height * sizescale); // turns out it's actually easier to find the top Y coord first for a BMFont
+            // X, Y is bottom left
+            float quadX = x + (chrinfo.XOffset * sizescale);
+            float quadWidth = (chrinfo.Width * sizescale);
+            float quadHeight = (chrinfo.Height * sizescale);
+            float quadY = y + ((font.CommonInfo.BaseHeight - chrinfo.YOffset) * sizescale) - quadHeight;
+            // baseline -> move up to top of line (+baseheight) -> move down to top of character (-yoffset) -> move down by height of character (for bottom)
 
-            int texture = textures["combofont_" + chrinfo.TexturePage.ToString()];
-            GL.BindTexture(TextureTarget.Texture2D, texture);
-
-            GL.Begin(PrimitiveType.Quads);
-
-            // Top-Left
-            GL.TexCoord2(texCoordX1, texCoordY1);
-            GL.Vertex2(quadX1, quadY2);
-
-            // Top-Right
-            GL.TexCoord2(texCoordX2, texCoordY1);
-            GL.Vertex2(quadX2, quadY2);
-
-            // Bottom-Right
-            GL.TexCoord2(texCoordX2, texCoordY2);
-            GL.Vertex2(quadX2, quadY1);
-
-            // Bottom-Left
-            GL.TexCoord2(texCoordX1, texCoordY2);
-            GL.Vertex2(quadX1, quadY1);
-
-            GL.End();
+            if (!skipBindTexture)
+            {
+                int texture = textures["combofont_" + chrinfo.TexturePage.ToString()];
+                GL.BindTexture(TextureTarget.Texture2D, texture);
+            }
+            DrawRect(quadX, quadY, quadWidth, quadHeight, new RectangleF(texCoordX, texCoordY, texCoordWidth, texCoordHeight));
             
             return chrinfo.XAdvance * sizescale;
         }
@@ -664,9 +655,17 @@ namespace _8beatMap
                 }
             }
 
+            bool skipBindTexture = false;
+            if (font.CommonInfo.PageCount <= 1)
+            {
+                int texture = textures["combofont_" + (font.PageTexPaths.Length-1).ToString()]; // use length of pagetexpaths in case id wasn't 0
+                GL.BindTexture(TextureTarget.Texture2D, texture);
+                skipBindTexture = true;
+            }
+
             for (int i = 0; i < str.Length; i++)
             {
-                x += DrawCharacter(x, y, height, font, str[i]);
+                x += DrawCharacter(x, y, height, font, str[i], skipBindTexture);
                 x += chrtracking;
 
                 if (font.KernPairs.Count > 0 && i < str.Length - 1)
