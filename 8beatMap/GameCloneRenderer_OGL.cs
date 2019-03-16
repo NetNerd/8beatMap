@@ -116,6 +116,7 @@ namespace _8beatMap
             System.Threading.Thread oglThread = new System.Threading.Thread(() =>
             {
                 myWindow = new GameWindow(wndWidth, wndHeight, OpenTK.Graphics.GraphicsMode.Default, "8beatMap Preview Window") { Icon = (Icon)IconResMgr.GetObject("Icon") };
+                //myWindow = new GameWindow(wndWidth, wndHeight, new OpenTK.Graphics.GraphicsMode(32, 0, 0, 4), "8beatMap Preview Window") { Icon = (Icon)IconResMgr.GetObject("Icon") };
                 if ((wndX != -99999 | wndY != -99999) && wndState != WindowState.Maximized)
                 {
                     myWindow.X = wndX;
@@ -507,7 +508,7 @@ namespace _8beatMap
 
             GL.BindTexture(TextureTarget.Texture2D, tex);
 
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)All.Linear);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)All.LinearMipmapLinear);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)All.Linear);
 
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)All.ClampToBorder);
@@ -518,10 +519,12 @@ namespace _8beatMap
                 System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
 
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, bmp.Width, bmp.Height, 0, PixelFormat.Bgra, PixelType.UnsignedByte, bmpData.Scan0);
-
+            
             bmp.UnlockBits(bmpData);
             bmp.Dispose();
 
+            GL.Enable(EnableCap.Texture2D); // this is needed because an AMDTI bug apparently (not sure how recently)
+            GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
 
             GL.BindTexture(TextureTarget.Texture2D, 0);
 
