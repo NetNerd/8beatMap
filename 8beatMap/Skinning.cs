@@ -25,7 +25,7 @@ namespace _8beatMap
 
             public Dictionary<string, string> SoundPaths;
 
-            public BMFontReader.BMFont ComboFont;
+            public ComboTextInfo ComboTextInfo;
         }
 
         public static Skin ShowUnskinnedErrorMessage(string extrainfo)
@@ -220,9 +220,12 @@ namespace _8beatMap
             Point[] NodeStartLocs = new Point[maxlanes];
 
             string[] defslines = defs.Split("\n".ToCharArray());
+            int i2 = 0;
             for (int i = 0; i < defslines.Length; i++)
             {
                 if (i >= maxlanes) break;
+
+                if (defslines[i].StartsWith("#") || defslines[i].Trim().Length == 0) continue;
 
                 if (!defslines[i].Contains(" ")) continue;
                 string[] pointstrs = defslines[i].Split(" ".ToCharArray());
@@ -230,7 +233,8 @@ namespace _8beatMap
                 string[] startstrs = pointstrs[0].Split(",".ToCharArray());
                 Point start = new Point(int.Parse(startstrs[0]), int.Parse(startstrs[1]));
                 
-                NodeStartLocs[i] = start;
+                NodeStartLocs[i2] = start;
+                i2++;
             }
 
             return NodeStartLocs;
@@ -240,17 +244,21 @@ namespace _8beatMap
             Point[] NodeEndLocs = new Point[maxlanes];
 
             string[] defslines = defs.Split("\n".ToCharArray());
+            int i2 = 0;
             for (int i = 0; i < defslines.Length; i++)
             {
                 if (i >= maxlanes) break;
 
+                if (defslines[i].StartsWith("#") || defslines[i].Trim().Length == 0) continue;
+                
                 if (!defslines[i].Contains(" ")) continue;
                 string[] pointstrs = defslines[i].Split(" ".ToCharArray());
                 if (!pointstrs[0].Contains(",")) continue;
                 string[] endstrs = pointstrs[1].Split(",".ToCharArray());
                 Point end = new Point(int.Parse(endstrs[0]), int.Parse(endstrs[1]));
                 
-                NodeEndLocs[i] = end;
+                NodeEndLocs[i2] = end;
+                i2++;
             }
             return NodeEndLocs;
         }
@@ -260,6 +268,8 @@ namespace _8beatMap
             string[] defslines = defs.Split("\n".ToCharArray());
             for (int i = 0; i < defslines.Length; i++)
             {
+                if (defslines[i].StartsWith("#") || defslines[i].Trim().Length == 0) continue;
+
                 if (!defslines[i].Contains(" ")) continue;
                 string[] pointstrs = defslines[i].Split(" ".ToCharArray());
                 if (!pointstrs[0].Contains(",")) continue;
@@ -270,6 +280,50 @@ namespace _8beatMap
             }
             if (NumLanes > 8) return 8;
             else return NumLanes;
+        }
+
+        public struct ComboTextInfo
+        {
+            public Point[] Locs;
+            public int TextSize;
+            public BMFontReader.BMFont Font;
+        }
+
+        private static ComboTextInfo LoadComboTextInfo(string defs, string fontsdir)
+        {
+            ComboTextInfo outinfo = new ComboTextInfo();
+
+            outinfo.Font = new BMFontReader.BMFont(fontsdir + "/font_combo.fnt");
+
+            outinfo.Locs = new Point[2];
+
+            string[] defslines = defs.Split("\n".ToCharArray());
+            int i2 = 0;
+            for (int i = 0; i < defslines.Length; i++)
+            {
+                if (i >= maxlanes) break;
+
+                if (defslines[i].StartsWith("#") || defslines[i].Trim().Length == 0) continue;
+
+                if (defslines[i].Contains(","))
+                {
+                    string[] pointstrs = defslines[1].Split(",".ToCharArray());
+                    Point loc = new Point(int.Parse(pointstrs[0]), int.Parse(pointstrs[1]));
+
+                    outinfo.Locs[i2] = loc;
+                    i2++;
+                }
+                else
+                {
+                    try
+                    {
+                        outinfo.TextSize = int.Parse(defslines[i]);
+                    }
+                    catch
+                    { }
+                }
+            }
+            return outinfo;
         }
 
         public static Skin LoadSkin(string rootdir)
@@ -302,7 +356,7 @@ namespace _8beatMap
                     NodeEndLocs = LoadNodeEndLocs(buttonsfile),
                     NumLanes = LoadNumLanes(buttonsfile),
                     SoundPaths = LoadSoundPaths(rootdir),
-                    ComboFont = new BMFontReader.BMFont(rootdir + "/font/font_combo.fnt")
+                    ComboTextInfo = LoadComboTextInfo(ReadFile_EmptyStringIfException(rootdir + "/font/pos_combo.txt"), rootdir + "/font")
                 };
 
                 return output;

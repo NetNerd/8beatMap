@@ -92,12 +92,12 @@ namespace _8beatMap
                     textures[tex.Key] = LoadTexture(tex.Value);
             }
 
-            for (int i = 0; i < skin.ComboFont.PageTexPaths.Length; i++)
+            for (int i = 0; i < skin.ComboTextInfo.Font.PageTexPaths.Length; i++)
             {
-                if (skin.ComboFont.PageTexPaths[i] == null) continue;
+                if (skin.ComboTextInfo.Font.PageTexPaths[i] == null) continue;
 
                 string texkey = "combofont_" + i.ToString();
-                string texpath = skin.ComboFont.PageTexPaths[i];
+                string texpath = skin.ComboTextInfo.Font.PageTexPaths[i];
                 if (!textures.ContainsKey(texkey))
                     textures.Add(texkey, LoadTexture(texpath));
                 else
@@ -429,19 +429,19 @@ namespace _8beatMap
             //if (chart.Ticks[comboTick].ComboNumber > 1)
             //{
             //    int textsize = 48;
-            //    if (skin.ComboFont.CommonInfo.LineHeight > 0) textsize = skin.ComboFont.CommonInfo.LineHeight;
+            //    if (skin.ComboTextInfo.Font.CommonInfo.LineHeight > 0) textsize = skin.ComboTextInfo.Font.CommonInfo.LineHeight;
             //    int numX = 1040;
             //    int numY = viewHeight - 8;
             //    int textX = numX;
             //    int textY = viewHeight - 128;
-            //    DrawCharactersAligned(numX - 128, numY - textsize, textsize, skin.ComboFont, chart.Ticks[comboTick].ComboNumber.ToString(), 256, 1, -4);
+            //    DrawCharactersAligned(numX - 128, numY - textsize, textsize, skin.ComboTextInfo.Font, chart.Ticks[comboTick].ComboNumber.ToString(), 256, 1, -4);
             //    DrawFilledRect(textX - 128, textY, 256, 64, "spr_ComboText");
             //}
-            //DrawCharactersAligned(64, 64, 32, skin.ComboFont, "01189998819991197253", 80);
-            //DrawCharactersAligned(64, 64, 32, skin.ComboFont, "88", 160);
-            //DrawCharactersAligned(64, 96, 32, skin.ComboFont, "88", 160, 1);
-            //DrawCharactersAligned(64, 128, 32, skin.ComboFont, "88", 160, 2);
-            //DrawCharactersAligned(64, 96, 32, skin.ComboFont, "This is a test!---!!!@♪", 205, 0, 0);
+            //DrawCharactersAligned(64, 64, 32, skin.ComboTextInfo.Font, "01189998819991197253", 80);
+            //DrawCharactersAligned(64, 64, 32, skin.ComboTextInfo.Font, "88", 160);
+            //DrawCharactersAligned(64, 96, 32, skin.ComboTextInfo.Font, "88", 160, 1);
+            //DrawCharactersAligned(64, 128, 32, skin.ComboTextInfo.Font, "88", 160, 2);
+            //DrawCharactersAligned(64, 96, 32, skin.ComboTextInfo.Font, "This is a test!---!!!@♪", 205, 0, 0);
             //DrawFilledRect(64, 64, 205, 24, "spr_HoldLocus");
 
             FrameStopwatch.Stop();
