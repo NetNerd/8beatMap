@@ -218,8 +218,8 @@ namespace _8beatMap
             GL.MatrixMode(MatrixMode.Projection);
             ProjMatrix = Matrix4.CreateOrthographicOffCenter(0, 1136, 0, viewHeight, 0, 2);
             GL.LoadMatrix(ref ProjMatrix);
-            
-            
+
+
 
             DrawFilledRect(NodeEndLocs[0].X - halfIconSize, NodeEndLocs[0].Y - halfIconSize, iconSize, iconSize, "spr_Chara1");
             DrawFilledRect(NodeEndLocs[1].X - halfIconSize, NodeEndLocs[1].Y - halfIconSize, iconSize, iconSize, "spr_Chara2");
@@ -433,14 +433,14 @@ namespace _8beatMap
             //    int numY = viewHeight - 8;
             //    int textX = numX;
             //    int textY = viewHeight - 128;
-            //    DrawCharacterLine(numX - 128, numY - textsize, textsize, skin.ComboFont, chart.Ticks[comboTick].ComboNumber.ToString(), 256, 1, -4);
+            //    DrawCharactersAligned(numX - 128, numY - textsize, textsize, skin.ComboFont, chart.Ticks[comboTick].ComboNumber.ToString(), 256, 1, -4);
             //    DrawFilledRect(textX - 128, textY, 256, 64, "spr_ComboText");
             //}
-            //DrawCharacterLine(64, 64, 32, skin.ComboFont, "01189998819991197253", 80);
-            //DrawCharacterLine(64, 64, 32, skin.ComboFont, "88", 160);
-            //DrawCharacterLine(64, 96, 32, skin.ComboFont, "88", 160, 1);
-            //DrawCharacterLine(64, 128, 32, skin.ComboFont, "88", 160, 2);
-            //DrawCharacterLine(64, 96, 32, skin.ComboFont, "This is a test!---!!!@♪", 205, 0, 0);
+            //DrawCharactersAligned(64, 64, 32, skin.ComboFont, "01189998819991197253", 80);
+            //DrawCharactersAligned(64, 64, 32, skin.ComboFont, "88", 160);
+            //DrawCharactersAligned(64, 96, 32, skin.ComboFont, "88", 160, 1);
+            //DrawCharactersAligned(64, 128, 32, skin.ComboFont, "88", 160, 2);
+            //DrawCharactersAligned(64, 96, 32, skin.ComboFont, "This is a test!---!!!@♪", 205, 0, 0);
             //DrawFilledRect(64, 64, 205, 24, "spr_HoldLocus");
 
             FrameStopwatch.Stop();
@@ -534,9 +534,9 @@ namespace _8beatMap
         }
 
 
-        void DrawRect(float x, float y, float width, float height, RectangleF uv)
+        void DrawRect(float x, float y, float width, float height, RectangleF uv, bool skipBeginAndEnd = false)
         {
-            GL.Begin(PrimitiveType.Quads);
+            if (!skipBeginAndEnd) GL.Begin(PrimitiveType.Quads);
 
             // Top-Left
             GL.TexCoord2(uv.Left, uv.Y-uv.Height);
@@ -554,13 +554,13 @@ namespace _8beatMap
             GL.TexCoord2(uv.Left, uv.Y);
             GL.Vertex2(x, y);
 
-            GL.End();
+            if (!skipBeginAndEnd) GL.End();
         }
 
         private static RectangleF defaultUVrect = new RectangleF(0, 1, 1, 1);
-        void DrawRect(float x, float y, float width, float height)
+        void DrawRect(float x, float y, float width, float height, bool skipBeginAndEnd = false)
         {
-            DrawRect(x, y, width, height, defaultUVrect);
+            DrawRect(x, y, width, height, defaultUVrect, skipBeginAndEnd);
         }
 
         void DrawFilledRect(float x, float y, float width, float height, int texture)
@@ -573,62 +573,116 @@ namespace _8beatMap
             DrawFilledRect(x, y, width, height, textures[textureName]);
         }
 
-        float DrawCharacter(float x, float y, float height, BMFontReader.BMFont font, char chr, bool skipBindTexture = false)
-        {
-            if (!font.Characters.ContainsKey(chr)) return height*2/3;
-
-            BMFontReader.CharacterInfo chrinfo = font.Characters[chr];
-            
-            if (font.CommonInfo.LineHeight == 0) return 0;
-            float sizescale = height / font.CommonInfo.LineHeight;
-
-            // X, Y is bottom left
-            float texCoordX = (float)chrinfo.TexCoordX / font.CommonInfo.TexScaleWidth;
-            float texCoordWidth = (float)chrinfo.Width / font.CommonInfo.TexScaleWidth;
-            float texCoordHeight = (float)chrinfo.Height / font.CommonInfo.TexScaleHeight;
-            float texCoordY = (float)chrinfo.TexCoordY / font.CommonInfo.TexScaleHeight + texCoordHeight;
-
-            // X, Y is bottom left
-            float quadX = x + (chrinfo.XOffset * sizescale);
-            float quadWidth = (chrinfo.Width * sizescale);
-            float quadHeight = (chrinfo.Height * sizescale);
-            float quadY = y + ((font.CommonInfo.BaseHeight - chrinfo.YOffset) * sizescale) - quadHeight;
-            // baseline -> move up to top of line (+baseheight) -> move down to top of character (-yoffset) -> move down by height of character (for bottom)
-
-            if (!skipBindTexture)
-            {
-                int texture = textures["combofont_" + chrinfo.TexturePage.ToString()];
-                GL.BindTexture(TextureTarget.Texture2D, texture);
-            }
-            DrawRect(quadX, quadY, quadWidth, quadHeight, new RectangleF(texCoordX, texCoordY, texCoordWidth, texCoordHeight));
-            
-            return chrinfo.XAdvance * sizescale;
-        }
-
-        // returns { NumberOfCharacters(that will fit), WidthInPixels(of characters that fit) }
-        int[] GetLineLength(float height, BMFontReader.BMFont font, string str, int maxwidth, float chrtracking = -2)
+        // returns { NumberOfCharacters(that fit into line), WidthInPixels(of characters that fit) }
+        int[] DrawCharacters(float x, float y, float height, BMFontReader.BMFont font, string str, int maxwidth = 0, float chrtracking = -2)
         {
             if (font.CommonInfo.LineHeight == 0) return new int[] { 0, 0 };
             float sizescale = height / font.CommonInfo.LineHeight;
 
+            // avoid constantly reloading if texture page doesn't change
+            // start at -1 because invalid
+            int lasttexpage = -1;
+
             float totalwidth = 0;
+
+            GL.Begin(PrimitiveType.Quads); // begin so that we don't need to decide whether to end or not in loop
+
             for (int i = 0; i < str.Length; i++)
             {
-                float newtotalwidth = totalwidth;
-                if (font.Characters.ContainsKey(str[i])) newtotalwidth += ((font.Characters[str[i]].XAdvance + chrtracking) * sizescale);
-                else newtotalwidth += height*2/3;
+                float newtotalwidth = totalwidth; // don't touch totalwidth until this iteration is done
+
+                bool fontHasChar = false;
+                if (font.Characters.ContainsKey(str[i]))
+                {
+                    newtotalwidth += ((font.Characters[str[i]].XAdvance + chrtracking) * sizescale);
+                    fontHasChar = true;
+                }
+                else newtotalwidth += height * 2 / 3; // advance by some amount anyway, even if no character (could also draw missing character glyph if I want)
+
+
+                if (maxwidth > 0 && newtotalwidth >= maxwidth) // character doesn't fit
+                {
+                    totalwidth -= chrtracking * sizescale; // because we should use the true cursor position at end, not the adjusted one for next character
+                    return new int[] { i, (int)totalwidth }; // when new character doesn't fit return index
+                                                             // index is always character number - 1
+                }
+                else if (fontHasChar) // character does fit
+                {
+                    BMFontReader.CharacterInfo chrinfo = font.Characters[str[i]];
+
+                    // X, Y is bottom left
+                    float texCoordX = (float)chrinfo.TexCoordX / font.CommonInfo.TexScaleWidth;
+                    float texCoordWidth = (float)chrinfo.Width / font.CommonInfo.TexScaleWidth;
+                    float texCoordHeight = (float)chrinfo.Height / font.CommonInfo.TexScaleHeight;
+                    float texCoordY = (float)chrinfo.TexCoordY / font.CommonInfo.TexScaleHeight + texCoordHeight;
+
+                    // X, Y is bottom left
+                    float quadX = x + totalwidth + (chrinfo.XOffset * sizescale); // deliberately use width from before advancing for new character
+                    float quadWidth = (chrinfo.Width * sizescale);
+                    float quadHeight = (chrinfo.Height * sizescale);
+                    float quadY = y + ((font.CommonInfo.BaseHeight - chrinfo.YOffset) * sizescale) - quadHeight;
+
+                    if (chrinfo.TexturePage != lasttexpage)
+                    {
+                        GL.End();
+                        lasttexpage = chrinfo.TexturePage;
+                        int texture = textures["combofont_" + chrinfo.TexturePage.ToString()];
+                        GL.BindTexture(TextureTarget.Texture2D, texture);
+                        GL.Begin(PrimitiveType.Quads);
+                    }
+                    DrawRect(quadX, quadY, quadWidth, quadHeight, new RectangleF(texCoordX, texCoordY, texCoordWidth, texCoordHeight), true);
+                }
+                
+
+                // adjust next char position for kerning if needed
+                // this is after our if case so it can't affect whether previous character should fit or not
                 if (font.KernPairs.Count > 0 && i < str.Length - 1)
                 {
                     Tuple<char, char> pair = new Tuple<char, char>(str[i], str[i + 1]); ;
                     if (font.KernPairs.ContainsKey(pair)) newtotalwidth += ((font.KernPairs[pair].Amount) * sizescale);
                 }
 
-                if (newtotalwidth >= maxwidth)
+
+                totalwidth = newtotalwidth;
+            }
+
+            GL.End();
+
+            totalwidth -= chrtracking * sizescale; // because we should use the true cursor position at end, not the adjusted one for next character
+            return new int[] { str.Length, (int)totalwidth }; // only reached if not triggered early
+        }
+
+        // returns { NumberOfCharacters(that will fit), WidthInPixels(of characters that fit) }
+        int[] GetLineLength(float height, BMFontReader.BMFont font, string str, int maxwidth = 0, float chrtracking = -2)
+        {
+            if (font.CommonInfo.LineHeight == 0) return new int[] { 0, 0 };
+            float sizescale = height / font.CommonInfo.LineHeight;
+
+            float totalwidth = 0;
+
+            for (int i = 0; i < str.Length; i++)
+            {
+                float newtotalwidth = totalwidth; // don't touch totalwidth until this iteration is done
+
+                if (font.Characters.ContainsKey(str[i])) newtotalwidth += ((font.Characters[str[i]].XAdvance + chrtracking) * sizescale);
+                else newtotalwidth += height * 2 / 3; // advance by some amount anyway, even if no character (could also draw missing character glyph if I want)
+
+                if (maxwidth > 0 && newtotalwidth >= maxwidth) // character doesn't fit
                 {
                     totalwidth -= chrtracking * sizescale; // because we should use the true cursor position at end, not the adjusted one for next character
                     return new int[] { i, (int)totalwidth }; // when new character doesn't fit return index
                                                         // index is always character number - 1
                 }
+
+
+                // adjust next char position for kerning if needed
+                // this is after our if case so it can't affect whether previous character should fit or not
+                if (font.KernPairs.Count > 0 && i < str.Length - 1)
+                {
+                    Tuple<char, char> pair = new Tuple<char, char>(str[i], str[i + 1]); ;
+                    if (font.KernPairs.ContainsKey(pair)) newtotalwidth += ((font.KernPairs[pair].Amount) * sizescale);
+                }
+
                 totalwidth = newtotalwidth;
             }
 
@@ -636,7 +690,7 @@ namespace _8beatMap
             return new int[] { str.Length, (int)totalwidth }; // only reached if not triggered early
         }
 
-        int DrawCharacterLine(float x, float y, float height, BMFontReader.BMFont font, string str, int maxwidth = 0, int align = 0, float chrtracking = -2)
+        int DrawCharactersAligned(float x, float y, float height, BMFontReader.BMFont font, string str, int maxwidth = 0, int align = 0, float chrtracking = -2)
         {
             if (font.CommonInfo.LineHeight == 0) return 0;
 
@@ -655,25 +709,7 @@ namespace _8beatMap
                 }
             }
 
-            bool skipBindTexture = false;
-            if (font.CommonInfo.PageCount <= 1)
-            {
-                int texture = textures["combofont_" + (font.PageTexPaths.Length-1).ToString()]; // use length of pagetexpaths in case id wasn't 0
-                GL.BindTexture(TextureTarget.Texture2D, texture);
-                skipBindTexture = true;
-            }
-
-            for (int i = 0; i < str.Length; i++)
-            {
-                x += DrawCharacter(x, y, height, font, str[i], skipBindTexture);
-                x += chrtracking;
-
-                if (font.KernPairs.Count > 0 && i < str.Length - 1)
-                {
-                    Tuple<char, char> pair = new Tuple<char, char>(str[i], str[i + 1]);
-                    if (font.KernPairs.ContainsKey(pair)) x += font.KernPairs[pair].Amount * height / font.CommonInfo.LineHeight;
-                }
-            }
+            DrawCharacters(x, y, height, font, str, 0, chrtracking);
 
             return str.Length;
         }
