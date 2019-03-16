@@ -307,7 +307,7 @@ namespace _8beatMap
 
                 if (defslines[i].Contains(","))
                 {
-                    string[] pointstrs = defslines[1].Split(",".ToCharArray());
+                    string[] pointstrs = defslines[i].Split(",".ToCharArray());
                     Point loc = new Point(int.Parse(pointstrs[0]), int.Parse(pointstrs[1]));
 
                     outinfo.Locs[i2] = loc;

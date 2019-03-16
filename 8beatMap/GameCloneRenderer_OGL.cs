@@ -428,13 +428,13 @@ namespace _8beatMap
             // disabled until complete and I can add an option to toggle it
             //if (chart.Ticks[comboTick].ComboNumber > 1)
             //{
-            //    int textsize = 48;
-            //    if (skin.ComboTextInfo.Font.CommonInfo.LineHeight > 0) textsize = skin.ComboTextInfo.Font.CommonInfo.LineHeight;
-            //    int numX = 1040;
-            //    int numY = viewHeight - 8;
-            //    int textX = numX;
-            //    int textY = viewHeight - 128;
-            //    DrawCharactersAligned(numX - 128, numY - textsize, textsize, skin.ComboTextInfo.Font, chart.Ticks[comboTick].ComboNumber.ToString(), 256, 1, -4);
+            //    int textsize = skin.ComboTextInfo.TextSize;
+            //    if (textsize == 0 && skin.ComboTextInfo.Font.CommonInfo.LineHeight > 0) textsize = skin.ComboTextInfo.Font.CommonInfo.LineHeight;
+            //    int numX = skin.ComboTextInfo.Locs[0].X;
+            //    int numY = viewHeight - skin.ComboTextInfo.Locs[0].Y;
+            //    int textX = skin.ComboTextInfo.Locs[1].X;
+            //    int textY = viewHeight - skin.ComboTextInfo.Locs[1].Y;
+            //    DrawCharactersAligned(numX - 128, numY, textsize, skin.ComboTextInfo.Font, chart.Ticks[comboTick].ComboNumber.ToString(), 256, 1, -4);
             //    DrawFilledRect(textX - 128, textY, 256, 64, "spr_ComboText");
             //}
             //DrawCharactersAligned(64, 64, 32, skin.ComboTextInfo.Font, "01189998819991197253", 80);
