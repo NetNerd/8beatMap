@@ -1,4 +1,8 @@
+# first is number position
+# second is "COMBO" text position
 # third is font size -- when set to 0 it draws at the font's native height
-1040,54
-1040,128
+# fourth is character spacing
+568,108
+568,68
 0
+2

@@ -434,7 +434,7 @@ namespace _8beatMap
             //    int numY = viewHeight - skin.ComboTextInfo.Locs[0].Y;
             //    int textX = skin.ComboTextInfo.Locs[1].X;
             //    int textY = viewHeight - skin.ComboTextInfo.Locs[1].Y;
-            //    DrawCharactersAligned(numX - 128, numY, textsize, skin.ComboTextInfo.Font, chart.Ticks[comboTick].ComboNumber.ToString(), 256, 1, -4);
+            //    DrawCharactersAligned(numX - 128, numY, textsize, skin.ComboTextInfo.Font, chart.Ticks[comboTick].ComboNumber.ToString(), 256, 1, skin.ComboTextInfo.CharacterTracking);
             //    DrawFilledRect(textX - 128, textY, 256, 64, "spr_ComboText");
             //}
             //DrawCharactersAligned(64, 64, 32, skin.ComboTextInfo.Font, "01189998819991197253", 80);

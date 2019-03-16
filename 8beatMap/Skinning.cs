@@ -286,6 +286,7 @@ namespace _8beatMap
         {
             public Point[] Locs;
             public int TextSize;
+            public int CharacterTracking;
             public BMFontReader.BMFont Font;
         }
 
@@ -299,6 +300,7 @@ namespace _8beatMap
 
             string[] defslines = defs.Split("\n".ToCharArray());
             int i2 = 0;
+            int i3 = 0;
             for (int i = 0; i < defslines.Length; i++)
             {
                 if (i >= maxlanes) break;
@@ -317,7 +319,9 @@ namespace _8beatMap
                 {
                     try
                     {
-                        outinfo.TextSize = int.Parse(defslines[i]);
+                        if (i3 == 0) outinfo.TextSize = int.Parse(defslines[i]);
+                        else outinfo.CharacterTracking = int.Parse(defslines[i]);
+                        i3++;
                     }
                     catch
                     { }
