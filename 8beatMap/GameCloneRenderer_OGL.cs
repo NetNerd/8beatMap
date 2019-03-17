@@ -468,7 +468,9 @@ namespace _8beatMap
             //DrawCharactersAligned(64, 96, 32, skin.ComboTextInfo.Font, "88", 160, 1);
             //DrawCharactersAligned(64, 128, 32, skin.ComboTextInfo.Font, "88", 160, 2);
             //DrawCharactersAligned(64, 96, 32, skin.ComboTextInfo.Font, "This is a test!---!!!@♪", 205, 0, 0);
-            //DrawString(64, 600, 32, skin.ComboTextInfo.Font, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum consequat sem at purus pretium, vitae mollis sapien maximus. Duis rutrum elit vel odio iaculis dictum. Fusce viverra nisi eget dictum facilisis. Maecenas eleifend eu lorem ut convallis. Donec sed ullamcorper dui. Vivamus hendrerit magna vitae nisl porttitor, ac accumsan urna volutpat. Pellentesque nec nulla ultricies, suscipit arcu a, eleifend dui. Suspendisse potenti. Mauris felis arcu, sollicitudin eu finibus ut, interdum id ante.", 500, 400, 0, 0);
+            //DrawString(64, 600, 32, skin.ComboTextInfo.Font, "Lor\nem ip\nsum dolor sit amet, consectetur adipiscing elit. Vestibulum consequ\nat sem at purus pretium, vitae mollis sapien max\nimus. Duis rutrum elit vel odio iaculis dictum. Fusce viverra nisi eget dictum facilisis. Maecenas eleifend eu lorem ut convallis. Donec sed ullamc\norper dui. Vivamus hendrerit magna vitae nisl porttitor, ac accumsan urna volutpat. Pellentesque nec nulla ultricies, suscipit arcu a, eleifend dui. Suspe\nndisse potenti. Mauris felis arcu, sollicitudin eu finibus ut, interdum id ante.", 500, 400, 0, 0);
+            //DrawString(600, 600, 32, skin.ComboTextInfo.Font, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum consequat sem at purus pretium, vitae mollis sapien maximus. Duis rutrum elit vel odio iaculis dictum. Fusce viverra nisi eget dictum facilisis. Maecenas eleifend eu lorem ut convallis. Donec sed ullamcorper dui. Vivamus hendrerit magna vitae nisl porttitor, ac accumsan urna volutpat. Pellentesque nec nulla ultricies, suscipit arcu a, eleifend dui. Suspendisse potenti. Mauris felis arcu, sollicitudin eu finibus ut, interdum id ante.", 500, 400, 0, 0);
+            //DrawFilledRect(590, 200, 10, 400, "spr_HoldLocus");
             //GL.Color4(0f, 1f, 0, 1f);
             //DrawCharactersAligned(640, 96, 32, skin.ComboTextInfo.Font, "😃☺😃☻😃", 205, 0, 0);
             //DrawFilledRect(64, 64, 205, 24, "spr_HoldLocus");
@@ -847,15 +849,38 @@ namespace _8beatMap
             return new int[] { str.Length, rightpoint };
         }
 
-        int DrawString(float x, float y, float height, BMFontReader.BMFont font, string str, int maxwidth = 0, int maxheight = 0, int align = 0, float chrtracking = -2)
+        // returns { NumberOfCharactersLeft(that weren't rendered), HeightOfString }
+        int[] DrawString(float x, float y, float height, BMFontReader.BMFont font, string str, int maxwidth = 0, int maxheight = 0, int align = 0, float chrtracking = -2)
         {
-            if (font.CommonInfo.LineHeight == 0) return 0;
+            if (font.CommonInfo.LineHeight == 0) return new int[] { str.Length, 0 };
+
+            maxheight -= (int)height; // because we'll almost certainly overshoot it
 
             float totalheight = 0;
-            int[] maxchrs = DrawCharactersAligned(x, y, height, font, str, maxwidth, align, chrtracking);
-            while (maxchrs[0] < str.Length)
+
+            while (str.Contains("\n"))
             {
+                string[] newlinesplit = str.Split("\n".ToCharArray(), 2); // get portion before newline to render
+                int[] res = DrawString(x, y - totalheight, height, font, newlinesplit[0], maxwidth, maxheight + (int)height - (int)totalheight, align, chrtracking);
+                totalheight += res[1]; // advance height
+                if (res[0] > 0 || totalheight >= maxheight) // already can't render more...
+                {
+                    return new int[] { res[0] + 1 + newlinesplit[1].Length, (int)totalheight }; // +1 is for the newline character we removed
+                }
+                str = newlinesplit[1]; // remove already drawn content from string
+            }
+
+            int[] maxchrs = DrawCharactersAligned(x, y - totalheight, height, font, str, maxwidth, align, chrtracking);
+            while (maxchrs[0] <= str.Length)
+            {
+                if (maxchrs[0] == str.Length)
+                {
+                    str = "";
+                    break;
+                }
+
                 str = str.Remove(0, maxchrs[0]);
+
                 if (char.IsWhiteSpace(str, 0)) // remove whitespace from start of line
                 {
                     if (char.IsHighSurrogate(str[0])) str = str.Remove(0, 2);
@@ -875,9 +900,10 @@ namespace _8beatMap
                 }
                 else // broke mid-word
                 {
-                    if (maxheight > 0 && totalheight + height >= maxheight) // if going to stop draw ellipses instead
+                    if (maxheight > 0 && totalheight + height >= maxheight) // if going to stop draw ellipsis instead
                     {
-                        DrawCharacters(maxchrs[1], y - totalheight, height, font, "...", 0, chrtracking-2);
+                        // disable because moved
+                        //DrawCharacters(maxchrs[1], y - totalheight, height, font, "...", 0, chrtracking-2);
                     }
                     else
                     {
@@ -885,13 +911,17 @@ namespace _8beatMap
                     }
                 }
 
-
+                if (maxheight > 0 && totalheight + height >= maxheight)
+                {
+                    // draw ellipsis when breaking early
+                    DrawCharacters(maxchrs[1], y - totalheight, height, font, "...", 0, chrtracking - 2);
+                    break;
+                }
                 totalheight += height;
-                if (maxheight > 0 && totalheight >= maxheight) break;
                 maxchrs = DrawCharactersAligned(x, y - totalheight, height, font, str, maxwidth, align, chrtracking);
             }
 
-            return str.Length;
+            return new int[] { str.Length, (int)totalheight + (int)height };
         }
     }
 }
