@@ -105,25 +105,27 @@ namespace _8beatMap
 
                 if (skin.ComboTextInfo.Font.CommonInfo.Packed)
                 {
+                    int[] channelTextures = LoadTextureToSplitChannels(texpath);
+
                     if (!textures.ContainsKey(texkey + "R"))
-                        textures.Add(texkey + "R", LoadTextureFromChannel(texpath, BMFontReader.CharacterChannels.Red));
+                        textures.Add(texkey + "R", channelTextures[0]);
                     else
-                        textures[texkey + "R"] = LoadTextureFromChannel(texpath, BMFontReader.CharacterChannels.Red);
+                        textures[texkey + "R"] = channelTextures[0];
 
                     if (!textures.ContainsKey(texkey + "G"))
-                        textures.Add(texkey + "G", LoadTextureFromChannel(texpath, BMFontReader.CharacterChannels.Green));
+                        textures.Add(texkey + "G", channelTextures[1]);
                     else
-                        textures[texkey + "G"] = LoadTextureFromChannel(texpath, BMFontReader.CharacterChannels.Green);
+                        textures[texkey + "G"] = channelTextures[1];
 
                     if (!textures.ContainsKey(texkey + "B"))
-                        textures.Add(texkey + "B", LoadTextureFromChannel(texpath, BMFontReader.CharacterChannels.Blue));
+                        textures.Add(texkey + "B", channelTextures[2]);
                     else
-                        textures[texkey + "B"] = LoadTextureFromChannel(texpath, BMFontReader.CharacterChannels.Blue);
+                        textures[texkey + "B"] = channelTextures[2];
 
                     if (!textures.ContainsKey(texkey + "A"))
-                        textures.Add(texkey + "A", LoadTextureFromChannel(texpath, BMFontReader.CharacterChannels.Alpha));
+                        textures.Add(texkey + "A", channelTextures[3]);
                     else
-                        textures[texkey + "A"] = LoadTextureFromChannel(texpath, BMFontReader.CharacterChannels.Alpha);
+                        textures[texkey + "A"] = channelTextures[3];
                 }
             }
         }
@@ -530,6 +532,10 @@ namespace _8beatMap
                 Stop();
             }
 
+            System.Drawing.Imaging.BitmapData bmpData = bmp.LockBits(new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height),
+                System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
+            
+
             int tex = GL.GenTexture();
 
             GL.BindTexture(TextureTarget.Texture2D, tex);
@@ -541,23 +547,21 @@ namespace _8beatMap
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)All.ClampToBorder);
 
 
-            System.Drawing.Imaging.BitmapData bmpData = bmp.LockBits(new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height),
-                System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
-
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, bmp.Width, bmp.Height, 0, PixelFormat.Bgra, PixelType.UnsignedByte, bmpData.Scan0);
             
-            bmp.UnlockBits(bmpData);
-            bmp.Dispose();
-
             GL.Enable(EnableCap.Texture2D); // this is needed because an ATI bug apparently (not sure how recently)
             GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
+
+
+            bmp.UnlockBits(bmpData);
+            bmp.Dispose();
 
             GL.BindTexture(TextureTarget.Texture2D, 0);
 
             return tex;
         }
 
-        int LoadTextureFromChannel(string path, BMFontReader.CharacterChannels channel)
+        int[] LoadTextureToSplitChannels(string path)
         {
             Bitmap bmp;
             try
@@ -569,47 +573,59 @@ namespace _8beatMap
                 Stop();
             }
 
-            int tex = GL.GenTexture();
 
-            GL.BindTexture(TextureTarget.Texture2D, tex);
-
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)All.LinearMipmapLinear);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)All.Linear);
-
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)All.ClampToBorder);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)All.ClampToBorder);
-
-            byte[] channelbytes = new byte[bmp.Width*bmp.Height];
+            byte[][] planes = new byte[4][]
+            { new byte[bmp.Width * bmp.Height], new byte[bmp.Width * bmp.Height], new byte[bmp.Width * bmp.Height], new byte[bmp.Width * bmp.Height] };
+            
             for (int i = 0; i < bmp.Height; i++)
             {
                 for (int j = 0; j < bmp.Width; j++)
                 {
-                    if (channel == BMFontReader.CharacterChannels.Alpha) channelbytes[i * bmp.Width + j] = bmp.GetPixel(j, i).A;
-                    else if (channel == BMFontReader.CharacterChannels.Red) channelbytes[i * bmp.Width + j] = bmp.GetPixel(j, i).R;
-                    else if (channel == BMFontReader.CharacterChannels.Green) channelbytes[i * bmp.Width + j] = bmp.GetPixel(j, i).G;
-                    else if (channel == BMFontReader.CharacterChannels.Blue) channelbytes[i * bmp.Width + j] = bmp.GetPixel(j, i).B;
+                    planes[0][i * bmp.Width + j] = bmp.GetPixel(j, i).R;
+                    planes[1][i * bmp.Width + j] = bmp.GetPixel(j, i).G;
+                    planes[2][i * bmp.Width + j] = bmp.GetPixel(j, i).B;
+                    planes[3][i * bmp.Width + j] = bmp.GetPixel(j, i).A;
                 }
             }
 
-            System.Drawing.Imaging.BitmapData bmpDataJustChannel = new System.Drawing.Imaging.BitmapData()
-            { PixelFormat = System.Drawing.Imaging.PixelFormat.DontCare, Width = bmp.Width, Height = bmp.Height };
 
-            bmpDataJustChannel.Scan0 = System.Runtime.InteropServices.Marshal.AllocHGlobal(channelbytes.Length);
-            System.Runtime.InteropServices.Marshal.Copy(channelbytes, 0, bmpDataJustChannel.Scan0, channelbytes.Length);
+            int[] outtextures = new int[4];
+            for (int i = 0; i < 4; i++)
+            {
+                int tex = GL.GenTexture();
+                outtextures[i] = tex;
 
-            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Alpha, bmp.Width, bmp.Height, 0, PixelFormat.Alpha, PixelType.UnsignedByte, bmpDataJustChannel.Scan0);
+                GL.BindTexture(TextureTarget.Texture2D, tex);
 
-            bmpDataJustChannel.Scan0 = IntPtr.Zero;
-            System.Runtime.InteropServices.Marshal.FreeHGlobal(bmpDataJustChannel.Scan0);
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)All.LinearMipmapLinear);
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)All.Linear);
+
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)All.ClampToBorder);
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)All.ClampToBorder);
+
+
+                System.Drawing.Imaging.BitmapData bmpDataJustChannel = new System.Drawing.Imaging.BitmapData()
+                { PixelFormat = System.Drawing.Imaging.PixelFormat.DontCare, Width = bmp.Width, Height = bmp.Height };
+
+                bmpDataJustChannel.Scan0 = System.Runtime.InteropServices.Marshal.AllocHGlobal(planes[i].Length);
+                System.Runtime.InteropServices.Marshal.Copy(planes[i], 0, bmpDataJustChannel.Scan0, planes[i].Length);
+
+
+                GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Alpha, bmp.Width, bmp.Height, 0, PixelFormat.Alpha, PixelType.UnsignedByte, bmpDataJustChannel.Scan0);
+
+                bmpDataJustChannel.Scan0 = IntPtr.Zero;
+                System.Runtime.InteropServices.Marshal.FreeHGlobal(bmpDataJustChannel.Scan0);
+
+                GL.Enable(EnableCap.Texture2D); // this is needed because an ATI bug apparently (not sure how recently)
+                GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
+            }
+
 
             bmp.Dispose();
 
-            GL.Enable(EnableCap.Texture2D); // this is needed because an ATI bug apparently (not sure how recently)
-            GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
-
             GL.BindTexture(TextureTarget.Texture2D, 0);
 
-            return tex;
+            return outtextures;
         }
 
         void UnloadTexture(int tex)
