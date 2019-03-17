@@ -854,14 +854,12 @@ namespace _8beatMap
         {
             if (font.CommonInfo.LineHeight == 0) return new int[] { str.Length, 0 };
 
-            maxheight -= (int)height; // because we'll almost certainly overshoot it
-
             float totalheight = 0;
 
             while (str.Contains("\n"))
             {
                 string[] newlinesplit = str.Split("\n".ToCharArray(), 2); // get portion before newline to render
-                int[] res = DrawString(x, y - totalheight, height, font, newlinesplit[0], maxwidth, maxheight + (int)height - (int)totalheight, align, chrtracking);
+                int[] res = DrawString(x, y - totalheight, height, font, newlinesplit[0], maxwidth, maxheight - (int)totalheight, align, chrtracking);
                 totalheight += res[1]; // advance height
                 if (res[0] > 0 || totalheight >= maxheight) // already can't render more...
                 {
@@ -911,7 +909,7 @@ namespace _8beatMap
                     }
                 }
 
-                if (maxheight > 0 && totalheight + height >= maxheight)
+                if (maxheight > 0 && totalheight + height*2 >= maxheight) // height*2 because total height of characters is greater than distance between baselines
                 {
                     // draw ellipsis when breaking early
                     DrawCharacters(maxchrs[1], y - totalheight, height, font, "...", 0, chrtracking - 2);
