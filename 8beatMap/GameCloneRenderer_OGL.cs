@@ -468,6 +468,7 @@ namespace _8beatMap
             //DrawCharactersAligned(64, 96, 32, skin.ComboTextInfo.Font, "88", 160, 1);
             //DrawCharactersAligned(64, 128, 32, skin.ComboTextInfo.Font, "88", 160, 2);
             //DrawCharactersAligned(64, 96, 32, skin.ComboTextInfo.Font, "This is a test!---!!!@♪", 205, 0, 0);
+            //DrawString(64, 600, 32, skin.ComboTextInfo.Font, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum consequat sem at purus pretium, vitae mollis sapien maximus. Duis rutrum elit vel odio iaculis dictum. Fusce viverra nisi eget dictum facilisis. Maecenas eleifend eu lorem ut convallis. Donec sed ullamcorper dui. Vivamus hendrerit magna vitae nisl porttitor, ac accumsan urna volutpat. Pellentesque nec nulla ultricies, suscipit arcu a, eleifend dui. Suspendisse potenti. Mauris felis arcu, sollicitudin eu finibus ut, interdum id ante.", 500, 400, 0, 0);
             //GL.Color4(0f, 1f, 0, 1f);
             //DrawCharactersAligned(640, 96, 32, skin.ComboTextInfo.Font, "😃☺😃☻😃", 205, 0, 0);
             //DrawFilledRect(64, 64, 205, 24, "spr_HoldLocus");
@@ -702,7 +703,7 @@ namespace _8beatMap
                 else newtotalwidth += height * 2 / 3; // advance by some amount anyway, even if no character (could also draw missing character glyph if I want)
 
 
-                if (maxwidth > 0 && newtotalwidth >= maxwidth) // character doesn't fit
+                if (maxwidth > 0 && (newtotalwidth >= maxwidth || (utf32Char == ' ' && newtotalwidth + height*2 >= maxwidth))) // character doesn't fit (or we can start a new line soon)
                 {
                     totalwidth -= chrtracking * sizescale; // because we should use the true cursor position at end, not the adjusted one for next character
                     return new int[] { i, (int)totalwidth }; // when new character doesn't fit return index
@@ -792,7 +793,7 @@ namespace _8beatMap
                 if (font.Characters.ContainsKey(utf32Char)) newtotalwidth += ((font.Characters[utf32Char].XAdvance + chrtracking) * sizescale);
                 else newtotalwidth += height * 2 / 3; // advance by some amount anyway, even if no character (could also draw missing character glyph if I want)
 
-                if (maxwidth > 0 && newtotalwidth >= maxwidth) // character doesn't fit
+                if (maxwidth > 0 && (newtotalwidth >= maxwidth || (utf32Char == ' ' && newtotalwidth + height*2 >= maxwidth))) // character doesn't fit (or we can start a new line soon)
                 {
                     totalwidth -= chrtracking * sizescale; // because we should use the true cursor position at end, not the adjusted one for next character
                     return new int[] { i, (int)totalwidth }; // when new character doesn't fit return index
@@ -817,9 +818,12 @@ namespace _8beatMap
             return new int[] { str.Length, (int)totalwidth }; // only reached if not triggered early
         }
 
-        int DrawCharactersAligned(float x, float y, float height, BMFontReader.BMFont font, string str, int maxwidth = 0, int align = 0, float chrtracking = -2)
+        // returns { NumberOfCharacters(that fit), Horizontal position after last character(for adding hyphen) }
+        int[] DrawCharactersAligned(float x, float y, float height, BMFontReader.BMFont font, string str, int maxwidth = 0, int align = 0, float chrtracking = -2)
         {
-            if (font.CommonInfo.LineHeight == 0) return 0;
+            if (font.CommonInfo.LineHeight == 0) return new int[] { 0, (int)x };
+
+            int rightpoint = 0;
 
             if (maxwidth > 0)
             {
@@ -834,9 +838,58 @@ namespace _8beatMap
                 {
                     x += maxwidth - maxchrs[1];
                 }
+
+                rightpoint = (int)x + maxchrs[1];
             }
 
             DrawCharacters(x, y, height, font, str, 0, chrtracking);
+
+            return new int[] { str.Length, rightpoint };
+        }
+
+        int DrawString(float x, float y, float height, BMFontReader.BMFont font, string str, int maxwidth = 0, int maxheight = 0, int align = 0, float chrtracking = -2)
+        {
+            if (font.CommonInfo.LineHeight == 0) return 0;
+
+            float totalheight = 0;
+            int[] maxchrs = DrawCharactersAligned(x, y, height, font, str, maxwidth, align, chrtracking);
+            while (maxchrs[0] < str.Length)
+            {
+                str = str.Remove(0, maxchrs[0]);
+                if (char.IsWhiteSpace(str, 0)) // remove whitespace from start of line
+                {
+                    if (char.IsHighSurrogate(str[0])) str = str.Remove(0, 2);
+                    else str = str.Remove(0, 1);
+                }
+                else if (char.IsPunctuation(str, 0)) // draw punctuation attached to last word
+                {
+                    DrawCharacters(maxchrs[1], y - totalheight, height, font, char.ConvertFromUtf32(char.ConvertToUtf32(str, 0)), 0, chrtracking);
+                    if (char.IsHighSurrogate(str[0])) str = str.Remove(0, 2);
+                    else str = str.Remove(0, 1);
+
+                    if (char.IsWhiteSpace(str, 0)) // remove whitespace from start of line
+                    {
+                        if (char.IsHighSurrogate(str[0])) str = str.Remove(0, 2);
+                        else str = str.Remove(0, 1);
+                    }
+                }
+                else // broke mid-word
+                {
+                    if (maxheight > 0 && totalheight + height >= maxheight) // if going to stop draw ellipses instead
+                    {
+                        DrawCharacters(maxchrs[1], y - totalheight, height, font, "...", 0, chrtracking-2);
+                    }
+                    else
+                    {
+                        DrawCharacters(maxchrs[1], y - totalheight, height, font, "-", 0, chrtracking);
+                    }
+                }
+
+
+                totalheight += height;
+                if (maxheight > 0 && totalheight >= maxheight) break;
+                maxchrs = DrawCharactersAligned(x, y - totalheight, height, font, str, maxwidth, align, chrtracking);
+            }
 
             return str.Length;
         }
