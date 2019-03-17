@@ -464,8 +464,8 @@ namespace _8beatMap
             //DrawCharactersAligned(64, 64, 32, skin.ComboTextInfo.Font, "88", 160);
             //DrawCharactersAligned(64, 96, 32, skin.ComboTextInfo.Font, "88", 160, 1);
             //DrawCharactersAligned(64, 128, 32, skin.ComboTextInfo.Font, "88", 160, 2);
-            //DrawCharactersAligned(64, 96, 32, skin.ComboTextInfo.Font, "This Ti is a test!---!!!@♪", 205, 0, 0);
-            //DrawCharactersAligned(64, 96, 32, skin.ComboTextInfo.Font, "😃☺😃☻😃", 205, 0, 0);
+            //DrawCharactersAligned(64, 96, 32, skin.ComboTextInfo.Font, "This is a test!---!!!@♪", 205, 0, 0);
+            //DrawCharactersAligned(640, 96, 32, skin.ComboTextInfo.Font, "😃☺😃☻😃", 205, 0, 0);
             //DrawFilledRect(64, 64, 205, 24, "spr_HoldLocus");
 
             FrameStopwatch.Stop();
@@ -577,17 +577,15 @@ namespace _8beatMap
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)All.ClampToBorder);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)All.ClampToBorder);
 
-            byte[] channelbytes = new byte[bmp.Width*bmp.Height*2];
+            byte[] channelbytes = new byte[bmp.Width*bmp.Height];
             for (int i = 0; i < bmp.Height; i++)
             {
                 for (int j = 0; j < bmp.Width; j++)
                 {
-                    if (channel == BMFontReader.CharacterChannels.Alpha) channelbytes[i * bmp.Width*2 + j*2] = bmp.GetPixel(j, i).A;
-                    else if (channel == BMFontReader.CharacterChannels.Red) channelbytes[i * bmp.Width*2 + j*2] = bmp.GetPixel(j, i).R;
-                    else if (channel == BMFontReader.CharacterChannels.Green) channelbytes[i * bmp.Width*2 + j*2] = bmp.GetPixel(j, i).G;
-                    else if (channel == BMFontReader.CharacterChannels.Blue) channelbytes[i * bmp.Width*2 + j*2] = bmp.GetPixel(j, i).B;
-
-                    channelbytes[i * bmp.Width*2 + j*2 + 1] = channelbytes[i * bmp.Width*2 + j*2];
+                    if (channel == BMFontReader.CharacterChannels.Alpha) channelbytes[i * bmp.Width + j] = bmp.GetPixel(j, i).A;
+                    else if (channel == BMFontReader.CharacterChannels.Red) channelbytes[i * bmp.Width + j] = bmp.GetPixel(j, i).R;
+                    else if (channel == BMFontReader.CharacterChannels.Green) channelbytes[i * bmp.Width + j] = bmp.GetPixel(j, i).G;
+                    else if (channel == BMFontReader.CharacterChannels.Blue) channelbytes[i * bmp.Width + j] = bmp.GetPixel(j, i).B;
                 }
             }
 
@@ -597,7 +595,7 @@ namespace _8beatMap
             bmpDataJustChannel.Scan0 = System.Runtime.InteropServices.Marshal.AllocHGlobal(channelbytes.Length);
             System.Runtime.InteropServices.Marshal.Copy(channelbytes, 0, bmpDataJustChannel.Scan0, channelbytes.Length);
 
-            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.LuminanceAlpha, bmp.Width, bmp.Height, 0, PixelFormat.LuminanceAlpha, PixelType.UnsignedByte, bmpDataJustChannel.Scan0);
+            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Luminance, bmp.Width, bmp.Height, 0, PixelFormat.Luminance, PixelType.UnsignedByte, bmpDataJustChannel.Scan0);
 
             bmpDataJustChannel.Scan0 = IntPtr.Zero;
             System.Runtime.InteropServices.Marshal.FreeHGlobal(bmpDataJustChannel.Scan0);
@@ -715,11 +713,16 @@ namespace _8beatMap
                         int texture = 0;
                         if (font.CommonInfo.Packed)
                         {
+                            GL.BlendFunc(BlendingFactorSrc.One, BlendingFactorDest.OneMinusSrcColor);
                             if (chrinfo.Channels == BMFontReader.CharacterChannels.Red) texture = textures["combofont_" + chrinfo.TexturePage.ToString() + "R"];
                             else if (chrinfo.Channels == BMFontReader.CharacterChannels.Green) texture = textures["combofont_" + chrinfo.TexturePage.ToString() + "G"];
                             else if (chrinfo.Channels == BMFontReader.CharacterChannels.Blue) texture = textures["combofont_" + chrinfo.TexturePage.ToString() + "B"];
                             else if (chrinfo.Channels == BMFontReader.CharacterChannels.Alpha) texture = textures["combofont_" + chrinfo.TexturePage.ToString() + "A"];
-                            else texture = textures["combofont_" + chrinfo.TexturePage.ToString()];
+                            else
+                            {
+                                GL.BlendFunc(BlendingFactorSrc.One, BlendingFactorDest.OneMinusSrcAlpha);
+                                texture = textures["combofont_" + chrinfo.TexturePage.ToString()];
+                            }
                         }
                         else
                         {
@@ -747,6 +750,7 @@ namespace _8beatMap
             }
 
             GL.End();
+            GL.BlendFunc(BlendingFactorSrc.One, BlendingFactorDest.OneMinusSrcAlpha); // restore to original state
 
             totalwidth -= chrtracking * sizescale; // because we should use the true cursor position at end, not the adjusted one for next character
             return new int[] { str.Length, (int)totalwidth }; // only reached if not triggered early
