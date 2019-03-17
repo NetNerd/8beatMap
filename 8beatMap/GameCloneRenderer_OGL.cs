@@ -708,11 +708,23 @@ namespace _8beatMap
                     float quadHeight = (chrinfo.Height * sizescale);
                     float quadY = y + ((font.CommonInfo.BaseHeight - chrinfo.YOffset) * sizescale) - quadHeight;
 
-                    if (chrinfo.TexturePage != lasttexpage)
+                    if (chrinfo.TexturePage != lasttexpage || font.CommonInfo.Packed) // just always do this if packed...
                     {
                         GL.End();
                         lasttexpage = chrinfo.TexturePage;
-                        int texture = textures["combofont_" + chrinfo.TexturePage.ToString()];
+                        int texture = 0;
+                        if (font.CommonInfo.Packed)
+                        {
+                            if (chrinfo.Channels == BMFontReader.CharacterChannels.Red) texture = textures["combofont_" + chrinfo.TexturePage.ToString() + "R"];
+                            else if (chrinfo.Channels == BMFontReader.CharacterChannels.Green) texture = textures["combofont_" + chrinfo.TexturePage.ToString() + "G"];
+                            else if (chrinfo.Channels == BMFontReader.CharacterChannels.Blue) texture = textures["combofont_" + chrinfo.TexturePage.ToString() + "B"];
+                            else if (chrinfo.Channels == BMFontReader.CharacterChannels.Alpha) texture = textures["combofont_" + chrinfo.TexturePage.ToString() + "A"];
+                            else texture = textures["combofont_" + chrinfo.TexturePage.ToString()];
+                        }
+                        else
+                        {
+                            texture = textures["combofont_" + chrinfo.TexturePage.ToString()];
+                        }
                         GL.BindTexture(TextureTarget.Texture2D, texture);
                         GL.Begin(PrimitiveType.Quads);
                     }
