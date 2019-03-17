@@ -244,6 +244,7 @@ namespace _8beatMap
             GL.LoadMatrix(ref ProjMatrix);
 
 
+            GL.Color4(1f, 1f, 1f, 1f);
 
             DrawFilledRect(NodeEndLocs[0].X - halfIconSize, NodeEndLocs[0].Y - halfIconSize, iconSize, iconSize, "spr_Chara1");
             DrawFilledRect(NodeEndLocs[1].X - halfIconSize, NodeEndLocs[1].Y - halfIconSize, iconSize, iconSize, "spr_Chara2");
@@ -465,6 +466,7 @@ namespace _8beatMap
             //DrawCharactersAligned(64, 96, 32, skin.ComboTextInfo.Font, "88", 160, 1);
             //DrawCharactersAligned(64, 128, 32, skin.ComboTextInfo.Font, "88", 160, 2);
             //DrawCharactersAligned(64, 96, 32, skin.ComboTextInfo.Font, "This is a test!---!!!@♪", 205, 0, 0);
+            //GL.Color4(0f, 1f, 0, 1f);
             //DrawCharactersAligned(640, 96, 32, skin.ComboTextInfo.Font, "😃☺😃☻😃", 205, 0, 0);
             //DrawFilledRect(64, 64, 205, 24, "spr_HoldLocus");
 
@@ -595,7 +597,7 @@ namespace _8beatMap
             bmpDataJustChannel.Scan0 = System.Runtime.InteropServices.Marshal.AllocHGlobal(channelbytes.Length);
             System.Runtime.InteropServices.Marshal.Copy(channelbytes, 0, bmpDataJustChannel.Scan0, channelbytes.Length);
 
-            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Luminance, bmp.Width, bmp.Height, 0, PixelFormat.Luminance, PixelType.UnsignedByte, bmpDataJustChannel.Scan0);
+            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Alpha, bmp.Width, bmp.Height, 0, PixelFormat.Alpha, PixelType.UnsignedByte, bmpDataJustChannel.Scan0);
 
             bmpDataJustChannel.Scan0 = IntPtr.Zero;
             System.Runtime.InteropServices.Marshal.FreeHGlobal(bmpDataJustChannel.Scan0);
@@ -713,7 +715,8 @@ namespace _8beatMap
                         int texture = 0;
                         if (font.CommonInfo.Packed)
                         {
-                            GL.BlendFunc(BlendingFactorSrc.One, BlendingFactorDest.OneMinusSrcColor);
+                            // heyy... I can treat this as unpremultiplied!   rgb = old*(1-alpha)+alpha, a = old*(1-alpha)+alpha
+                            GL.BlendFuncSeparate(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha, BlendingFactorSrc.One, BlendingFactorDest.OneMinusSrcAlpha);
                             if (chrinfo.Channels == BMFontReader.CharacterChannels.Red) texture = textures["combofont_" + chrinfo.TexturePage.ToString() + "R"];
                             else if (chrinfo.Channels == BMFontReader.CharacterChannels.Green) texture = textures["combofont_" + chrinfo.TexturePage.ToString() + "G"];
                             else if (chrinfo.Channels == BMFontReader.CharacterChannels.Blue) texture = textures["combofont_" + chrinfo.TexturePage.ToString() + "B"];
