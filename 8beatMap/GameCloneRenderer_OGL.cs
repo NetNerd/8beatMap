@@ -102,6 +102,29 @@ namespace _8beatMap
                     textures.Add(texkey, LoadTexture(texpath));
                 else
                     textures[texkey] = LoadTexture(texpath);
+
+                if (skin.ComboTextInfo.Font.CommonInfo.Packed)
+                {
+                    if (!textures.ContainsKey(texkey + "R"))
+                        textures.Add(texkey + "R", LoadTextureFromChannel(texpath, BMFontReader.CharacterChannels.Red));
+                    else
+                        textures[texkey + "R"] = LoadTextureFromChannel(texpath, BMFontReader.CharacterChannels.Red);
+
+                    if (!textures.ContainsKey(texkey + "G"))
+                        textures.Add(texkey + "G", LoadTextureFromChannel(texpath, BMFontReader.CharacterChannels.Green));
+                    else
+                        textures[texkey + "G"] = LoadTextureFromChannel(texpath, BMFontReader.CharacterChannels.Green);
+
+                    if (!textures.ContainsKey(texkey + "B"))
+                        textures.Add(texkey + "B", LoadTextureFromChannel(texpath, BMFontReader.CharacterChannels.Blue));
+                    else
+                        textures[texkey + "B"] = LoadTextureFromChannel(texpath, BMFontReader.CharacterChannels.Blue);
+
+                    if (!textures.ContainsKey(texkey + "A"))
+                        textures.Add(texkey + "A", LoadTextureFromChannel(texpath, BMFontReader.CharacterChannels.Alpha));
+                    else
+                        textures[texkey + "A"] = LoadTextureFromChannel(texpath, BMFontReader.CharacterChannels.Alpha);
+                }
             }
         }
 
@@ -524,7 +547,64 @@ namespace _8beatMap
             bmp.UnlockBits(bmpData);
             bmp.Dispose();
 
-            GL.Enable(EnableCap.Texture2D); // this is needed because an AMDTI bug apparently (not sure how recently)
+            GL.Enable(EnableCap.Texture2D); // this is needed because an ATI bug apparently (not sure how recently)
+            GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
+
+            GL.BindTexture(TextureTarget.Texture2D, 0);
+
+            return tex;
+        }
+
+        int LoadTextureFromChannel(string path, BMFontReader.CharacterChannels channel)
+        {
+            Bitmap bmp;
+            try
+            { bmp = new Bitmap(path); }
+            catch
+            {
+                bmp = new Bitmap(1, 1);
+                SkinnedMessageBox.Show(skin, DialogResMgr.GetString("MissingTextureError") + "\n(" + path + ")", "", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                Stop();
+            }
+
+            int tex = GL.GenTexture();
+
+            GL.BindTexture(TextureTarget.Texture2D, tex);
+
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)All.LinearMipmapLinear);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)All.Linear);
+
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)All.ClampToBorder);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)All.ClampToBorder);
+
+            byte[] channelbytes = new byte[bmp.Width*bmp.Height*2];
+            for (int i = 0; i < bmp.Height; i++)
+            {
+                for (int j = 0; j < bmp.Width; j++)
+                {
+                    if (channel == BMFontReader.CharacterChannels.Alpha) channelbytes[i * bmp.Width*2 + j*2] = bmp.GetPixel(j, i).A;
+                    else if (channel == BMFontReader.CharacterChannels.Red) channelbytes[i * bmp.Width*2 + j*2] = bmp.GetPixel(j, i).R;
+                    else if (channel == BMFontReader.CharacterChannels.Green) channelbytes[i * bmp.Width*2 + j*2] = bmp.GetPixel(j, i).G;
+                    else if (channel == BMFontReader.CharacterChannels.Blue) channelbytes[i * bmp.Width*2 + j*2] = bmp.GetPixel(j, i).B;
+
+                    channelbytes[i * bmp.Width*2 + j*2 + 1] = channelbytes[i * bmp.Width*2 + j*2];
+                }
+            }
+
+            System.Drawing.Imaging.BitmapData bmpDataJustChannel = new System.Drawing.Imaging.BitmapData()
+            { PixelFormat = System.Drawing.Imaging.PixelFormat.DontCare, Width = bmp.Width, Height = bmp.Height };
+
+            bmpDataJustChannel.Scan0 = System.Runtime.InteropServices.Marshal.AllocHGlobal(channelbytes.Length);
+            System.Runtime.InteropServices.Marshal.Copy(channelbytes, 0, bmpDataJustChannel.Scan0, channelbytes.Length);
+
+            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.LuminanceAlpha, bmp.Width, bmp.Height, 0, PixelFormat.LuminanceAlpha, PixelType.UnsignedByte, bmpDataJustChannel.Scan0);
+
+            bmpDataJustChannel.Scan0 = IntPtr.Zero;
+            System.Runtime.InteropServices.Marshal.FreeHGlobal(bmpDataJustChannel.Scan0);
+
+            bmp.Dispose();
+
+            GL.Enable(EnableCap.Texture2D); // this is needed because an ATI bug apparently (not sure how recently)
             GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
 
             GL.BindTexture(TextureTarget.Texture2D, 0);
