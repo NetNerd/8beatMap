@@ -88,33 +88,34 @@ namespace _8beatMap
             textures.Clear();
         }
 
-        private void SetupTextures()
+        private void LoadFontTextures(BMFontReader.BMFont font)
         {
-            UnloadAllTextures();
-
-            foreach (System.Collections.Generic.KeyValuePair<string, string> tex in skin.TexturePaths)
+            for (int i = 0; i < font.PageTexPaths.Length; i++)
             {
-                if (!textures.ContainsKey(tex.Key))
-                    textures.Add(tex.Key, LoadTexture(tex.Value));
+                if (font.PageTexPaths[i] == null) continue;
+
+                string texkey = font.PageTexPaths[i];
+                string texpath = font.PageTexPaths[i];
+
+                if (font.CanLoad8Bit)
+                {
+                    if (!textures.ContainsKey(texkey))
+                        textures.Add(texkey, LoadTexture8BitGrayscale(texpath));
+                    else
+                        textures[texkey] = LoadTexture8BitGrayscale(texpath);
+                }
                 else
-                    textures[tex.Key] = LoadTexture(tex.Value);
-            }
+                {
+                    if (!textures.ContainsKey(texkey))
+                        textures.Add(texkey, LoadTexture(texpath));
+                    else
+                        textures[texkey] = LoadTexture(texpath);
+                }
 
-            for (int i = 0; i < skin.ComboTextInfo.Font.PageTexPaths.Length; i++)
-            {
-                if (skin.ComboTextInfo.Font.PageTexPaths[i] == null) continue;
-
-                string texkey = "combofont_" + i.ToString();
-                string texpath = skin.ComboTextInfo.Font.PageTexPaths[i];
-                if (!textures.ContainsKey(texkey))
-                    textures.Add(texkey, LoadTexture(texpath));
-                else
-                    textures[texkey] = LoadTexture(texpath);
-
-                if (skin.ComboTextInfo.Font.CommonInfo.Packed)
+                if (font.CommonInfo.Packed)
                 {
                     int[] channelTextures = LoadTextureToSplitChannels(texpath);
-                    
+
                     if (!textures.ContainsKey(texkey + "A"))
                         textures.Add(texkey + "A", channelTextures[0]);
                     else
@@ -136,6 +137,21 @@ namespace _8beatMap
                         textures[texkey + "B"] = channelTextures[3];
                 }
             }
+        }
+
+        private void SetupTextures()
+        {
+            UnloadAllTextures();
+
+            foreach (System.Collections.Generic.KeyValuePair<string, string> tex in skin.TexturePaths)
+            {
+                if (!textures.ContainsKey(tex.Key))
+                    textures.Add(tex.Key, LoadTexture(tex.Value));
+                else
+                    textures[tex.Key] = LoadTexture(tex.Value);
+            }
+
+            LoadFontTextures(skin.ComboTextInfo.Font);
         }
 
         public GameCloneRenderer_OGL(int wndWidth, int wndHeight, int wndX, int wndY, WindowState wndState, Form1 mainform, Skinning.Skin skin, bool showcombo)
@@ -582,6 +598,68 @@ namespace _8beatMap
             return tex;
         }
 
+
+        int LoadTexture8BitGrayscale(string path)
+        {
+            Bitmap bmp;
+            try
+            { bmp = new Bitmap(path); }
+            catch
+            {
+                bmp = new Bitmap(1, 1);
+                SkinnedMessageBox.Show(skin, DialogResMgr.GetString("MissingTextureError") + "\n(" + path + ")", "", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                Stop();
+            }
+
+
+            System.Drawing.Imaging.BitmapData bmpData = bmp.LockBits(new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height),
+                System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+            byte[] dataBytes = new byte[bmp.Width * bmp.Height * 4];
+            System.Runtime.InteropServices.Marshal.Copy(bmpData.Scan0, dataBytes, 0, bmp.Width * bmp.Height * 4);
+
+            byte[] monodata = new byte[bmp.Width * bmp.Height];
+            for (int i = 0; i < bmp.Height * bmp.Width * 4; i += 4)
+            {
+                monodata[i / 4] = dataBytes[i]; // just sample blue because it's easiest
+            }
+
+
+            int tex = GL.GenTexture();
+
+            GL.BindTexture(TextureTarget.Texture2D, tex);
+
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)All.LinearMipmapLinear);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)All.Linear);
+
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)All.ClampToBorder);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)All.ClampToBorder);
+
+
+            System.Drawing.Imaging.BitmapData bmpDataJustChannel = new System.Drawing.Imaging.BitmapData()
+            { PixelFormat = System.Drawing.Imaging.PixelFormat.DontCare, Width = bmp.Width, Height = bmp.Height };
+
+            bmpDataJustChannel.Scan0 = System.Runtime.InteropServices.Marshal.AllocHGlobal(monodata.Length);
+            System.Runtime.InteropServices.Marshal.Copy(monodata, 0, bmpDataJustChannel.Scan0, monodata.Length);
+
+            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Alpha, bmp.Width, bmp.Height, 0, PixelFormat.Alpha, PixelType.UnsignedByte, bmpDataJustChannel.Scan0);
+
+            bmpDataJustChannel.Scan0 = IntPtr.Zero;
+            System.Runtime.InteropServices.Marshal.FreeHGlobal(bmpDataJustChannel.Scan0);
+
+            GL.Enable(EnableCap.Texture2D); // this is needed because an ATI bug apparently (not sure how recently)
+            GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
+
+
+            bmp.UnlockBits(bmpData);
+            bmp.Dispose();
+
+            GL.BindTexture(TextureTarget.Texture2D, 0);
+
+            return tex;
+        }
+
+
         // loads in order ARGB
         int[] LoadTextureToSplitChannels(string path)
         {
@@ -697,6 +775,93 @@ namespace _8beatMap
             DrawFilledRect(x, y, width, height, textures[textureName]);
         }
 
+        void DrawMissingCharGlyph(float top, float bottom, float left, float right, float linewidth, bool skipBeginAndEnd = false)
+        {
+            float halflinewidth = linewidth / 1f;
+
+            float midpointX = left + (right - left) / 2f;
+            float midpointY = bottom + (top - bottom) / 2f;
+
+            if (!skipBeginAndEnd) GL.Begin(PrimitiveType.Quads);
+            // this is a little messy because of only using quads... but easy
+
+            // Top Line
+            GL.Vertex2(left, top); // Top-Left
+            GL.Vertex2(right, top); // Top-Right
+            GL.Vertex2(right, top - linewidth); // Bottom-Right
+            GL.Vertex2(left, top - linewidth); // Bottom-Left
+
+            // Bottom Line
+            GL.Vertex2(left, bottom + linewidth); // Top-Left
+            GL.Vertex2(right, bottom + linewidth); // Top-Right
+            GL.Vertex2(right, bottom); // Bottom-Right
+            GL.Vertex2(left, bottom); // Bottom-Left
+
+            // Left Line
+            GL.Vertex2(left, top - linewidth); // Top-Left
+            GL.Vertex2(left + linewidth, top - linewidth); // Top-Right
+            GL.Vertex2(left + linewidth, bottom + linewidth); // Bottom-Right
+            GL.Vertex2(left, bottom + linewidth); // Bottom-Left
+
+            // Right Line
+            GL.Vertex2(right - linewidth, top - linewidth); // Top-Left
+            GL.Vertex2(right, top - linewidth); // Top-Right
+            GL.Vertex2(right, bottom + linewidth); // Bottom-Right
+            GL.Vertex2(right - linewidth, bottom + linewidth); // Bottom-Left
+
+            // Top-Left Quadrant Upper
+            GL.Vertex2(left + linewidth, top - linewidth); // Outer Corner
+            GL.Vertex2(left + linewidth + halflinewidth, top - linewidth); // Outer Corner (offset)
+            GL.Vertex2(midpointX, midpointY + halflinewidth); // Inner Corner (offset)
+            GL.Vertex2(midpointX - halflinewidth, midpointY + halflinewidth); // Inner Corner
+                                                                              // Top-Left Quadrant Lower
+            GL.Vertex2(left + linewidth, top - linewidth); // Outer Corner
+            GL.Vertex2(left + linewidth, top - linewidth - halflinewidth); // Outer Corner (offset)
+            GL.Vertex2(midpointX - halflinewidth, midpointY); // Inner Corner (offset)
+            GL.Vertex2(midpointX - halflinewidth, midpointY + halflinewidth); // Inner Corner
+
+            // Top-Right Quadrant Upper
+            GL.Vertex2(right - linewidth, top - linewidth); // Outer Corner
+            GL.Vertex2(right - linewidth - halflinewidth, top - linewidth); // Outer Corner (offset)
+            GL.Vertex2(midpointX, midpointY + halflinewidth); // Inner Corner (offset)
+            GL.Vertex2(midpointX + halflinewidth, midpointY + halflinewidth); // Inner Corner
+                                                                              // Top-Right Quadrant Lower
+            GL.Vertex2(right - linewidth, top - linewidth); // Outer Corner
+            GL.Vertex2(right - linewidth, top - linewidth - halflinewidth); // Outer Corner (offset)
+            GL.Vertex2(midpointX + halflinewidth, midpointY); // Inner Corner (offset)
+            GL.Vertex2(midpointX + halflinewidth, midpointY + halflinewidth); // Inner Corner
+
+            // Bottom-Left Quadrant Upper
+            GL.Vertex2(left + linewidth, bottom + linewidth); // Outer Corner
+            GL.Vertex2(left + linewidth + halflinewidth, bottom + linewidth); // Outer Corner (offset)
+            GL.Vertex2(midpointX, midpointY - halflinewidth); // Inner Corner (offset)
+            GL.Vertex2(midpointX - halflinewidth, midpointY - halflinewidth); // Inner Corner
+                                                                              // Bottom-Left Quadrant Lower
+            GL.Vertex2(left + linewidth, bottom + linewidth); // Outer Corner
+            GL.Vertex2(left + linewidth, bottom + linewidth + halflinewidth); // Outer Corner (offset)
+            GL.Vertex2(midpointX - halflinewidth, midpointY); // Inner Corner (offset)
+            GL.Vertex2(midpointX - halflinewidth, midpointY - halflinewidth); // Inner Corner
+
+            // Bottom-Right Quadrant Upper
+            GL.Vertex2(right - linewidth, bottom + linewidth); // Outer Corner
+            GL.Vertex2(right - linewidth - halflinewidth, bottom + linewidth); // Outer Corner (offset)
+            GL.Vertex2(midpointX, midpointY - halflinewidth); // Inner Corner (offset)
+            GL.Vertex2(midpointX + halflinewidth, midpointY - halflinewidth); // Inner Corner
+                                                                              // Bottom-Right Quadrant Lower
+            GL.Vertex2(right - linewidth, bottom + linewidth); // Outer Corner
+            GL.Vertex2(right - linewidth, bottom + linewidth + halflinewidth); // Outer Corner (offset)
+            GL.Vertex2(midpointX + halflinewidth, midpointY); // Inner Corner (offset)
+            GL.Vertex2(midpointX + halflinewidth, midpointY - halflinewidth); // Inner Corner
+
+            // Inner Square
+            GL.Vertex2(midpointX - halflinewidth, midpointY + halflinewidth); // Top-Left
+            GL.Vertex2(midpointX + halflinewidth, midpointY + halflinewidth); // Top-Right
+            GL.Vertex2(midpointX + halflinewidth, midpointY - halflinewidth); // Bottom-Right
+            GL.Vertex2(midpointX - halflinewidth, midpointY - halflinewidth); // Bottom-Left
+
+            if (!skipBeginAndEnd) GL.End();
+        }
+
         // returns { NumberOfCharacters(that fit into line), WidthInPixels(of characters that fit) }
         int[] DrawCharacters(float x, float y, float height, BMFontReader.BMFont font, string str, int maxwidth = 0, float chrtracking = -2, bool breakOnWhitespaceNearEnd = true)
         {
@@ -736,89 +901,11 @@ namespace _8beatMap
                     float top = bottom + (font.CommonInfo.BaseHeight * sizescale * 0.8f);
                     float left = x + totalwidth;
                     float right = left + (height * 1 / 2) - 2;
-
                     float linewidth = 1.5f;
-                    float halflinewidth = linewidth / 1f;
-
-                    float midpointX = left + (right - left) / 2f;
-                    float midpointY = bottom + (top - bottom) / 2f;
 
                     GL.Begin(PrimitiveType.Quads);
-                    // this is a little messy because of only using quads... but easy
 
-                    // Top Line
-                    GL.Vertex2(left, top); // Top-Left
-                    GL.Vertex2(right, top); // Top-Right
-                    GL.Vertex2(right, top - linewidth); // Bottom-Right
-                    GL.Vertex2(left, top - linewidth); // Bottom-Left
-
-                    // Bottom Line
-                    GL.Vertex2(left, bottom + linewidth); // Top-Left
-                    GL.Vertex2(right, bottom + linewidth); // Top-Right
-                    GL.Vertex2(right, bottom); // Bottom-Right
-                    GL.Vertex2(left, bottom); // Bottom-Left
-
-                    // Left Line
-                    GL.Vertex2(left, top - linewidth); // Top-Left
-                    GL.Vertex2(left + linewidth, top - linewidth); // Top-Right
-                    GL.Vertex2(left + linewidth, bottom + linewidth); // Bottom-Right
-                    GL.Vertex2(left, bottom + linewidth); // Bottom-Left
-
-                    // Right Line
-                    GL.Vertex2(right - linewidth, top - linewidth); // Top-Left
-                    GL.Vertex2(right, top - linewidth); // Top-Right
-                    GL.Vertex2(right, bottom + linewidth); // Bottom-Right
-                    GL.Vertex2(right - linewidth, bottom + linewidth); // Bottom-Left
-                    
-                    // Top-Left Quadrant Upper
-                    GL.Vertex2(left + linewidth, top - linewidth); // Outer Corner
-                    GL.Vertex2(left + linewidth + halflinewidth, top - linewidth); // Outer Corner (offset)
-                    GL.Vertex2(midpointX, midpointY + halflinewidth); // Inner Corner (offset)
-                    GL.Vertex2(midpointX - halflinewidth, midpointY + halflinewidth); // Inner Corner
-                    // Top-Left Quadrant Lower
-                    GL.Vertex2(left + linewidth, top - linewidth); // Outer Corner
-                    GL.Vertex2(left + linewidth, top - linewidth - halflinewidth); // Outer Corner (offset)
-                    GL.Vertex2(midpointX - halflinewidth, midpointY); // Inner Corner (offset)
-                    GL.Vertex2(midpointX - halflinewidth, midpointY + halflinewidth); // Inner Corner
-
-                    // Top-Right Quadrant Upper
-                    GL.Vertex2(right - linewidth, top - linewidth); // Outer Corner
-                    GL.Vertex2(right - linewidth - halflinewidth, top - linewidth); // Outer Corner (offset)
-                    GL.Vertex2(midpointX, midpointY + halflinewidth); // Inner Corner (offset)
-                    GL.Vertex2(midpointX + halflinewidth, midpointY + halflinewidth); // Inner Corner
-                    // Top-Right Quadrant Lower
-                    GL.Vertex2(right - linewidth, top - linewidth); // Outer Corner
-                    GL.Vertex2(right - linewidth, top - linewidth - halflinewidth); // Outer Corner (offset)
-                    GL.Vertex2(midpointX + halflinewidth, midpointY); // Inner Corner (offset)
-                    GL.Vertex2(midpointX + halflinewidth, midpointY + halflinewidth); // Inner Corner
-
-                    // Bottom-Left Quadrant Upper
-                    GL.Vertex2(left + linewidth, bottom + linewidth); // Outer Corner
-                    GL.Vertex2(left + linewidth + halflinewidth, bottom + linewidth); // Outer Corner (offset)
-                    GL.Vertex2(midpointX, midpointY - halflinewidth); // Inner Corner (offset)
-                    GL.Vertex2(midpointX - halflinewidth, midpointY - halflinewidth); // Inner Corner
-                    // Bottom-Left Quadrant Lower
-                    GL.Vertex2(left + linewidth, bottom + linewidth); // Outer Corner
-                    GL.Vertex2(left + linewidth, bottom + linewidth + halflinewidth); // Outer Corner (offset)
-                    GL.Vertex2(midpointX - halflinewidth, midpointY); // Inner Corner (offset)
-                    GL.Vertex2(midpointX - halflinewidth, midpointY - halflinewidth); // Inner Corner
-
-                    // Bottom-Right Quadrant Upper
-                    GL.Vertex2(right - linewidth, bottom + linewidth); // Outer Corner
-                    GL.Vertex2(right - linewidth - halflinewidth, bottom + linewidth); // Outer Corner (offset)
-                    GL.Vertex2(midpointX, midpointY - halflinewidth); // Inner Corner (offset)
-                    GL.Vertex2(midpointX + halflinewidth, midpointY - halflinewidth); // Inner Corner
-                    // Bottom-Right Quadrant Lower
-                    GL.Vertex2(right - linewidth, bottom + linewidth); // Outer Corner
-                    GL.Vertex2(right - linewidth, bottom + linewidth + halflinewidth); // Outer Corner (offset)
-                    GL.Vertex2(midpointX + halflinewidth, midpointY); // Inner Corner (offset)
-                    GL.Vertex2(midpointX + halflinewidth, midpointY - halflinewidth); // Inner Corner
-
-                    // Inner Square
-                    GL.Vertex2(midpointX - halflinewidth, midpointY + halflinewidth); // Top-Left
-                    GL.Vertex2(midpointX + halflinewidth, midpointY + halflinewidth); // Top-Right
-                    GL.Vertex2(midpointX + halflinewidth, midpointY - halflinewidth); // Bottom-Right
-                    GL.Vertex2(midpointX - halflinewidth, midpointY - halflinewidth); // Bottom-Left
+                    DrawMissingCharGlyph(top, bottom, left, right, linewidth, true);
                 }
 
 
@@ -853,19 +940,24 @@ namespace _8beatMap
                         {
                             // heyy... I can treat this as unpremultiplied!   rgb = old*(1-alpha)+alpha, a = old*(1-alpha)+alpha
                             GL.BlendFuncSeparate(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha, BlendingFactorSrc.One, BlendingFactorDest.OneMinusSrcAlpha);
-                            if (chrinfo.Channels == BMFontReader.CharacterChannels.Red) texture = textures["combofont_" + chrinfo.TexturePage.ToString() + "R"];
-                            else if (chrinfo.Channels == BMFontReader.CharacterChannels.Green) texture = textures["combofont_" + chrinfo.TexturePage.ToString() + "G"];
-                            else if (chrinfo.Channels == BMFontReader.CharacterChannels.Blue) texture = textures["combofont_" + chrinfo.TexturePage.ToString() + "B"];
-                            else if (chrinfo.Channels == BMFontReader.CharacterChannels.Alpha) texture = textures["combofont_" + chrinfo.TexturePage.ToString() + "A"];
+                            if (chrinfo.Channels == BMFontReader.CharacterChannels.Red) texture = textures[font.PageTexPaths[chrinfo.TexturePage] + "R"];
+                            else if (chrinfo.Channels == BMFontReader.CharacterChannels.Green) texture = textures[font.PageTexPaths[chrinfo.TexturePage] + "G"];
+                            else if (chrinfo.Channels == BMFontReader.CharacterChannels.Blue) texture = textures[font.PageTexPaths[chrinfo.TexturePage] + "B"];
+                            else if (chrinfo.Channels == BMFontReader.CharacterChannels.Alpha) texture = textures[font.PageTexPaths[chrinfo.TexturePage] + "A"];
                             else
                             {
                                 GL.BlendFunc(BlendingFactorSrc.One, BlendingFactorDest.OneMinusSrcAlpha);
-                                texture = textures["combofont_" + chrinfo.TexturePage.ToString()];
+                                texture = textures[font.PageTexPaths[chrinfo.TexturePage]];
                             }
+                        }
+                        else if (font.CanLoad8Bit)
+                        {
+                            GL.BlendFuncSeparate(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha, BlendingFactorSrc.One, BlendingFactorDest.OneMinusSrcAlpha);
+                            texture = textures[font.PageTexPaths[chrinfo.TexturePage]];
                         }
                         else
                         {
-                            texture = textures["combofont_" + chrinfo.TexturePage.ToString()];
+                            texture = textures[font.PageTexPaths[chrinfo.TexturePage]];
                         }
                         GL.BindTexture(TextureTarget.Texture2D, texture);
                         GL.Begin(PrimitiveType.Quads);

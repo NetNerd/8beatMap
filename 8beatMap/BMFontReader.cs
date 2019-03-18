@@ -61,6 +61,31 @@ namespace _8beatMap
             return str;
         }
 
+        private static bool IsImageOpaqueGrayscale(string path)
+        {
+            System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(path);
+
+            System.Drawing.Imaging.BitmapData bmpData = bmp.LockBits(new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height),
+                System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+            byte[] dataBytes = new byte[bmp.Width * bmp.Height * 4];
+            System.Runtime.InteropServices.Marshal.Copy(bmpData.Scan0, dataBytes, 0, bmp.Width * bmp.Height * 4);
+
+            bool foundDifference = false;
+            for (int i = 0; i < bmp.Height * bmp.Width * 4; i += 4)
+            {
+                if ((dataBytes[i] != dataBytes[i + 1]) // B != G
+                    | (dataBytes[i] != dataBytes[i + 2]) // | B != R
+                    | (dataBytes[i + 3] != 255)) // | A != 255
+                {
+                    foundDifference = true;
+                    break;
+                }
+            }
+
+            return !foundDifference;
+        }
+
         public struct FontGenInfo
         {
             public string FontFace;
@@ -153,6 +178,7 @@ namespace _8beatMap
             public Dictionary<int, CharacterInfo> Characters = new Dictionary<int, CharacterInfo>();
             public Dictionary<Tuple<int, int>, KerningInfo> KernPairs = new Dictionary<Tuple<int, int>, KerningInfo>();
             public string[] PageTexPaths = { };
+            public bool CanLoad8Bit;
 
             public BMFont(string path)
             {
@@ -165,6 +191,7 @@ namespace _8beatMap
                 {
                     return;
                 }
+                
 
                 string infoStr = ReadFile_EmptyStringIfException(path);
 
@@ -275,6 +302,16 @@ namespace _8beatMap
                         default:
                             break;
                     }
+                }
+
+                if (PageTexPaths.Length > 0)
+                {
+                    try
+                    {
+                        CanLoad8Bit = IsImageOpaqueGrayscale(PageTexPaths[0]);
+                    }
+                    catch
+                    { }
                 }
             }
         }
