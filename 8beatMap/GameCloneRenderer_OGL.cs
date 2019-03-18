@@ -481,7 +481,7 @@ namespace _8beatMap
                 DrawFilledRect(textX - 128, textY, 256, 64, "spr_ComboText");
             }
 
-            //DrawCharactersAligned(64, 64, 32, skin.ComboTextInfo.Font, "01189998819991197253", 80);
+            //DrawString(64, 64, 32, skin.ComboTextInfo.Font, "01189998819991197253", 80, 1);
             //DrawCharactersAligned(64, 64, 32, skin.ComboTextInfo.Font, "88", 160);
             //DrawCharactersAligned(64, 96, 32, skin.ComboTextInfo.Font, "88", 160, 1);
             //DrawCharactersAligned(64, 128, 32, skin.ComboTextInfo.Font, "88", 160, 2);
@@ -819,7 +819,7 @@ namespace _8beatMap
                 }
 
 
-                if (maxwidth > 0 && (newtotalwidth >= maxwidth || (breakOnWhitespaceNearEnd && char.IsWhiteSpace((char)utf32Char) && newtotalwidth + height*2 >= maxwidth))) // character doesn't fit (or we can start a new line soon)
+                if (maxwidth > 0 && (newtotalwidth >= maxwidth || (breakOnWhitespaceNearEnd && char.IsWhiteSpace(str, i) && newtotalwidth + height*2 >= maxwidth))) // character doesn't fit (or we can start a new line soon)
                 {
                     totalwidth -= chrtracking * sizescale; // because we should use the true cursor position at end, not the adjusted one for next character
                     return new int[] { i, (int)totalwidth }; // when new character doesn't fit return index
@@ -909,7 +909,7 @@ namespace _8beatMap
                 if (font.Characters.ContainsKey(utf32Char)) newtotalwidth += ((font.Characters[utf32Char].XAdvance + chrtracking) * sizescale);
                 else newtotalwidth += height * 1 / 2; // advance by some amount anyway, even if no character (could also draw missing character glyph if I want)
 
-                if (maxwidth > 0 && (newtotalwidth >= maxwidth || (breakOnWhitespaceNearEnd && char.IsWhiteSpace((char)utf32Char) && newtotalwidth + height*2 >= maxwidth))) // character doesn't fit (or we can start a new line soon)
+                if (maxwidth > 0 && (newtotalwidth >= maxwidth || (breakOnWhitespaceNearEnd && char.IsWhiteSpace(str, i) && newtotalwidth + height*2 >= maxwidth))) // character doesn't fit (or we can start a new line soon)
                 {
                     totalwidth -= chrtracking * sizescale; // because we should use the true cursor position at end, not the adjusted one for next character
                     return new int[] { i, (int)totalwidth }; // when new character doesn't fit return index
@@ -1028,7 +1028,7 @@ namespace _8beatMap
                 if (maxlines > 0 && totallines + 1 >= maxlines) // +1 because 1 will be added after
                 {
                     // draw ellipsis when breaking early
-                    if (smartFlow) DrawCharacters(maxchrs[1], y - totallines*(height+linespacing), height, font, "...", 0, chrtracking - 2);
+                    if (smartFlow) DrawCharacters(maxchrs[1], y - totallines*(height+linespacing), height, font, "...", 0, chrtracking - 1);
                     break;
                 }
                 totallines += 1;
