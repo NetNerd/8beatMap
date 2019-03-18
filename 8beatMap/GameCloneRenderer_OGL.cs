@@ -604,15 +604,12 @@ namespace _8beatMap
 
             byte[][] planes = new byte[4][]
             { new byte[bmp.Width * bmp.Height], new byte[bmp.Width * bmp.Height], new byte[bmp.Width * bmp.Height], new byte[bmp.Width * bmp.Height] };
-            for (int i = 0; i < bmp.Height; i++)
+            for (int i = 0; i < bmp.Height * bmp.Width * 4; i += 4)
             {
-                for (int j = 0; j < bmp.Width; j++)
-                {
-                    planes[0][i * bmp.Width + j] = dataBytes[i * bmp.Width * 4 + j * 4];
-                    planes[1][i * bmp.Width + j] = dataBytes[i * bmp.Width * 4 + j * 4 + 1];
-                    planes[2][i * bmp.Width + j] = dataBytes[i * bmp.Width * 4 + j * 4 + 2];
-                    planes[3][i * bmp.Width + j] = dataBytes[i * bmp.Width * 4 + j * 4 + 3];
-                }
+                planes[0][i / 4] = dataBytes[i];
+                planes[1][i / 4] = dataBytes[i + 1];
+                planes[2][i / 4] = dataBytes[i + 2];
+                planes[3][i / 4] = dataBytes[i + 3];
             }
 
 
