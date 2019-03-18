@@ -7,9 +7,6 @@ namespace _8beatMap
 {
     static class OpenTkTextureLoadFuncs
     {
-        public static Skinning.Skin ErrorSkin = Skinning.DefaultSkin;
-        private static System.Resources.ResourceManager DialogResMgr = new System.Resources.ResourceManager("_8beatMap.Dialogs", System.Reflection.Assembly.GetEntryAssembly());
-
         public static int LoadTexture(string path)
         {
             Bitmap bmp;
@@ -18,7 +15,6 @@ namespace _8beatMap
             catch (Exception e)
             {
                 bmp = new Bitmap(1, 1);
-                SkinnedMessageBox.Show(ErrorSkin, DialogResMgr.GetString("MissingTextureError") + "\n(" + path + ")", "", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
                 throw e;
             }
 
@@ -60,7 +56,6 @@ namespace _8beatMap
             catch (Exception e)
             {
                 bmp = new Bitmap(1, 1);
-                SkinnedMessageBox.Show(ErrorSkin, DialogResMgr.GetString("MissingTextureError") + "\n(" + path + ")", "", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
                 throw e;
             }
 
@@ -122,7 +117,6 @@ namespace _8beatMap
             catch (Exception e)
             {
                 bmp = new Bitmap(1, 1);
-                SkinnedMessageBox.Show(ErrorSkin, DialogResMgr.GetString("MissingTextureError") + "\n(" + path + ")", "", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
                 throw e;
             }
 
