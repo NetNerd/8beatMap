@@ -475,7 +475,7 @@ namespace _8beatMap
             //DrawCharactersAligned(64, 96, 32, skin.ComboTextInfo.Font, "88", 160, 1);
             //DrawCharactersAligned(64, 128, 32, skin.ComboTextInfo.Font, "88", 160, 2);
             //DrawCharactersAligned(64, 96, 32, skin.ComboTextInfo.Font, "This is a test!---!!!@♪", 205, 0, 0);
-            //DrawString(64, 600, 32, skin.ComboTextInfo.Font, "Lor\nem ip\nsum dolor sit amet, consectetur adipiscing elit. Vestibulum consequ\nat sem at purus pretium, vitae mollis sapien max\nimus. Duis rutrum elit vel odio iaculis dictum. Fusce viverra nisi eget dictum facilisis. Maecenas eleifend eu lorem ut convallis. Donec sed ullamc\norper dui. Vivamus hendrerit magna vitae nisl porttitor, ac accumsan urna volutpat. Pellentesque nec nulla ultricies, suscipit arcu a, eleifend dui. Suspe\nndisse potenti. Mauris felis arcu, sollicitudin eu finibus ut, interdum id ante.", 500, 12, 0, 0, 1);
+            //DrawString(64, 600, 32, skin.ComboTextInfo.Font, "Lor\nem ip\nsum dolor s❗it amet, consectetur adipiscing elit. Vestibulum consequ\nat sem at purus pretium, vitae mollis sapien max\nimus. Duis rutrum elit vel odio iaculis dictum. Fusce viverra nisi eget dictum facilisis. Maecenas eleifend eu lorem ut convallis. Donec sed ullamc\norper dui. Vivamus hendrerit magna vitae nisl porttitor, ac accumsan urna volutpat. Pellentesque nec nulla ultricies, suscipit arcu a, eleifend dui. Suspe\nndisse potenti. Mauris felis arcu, sollicitudin eu finibus ut, interdum id ante.", 500, 12, 0, 0, 1);
             //DrawString(600, 600, 32, skin.ComboTextInfo.Font, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum consequat sem at purus pretium, vitae mollis sapien maximus. Duis rutrum elit vel odio iaculis dictum. Fusce viverra nisi eget dictum facilisis. Maecenas eleifend eu lorem ut convallis. Donec sed ullamcorper dui. Vivamus hendrerit magna vitae nisl porttitor, ac accumsan urna volutpat. Pellentesque nec nulla ultricies, suscipit arcu a, eleifend dui. Suspendisse potenti. Mauris felis arcu, sollicitudin eu finibus ut, interdum id ante.", 500, 12, 0, 0, 1);
             //DrawFilledRect(590, 200, 10, 400, "spr_HoldLocus");
             //GL.Color4(0f, 1f, 0, 1f);
@@ -709,7 +709,103 @@ namespace _8beatMap
                     newtotalwidth += ((font.Characters[utf32Char].XAdvance + chrtracking) * sizescale);
                     fontHasChar = true;
                 }
-                else newtotalwidth += height * 2 / 3; // advance by some amount anyway, even if no character (could also draw missing character glyph if I want)
+                else
+                {
+                    newtotalwidth += height * 1 / 2; // advance by some amount anyway, even if no character (could also draw missing character glyph if I want
+
+                    GL.End();
+
+                    GL.BindTexture(TextureTarget.Texture2D, 0); // clear texture
+                    lasttexpage = -1;
+
+                    float bottom = y;
+                    float top = bottom + (font.CommonInfo.BaseHeight * sizescale * 0.8f);
+                    float left = x + totalwidth;
+                    float right = left + (height * 1 / 2) - 2;
+
+                    float linewidth = 1.5f;
+                    float halflinewidth = linewidth / 1f;
+
+                    float midpointX = left + (right - left) / 2f;
+                    float midpointY = bottom + (top - bottom) / 2f;
+
+                    GL.Begin(PrimitiveType.Quads);
+                    // this is a little messy because of only using quads... but easy
+
+                    // Top Line
+                    GL.Vertex2(left, top); // Top-Left
+                    GL.Vertex2(right, top); // Top-Right
+                    GL.Vertex2(right, top - linewidth); // Bottom-Right
+                    GL.Vertex2(left, top - linewidth); // Bottom-Left
+
+                    // Bottom Line
+                    GL.Vertex2(left, bottom + linewidth); // Top-Left
+                    GL.Vertex2(right, bottom + linewidth); // Top-Right
+                    GL.Vertex2(right, bottom); // Bottom-Right
+                    GL.Vertex2(left, bottom); // Bottom-Left
+
+                    // Left Line
+                    GL.Vertex2(left, top - linewidth); // Top-Left
+                    GL.Vertex2(left + linewidth, top - linewidth); // Top-Right
+                    GL.Vertex2(left + linewidth, bottom + linewidth); // Bottom-Right
+                    GL.Vertex2(left, bottom + linewidth); // Bottom-Left
+
+                    // Right Line
+                    GL.Vertex2(right - linewidth, top - linewidth); // Top-Left
+                    GL.Vertex2(right, top - linewidth); // Top-Right
+                    GL.Vertex2(right, bottom + linewidth); // Bottom-Right
+                    GL.Vertex2(right - linewidth, bottom + linewidth); // Bottom-Left
+                    
+                    // Top-Left Quadrant Upper
+                    GL.Vertex2(left + linewidth, top - linewidth); // Outer Corner
+                    GL.Vertex2(left + linewidth + halflinewidth, top - linewidth); // Outer Corner (offset)
+                    GL.Vertex2(midpointX, midpointY + halflinewidth); // Inner Corner (offset)
+                    GL.Vertex2(midpointX - halflinewidth, midpointY + halflinewidth); // Inner Corner
+                    // Top-Left Quadrant Lower
+                    GL.Vertex2(left + linewidth, top - linewidth); // Outer Corner
+                    GL.Vertex2(left + linewidth, top - linewidth - halflinewidth); // Outer Corner (offset)
+                    GL.Vertex2(midpointX - halflinewidth, midpointY); // Inner Corner (offset)
+                    GL.Vertex2(midpointX - halflinewidth, midpointY + halflinewidth); // Inner Corner
+
+                    // Top-Right Quadrant Upper
+                    GL.Vertex2(right - linewidth, top - linewidth); // Outer Corner
+                    GL.Vertex2(right - linewidth - halflinewidth, top - linewidth); // Outer Corner (offset)
+                    GL.Vertex2(midpointX, midpointY + halflinewidth); // Inner Corner (offset)
+                    GL.Vertex2(midpointX + halflinewidth, midpointY + halflinewidth); // Inner Corner
+                    // Top-Right Quadrant Lower
+                    GL.Vertex2(right - linewidth, top - linewidth); // Outer Corner
+                    GL.Vertex2(right - linewidth, top - linewidth - halflinewidth); // Outer Corner (offset)
+                    GL.Vertex2(midpointX + halflinewidth, midpointY); // Inner Corner (offset)
+                    GL.Vertex2(midpointX + halflinewidth, midpointY + halflinewidth); // Inner Corner
+
+                    // Bottom-Left Quadrant Upper
+                    GL.Vertex2(left + linewidth, bottom + linewidth); // Outer Corner
+                    GL.Vertex2(left + linewidth + halflinewidth, bottom + linewidth); // Outer Corner (offset)
+                    GL.Vertex2(midpointX, midpointY - halflinewidth); // Inner Corner (offset)
+                    GL.Vertex2(midpointX - halflinewidth, midpointY - halflinewidth); // Inner Corner
+                    // Bottom-Left Quadrant Lower
+                    GL.Vertex2(left + linewidth, bottom + linewidth); // Outer Corner
+                    GL.Vertex2(left + linewidth, bottom + linewidth + halflinewidth); // Outer Corner (offset)
+                    GL.Vertex2(midpointX - halflinewidth, midpointY); // Inner Corner (offset)
+                    GL.Vertex2(midpointX - halflinewidth, midpointY - halflinewidth); // Inner Corner
+
+                    // Bottom-Right Quadrant Upper
+                    GL.Vertex2(right - linewidth, bottom + linewidth); // Outer Corner
+                    GL.Vertex2(right - linewidth - halflinewidth, bottom + linewidth); // Outer Corner (offset)
+                    GL.Vertex2(midpointX, midpointY - halflinewidth); // Inner Corner (offset)
+                    GL.Vertex2(midpointX + halflinewidth, midpointY - halflinewidth); // Inner Corner
+                    // Bottom-Right Quadrant Lower
+                    GL.Vertex2(right - linewidth, bottom + linewidth); // Outer Corner
+                    GL.Vertex2(right - linewidth, bottom + linewidth + halflinewidth); // Outer Corner (offset)
+                    GL.Vertex2(midpointX + halflinewidth, midpointY); // Inner Corner (offset)
+                    GL.Vertex2(midpointX + halflinewidth, midpointY - halflinewidth); // Inner Corner
+
+                    // Inner Square
+                    GL.Vertex2(midpointX - halflinewidth, midpointY + halflinewidth); // Top-Left
+                    GL.Vertex2(midpointX + halflinewidth, midpointY + halflinewidth); // Top-Right
+                    GL.Vertex2(midpointX + halflinewidth, midpointY - halflinewidth); // Bottom-Right
+                    GL.Vertex2(midpointX - halflinewidth, midpointY - halflinewidth); // Bottom-Left
+                }
 
 
                 if (maxwidth > 0 && (newtotalwidth >= maxwidth || (utf32Char == ' ' && newtotalwidth + height*2 >= maxwidth))) // character doesn't fit (or we can start a new line soon)
@@ -800,7 +896,7 @@ namespace _8beatMap
                 int utf32Char = char.ConvertToUtf32(str, i);
 
                 if (font.Characters.ContainsKey(utf32Char)) newtotalwidth += ((font.Characters[utf32Char].XAdvance + chrtracking) * sizescale);
-                else newtotalwidth += height * 2 / 3; // advance by some amount anyway, even if no character (could also draw missing character glyph if I want)
+                else newtotalwidth += height * 1 / 2; // advance by some amount anyway, even if no character (could also draw missing character glyph if I want)
 
                 if (maxwidth > 0 && (newtotalwidth >= maxwidth || (utf32Char == ' ' && newtotalwidth + height*2 >= maxwidth))) // character doesn't fit (or we can start a new line soon)
                 {
