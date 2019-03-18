@@ -129,7 +129,7 @@ namespace _8beatMap
         private void DrawFilledRect(float x, float y, float width, float height, int texture)
         {
             GL.BindTexture(TextureTarget.Texture2D, texture);
-            DrawRect(x, y, width, height);
+            DrawRect(x, y, width, height, defaultUVrect);
         }
         private void DrawFilledRect(float x, float y, float width, float height, string textureName)
         {

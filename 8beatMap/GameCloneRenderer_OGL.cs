@@ -472,7 +472,7 @@ namespace _8beatMap
             //DrawFilledRect(64, 64, 205, 24, "spr_HoldLocus");
             //combofontrenderer.DrawString(32, 600-32, 32, "Lor\nem ip\nsum dolor s❗it amet, consectetur adipiscing elit. Vestibulum consequ\nat sem at purus pretium, vitae mollis sapien max\nimus. Duis rutrum elit vel odio iaculis dictum. Fusce viverra nisi eget dictum facilisis. Maecenas eleifend eu lorem ut convallis. Donec sed ullamc\norper dui. Vivamus hendrerit magna vitae nisl porttitor, ac accumsan urna volutpat. Pellentesque nec nulla ultricies, suscipit arcu a, eleifend dui. Suspe\nndisse potenti. Mauris felis arcu, sollicitudin eu finibus ut, interdum id ante.", 500, 12, 0, 0, 1);
             //combofontrenderer.DrawString(600, 600-32, 32, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum consequat sem at purus pretium, vitae mollis sapien maximus. Duis rutrum elit vel odio iaculis dictum. Fusce viverra nisi eget dictum facilisis. Maecenas eleifend eu lorem ut convallis. Donec sed ullamcorper dui. Vivamus hendrerit magna vitae nisl porttitor, ac accumsan urna volutpat. Pellentesque nec nulla ultricies, suscipit arcu a, eleifend dui. Suspendisse potenti. Mauris felis arcu, sollicitudin eu finibus ut, interdum id ante.", 500, 12, 0, 0, 1, true);
-            //combofontrenderer.DrawString(32, 600-32, 32, "日本語テストだ。\n多分機能する…\nチェック\nEverybody\nDance Dance Dance 纏ったもの脱ぎ捨てて\nDance Dance Dance 自分の殻つきやぶって(hey!)", 500, 12, 0, 0, 1, true);
+            //combofontrenderer.DrawString(32, 600-32, 32, "日本語テストだ。\n多分機能する…\nチェック\nEverybody\nDance Dance Dance 纏ったもの脱ぎ捨てて\nDance Dance Dance 自分の殻つきやぶって(hey!)", 500, 12, 0, 0, -4, true);
             //DrawFilledRect(580, 202, 10, 390, "spr_HoldLocus");
             //GL.Color4(0f, 1f, 0, 1f);
             //combofontrenderer.DrawCharactersAligned(640, 16, 32, "😃☺😃☺😃⁉⬆", 0, 0, 0);
@@ -558,7 +558,7 @@ namespace _8beatMap
         void DrawFilledRect(float x, float y, float width, float height, int texture)
         {
             GL.BindTexture(TextureTarget.Texture2D, texture);
-            DrawRect(x, y, width, height);
+            DrawRect(x, y, width, height, defaultUVrect);
         }
         void DrawFilledRect(float x, float y, float width, float height, string textureName)
         {
