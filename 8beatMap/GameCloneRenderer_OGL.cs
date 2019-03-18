@@ -486,11 +486,11 @@ namespace _8beatMap
             //DrawCharactersAligned(64, 96, 32, skin.ComboTextInfo.Font, "88", 160, 1);
             //DrawCharactersAligned(64, 128, 32, skin.ComboTextInfo.Font, "88", 160, 2);
             //DrawCharactersAligned(64, 96, 32, skin.ComboTextInfo.Font, "This is a test!---!!!@♪", 205, 0, 0);
-            //DrawString(64, 600, 32, skin.ComboTextInfo.Font, "Lor\nem ip\nsum dolor s❗it amet, consectetur adipiscing elit. Vestibulum consequ\nat sem at purus pretium, vitae mollis sapien max\nimus. Duis rutrum elit vel odio iaculis dictum. Fusce viverra nisi eget dictum facilisis. Maecenas eleifend eu lorem ut convallis. Donec sed ullamc\norper dui. Vivamus hendrerit magna vitae nisl porttitor, ac accumsan urna volutpat. Pellentesque nec nulla ultricies, suscipit arcu a, eleifend dui. Suspe\nndisse potenti. Mauris felis arcu, sollicitudin eu finibus ut, interdum id ante.", 500, 12, 0, 0, 1);
-            //DrawString(600, 600, 32, skin.ComboTextInfo.Font, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum consequat sem at purus pretium, vitae mollis sapien maximus. Duis rutrum elit vel odio iaculis dictum. Fusce viverra nisi eget dictum facilisis. Maecenas eleifend eu lorem ut convallis. Donec sed ullamcorper dui. Vivamus hendrerit magna vitae nisl porttitor, ac accumsan urna volutpat. Pellentesque nec nulla ultricies, suscipit arcu a, eleifend dui. Suspendisse potenti. Mauris felis arcu, sollicitudin eu finibus ut, interdum id ante.", 500, 12, 0, 0, 1);
-            //DrawFilledRect(590, 200, 10, 400, "spr_HoldLocus");
+            //DrawString(32, 600-32, 32, skin.ComboTextInfo.Font, "Lor\nem ip\nsum dolor s❗it amet, consectetur adipiscing elit. Vestibulum consequ\nat sem at purus pretium, vitae mollis sapien max\nimus. Duis rutrum elit vel odio iaculis dictum. Fusce viverra nisi eget dictum facilisis. Maecenas eleifend eu lorem ut convallis. Donec sed ullamc\norper dui. Vivamus hendrerit magna vitae nisl porttitor, ac accumsan urna volutpat. Pellentesque nec nulla ultricies, suscipit arcu a, eleifend dui. Suspe\nndisse potenti. Mauris felis arcu, sollicitudin eu finibus ut, interdum id ante.", 500, 12, 0, 0, 1);
+            //DrawString(600, 600-32, 32, skin.ComboTextInfo.Font, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum consequat sem at purus pretium, vitae mollis sapien maximus. Duis rutrum elit vel odio iaculis dictum. Fusce viverra nisi eget dictum facilisis. Maecenas eleifend eu lorem ut convallis. Donec sed ullamcorper dui. Vivamus hendrerit magna vitae nisl porttitor, ac accumsan urna volutpat. Pellentesque nec nulla ultricies, suscipit arcu a, eleifend dui. Suspendisse potenti. Mauris felis arcu, sollicitudin eu finibus ut, interdum id ante.", 500, 12, 0, 0, 1, true);
+            //DrawFilledRect(580, 202, 10, 390, "spr_HoldLocus");
             //GL.Color4(0f, 1f, 0, 1f);
-            //DrawCharactersAligned(640, 96, 32, skin.ComboTextInfo.Font, "😃☺😃☻😃", 205, 0, 0);
+            //DrawCharactersAligned(640, 16, 32, skin.ComboTextInfo.Font, "😃☺😃☺😃⁉⬆", 0, 0, 0);
             //DrawFilledRect(64, 64, 205, 24, "spr_HoldLocus");
 
             FrameStopwatch.Stop();
@@ -695,7 +695,7 @@ namespace _8beatMap
         }
 
         // returns { NumberOfCharacters(that fit into line), WidthInPixels(of characters that fit) }
-        int[] DrawCharacters(float x, float y, float height, BMFontReader.BMFont font, string str, int maxwidth = 0, float chrtracking = -2)
+        int[] DrawCharacters(float x, float y, float height, BMFontReader.BMFont font, string str, int maxwidth = 0, float chrtracking = -2, bool breakOnWhitespaceNearEnd = true)
         {
             if (font.CommonInfo.LineHeight == 0) return new int[] { 0, 0 };
             float sizescale = height / font.CommonInfo.LineHeight;
@@ -819,7 +819,7 @@ namespace _8beatMap
                 }
 
 
-                if (maxwidth > 0 && (newtotalwidth >= maxwidth || (utf32Char == ' ' && newtotalwidth + height*2 >= maxwidth))) // character doesn't fit (or we can start a new line soon)
+                if (maxwidth > 0 && (newtotalwidth >= maxwidth || (breakOnWhitespaceNearEnd && char.IsWhiteSpace((char)utf32Char) && newtotalwidth + height*2 >= maxwidth))) // character doesn't fit (or we can start a new line soon)
                 {
                     totalwidth -= chrtracking * sizescale; // because we should use the true cursor position at end, not the adjusted one for next character
                     return new int[] { i, (int)totalwidth }; // when new character doesn't fit return index
@@ -893,7 +893,7 @@ namespace _8beatMap
         }
 
         // returns { NumberOfCharacters(that will fit), WidthInPixels(of characters that fit) }
-        int[] GetLineLength(float height, BMFontReader.BMFont font, string str, int maxwidth = 0, float chrtracking = -2)
+        int[] GetLineLength(float height, BMFontReader.BMFont font, string str, int maxwidth = 0, float chrtracking = -2, bool breakOnWhitespaceNearEnd = true)
         {
             if (font.CommonInfo.LineHeight == 0) return new int[] { 0, 0 };
             float sizescale = height / font.CommonInfo.LineHeight;
@@ -909,7 +909,7 @@ namespace _8beatMap
                 if (font.Characters.ContainsKey(utf32Char)) newtotalwidth += ((font.Characters[utf32Char].XAdvance + chrtracking) * sizescale);
                 else newtotalwidth += height * 1 / 2; // advance by some amount anyway, even if no character (could also draw missing character glyph if I want)
 
-                if (maxwidth > 0 && (newtotalwidth >= maxwidth || (utf32Char == ' ' && newtotalwidth + height*2 >= maxwidth))) // character doesn't fit (or we can start a new line soon)
+                if (maxwidth > 0 && (newtotalwidth >= maxwidth || (breakOnWhitespaceNearEnd && char.IsWhiteSpace((char)utf32Char) && newtotalwidth + height*2 >= maxwidth))) // character doesn't fit (or we can start a new line soon)
                 {
                     totalwidth -= chrtracking * sizescale; // because we should use the true cursor position at end, not the adjusted one for next character
                     return new int[] { i, (int)totalwidth }; // when new character doesn't fit return index
@@ -935,7 +935,7 @@ namespace _8beatMap
         }
 
         // returns { NumberOfCharacters(that fit), Horizontal position after last character(for adding hyphen) }
-        int[] DrawCharactersAligned(float x, float y, float height, BMFontReader.BMFont font, string str, int maxwidth = 0, int align = 0, float chrtracking = -2)
+        int[] DrawCharactersAligned(float x, float y, float height, BMFontReader.BMFont font, string str, int maxwidth = 0, int align = 0, float chrtracking = -2, bool breakOnWhitespaceNearEnd = true)
         {
             if (font.CommonInfo.LineHeight == 0) return new int[] { 0, (int)x };
 
@@ -943,7 +943,7 @@ namespace _8beatMap
 
             if (maxwidth > 0)
             {
-                int[] maxchrs = GetLineLength(height, font, str, maxwidth, chrtracking);
+                int[] maxchrs = GetLineLength(height, font, str, maxwidth, chrtracking, breakOnWhitespaceNearEnd);
                 if (maxchrs[0] < str.Length) str = str.Remove(maxchrs[0]);
 
                 if (align == 1)
@@ -958,14 +958,15 @@ namespace _8beatMap
                 rightpoint = (int)x + maxchrs[1];
             }
 
-            DrawCharacters(x, y, height, font, str, 0, chrtracking);
+            DrawCharacters(x, y, height, font, str, 0, chrtracking, breakOnWhitespaceNearEnd);
 
             return new int[] { str.Length, rightpoint };
         }
 
         // returns { NumberOfCharactersLeft(that weren't rendered), NumberOfLines(that were rendereed) }
         // punctuation added to the end of a line may extend past max width
-        int[] DrawString(float x, float y, float height, BMFontReader.BMFont font, string str, int maxwidth = 0, int maxlines = 0, int align = 0, float chrtracking = -2, int linespacing = 1)
+        // smartFlow: starts new line early if there's a space close to the end, inserts hyphens when a word is broken, inserts ellipsis at end of string if not all fits in given space
+        int[] DrawString(float x, float y, float height, BMFontReader.BMFont font, string str, int maxwidth = 0, int maxlines = 0, int align = 0, float chrtracking = -2, int linespacing = 1, bool smartFlow = true)
         {
             if (font.CommonInfo.LineHeight == 0) return new int[] { str.Length, 0 };
 
@@ -974,7 +975,7 @@ namespace _8beatMap
             while (str.Contains("\n"))
             {
                 string[] newlinesplit = str.Split("\n".ToCharArray(), 2); // get portion before newline to render
-                int[] res = DrawString(x, y - totallines*(height+linespacing), height, font, newlinesplit[0], maxwidth, maxlines - totallines, align, chrtracking, linespacing);
+                int[] res = DrawString(x, y - totallines*(height+linespacing), height, font, newlinesplit[0], maxwidth, maxlines - totallines, align, chrtracking, linespacing, smartFlow);
                 totallines += res[1]; // advance height
                 if (res[0] > 0 || (maxlines > 0 && totallines >= maxlines)) // already can't render more...
                 {
@@ -983,7 +984,7 @@ namespace _8beatMap
                 str = newlinesplit[1]; // remove already drawn content from string
             }
 
-            int[] maxchrs = DrawCharactersAligned(x, y - totallines*(height+linespacing), height, font, str, maxwidth, align, chrtracking);
+            int[] maxchrs = DrawCharactersAligned(x, y - totallines*(height+linespacing), height, font, str, maxwidth, align, chrtracking, smartFlow);
             while (maxchrs[0] <= str.Length)
             {
                 if (maxchrs[0] == str.Length)
@@ -1018,7 +1019,7 @@ namespace _8beatMap
                         // disable because moved
                         //DrawCharacters(maxchrs[1], y - totallines*(height+linespacing), height, font, "...", 0, chrtracking);
                     }
-                    else
+                    else if (smartFlow)
                     {
                         DrawCharacters(maxchrs[1], y - totallines*(height+linespacing), height, font, "-", 0, chrtracking);
                     }
@@ -1027,11 +1028,11 @@ namespace _8beatMap
                 if (maxlines > 0 && totallines + 1 >= maxlines) // +1 because 1 will be added after
                 {
                     // draw ellipsis when breaking early
-                    DrawCharacters(maxchrs[1], y - totallines*(height+linespacing), height, font, "...", 0, chrtracking - 2);
+                    if (smartFlow) DrawCharacters(maxchrs[1], y - totallines*(height+linespacing), height, font, "...", 0, chrtracking - 2);
                     break;
                 }
                 totallines += 1;
-                maxchrs = DrawCharactersAligned(x, y - totallines*(height+linespacing), height, font, str, maxwidth, align, chrtracking);
+                maxchrs = DrawCharactersAligned(x, y - totallines*(height+linespacing), height, font, str, maxwidth, align, chrtracking, smartFlow);
             }
 
             return new int[] { str.Length, totallines + 1 };
