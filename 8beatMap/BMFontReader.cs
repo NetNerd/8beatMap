@@ -82,6 +82,9 @@ namespace _8beatMap
                     break;
                 }
             }
+            
+            bmp.UnlockBits(bmpData);
+            bmp.Dispose();
 
             return !foundDifference;
         }
