@@ -114,26 +114,26 @@ namespace _8beatMap
                 if (skin.ComboTextInfo.Font.CommonInfo.Packed)
                 {
                     int[] channelTextures = LoadTextureToSplitChannels(texpath);
+                    
+                    if (!textures.ContainsKey(texkey + "A"))
+                        textures.Add(texkey + "A", channelTextures[0]);
+                    else
+                        textures[texkey + "A"] = channelTextures[0];
 
                     if (!textures.ContainsKey(texkey + "R"))
-                        textures.Add(texkey + "R", channelTextures[0]);
+                        textures.Add(texkey + "R", channelTextures[1]);
                     else
-                        textures[texkey + "R"] = channelTextures[0];
+                        textures[texkey + "R"] = channelTextures[1];
 
                     if (!textures.ContainsKey(texkey + "G"))
-                        textures.Add(texkey + "G", channelTextures[1]);
+                        textures.Add(texkey + "G", channelTextures[2]);
                     else
-                        textures[texkey + "G"] = channelTextures[1];
+                        textures[texkey + "G"] = channelTextures[2];
 
                     if (!textures.ContainsKey(texkey + "B"))
-                        textures.Add(texkey + "B", channelTextures[2]);
+                        textures.Add(texkey + "B", channelTextures[3]);
                     else
-                        textures[texkey + "B"] = channelTextures[2];
-
-                    if (!textures.ContainsKey(texkey + "A"))
-                        textures.Add(texkey + "A", channelTextures[3]);
-                    else
-                        textures[texkey + "A"] = channelTextures[3];
+                        textures[texkey + "B"] = channelTextures[3];
                 }
             }
         }
@@ -582,6 +582,7 @@ namespace _8beatMap
             return tex;
         }
 
+        // loads in order ARGB
         int[] LoadTextureToSplitChannels(string path)
         {
             Bitmap bmp;
@@ -595,17 +596,22 @@ namespace _8beatMap
             }
 
 
+            System.Drawing.Imaging.BitmapData bmpData = bmp.LockBits(new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height),
+                System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+            byte[] dataBytes = new byte[bmp.Width * bmp.Height * 4];
+            System.Runtime.InteropServices.Marshal.Copy(bmpData.Scan0, dataBytes, 0, bmp.Width * bmp.Height * 4);
+
             byte[][] planes = new byte[4][]
             { new byte[bmp.Width * bmp.Height], new byte[bmp.Width * bmp.Height], new byte[bmp.Width * bmp.Height], new byte[bmp.Width * bmp.Height] };
-            
             for (int i = 0; i < bmp.Height; i++)
             {
                 for (int j = 0; j < bmp.Width; j++)
                 {
-                    planes[0][i * bmp.Width + j] = bmp.GetPixel(j, i).R;
-                    planes[1][i * bmp.Width + j] = bmp.GetPixel(j, i).G;
-                    planes[2][i * bmp.Width + j] = bmp.GetPixel(j, i).B;
-                    planes[3][i * bmp.Width + j] = bmp.GetPixel(j, i).A;
+                    planes[0][i * bmp.Width + j] = dataBytes[i * bmp.Width * 4 + j * 4];
+                    planes[1][i * bmp.Width + j] = dataBytes[i * bmp.Width * 4 + j * 4 + 1];
+                    planes[2][i * bmp.Width + j] = dataBytes[i * bmp.Width * 4 + j * 4 + 2];
+                    planes[3][i * bmp.Width + j] = dataBytes[i * bmp.Width * 4 + j * 4 + 3];
                 }
             }
 
@@ -614,7 +620,7 @@ namespace _8beatMap
             for (int i = 0; i < 4; i++)
             {
                 int tex = GL.GenTexture();
-                outtextures[i] = tex;
+                outtextures[3-i] = tex;
 
                 GL.BindTexture(TextureTarget.Texture2D, tex);
 
@@ -630,8 +636,7 @@ namespace _8beatMap
 
                 bmpDataJustChannel.Scan0 = System.Runtime.InteropServices.Marshal.AllocHGlobal(planes[i].Length);
                 System.Runtime.InteropServices.Marshal.Copy(planes[i], 0, bmpDataJustChannel.Scan0, planes[i].Length);
-
-
+                
                 GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Alpha, bmp.Width, bmp.Height, 0, PixelFormat.Alpha, PixelType.UnsignedByte, bmpDataJustChannel.Scan0);
 
                 bmpDataJustChannel.Scan0 = IntPtr.Zero;
@@ -642,6 +647,7 @@ namespace _8beatMap
             }
 
 
+            bmp.UnlockBits(bmpData);
             bmp.Dispose();
 
             GL.BindTexture(TextureTarget.Texture2D, 0);
