@@ -1028,7 +1028,11 @@ namespace _8beatMap
                 if (maxlines > 0 && totallines + 1 >= maxlines) // +1 because 1 will be added after
                 {
                     // draw ellipsis when breaking early
-                    if (smartFlow) DrawCharacters(maxchrs[1], y - totallines*(height+linespacing), height, font, "...", 0, chrtracking - 1);
+                    if (smartFlow)
+                    {
+                        if (font.Characters.ContainsKey('…')) DrawCharacters(maxchrs[1], y - totallines * (height + linespacing), height, font, "…", 0, chrtracking);
+                        else DrawCharacters(maxchrs[1], y - totallines * (height + linespacing), height, font, "...", 0, chrtracking - 1);
+                    }
                     break;
                 }
                 totallines += 1;
