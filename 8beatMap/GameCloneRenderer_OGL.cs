@@ -22,7 +22,7 @@ namespace _8beatMap
 
         public bool showcombo = true;
 
-        static System.Collections.Generic.Dictionary<string, int> textures = new System.Collections.Generic.Dictionary<string, int>();
+        private System.Collections.Generic.Dictionary<string, int> textures = new System.Collections.Generic.Dictionary<string, int>();
 
         public Color clearColor = Color.FromArgb(0, 0, 0, 0);
 
@@ -78,13 +78,19 @@ namespace _8beatMap
             }
         }
 
-        private void SetupTextures()
+        private void UnloadAllTextures()
         {
+            GL.BindTexture(TextureTarget.Texture2D, 0); // make sure no textures are loaded before deleting
             foreach (System.Collections.Generic.KeyValuePair<string, int> tex in textures)
             {
                 UnloadTexture(tex.Value);
             }
             textures.Clear();
+        }
+
+        private void SetupTextures()
+        {
+            UnloadAllTextures();
 
             foreach (System.Collections.Generic.KeyValuePair<string, string> tex in skin.TexturePaths)
             {
@@ -179,6 +185,11 @@ namespace _8beatMap
                         GL.Viewport(0, 0, myWindow.Width, myWindow.Height);
                         SetupNodeLocs(myWindow.Width, myWindow.Height);
                     }
+                };
+
+                myWindow.Closed += (sender, e) =>
+                {
+                    UnloadAllTextures();
                 };
 
 
