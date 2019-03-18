@@ -504,6 +504,7 @@ namespace _8beatMap
             //DrawCharactersAligned(64, 96, 32, skin.ComboTextInfo.Font, "This is a test!---!!!@♪", 205, 0, 0);
             //DrawString(32, 600-32, 32, skin.ComboTextInfo.Font, "Lor\nem ip\nsum dolor s❗it amet, consectetur adipiscing elit. Vestibulum consequ\nat sem at purus pretium, vitae mollis sapien max\nimus. Duis rutrum elit vel odio iaculis dictum. Fusce viverra nisi eget dictum facilisis. Maecenas eleifend eu lorem ut convallis. Donec sed ullamc\norper dui. Vivamus hendrerit magna vitae nisl porttitor, ac accumsan urna volutpat. Pellentesque nec nulla ultricies, suscipit arcu a, eleifend dui. Suspe\nndisse potenti. Mauris felis arcu, sollicitudin eu finibus ut, interdum id ante.", 500, 12, 0, 0, 1);
             //DrawString(600, 600-32, 32, skin.ComboTextInfo.Font, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum consequat sem at purus pretium, vitae mollis sapien maximus. Duis rutrum elit vel odio iaculis dictum. Fusce viverra nisi eget dictum facilisis. Maecenas eleifend eu lorem ut convallis. Donec sed ullamcorper dui. Vivamus hendrerit magna vitae nisl porttitor, ac accumsan urna volutpat. Pellentesque nec nulla ultricies, suscipit arcu a, eleifend dui. Suspendisse potenti. Mauris felis arcu, sollicitudin eu finibus ut, interdum id ante.", 500, 12, 0, 0, 1, true);
+            //DrawString(32, 600-32, 32, skin.ComboTextInfo.Font, "日本語テストだ。\n多分機能する…\nチェック\nEverybody\nDance Dance Dance 纏ったもの脱ぎ捨てて\nDance Dance Dance 自分の殻つきやぶって(hey!)", 500, 12, 0, 0, 1, true);
             //DrawFilledRect(580, 202, 10, 390, "spr_HoldLocus");
             //GL.Color4(0f, 1f, 0, 1f);
             //DrawCharactersAligned(640, 16, 32, skin.ComboTextInfo.Font, "😃☺😃☺😃⁉⬆", 0, 0, 0);
@@ -883,8 +884,17 @@ namespace _8beatMap
                 int utf32Char = char.ConvertToUtf32(str, i);
 
                 bool fontHasChar = false;
+                bool replacedSurrogateWithMissingGlyph = false;
                 if (font.Characters.ContainsKey(utf32Char))
                 {
+                    newtotalwidth += ((font.Characters[utf32Char].XAdvance + chrtracking) * sizescale);
+                    fontHasChar = true;
+                }
+                else if(font.Characters.ContainsKey(-1)) // check for missing character glyph in font
+                {
+                    if (utf32Char > 0xffff) replacedSurrogateWithMissingGlyph = true; // this is needed to track position in the string properly
+                                                                                      // -- we should advance by one if the next character isn't a standalone int
+                    utf32Char = -1;
                     newtotalwidth += ((font.Characters[utf32Char].XAdvance + chrtracking) * sizescale);
                     fontHasChar = true;
                 }
@@ -965,8 +975,8 @@ namespace _8beatMap
                     DrawRect(quadX, quadY, quadWidth, quadHeight, new RectangleF(texCoordX, texCoordY, texCoordWidth, texCoordHeight), true);
                 }
                 
-                if (utf32Char > 0xffff) i += 1; // if greater than 0xffff it was a pair. add 1 now to get right next character for kerning
-                                                // don't add it earlier because that would affect return value (relies on previous character being at i-1)
+                if (replacedSurrogateWithMissingGlyph || utf32Char > 0xffff) i += 1; // if greater than 0xffff it was a pair. add 1 now to get right next character for kerning
+                                                                                     // don't add it earlier because that would affect return value (relies on previous character being at i-1)
 
                 // adjust next char position for kerning if needed
                 // this is after our if case so it can't affect whether previous character should fit or not
