@@ -463,8 +463,12 @@ namespace _8beatMap
             }
         }
 
+        bool isOpeningPreview = false;
         private void OpenPreviewWindow_Int()
         {
+            if (isOpeningPreview) return;
+            isOpeningPreview = true;
+
             int wndWidth = 853;
             int wndHeight = 480;
             int wndX = -99999;
@@ -489,6 +493,7 @@ namespace _8beatMap
             }
 
             OGLrenderer = new GameCloneRenderer_OGL(wndWidth, wndHeight, wndX, wndY, wndState, this, skin, ShowComboInPreview);
+            isOpeningPreview = false;
         }
 
         private void OpenPreviewWindow()
