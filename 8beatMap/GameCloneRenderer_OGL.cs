@@ -1102,16 +1102,25 @@ namespace _8beatMap
 
                 if (char.IsWhiteSpace(str, 0)) // remove whitespace from start of line
                 {
-                    if (char.IsHighSurrogate(str[0])) str = str.Remove(0, 2);
-                    else str = str.Remove(0, 1);
+                    while (str.Length > 0 && char.IsWhiteSpace(str, 0))
+                    {
+                        if (char.IsHighSurrogate(str[0])) str = str.Remove(0, 2);
+                        else str = str.Remove(0, 1);
+                    }
                 }
                 else if (char.IsPunctuation(str, 0)) // draw punctuation attached to last word
                 {
-                    DrawCharacters(maxchrs[1], y - totallines*(height+linespacing), height, font, char.ConvertFromUtf32(char.ConvertToUtf32(str, 0)), 0, chrtracking);
-                    if (char.IsHighSurrogate(str[0])) str = str.Remove(0, 2);
-                    else str = str.Remove(0, 1);
+                    int repsleft = 3;
+                    while (repsleft > 0 && str.Length > 0 && char.IsPunctuation(str, 0))
+                    {
+                        repsleft--;
+                        int[] newchrs = DrawCharacters(maxchrs[1], y - totallines*(height+linespacing), height, font, char.ConvertFromUtf32(char.ConvertToUtf32(str, 0)), 0, chrtracking);
+                        maxchrs[1] += newchrs[1];
+                        if (char.IsHighSurrogate(str[0])) str = str.Remove(0, 2);
+                        else str = str.Remove(0, 1);
+                    }
 
-                    if (char.IsWhiteSpace(str, 0)) // remove whitespace from start of line
+                    if (str.Length > 0 && char.IsWhiteSpace(str, 0)) // remove whitespace from start of line
                     {
                         if (char.IsHighSurrogate(str[0])) str = str.Remove(0, 2);
                         else str = str.Remove(0, 1);
