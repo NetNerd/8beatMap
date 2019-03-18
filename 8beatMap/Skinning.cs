@@ -287,6 +287,7 @@ namespace _8beatMap
             public Point[] Locs;
             public int TextSize;
             public int CharacterTracking;
+            public int StartNumber;
             public BMFontReader.BMFont Font;
         }
 
@@ -303,8 +304,6 @@ namespace _8beatMap
             int i3 = 0;
             for (int i = 0; i < defslines.Length; i++)
             {
-                if (i >= maxlanes) break;
-
                 if (defslines[i].StartsWith("#") || defslines[i].Trim().Length == 0) continue;
 
                 if (defslines[i].Contains(","))
@@ -320,7 +319,8 @@ namespace _8beatMap
                     try
                     {
                         if (i3 == 0) outinfo.TextSize = int.Parse(defslines[i]);
-                        else outinfo.CharacterTracking = int.Parse(defslines[i]);
+                        else if (i3 == 1) outinfo.CharacterTracking = int.Parse(defslines[i]);
+                        else outinfo.StartNumber = int.Parse(defslines[i]);
                         i3++;
                     }
                     catch
@@ -360,7 +360,7 @@ namespace _8beatMap
                     NodeEndLocs = LoadNodeEndLocs(buttonsfile),
                     NumLanes = LoadNumLanes(buttonsfile),
                     SoundPaths = LoadSoundPaths(rootdir),
-                    ComboTextInfo = LoadComboTextInfo(ReadFile_EmptyStringIfException(rootdir + "/font/pos_combo.txt"), rootdir + "/font")
+                    ComboTextInfo = LoadComboTextInfo(ReadFile_EmptyStringIfException(rootdir + "/previewcombo.txt"), rootdir + "/font")
                 };
 
                 return output;

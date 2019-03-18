@@ -154,5 +154,17 @@ namespace _8beatMap.Properties {
                 this["AreSettingsInit"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowComboInPreview {
+            get {
+                return ((bool)(this["ShowComboInPreview"]));
+            }
+            set {
+                this["ShowComboInPreview"] = value;
+            }
+        }
     }
 }

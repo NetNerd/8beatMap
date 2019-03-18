@@ -120,6 +120,7 @@ namespace _8beatMap
 
 
         GameCloneRenderer_OGL OGLrenderer = null;
+        bool ShowComboInPreview = true;
 
         public bool ShowTypeIdsOnNotes = false;
 
@@ -487,7 +488,7 @@ namespace _8beatMap
                 OGLrenderer = null;
             }
 
-            OGLrenderer = new GameCloneRenderer_OGL(wndWidth, wndHeight, wndX, wndY, wndState, this, skin);
+            OGLrenderer = new GameCloneRenderer_OGL(wndWidth, wndHeight, wndX, wndY, wndState, this, skin, ShowComboInPreview);
         }
 
         private void OpenPreviewWindow()
@@ -552,6 +553,7 @@ namespace _8beatMap
             PauseOnSeek.Checked = Properties.Settings.Default.PauseOnSeek;
             VolumeBar.Value = Properties.Settings.Default.Volume;
             UseBeepNoteSounds = Properties.Settings.Default.UseBeepNoteSounds;
+            ShowComboInPreview = Properties.Settings.Default.ShowComboInPreview;
 
             SetSkin(Properties.Settings.Default.Skin);
 
@@ -909,6 +911,7 @@ namespace _8beatMap
                 Properties.Settings.Default.PauseOnSeek = PauseOnSeek.Checked;
                 Properties.Settings.Default.Volume = VolumeBar.Value;
                 Properties.Settings.Default.UseBeepNoteSounds = UseBeepNoteSounds;
+                Properties.Settings.Default.ShowComboInPreview = ShowComboInPreview;
 
                 Properties.Settings.Default.Save();
             }

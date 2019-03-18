@@ -20,6 +20,8 @@ namespace _8beatMap
 
         private Skinning.Skin skin = Skinning.DefaultSkin;
 
+        public bool showcombo = true;
+
         static System.Collections.Generic.Dictionary<string, int> textures = new System.Collections.Generic.Dictionary<string, int>();
 
         public Color clearColor = Color.FromArgb(0, 0, 0, 0);
@@ -130,10 +132,11 @@ namespace _8beatMap
             }
         }
 
-        public GameCloneRenderer_OGL(int wndWidth, int wndHeight, int wndX, int wndY, WindowState wndState, Form1 mainform, Skinning.Skin skin)
+        public GameCloneRenderer_OGL(int wndWidth, int wndHeight, int wndX, int wndY, WindowState wndState, Form1 mainform, Skinning.Skin skin, bool showcombo)
         {
             this.mainform = mainform;
             this.skin = skin;
+            this.showcombo = showcombo;
             NodeStartLocs = (Point[])skin.NodeStartLocs.Clone();
             NodeEndLocs = (Point[])skin.NodeEndLocs.Clone();
             SetupNodeLocs(wndWidth, wndHeight);
@@ -448,21 +451,25 @@ namespace _8beatMap
             }
 
             int comboTick = (int)currentTick + hitlineAdjust - 1;
-            if (comboTick < 0) comboTick = 0;
-            else if (comboTick >= chart.Length) comboTick = chart.Length - 1;
+            int comboNumber = 0;
 
-            // disabled until complete and I can add an option to toggle it
-            //if (chart.Ticks[comboTick].ComboNumber > 1)
-            //{
-            //    int textsize = skin.ComboTextInfo.TextSize;
-            //    if (textsize == 0 && skin.ComboTextInfo.Font.CommonInfo.LineHeight > 0) textsize = skin.ComboTextInfo.Font.CommonInfo.LineHeight;
-            //    int numX = skin.ComboTextInfo.Locs[0].X;
-            //    int numY = viewHeight - skin.ComboTextInfo.Locs[0].Y;
-            //    int textX = skin.ComboTextInfo.Locs[1].X;
-            //    int textY = viewHeight - skin.ComboTextInfo.Locs[1].Y;
-            //    DrawCharactersAligned(numX - 128, numY, textsize, skin.ComboTextInfo.Font, chart.Ticks[comboTick].ComboNumber.ToString(), 256, 1, skin.ComboTextInfo.CharacterTracking);
-            //    DrawFilledRect(textX - 128, textY, 256, 64, "spr_ComboText");
-            //}
+            if (comboTick >= chart.Length) comboNumber = chart.Ticks[chart.Length - 1].ComboNumber; // if outside of chart, get last valid tick
+            else if (comboTick >= 0) comboNumber = chart.Ticks[comboTick].ComboNumber; // if inside chart, get current tick
+            // otherwise comboNumber is still 0
+
+
+            if (showcombo && comboNumber >= skin.ComboTextInfo.StartNumber)
+            {
+                int textsize = skin.ComboTextInfo.TextSize;
+                if (textsize == 0 && skin.ComboTextInfo.Font.CommonInfo.LineHeight > 0) textsize = skin.ComboTextInfo.Font.CommonInfo.LineHeight;
+                int numX = skin.ComboTextInfo.Locs[0].X;
+                int numY = viewHeight - skin.ComboTextInfo.Locs[0].Y;
+                int textX = skin.ComboTextInfo.Locs[1].X;
+                int textY = viewHeight - skin.ComboTextInfo.Locs[1].Y;
+                DrawCharactersAligned(numX - 128, numY, textsize, skin.ComboTextInfo.Font, comboNumber.ToString(), 256, 1, skin.ComboTextInfo.CharacterTracking);
+                DrawFilledRect(textX - 128, textY, 256, 64, "spr_ComboText");
+            }
+
             //DrawCharactersAligned(64, 64, 32, skin.ComboTextInfo.Font, "01189998819991197253", 80);
             //DrawCharactersAligned(64, 64, 32, skin.ComboTextInfo.Font, "88", 160);
             //DrawCharactersAligned(64, 96, 32, skin.ComboTextInfo.Font, "88", 160, 1);
@@ -850,6 +857,7 @@ namespace _8beatMap
         }
 
         // returns { NumberOfCharactersLeft(that weren't rendered), NumberOfLines(that were rendereed) }
+        // punctuation added to the end of a line may extend past max width
         int[] DrawString(float x, float y, float height, BMFontReader.BMFont font, string str, int maxwidth = 0, int maxlines = 0, int align = 0, float chrtracking = -2)
         {
             if (font.CommonInfo.LineHeight == 0) return new int[] { str.Length, 0 };
