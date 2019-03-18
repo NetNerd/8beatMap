@@ -468,8 +468,8 @@ namespace _8beatMap
             //DrawCharactersAligned(64, 96, 32, skin.ComboTextInfo.Font, "88", 160, 1);
             //DrawCharactersAligned(64, 128, 32, skin.ComboTextInfo.Font, "88", 160, 2);
             //DrawCharactersAligned(64, 96, 32, skin.ComboTextInfo.Font, "This is a test!---!!!@♪", 205, 0, 0);
-            //DrawString(64, 600, 32, skin.ComboTextInfo.Font, "Lor\nem ip\nsum dolor sit amet, consectetur adipiscing elit. Vestibulum consequ\nat sem at purus pretium, vitae mollis sapien max\nimus. Duis rutrum elit vel odio iaculis dictum. Fusce viverra nisi eget dictum facilisis. Maecenas eleifend eu lorem ut convallis. Donec sed ullamc\norper dui. Vivamus hendrerit magna vitae nisl porttitor, ac accumsan urna volutpat. Pellentesque nec nulla ultricies, suscipit arcu a, eleifend dui. Suspe\nndisse potenti. Mauris felis arcu, sollicitudin eu finibus ut, interdum id ante.", 500, 400, 0, 0);
-            //DrawString(600, 600, 32, skin.ComboTextInfo.Font, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum consequat sem at purus pretium, vitae mollis sapien maximus. Duis rutrum elit vel odio iaculis dictum. Fusce viverra nisi eget dictum facilisis. Maecenas eleifend eu lorem ut convallis. Donec sed ullamcorper dui. Vivamus hendrerit magna vitae nisl porttitor, ac accumsan urna volutpat. Pellentesque nec nulla ultricies, suscipit arcu a, eleifend dui. Suspendisse potenti. Mauris felis arcu, sollicitudin eu finibus ut, interdum id ante.", 500, 400, 0, 0);
+            //DrawString(64, 600, 32, skin.ComboTextInfo.Font, "Lor\nem ip\nsum dolor sit amet, consectetur adipiscing elit. Vestibulum consequ\nat sem at purus pretium, vitae mollis sapien max\nimus. Duis rutrum elit vel odio iaculis dictum. Fusce viverra nisi eget dictum facilisis. Maecenas eleifend eu lorem ut convallis. Donec sed ullamc\norper dui. Vivamus hendrerit magna vitae nisl porttitor, ac accumsan urna volutpat. Pellentesque nec nulla ultricies, suscipit arcu a, eleifend dui. Suspe\nndisse potenti. Mauris felis arcu, sollicitudin eu finibus ut, interdum id ante.", 500, 12, 0, 0);
+            //DrawString(600, 600, 32, skin.ComboTextInfo.Font, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum consequat sem at purus pretium, vitae mollis sapien maximus. Duis rutrum elit vel odio iaculis dictum. Fusce viverra nisi eget dictum facilisis. Maecenas eleifend eu lorem ut convallis. Donec sed ullamcorper dui. Vivamus hendrerit magna vitae nisl porttitor, ac accumsan urna volutpat. Pellentesque nec nulla ultricies, suscipit arcu a, eleifend dui. Suspendisse potenti. Mauris felis arcu, sollicitudin eu finibus ut, interdum id ante.", 500, 12, 0, 0);
             //DrawFilledRect(590, 200, 10, 400, "spr_HoldLocus");
             //GL.Color4(0f, 1f, 0, 1f);
             //DrawCharactersAligned(640, 96, 32, skin.ComboTextInfo.Font, "😃☺😃☻😃", 205, 0, 0);
@@ -849,26 +849,26 @@ namespace _8beatMap
             return new int[] { str.Length, rightpoint };
         }
 
-        // returns { NumberOfCharactersLeft(that weren't rendered), HeightOfString }
-        int[] DrawString(float x, float y, float height, BMFontReader.BMFont font, string str, int maxwidth = 0, int maxheight = 0, int align = 0, float chrtracking = -2)
+        // returns { NumberOfCharactersLeft(that weren't rendered), NumberOfLines(that were rendereed) }
+        int[] DrawString(float x, float y, float height, BMFontReader.BMFont font, string str, int maxwidth = 0, int maxlines = 0, int align = 0, float chrtracking = -2)
         {
             if (font.CommonInfo.LineHeight == 0) return new int[] { str.Length, 0 };
 
-            float totalheight = 0;
+            int totallines = 0;
 
             while (str.Contains("\n"))
             {
                 string[] newlinesplit = str.Split("\n".ToCharArray(), 2); // get portion before newline to render
-                int[] res = DrawString(x, y - totalheight, height, font, newlinesplit[0], maxwidth, maxheight - (int)totalheight, align, chrtracking);
-                totalheight += res[1]; // advance height
-                if (res[0] > 0 || totalheight >= maxheight) // already can't render more...
+                int[] res = DrawString(x, y - totallines*height, height, font, newlinesplit[0], maxwidth, maxlines - totallines, align, chrtracking);
+                totallines += res[1]; // advance height
+                if (res[0] > 0 || (maxlines > 0 && totallines >= maxlines)) // already can't render more...
                 {
-                    return new int[] { res[0] + 1 + newlinesplit[1].Length, (int)totalheight }; // +1 is for the newline character we removed
+                    return new int[] { res[0] + 1 + newlinesplit[1].Length, totallines }; // +1 is for the newline character we removed
                 }
                 str = newlinesplit[1]; // remove already drawn content from string
             }
 
-            int[] maxchrs = DrawCharactersAligned(x, y - totalheight, height, font, str, maxwidth, align, chrtracking);
+            int[] maxchrs = DrawCharactersAligned(x, y - totallines*height, height, font, str, maxwidth, align, chrtracking);
             while (maxchrs[0] <= str.Length)
             {
                 if (maxchrs[0] == str.Length)
@@ -886,7 +886,7 @@ namespace _8beatMap
                 }
                 else if (char.IsPunctuation(str, 0)) // draw punctuation attached to last word
                 {
-                    DrawCharacters(maxchrs[1], y - totalheight, height, font, char.ConvertFromUtf32(char.ConvertToUtf32(str, 0)), 0, chrtracking);
+                    DrawCharacters(maxchrs[1], y - totallines*height, height, font, char.ConvertFromUtf32(char.ConvertToUtf32(str, 0)), 0, chrtracking);
                     if (char.IsHighSurrogate(str[0])) str = str.Remove(0, 2);
                     else str = str.Remove(0, 1);
 
@@ -898,28 +898,28 @@ namespace _8beatMap
                 }
                 else // broke mid-word
                 {
-                    if (maxheight > 0 && totalheight + height >= maxheight) // if going to stop draw ellipsis instead
+                    if (maxlines > 0 && totallines + 1 >= maxlines) // if going to stop draw ellipsis instead
                     {
                         // disable because moved
                         //DrawCharacters(maxchrs[1], y - totalheight, height, font, "...", 0, chrtracking-2);
                     }
                     else
                     {
-                        DrawCharacters(maxchrs[1], y - totalheight, height, font, "-", 0, chrtracking);
+                        DrawCharacters(maxchrs[1], y - totallines*height, height, font, "-", 0, chrtracking);
                     }
                 }
 
-                if (maxheight > 0 && totalheight + height*2 >= maxheight) // height*2 because total height of characters is greater than distance between baselines
+                if (maxlines > 0 && totallines + 1 >= maxlines) // +1 because 1 will be added after
                 {
                     // draw ellipsis when breaking early
-                    DrawCharacters(maxchrs[1], y - totalheight, height, font, "...", 0, chrtracking - 2);
+                    DrawCharacters(maxchrs[1], y - totallines*height, height, font, "...", 0, chrtracking - 2);
                     break;
                 }
-                totalheight += height;
-                maxchrs = DrawCharactersAligned(x, y - totalheight, height, font, str, maxwidth, align, chrtracking);
+                totallines += 1;
+                maxchrs = DrawCharactersAligned(x, y - totallines*height, height, font, str, maxwidth, align, chrtracking);
             }
 
-            return new int[] { str.Length, (int)totalheight + (int)height };
+            return new int[] { str.Length, totallines + 1 };
         }
     }
 }
