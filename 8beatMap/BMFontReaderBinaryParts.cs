@@ -15,14 +15,11 @@ namespace _8beatMap
 
         private static int ReadBinaryInt(byte[] data)
         {
-            int output = 0;
-            for (int i = 0; i < data.Length; i++)
-            {
-                output += data[i] << 8 * i;
-            }
-            return output;
+            if (data.Length < 2) return data[0];
+            else if (data.Length < 4) return BitConverter.ToInt16(data, 0);
+            else return BitConverter.ToInt32(data, 0);
         }
-        private static Delegate ReadBinaryIntDelegate = new Func<byte[], int>(ReadBinaryInt);
+        private static Func<byte[], int> ReadBinaryIntDelegate = ReadBinaryInt;
 
         private static string ReadBinaryString(byte[] data)
         {
@@ -30,7 +27,7 @@ namespace _8beatMap
             string output = Encoding.UTF8.GetString(data);
             return output;
         }
-        private static Delegate ReadBinaryStringDelegate = new Func<byte[], string>(ReadBinaryString);
+        private static Func<byte[], string> ReadBinaryStringDelegate = ReadBinaryString;
 
         private static bool[] ReadBinaryFlags(byte[] data)
         {
@@ -48,7 +45,7 @@ namespace _8beatMap
             }
             return output;
         }
-        private static Delegate ReadBinaryFlagsDelegate = new Func<byte[], bool[]>(ReadBinaryFlags);
+        private static Func<byte[], bool[]> ReadBinaryFlagsDelegate = ReadBinaryFlags;
 
         private static string ReadBinaryPadding(byte[] data)
         {
@@ -60,7 +57,7 @@ namespace _8beatMap
 
             return output;
         }
-        private static Delegate ReadBinaryPaddingDelegate = new Func<byte[], string>(ReadBinaryPadding);
+        private static Func<byte[], string> ReadBinaryPaddingDelegate = ReadBinaryPadding;
 
         private struct BinaryBlockField
         {
@@ -71,11 +68,19 @@ namespace _8beatMap
 
         private static Dictionary<string, string> ReadBinaryBlock(byte[] data, BinaryBlockField[] fields)
         {
+            System.IO.MemoryStream datastream;
+            if (data.Length > 256) datastream = new System.IO.MemoryStream(data, 0, 256, false);
+            else datastream = new System.IO.MemoryStream(data, false);
+            byte[] databuf;
+
             Dictionary<string, string> outdic = new Dictionary<string, string>();
             foreach (BinaryBlockField field in fields)
             {
-                var fieldval = field.Method.DynamicInvoke(new object[] { data.Take(field.Size).ToArray() });
-                data = data.Skip(field.Size).ToArray();
+                databuf = new byte[field.Size];
+                datastream.Read(databuf, 0, field.Size);
+
+                var fieldval = field.Method.DynamicInvoke(new object[] { databuf });
+
                 if (fieldval.GetType() == typeof(bool[]))
                 {
                     bool[] fieldvalbools = (bool[])fieldval;
@@ -175,7 +180,7 @@ namespace _8beatMap
                             {
                                 blockName = "page";
                                 int nameLen = readbuf.TakeWhile((x) => x != 0).Count() + 1;
-                                int numNames = readbuf.Length / nameLen;
+                                int numNames = blocklen / nameLen;
 
                                 fields = new BinaryBlockField[numNames][];
 
@@ -191,8 +196,55 @@ namespace _8beatMap
 
                                 break;
                             }
-                    }
+                        case 4: // chars
+                            {
+                                blockName = "char";
+                                int defLen = 20;
+                                int numChars = blocklen / defLen;
 
+                                fields = new BinaryBlockField[numChars][];
+
+                                for (int i = 0; i < numChars; i++)
+                                {
+                                    fields[i] = new BinaryBlockField[]
+                                    {
+                                        new BinaryBlockField() { ParamNames = new string[] {"id"}, Size = 4, Method = ReadBinaryIntDelegate },
+                                        new BinaryBlockField() { ParamNames = new string[] {"x"}, Size = 2, Method = ReadBinaryIntDelegate },
+                                        new BinaryBlockField() { ParamNames = new string[] {"y"}, Size = 2, Method = ReadBinaryIntDelegate },
+                                        new BinaryBlockField() { ParamNames = new string[] {"width"}, Size = 2, Method = ReadBinaryIntDelegate },
+                                        new BinaryBlockField() { ParamNames = new string[] {"height"}, Size = 2, Method = ReadBinaryIntDelegate },
+                                        new BinaryBlockField() { ParamNames = new string[] {"xoffset"}, Size = 2, Method = ReadBinaryIntDelegate },
+                                        new BinaryBlockField() { ParamNames = new string[] {"yoffset"}, Size = 2, Method = ReadBinaryIntDelegate },
+                                        new BinaryBlockField() { ParamNames = new string[] {"xadvance"}, Size = 2, Method = ReadBinaryIntDelegate },
+                                        new BinaryBlockField() { ParamNames = new string[] {"page"}, Size = 1, Method = ReadBinaryIntDelegate },
+                                        new BinaryBlockField() { ParamNames = new string[] {"chnl"}, Size = 1, Method = ReadBinaryIntDelegate }
+                                    };
+                                }
+
+                                break;
+                            }
+                        case 5: // kerning
+                            {
+                                blockName = "kerning";
+                                int defLen = 10;
+                                int numChars = blocklen / defLen;
+
+                                fields = new BinaryBlockField[numChars][];
+
+                                for (int i = 0; i < numChars; i++)
+                                {
+                                    fields[i] = new BinaryBlockField[]
+                                    {
+                                        new BinaryBlockField() { ParamNames = new string[] {"first"}, Size = 4, Method = ReadBinaryIntDelegate },
+                                        new BinaryBlockField() { ParamNames = new string[] {"second"}, Size = 4, Method = ReadBinaryIntDelegate },
+                                        new BinaryBlockField() { ParamNames = new string[] {"amount"}, Size = 2, Method = ReadBinaryIntDelegate }
+                                    };
+                                }
+
+                                break;
+                            }
+                    }
+                    
                     foreach (BinaryBlockField[] fieldset in fields)
                     {
                         if (fieldset != null)
@@ -200,6 +252,13 @@ namespace _8beatMap
                             Dictionary<string, string> tag = ReadBinaryBlock(readbuf, fieldset);
                             tag.Add("tagtype", blockName);
                             ApplyTag(tag);
+                            
+                            int skipAmount = 0;
+                            foreach (BinaryBlockField field in fieldset)
+                            {
+                                skipAmount += field.Size;
+                            }
+                            readbuf = readbuf.Skip(skipAmount).ToArray();
                         }
                     }
                 }
