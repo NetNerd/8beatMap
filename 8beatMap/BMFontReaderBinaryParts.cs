@@ -19,6 +19,7 @@ namespace _8beatMap
             else if (data.Length < 4) return BitConverter.ToInt16(data, 0);
             else return BitConverter.ToInt32(data, 0);
         }
+        private static Func<byte[], int> ReadBinaryIntDelegate = ReadBinaryInt;
 
         private static string ReadBinaryString(byte[] data)
         {
@@ -26,6 +27,7 @@ namespace _8beatMap
             string output = Encoding.UTF8.GetString(data);
             return output;
         }
+        private static Func<byte[], string> ReadBinaryStringDelegate = ReadBinaryString;
 
         private static bool[] ReadBinaryFlags(byte[] data)
         {
@@ -43,6 +45,7 @@ namespace _8beatMap
             }
             return output;
         }
+        private static Func<byte[], bool[]> ReadBinaryFlagsDelegate = ReadBinaryFlags;
 
         private static string ReadBinaryPadding(byte[] data)
         {
@@ -54,22 +57,13 @@ namespace _8beatMap
 
             return output;
         }
-
-        private enum BinaryFieldType
-        {
-            Integer,
-            Flags,
-            String,
-            Padding,
-            ExternalData
-        }
+        private static Func<byte[], string> ReadBinaryPaddingDelegate = ReadBinaryPadding;
 
         private struct BinaryBlockField
         {
             public int Size;
-            public BinaryFieldType Type;
+            public Delegate Method;
             public string[] ParamNames;
-            public string ExternalData;
         }
 
         private static Dictionary<string, string> ReadBinaryBlock(byte[] data, BinaryBlockField[] fields)
@@ -85,51 +79,21 @@ namespace _8beatMap
                 databuf = new byte[field.Size];
                 datastream.Read(databuf, 0, field.Size);
 
-                switch (field.Type)
+                var fieldval = field.Method.DynamicInvoke(new object[] { databuf });
+
+                if (fieldval.GetType() == typeof(bool[]))
                 {
-                    case BinaryFieldType.Integer:
-                        {
-                            if (outdic.ContainsKey(field.ParamNames[0])) outdic[field.ParamNames[0]] = ReadBinaryInt(databuf).ToString();
-                            else outdic.Add(field.ParamNames[0], ReadBinaryInt(databuf).ToString());
-
-                            break;
-                        }
-                    case BinaryFieldType.String:
-                        {
-                            if (outdic.ContainsKey(field.ParamNames[0])) outdic[field.ParamNames[0]] = ReadBinaryString(databuf);
-                            else outdic.Add(field.ParamNames[0], ReadBinaryString(databuf));
-
-                            break;
-                        }
-                    case BinaryFieldType.Padding:
-                        {
-                            if (outdic.ContainsKey(field.ParamNames[0])) outdic[field.ParamNames[0]] = ReadBinaryPadding(databuf).ToString();
-                            else outdic.Add(field.ParamNames[0], ReadBinaryPadding(databuf).ToString());
-
-                            break;
-                        }
-                    case BinaryFieldType.Flags:
-                        {
-                            bool[] fieldbools = ReadBinaryFlags(databuf);
-                            for (int i = 0; i < fieldbools.Length && i < field.ParamNames.Length; i++)
-                            {
-                                if (outdic.ContainsKey(field.ParamNames[i])) outdic[field.ParamNames[i]] = (fieldbools[i] ? "1" : "0");
-                                else outdic.Add(field.ParamNames[i], (fieldbools[i] ? "1" : "0"));
-                            }
-
-                            break;
-                        }
-                    case BinaryFieldType.ExternalData:
-                        {
-                            if (outdic.ContainsKey(field.ParamNames[0])) outdic[field.ParamNames[0]] = field.ExternalData;
-                            else outdic.Add(field.ParamNames[0], field.ExternalData);
-
-                            break;
-                        }
-                    default:
-                        {
-                            break;
-                        }
+                    bool[] fieldvalbools = (bool[])fieldval;
+                    for (int i = 0; i < fieldvalbools.Length && i < field.ParamNames.Length; i++)
+                    {
+                        if (outdic.ContainsKey(field.ParamNames[i])) outdic[field.ParamNames[i]] = (fieldvalbools[i] ? "1" : "0");
+                        else outdic.Add(field.ParamNames[i], (fieldvalbools[i] ? "1" : "0"));
+                    }
+                }
+                else
+                {
+                    if (outdic.ContainsKey(field.ParamNames[0])) outdic[field.ParamNames[0]] = fieldval.ToString();
+                    else outdic.Add(field.ParamNames[0], fieldval.ToString());
                 }
             }
             return outdic;
@@ -182,15 +146,15 @@ namespace _8beatMap
                                 blockName = "info";
                                 fields[0] = new BinaryBlockField[]
                                 {
-                                    new BinaryBlockField() { ParamNames = new string[] {"size"}, Size = 2, Type = BinaryFieldType.Integer },
-                                    new BinaryBlockField() { ParamNames = new string[] {"smooth", "unicode", "italic", "bold", "fixedheight"}, Size = 1, Type = BinaryFieldType.Flags },
-                                    new BinaryBlockField() { ParamNames = new string[] {"charset"}, Size = 1, Type = BinaryFieldType.Integer },
-                                    new BinaryBlockField() { ParamNames = new string[] {"stretchH"}, Size = 2, Type = BinaryFieldType.Integer },
-                                    new BinaryBlockField() { ParamNames = new string[] {"aa"}, Size = 1, Type = BinaryFieldType.Integer },
-                                    new BinaryBlockField() { ParamNames = new string[] {"padding"}, Size = 4, Type = BinaryFieldType.Padding },
-                                    new BinaryBlockField() { ParamNames = new string[] {"spacing"}, Size = 2, Type = BinaryFieldType.Padding },
-                                    new BinaryBlockField() { ParamNames = new string[] {"outline"}, Size = 1, Type = BinaryFieldType.Integer },
-                                    new BinaryBlockField() { ParamNames = new string[] {"face"}, Size = blocklen-14, Type = BinaryFieldType.String },
+                                    new BinaryBlockField() { ParamNames = new string[] {"size"}, Size = 2, Method = ReadBinaryIntDelegate },
+                                    new BinaryBlockField() { ParamNames = new string[] {"smooth", "unicode", "italic", "bold", "fixedheight"}, Size = 1, Method = ReadBinaryFlagsDelegate },
+                                    new BinaryBlockField() { ParamNames = new string[] {"charset"}, Size = 1, Method = ReadBinaryIntDelegate },
+                                    new BinaryBlockField() { ParamNames = new string[] {"stretchH"}, Size = 2, Method = ReadBinaryIntDelegate },
+                                    new BinaryBlockField() { ParamNames = new string[] {"aa"}, Size = 1, Method = ReadBinaryIntDelegate },
+                                    new BinaryBlockField() { ParamNames = new string[] {"padding"}, Size = 4, Method = ReadBinaryPaddingDelegate },
+                                    new BinaryBlockField() { ParamNames = new string[] {"spacing"}, Size = 2, Method = ReadBinaryPaddingDelegate },
+                                    new BinaryBlockField() { ParamNames = new string[] {"outline"}, Size = 1, Method = ReadBinaryIntDelegate },
+                                    new BinaryBlockField() { ParamNames = new string[] {"face"}, Size = blocklen-14, Method = ReadBinaryStringDelegate },
                                 };
                                 break;
                             }
@@ -199,16 +163,16 @@ namespace _8beatMap
                                 blockName = "common";
                                 fields[0] = new BinaryBlockField[]
                                 {
-                                    new BinaryBlockField() { ParamNames = new string[] {"lineHeight"}, Size = 2, Type = BinaryFieldType.Integer },
-                                    new BinaryBlockField() { ParamNames = new string[] {"base"}, Size = 2, Type = BinaryFieldType.Integer },
-                                    new BinaryBlockField() { ParamNames = new string[] {"scaleW"}, Size = 2, Type = BinaryFieldType.Integer },
-                                    new BinaryBlockField() { ParamNames = new string[] {"scaleH"}, Size = 2, Type = BinaryFieldType.Integer },
-                                    new BinaryBlockField() { ParamNames = new string[] {"pages"}, Size = 2, Type = BinaryFieldType.Integer },
-                                    new BinaryBlockField() { ParamNames = new string[] {"none", "none", "none", "none", "none", "none", "none", "packed"}, Size = 1, Type = BinaryFieldType.Flags },
-                                    new BinaryBlockField() { ParamNames = new string[] {"alphaChnl"}, Size = 1, Type = BinaryFieldType.Integer },
-                                    new BinaryBlockField() { ParamNames = new string[] {"redChnl"}, Size = 1, Type = BinaryFieldType.Integer },
-                                    new BinaryBlockField() { ParamNames = new string[] {"greenChnl"}, Size = 1, Type = BinaryFieldType.Integer },
-                                    new BinaryBlockField() { ParamNames = new string[] {"blueChnl"}, Size = 1, Type = BinaryFieldType.Integer },
+                                    new BinaryBlockField() { ParamNames = new string[] {"lineHeight"}, Size = 2, Method = ReadBinaryIntDelegate },
+                                    new BinaryBlockField() { ParamNames = new string[] {"base"}, Size = 2, Method = ReadBinaryIntDelegate },
+                                    new BinaryBlockField() { ParamNames = new string[] {"scaleW"}, Size = 2, Method = ReadBinaryIntDelegate },
+                                    new BinaryBlockField() { ParamNames = new string[] {"scaleH"}, Size = 2, Method = ReadBinaryIntDelegate },
+                                    new BinaryBlockField() { ParamNames = new string[] {"pages"}, Size = 2, Method = ReadBinaryIntDelegate },
+                                    new BinaryBlockField() { ParamNames = new string[] {"none", "none", "none", "none", "none", "none", "none", "packed"}, Size = 1, Method = ReadBinaryFlagsDelegate },
+                                    new BinaryBlockField() { ParamNames = new string[] {"alphaChnl"}, Size = 1, Method = ReadBinaryIntDelegate },
+                                    new BinaryBlockField() { ParamNames = new string[] {"redChnl"}, Size = 1, Method = ReadBinaryIntDelegate },
+                                    new BinaryBlockField() { ParamNames = new string[] {"greenChnl"}, Size = 1, Method = ReadBinaryIntDelegate },
+                                    new BinaryBlockField() { ParamNames = new string[] {"blueChnl"}, Size = 1, Method = ReadBinaryIntDelegate },
                                 };
                                 break;
                             }
@@ -222,10 +186,11 @@ namespace _8beatMap
 
                                 for (int i = 0; i < numNames; i++)
                                 {
+                                    int iCopy = i; // otherwise when it's read by delegate it'll be incremented
                                     fields[i] = new BinaryBlockField[]
                                     {
-                                        new BinaryBlockField() { ParamNames = new string[] { "id" }, Size = 0, ExternalData = i.ToString(), Type = BinaryFieldType.ExternalData },
-                                        new BinaryBlockField() { ParamNames = new string[] { "file" }, Size = nameLen, Type = BinaryFieldType.String },
+                                        new BinaryBlockField() { ParamNames = new string[] { "id" }, Size = 0, Method = new Func<byte[], string>((x) => iCopy.ToString()) },
+                                        new BinaryBlockField() { ParamNames = new string[] { "file" }, Size = nameLen, Method = ReadBinaryStringDelegate },
                                     };
                                 }
 
@@ -243,16 +208,16 @@ namespace _8beatMap
                                 {
                                     fields[i] = new BinaryBlockField[]
                                     {
-                                        new BinaryBlockField() { ParamNames = new string[] {"id"}, Size = 4, Type = BinaryFieldType.Integer },
-                                        new BinaryBlockField() { ParamNames = new string[] {"x"}, Size = 2, Type = BinaryFieldType.Integer },
-                                        new BinaryBlockField() { ParamNames = new string[] {"y"}, Size = 2, Type = BinaryFieldType.Integer },
-                                        new BinaryBlockField() { ParamNames = new string[] {"width"}, Size = 2, Type = BinaryFieldType.Integer },
-                                        new BinaryBlockField() { ParamNames = new string[] {"height"}, Size = 2, Type = BinaryFieldType.Integer },
-                                        new BinaryBlockField() { ParamNames = new string[] {"xoffset"}, Size = 2, Type = BinaryFieldType.Integer },
-                                        new BinaryBlockField() { ParamNames = new string[] {"yoffset"}, Size = 2, Type = BinaryFieldType.Integer },
-                                        new BinaryBlockField() { ParamNames = new string[] {"xadvance"}, Size = 2, Type = BinaryFieldType.Integer },
-                                        new BinaryBlockField() { ParamNames = new string[] {"page"}, Size = 1, Type = BinaryFieldType.Integer },
-                                        new BinaryBlockField() { ParamNames = new string[] {"chnl"}, Size = 1, Type = BinaryFieldType.Integer }
+                                        new BinaryBlockField() { ParamNames = new string[] {"id"}, Size = 4, Method = ReadBinaryIntDelegate },
+                                        new BinaryBlockField() { ParamNames = new string[] {"x"}, Size = 2, Method = ReadBinaryIntDelegate },
+                                        new BinaryBlockField() { ParamNames = new string[] {"y"}, Size = 2, Method = ReadBinaryIntDelegate },
+                                        new BinaryBlockField() { ParamNames = new string[] {"width"}, Size = 2, Method = ReadBinaryIntDelegate },
+                                        new BinaryBlockField() { ParamNames = new string[] {"height"}, Size = 2, Method = ReadBinaryIntDelegate },
+                                        new BinaryBlockField() { ParamNames = new string[] {"xoffset"}, Size = 2, Method = ReadBinaryIntDelegate },
+                                        new BinaryBlockField() { ParamNames = new string[] {"yoffset"}, Size = 2, Method = ReadBinaryIntDelegate },
+                                        new BinaryBlockField() { ParamNames = new string[] {"xadvance"}, Size = 2, Method = ReadBinaryIntDelegate },
+                                        new BinaryBlockField() { ParamNames = new string[] {"page"}, Size = 1, Method = ReadBinaryIntDelegate },
+                                        new BinaryBlockField() { ParamNames = new string[] {"chnl"}, Size = 1, Method = ReadBinaryIntDelegate }
                                     };
                                 }
 
@@ -270,16 +235,12 @@ namespace _8beatMap
                                 {
                                     fields[i] = new BinaryBlockField[]
                                     {
-                                        new BinaryBlockField() { ParamNames = new string[] {"first"}, Size = 4, Type = BinaryFieldType.Integer },
-                                        new BinaryBlockField() { ParamNames = new string[] {"second"}, Size = 4, Type = BinaryFieldType.Integer },
-                                        new BinaryBlockField() { ParamNames = new string[] {"amount"}, Size = 2, Type = BinaryFieldType.Integer }
+                                        new BinaryBlockField() { ParamNames = new string[] {"first"}, Size = 4, Method = ReadBinaryIntDelegate },
+                                        new BinaryBlockField() { ParamNames = new string[] {"second"}, Size = 4, Method = ReadBinaryIntDelegate },
+                                        new BinaryBlockField() { ParamNames = new string[] {"amount"}, Size = 2, Method = ReadBinaryIntDelegate }
                                     };
                                 }
 
-                                break;
-                            }
-                        default:
-                            {
                                 break;
                             }
                     }
