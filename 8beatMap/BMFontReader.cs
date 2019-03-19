@@ -134,8 +134,8 @@ namespace _8beatMap
                     bool[] fieldvalbools = (bool[])fieldval;
                     for (int i = 0; i < fieldvalbools.Length && i < field.ParamNames.Length; i++)
                     {
-                        if (outdic.ContainsKey(field.ParamNames[i])) outdic[field.ParamNames[i]] = fieldvalbools[i].ToString();
-                        else outdic.Add(field.ParamNames[i], fieldvalbools[i].ToString());
+                        if (outdic.ContainsKey(field.ParamNames[i])) outdic[field.ParamNames[i]] = (fieldvalbools[i] ? "1" : "0");
+                        else outdic.Add(field.ParamNames[i], (fieldvalbools[i] ? "1" : "0"));
                     }
                 }
                 else
@@ -461,9 +461,10 @@ namespace _8beatMap
 
                                 for (int i = 0; i < numNames; i++)
                                 {
+                                    int iCopy = i; // otherwise when it's read by delegate it'll be incremented
                                     fields[i] = new BinaryBlockField[]
                                     {
-                                        new BinaryBlockField() { ParamNames = new string[] { "id" }, Size = 0, Method = new Func<byte[], string>((x) => i.ToString()) },
+                                        new BinaryBlockField() { ParamNames = new string[] { "id" }, Size = 0, Method = new Func<byte[], string>((x) => iCopy.ToString()) },
                                         new BinaryBlockField() { ParamNames = new string[] { "file" }, Size = nameLen, Method = ReadBinaryStringDelegate },
                                     };
                                 }
@@ -474,9 +475,12 @@ namespace _8beatMap
 
                     foreach (BinaryBlockField[] fieldset in fields)
                     {
-                        Dictionary<string, string> tag = ReadBinaryBlock(readbuf, fieldset);
-                        tag.Add("tagtype", blockName);
-                        ApplyTag(tag);
+                        if (fieldset != null)
+                        {
+                            Dictionary<string, string> tag = ReadBinaryBlock(readbuf, fieldset);
+                            tag.Add("tagtype", blockName);
+                            ApplyTag(tag);
+                        }
                     }
                 }
             }
@@ -491,10 +495,17 @@ namespace _8beatMap
                 {
                     return;
                 }
-                
 
+
+                //try
+                //{
+                //    LoadFromBinaryDef(new System.IO.FileStream(path, System.IO.FileMode.Open, System.IO.FileAccess.Read));
+                //}
+                //catch
+                //{
                 string infoStr = ReadFile_EmptyStringIfException(path);
                 LoadFromTextDef(infoStr);
+                //}
 
 
                 if (PageTexPaths.Length > 0)
