@@ -455,7 +455,7 @@ namespace _8beatMap
             if (showcombo && comboNumber >= skin.ComboTextInfo.StartNumber)
             {
                 int textsize = skin.ComboTextInfo.TextSize;
-                if (textsize == 0 && skin.ComboTextInfo.Font.CommonInfo.LineHeight > 0) textsize = skin.ComboTextInfo.Font.CommonInfo.LineHeight;
+                if (textsize == 0 && combofontrenderer.Font.CommonInfo.LineHeight > 0) textsize = combofontrenderer.Font.CommonInfo.LineHeight;
                 int numX = skin.ComboTextInfo.Locs[0].X;
                 int numY = viewHeight - skin.ComboTextInfo.Locs[0].Y;
                 int textX = skin.ComboTextInfo.Locs[1].X;

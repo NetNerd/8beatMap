@@ -12,6 +12,11 @@ namespace _8beatMap
         private System.Resources.ResourceManager DialogResMgr = new System.Resources.ResourceManager("_8beatMap.Dialogs", System.Reflection.Assembly.GetEntryAssembly());
 
         private System.Collections.Generic.Dictionary<string, int> textures = new System.Collections.Generic.Dictionary<string, int>();
+        
+        public BMFontReader.BMFont Font
+        {
+            get { return font; }
+        }
 
         public OpenTkBMFontRenderer(Skinning.Skin ErrorSkin, BMFontReader.BMFont font)
         {
