@@ -8,7 +8,7 @@ namespace _8beatMap
 {
     public static class BMFontReader
     {
-        private static Dictionary<string, string> getTagParams(string line)
+        private static Dictionary<string, string> getTextTagParams(string line)
         {
             Dictionary<string, string> outdict = new Dictionary<string, string>();
             string[] rawparams = line.Trim().Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
@@ -59,6 +59,44 @@ namespace _8beatMap
                 str = str.Remove(str.Length - 1, 1);
             }
             return str;
+        }
+
+        private static bool IsBinaryHeaderGood(byte[] header)
+        {
+            return (header.Length >=4 && header[0] == 66 && header[1] == 77 && header[2] == 70 && header[3] == 3);
+        }
+
+        private static int ReadBinaryInt(byte[] data)
+        {
+            int output = 0;
+            for (int i = 0; i < data.Length; i++)
+            {
+                output += data[i] << 8 * i;
+            }
+            return output;
+        }
+
+        private static string ReadBinaryString(byte[] data)
+        {
+            string output = Encoding.UTF8.GetString(data).TrimEnd((char)0);
+            return output;
+        }
+
+        private static bool[] ReadBinaryFlags(byte[] data)
+        {
+            bool[] output = new bool[data.Length*8];
+            for (int i = 0; i < data.Length; i++)
+            {
+                output[i] =     (data[i] & 0x80) > 0;
+                output[i + 1] = (data[i] & 0x40) > 0;
+                output[i + 2] = (data[i] & 0x20) > 0;
+                output[i + 3] = (data[i] & 0x10) > 0;
+                output[i + 4] = (data[i] & 0x08) > 0;
+                output[i + 5] = (data[i] & 0x04) > 0;
+                output[i + 6] = (data[i] & 0x02) > 0;
+                output[i + 7] = (data[i] & 0x01) > 0;
+            }
+            return output;
         }
 
         private static bool IsImageOpaqueGrayscale(string path)
@@ -182,10 +220,144 @@ namespace _8beatMap
             public Dictionary<Tuple<int, int>, KerningInfo> KernPairs = new Dictionary<Tuple<int, int>, KerningInfo>();
             public string[] PageTexPaths = { };
             public bool CanLoad8Bit;
+            private string baseDir;
+            
+            private void ApplyTag(Dictionary<string, string> tag)
+            {
+                switch (tag["tagtype"])
+                {
+                    case "info":
+                        {
+                            if (tag.ContainsKey("face"))
+                                GenInfo.FontFace = RemoveQuotes(tag["face"]);
+                            if (tag.ContainsKey("size"))
+                                GenInfo.Size = int.Parse(tag["size"]);
+                            if (tag.ContainsKey("bold"))
+                                GenInfo.Bold = int.Parse(tag["bold"]) == 1 ? true : false;
+                            if (tag.ContainsKey("italic"))
+                                GenInfo.Italic = int.Parse(tag["italic"]) == 1 ? true : false;
+                            if (tag.ContainsKey("charset"))
+                                GenInfo.Charset = RemoveQuotes(tag["charset"]);
+                            if (tag.ContainsKey("unicode"))
+                                GenInfo.IsUnicode = int.Parse(tag["unicode"]) == 1 ? true : false;
+                            if (tag.ContainsKey("stretchH"))
+                                GenInfo.StretchHeight = int.Parse(tag["stretchH"]);
+                            if (tag.ContainsKey("smooth"))
+                                GenInfo.Smoothing = int.Parse(tag["smooth"]) == 1 ? true : false;
+                            if (tag.ContainsKey("aa"))
+                                GenInfo.SupersamplingLevel = int.Parse(tag["aa"]);
+                            if (tag.ContainsKey("padding"))
+                                GenInfo.CharPadding = ParsePadding(tag["padding"]);
+                            if (tag.ContainsKey("spacing"))
+                                GenInfo.CharSpacing = ParsePoint(tag["spacing"]);
+                            if (tag.ContainsKey("outline"))
+                                GenInfo.OutlineWidth = int.Parse(tag["outline"]);
+                            break;
+                        }
+                    case "common":
+                        {
+                            if (tag.ContainsKey("lineHeight"))
+                                CommonInfo.LineHeight = int.Parse(tag["lineHeight"]);
+                            if (tag.ContainsKey("base"))
+                                CommonInfo.BaseHeight = int.Parse(tag["base"]);
+                            if (tag.ContainsKey("scaleW"))
+                                CommonInfo.TexScaleWidth = int.Parse(tag["scaleW"]);
+                            if (tag.ContainsKey("scaleH"))
+                                CommonInfo.TexScaleHeight = int.Parse(tag["scaleH"]);
+                            if (tag.ContainsKey("pages"))
+                                CommonInfo.PageCount = int.Parse(tag["pages"]);
+                            if (tag.ContainsKey("packed"))
+                                CommonInfo.Packed = int.Parse(tag["packed"]) == 1 ? true : false;
+                            if (tag.ContainsKey("alphaChnl"))
+                                CommonInfo.AlphaChannelMode = (ChannelMode)int.Parse(tag["alphaChnl"]);
+                            if (tag.ContainsKey("redChnl"))
+                                CommonInfo.RedChannelMode = (ChannelMode)int.Parse(tag["redChnl"]);
+                            if (tag.ContainsKey("greenChnl"))
+                                CommonInfo.GreenChannelMode = (ChannelMode)int.Parse(tag["greenChnl"]);
+                            if (tag.ContainsKey("blueChnl"))
+                                CommonInfo.BlueChannelMode = (ChannelMode)int.Parse(tag["blueChnl"]);
+                            break;
+                        }
+                    case "page":
+                        {
+                            int texId = int.Parse(tag["id"]);
+                            if (PageTexPaths.Length <= texId) Array.Resize(ref PageTexPaths, texId + 1);
+                            PageTexPaths[texId] = baseDir + "/" + RemoveQuotes(tag["file"]);
+                            break;
+                        }
+                    case "char":
+                        {
+                            CharacterInfo thisChr = new CharacterInfo();
+                            thisChr.Id = int.Parse(tag["id"]);
+                            thisChr.TexCoordX = int.Parse(tag["x"]);
+                            thisChr.TexCoordY = int.Parse(tag["y"]);
+                            thisChr.Width = int.Parse(tag["width"]);
+                            thisChr.Height = int.Parse(tag["height"]);
+                            thisChr.TexturePage = int.Parse(tag["page"]);
+
+                            if (tag.ContainsKey("xoffset"))
+                                thisChr.XOffset = int.Parse(tag["xoffset"]);
+                            if (tag.ContainsKey("yoffset"))
+                                thisChr.YOffset = int.Parse(tag["yoffset"]);
+                            if (tag.ContainsKey("xadvance"))
+                                thisChr.XAdvance = int.Parse(tag["xadvance"]);
+                            if (tag.ContainsKey("chnl"))
+                                thisChr.Channels = (CharacterChannels)int.Parse(tag["chnl"]);
+
+                            if (Characters.ContainsKey(thisChr.Id)) Characters[thisChr.Id] = thisChr;
+                            else Characters.Add(thisChr.Id, thisChr);
+                            break;
+                        }
+
+                    case "kerning":
+                        {
+                            KerningInfo thisKrn = new KerningInfo();
+                            thisKrn.CharOne = int.Parse(tag["first"]);
+                            thisKrn.CharTwo = int.Parse(tag["second"]);
+                            thisKrn.Amount = int.Parse(tag["amount"]);
+
+                            Tuple<int, int> pairkey = new Tuple<int, int>(thisKrn.CharOne, thisKrn.CharTwo);
+                            if (KernPairs.ContainsKey(pairkey)) KernPairs[pairkey] = thisKrn;
+                            else KernPairs.Add(pairkey, thisKrn);
+                            break;
+                        }
+                    default:
+                        break;
+                }
+            }
+
+            private void LoadFromTextDef(string infoStr)
+            {
+                string[] infoLines = infoStr.Split("\n".ToCharArray());
+
+                for (int i = 0; i < infoLines.Length; i++)
+                {
+                    Dictionary<string, string> tag = getTextTagParams(infoLines[i]);
+                    if (!tag.ContainsKey("tagtype")) continue;
+                    ApplyTag(tag);
+                }
+            }
+
+            private void LoadFromBinaryDef(System.IO.Stream infoBytes)
+            {
+                byte[] readbuf = new byte[4];
+                infoBytes.Read(readbuf, 0, 4);
+
+                if (!IsBinaryHeaderGood(readbuf)) throw new FormatException("not a BMF v3 file");
+
+                while(infoBytes.Position <= infoBytes.Length - 4)
+                {
+                    readbuf = new byte[5];
+                    infoBytes.Read(readbuf, 0, 5);
+
+                    byte blockType = readbuf[0];
+                    // TODO: add functions for parsing blocks into Dictionary<string, string> (tag format)
+                    // make everything go through the least strict format for getting same behaviour in applying tags to class properties
+                }
+            }
 
             public BMFont(string path)
             {
-                string baseDir;
                 try
                 {
                     baseDir = new System.IO.FileInfo(path).Directory.FullName;
@@ -197,115 +369,8 @@ namespace _8beatMap
                 
 
                 string infoStr = ReadFile_EmptyStringIfException(path);
+                LoadFromTextDef(infoStr);
 
-                string[] infoLines = infoStr.Split("\n".ToCharArray());
-
-                for (int i = 0; i < infoLines.Length; i++)
-                {
-                    Dictionary<string, string> tag = getTagParams(infoLines[i]);
-                    if (!tag.ContainsKey("tagtype")) continue;
-
-                    switch(tag["tagtype"])
-                    {
-                        case "info":
-                            {
-                                if (tag.ContainsKey("face"))
-                                    GenInfo.FontFace = RemoveQuotes(tag["face"]);
-                                if (tag.ContainsKey("size"))
-                                    GenInfo.Size = int.Parse(tag["size"]);
-                                if (tag.ContainsKey("bold"))
-                                    GenInfo.Bold = int.Parse(tag["bold"]) == 1 ? true : false;
-                                if (tag.ContainsKey("italic"))
-                                    GenInfo.Italic = int.Parse(tag["italic"]) == 1 ? true : false;
-                                if (tag.ContainsKey("charset"))
-                                    GenInfo.Charset = RemoveQuotes(tag["charset"]);
-                                if (tag.ContainsKey("unicode"))
-                                    GenInfo.IsUnicode = int.Parse(tag["unicode"]) == 1 ? true : false;
-                                if (tag.ContainsKey("stretchH"))
-                                    GenInfo.StretchHeight = int.Parse(tag["stretchH"]);
-                                if (tag.ContainsKey("smooth"))
-                                    GenInfo.Smoothing = int.Parse(tag["smooth"]) == 1 ? true : false;
-                                if (tag.ContainsKey("aa"))
-                                    GenInfo.SupersamplingLevel = int.Parse(tag["aa"]);
-                                if (tag.ContainsKey("padding"))
-                                    GenInfo.CharPadding = ParsePadding(tag["padding"]);
-                                if (tag.ContainsKey("spacing"))
-                                    GenInfo.CharSpacing = ParsePoint(tag["spacing"]);
-                                if (tag.ContainsKey("outline"))
-                                    GenInfo.OutlineWidth = int.Parse(tag["outline"]);
-                                break;
-                            }
-                        case "common":
-                            {
-                                if (tag.ContainsKey("lineHeight"))
-                                    CommonInfo.LineHeight = int.Parse(tag["lineHeight"]);
-                                if (tag.ContainsKey("base"))
-                                    CommonInfo.BaseHeight = int.Parse(tag["base"]);
-                                if (tag.ContainsKey("scaleW"))
-                                    CommonInfo.TexScaleWidth = int.Parse(tag["scaleW"]);
-                                if (tag.ContainsKey("scaleH"))
-                                    CommonInfo.TexScaleHeight = int.Parse(tag["scaleH"]);
-                                if (tag.ContainsKey("pages"))
-                                    CommonInfo.PageCount = int.Parse(tag["pages"]);
-                                if (tag.ContainsKey("packed"))
-                                    CommonInfo.Packed = int.Parse(tag["packed"]) == 1 ? true : false;
-                                if (tag.ContainsKey("alphaChnl"))
-                                    CommonInfo.AlphaChannelMode = (ChannelMode)int.Parse(tag["alphaChnl"]);
-                                if (tag.ContainsKey("redChnl"))
-                                    CommonInfo.RedChannelMode = (ChannelMode)int.Parse(tag["redChnl"]);
-                                if (tag.ContainsKey("greenChnl"))
-                                    CommonInfo.GreenChannelMode = (ChannelMode)int.Parse(tag["greenChnl"]);
-                                if (tag.ContainsKey("blueChnl"))
-                                    CommonInfo.BlueChannelMode = (ChannelMode)int.Parse(tag["blueChnl"]);
-                                break;
-                            }
-                        case "page":
-                            {
-                                int texId = int.Parse(tag["id"]);
-                                if (PageTexPaths.Length <= texId) Array.Resize(ref PageTexPaths, texId+1);
-                                PageTexPaths[texId] = baseDir + "/" + RemoveQuotes(tag["file"]);
-                                break;
-                            }
-                        case "char":
-                            {
-                                CharacterInfo thisChr = new CharacterInfo();
-                                thisChr.Id = int.Parse(tag["id"]);
-                                thisChr.TexCoordX = int.Parse(tag["x"]);
-                                thisChr.TexCoordY = int.Parse(tag["y"]);
-                                thisChr.Width = int.Parse(tag["width"]);
-                                thisChr.Height = int.Parse(tag["height"]);
-                                thisChr.TexturePage = int.Parse(tag["page"]);
-
-                                if (tag.ContainsKey("xoffset"))
-                                    thisChr.XOffset = int.Parse(tag["xoffset"]);
-                                if (tag.ContainsKey("yoffset"))
-                                    thisChr.YOffset = int.Parse(tag["yoffset"]);
-                                if (tag.ContainsKey("xadvance"))
-                                    thisChr.XAdvance = int.Parse(tag["xadvance"]);
-                                if (tag.ContainsKey("chnl"))
-                                    thisChr.Channels = (CharacterChannels)int.Parse(tag["chnl"]);
-
-                                if (Characters.ContainsKey(thisChr.Id)) Characters[thisChr.Id] = thisChr;
-                                else Characters.Add(thisChr.Id, thisChr);
-                                break;
-                            }
-
-                        case "kerning":
-                            {
-                                KerningInfo thisKrn = new KerningInfo();
-                                thisKrn.CharOne = int.Parse(tag["first"]);
-                                thisKrn.CharTwo = int.Parse(tag["second"]);
-                                thisKrn.Amount = int.Parse(tag["amount"]);
-
-                                Tuple<int, int> pairkey = new Tuple<int, int>(thisKrn.CharOne, thisKrn.CharTwo);
-                                if (KernPairs.ContainsKey(pairkey)) KernPairs[pairkey] = thisKrn;
-                                else KernPairs.Add(pairkey, thisKrn);
-                                break;
-                            }
-                        default:
-                            break;
-                    }
-                }
 
                 if (PageTexPaths.Length > 0)
                 {
