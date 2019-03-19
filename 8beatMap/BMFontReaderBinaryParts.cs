@@ -66,18 +66,17 @@ namespace _8beatMap
             public string[] ParamNames;
         }
 
-        private static Dictionary<string, string> ReadBinaryBlock(byte[] data, BinaryBlockField[] fields)
+        
+
+        private static Dictionary<string, string> ReadBinaryBlock(ref System.IO.MemoryStream datastream, BinaryBlockField[] fields)
         {
-            System.IO.MemoryStream datastream;
-            if (data.Length > 256) datastream = new System.IO.MemoryStream(data, 0, 256, false);
-            else datastream = new System.IO.MemoryStream(data, false);
-            byte[] databuf;
+            byte[] databuf = new byte[2];
 
             Dictionary<string, string> outdic = new Dictionary<string, string>();
             foreach (BinaryBlockField field in fields)
             {
-                databuf = new byte[field.Size];
-                datastream.Read(databuf, 0, field.Size);
+                if (databuf.Length != field.Size && field.Size > 0) databuf = new byte[field.Size];
+                if (field.Size > 0) datastream.Read(databuf, 0, field.Size);
 
                 var fieldval = field.Method.DynamicInvoke(new object[] { databuf });
 
@@ -243,24 +242,23 @@ namespace _8beatMap
 
                                 break;
                             }
+                        default:
+                            {
+                                break;
+                            }
                     }
-                    
+
+                    System.IO.MemoryStream ReadBinaryBlockMemoryStream = new System.IO.MemoryStream(readbuf, false);
                     foreach (BinaryBlockField[] fieldset in fields)
                     {
                         if (fieldset != null)
                         {
-                            Dictionary<string, string> tag = ReadBinaryBlock(readbuf, fieldset);
+                            Dictionary<string, string> tag = ReadBinaryBlock(ref ReadBinaryBlockMemoryStream, fieldset);
                             tag.Add("tagtype", blockName);
                             ApplyTag(tag);
-                            
-                            int skipAmount = 0;
-                            foreach (BinaryBlockField field in fieldset)
-                            {
-                                skipAmount += field.Size;
-                            }
-                            readbuf = readbuf.Skip(skipAmount).ToArray();
                         }
                     }
+                    ReadBinaryBlockMemoryStream.Dispose();
                 }
             }
         }
