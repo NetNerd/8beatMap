@@ -371,9 +371,23 @@ namespace _8beatMap
                 float newtotalwidth = totalwidth; // don't touch totalwidth until this iteration is done
 
                 int utf32Char = char.ConvertToUtf32(str, i);
-
-                if (font.Characters.ContainsKey(utf32Char)) newtotalwidth += ((font.Characters[utf32Char].XAdvance + chrtracking) * sizescale);
-                else newtotalwidth += height * 1 / 2; // advance by some amount anyway, even if no character (could also draw missing character glyph if I want)
+                
+                bool replacedSurrogateWithMissingGlyph = false;
+                if (font.Characters.ContainsKey(utf32Char))
+                {
+                    newtotalwidth += ((font.Characters[utf32Char].XAdvance + chrtracking) * sizescale);
+                }
+                else if (font.Characters.ContainsKey(-1)) // check for missing character glyph in font
+                {
+                    if (utf32Char > 0xffff) replacedSurrogateWithMissingGlyph = true; // this is needed to track position in the string properly
+                                                                                      // -- we should advance by one if the next character isn't a standalone int
+                    utf32Char = -1;
+                    newtotalwidth += ((font.Characters[utf32Char].XAdvance + chrtracking) * sizescale);
+                }
+                else
+                {
+                    newtotalwidth += height * 1 / 2; // advance by some amount anyway, even if no character (could also draw missing character glyph if I want
+                }
 
                 if (maxwidth > 0 && (newtotalwidth >= maxwidth || (breakOnWhitespaceNearEnd && char.IsWhiteSpace(str, i) && newtotalwidth + height * 2 >= maxwidth))) // character doesn't fit (or we can start a new line soon)
                 {
@@ -382,7 +396,7 @@ namespace _8beatMap
                                                              // index is always character number - 1
                 }
 
-                if (utf32Char > 0xffff) i += 1; // if greater than 0xffff it was a pair. add 1 now to get right next character for kerning
+                if (replacedSurrogateWithMissingGlyph || utf32Char > 0xffff) i += 1; // if greater than 0xffff it was a pair. add 1 now to get right next character for kerning
                                                 // don't add it earlier because that would affect return value (relies on previous character being at i-1)
 
                 // adjust next char position for kerning if needed
