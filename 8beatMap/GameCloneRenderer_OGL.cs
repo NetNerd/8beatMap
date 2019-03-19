@@ -122,8 +122,13 @@ namespace _8beatMap
 
             System.Threading.Thread oglThread = new System.Threading.Thread(() =>
             {
-                myWindow = new GameWindow(wndWidth, wndHeight, OpenTK.Graphics.GraphicsMode.Default, "8beatMap Preview Window") { Icon = (Icon)IconResMgr.GetObject("Icon") };
-                //myWindow = new GameWindow(wndWidth, wndHeight, new OpenTK.Graphics.GraphicsMode(32, 0, 0, 4), "8beatMap Preview Window") { Icon = (Icon)IconResMgr.GetObject("Icon") };
+                // This is roughly coded to around OpenGL v3.0 -- it's the minimum needed to get GenerateMipmap, but some functions (MatrixMode, Color4, TexCoord2, Vertex2, Begin, End) are deprecated in this version or other 3.x versions.
+                // v3 was a little easier to get started on for me (someone with very little graphics experience), and it doesn't seem to have major downsides. The compatibility profile allows for all this and is well supported on desktop.
+                // I'm not sure if requesting v3.0 this here actually does anything useful -- it doesn't seem to make a difference at all on nvidia drivers
+                myWindow = new GameWindow(wndWidth, wndHeight, OpenTK.Graphics.GraphicsMode.Default, "8beatMap Preview Window", GameWindowFlags.Default, DisplayDevice.Default, 3, 0, OpenTK.Graphics.GraphicsContextFlags.Default) { Icon = (Icon)IconResMgr.GetObject("Icon") };
+                // The line below this is just an alternate version that enables antialiasing. It looks better, but less similar to the original game... so... I'll leave it disabled
+                //myWindow = new GameWindow(wndWidth, wndHeight, new OpenTK.Graphics.GraphicsMode(32, 0, 0, 4), "8beatMap Preview Window", GameWindowFlags.Default, DisplayDevice.Default, 3, 0, OpenTK.Graphics.GraphicsContextFlags.Default) { Icon = (Icon)IconResMgr.GetObject("Icon") };
+
                 if ((wndX != -99999 | wndY != -99999) && wndState != WindowState.Maximized)
                 {
                     myWindow.X = wndX;
@@ -135,6 +140,7 @@ namespace _8beatMap
 
                 myWindow.Load += (sender, e) =>
                 {
+                    //Console.WriteLine(GL.GetString(StringName.Version));
                     SetupTextures();
 
                     try
