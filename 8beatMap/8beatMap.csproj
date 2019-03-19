@@ -72,6 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BMFontReader.cs" />
+    <Compile Include="BMFontReaderBinaryParts.cs" />
     <Compile Include="OpenTkBMFontRenderer.cs" />
     <Compile Include="OpenTkTextureFuncs.cs" />
     <Compile Include="SkinnedMessageBox.cs" />
