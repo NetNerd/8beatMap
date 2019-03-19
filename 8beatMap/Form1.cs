@@ -481,12 +481,15 @@ namespace _8beatMap
                 Point wndLoc = OGLrenderer.WindowLocation;
                 if (wndSize.X > 0 && wndSize.Y > 0)
                 {
-                    wndWidth = wndSize.X;
-                    wndHeight = wndSize.Y;
                     wndX = wndLoc.X;
                     wndY = wndLoc.Y;
                     wndState = OGLrenderer.WindowState;
-                    if (wndState != OpenTK.WindowState.Maximized) wndState = OpenTK.WindowState.Normal;
+                    if (wndState != OpenTK.WindowState.Maximized)
+                    {
+                        wndState = OpenTK.WindowState.Normal;
+                        wndWidth = wndSize.X;
+                        wndHeight = wndSize.Y;
+                    }
                 }
                 OGLrenderer.Stop();
                 OGLrenderer = null;
