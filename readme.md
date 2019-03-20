@@ -24,7 +24,8 @@ Automated builds are on AppVeyor: https://ci.appveyor.com/project/ntnd/8beatmap/
 
 ### スクリーンショット　(Screenshots):
 
-<img alt="メインウィンドウ　(Main Window)" src="https://raw.githubusercontent.com/NetNerd/8beatMap/master/screenshots/mainwindow-fs8.png" width="320" height="270" />　<img alt="プレビューウィンドウ　(Preview Window)" src="https://raw.githubusercontent.com/NetNerd/8beatMap/master/screenshots/previewwindow-fs8.png" width="434" height="259"  />
+<img alt="メインウィンドウ　(Main Window)" src="https://raw.githubusercontent.com/NetNerd/8beatMap/master/screenshots/mainwindow-fs8.png" width="320" height="270" />　<img alt="プレビューウィンドウ　(Preview Window)" src="https://raw.githubusercontent.com/NetNerd/8beatMap/master/screenshots/previewwindow-fs8.png" width="434" height="259"  />  
+(8bs Dark skin)
 
 　
 
