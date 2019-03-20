@@ -65,7 +65,7 @@ namespace _8beatMap
 
 
             System.Drawing.Imaging.BitmapData bmpData = bmp.LockBits(new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height),
-                System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                System.Drawing.Imaging.ImageLockMode.ReadOnly, bmp.PixelFormat);
 
             int bytesPerPixel = bmpData.Stride / bmp.Width;
 
@@ -139,7 +139,7 @@ namespace _8beatMap
 
 
             System.Drawing.Imaging.BitmapData bmpData = bmp.LockBits(new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height),
-                System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                System.Drawing.Imaging.ImageLockMode.ReadOnly, bmp.PixelFormat);
 
             int bytesPerPixel = bmpData.Stride / bmp.Width;
 
