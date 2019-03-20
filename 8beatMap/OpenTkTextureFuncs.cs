@@ -11,10 +11,11 @@ namespace _8beatMap
         {
             Bitmap bmp;
             try
-            { bmp = new Bitmap(path); }
+            {
+                bmp = new Bitmap(path);
+            }
             catch (Exception e)
             {
-                bmp = new Bitmap(1, 1);
                 throw e;
             }
 
@@ -54,10 +55,11 @@ namespace _8beatMap
         {
             Bitmap bmp;
             try
-            { bmp = new Bitmap(path); }
+            {
+                bmp = new Bitmap(path);
+            }
             catch (Exception e)
             {
-                bmp = new Bitmap(1, 1);
                 throw e;
             }
 
@@ -66,11 +68,20 @@ namespace _8beatMap
                 System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
             int bytesPerPixel = bmpData.Stride / bmp.Width;
-            //if (bytesPerPixel < 4) return 0;
-            //(don't actually need to check when just accessing one byte from each pixel anyway)
 
 
-            IntPtr monoDataScan = System.Runtime.InteropServices.Marshal.AllocHGlobal(bmp.Width * bmp.Height); // allocate as 8bpp
+            IntPtr monoDataScan = IntPtr.Zero;
+            try
+            {
+                    monoDataScan = System.Runtime.InteropServices.Marshal.AllocHGlobal(bmp.Width * bmp.Height); // allocate as 8bpp
+            }
+            catch (Exception e)
+            {
+                if (monoDataScan != null) System.Runtime.InteropServices.Marshal.FreeHGlobal(monoDataScan);
+                bmp.UnlockBits(bmpData);
+                bmp.Dispose();
+                throw e;
+            }
 
             unsafe
             {
@@ -118,10 +129,11 @@ namespace _8beatMap
         {
             Bitmap bmp;
             try
-            { bmp = new Bitmap(path); }
+            {
+                bmp = new Bitmap(path);
+            }
             catch (Exception e)
             {
-                bmp = new Bitmap(1, 1);
                 throw e;
             }
 
@@ -130,43 +142,46 @@ namespace _8beatMap
                 System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
             int bytesPerPixel = bmpData.Stride / bmp.Width;
-            if (bytesPerPixel < 4)
+
+
+            IntPtr[] monoDataScans = new IntPtr[bytesPerPixel];
+            try
             {
+                for (int i = 0; i < bytesPerPixel; i++)
+                    monoDataScans[i] = System.Runtime.InteropServices.Marshal.AllocHGlobal(bmp.Width * bmp.Height); // allocate as 8bpp
+            }
+            catch (Exception e)
+            {
+                foreach (IntPtr scan in monoDataScans)
+                {
+                    if (scan != null) System.Runtime.InteropServices.Marshal.FreeHGlobal(scan);
+                }
                 bmp.UnlockBits(bmpData);
                 bmp.Dispose();
-                return new int[] { 0, 0, 0, 0 }; ;
+                throw e;
             }
-
-
-            IntPtr[] monoDataScans = new IntPtr[]
-                {
-                    System.Runtime.InteropServices.Marshal.AllocHGlobal(bmp.Width * bmp.Height), // allocate as 8bpp
-                    System.Runtime.InteropServices.Marshal.AllocHGlobal(bmp.Width * bmp.Height),
-                    System.Runtime.InteropServices.Marshal.AllocHGlobal(bmp.Width * bmp.Height),
-                    System.Runtime.InteropServices.Marshal.AllocHGlobal(bmp.Width * bmp.Height),
-                };
 
             unsafe
             {
-                byte*[] planes = new byte*[4]
-                { (byte*)monoDataScans[0], (byte*)monoDataScans[1], (byte*)monoDataScans[2], (byte*)monoDataScans[3] };
+                byte*[] planes = new byte*[bytesPerPixel];
+                for (int i = 0; i < bytesPerPixel; i++)
+                    planes[i] = (byte*)monoDataScans[i];
+
                 byte* inputData = (byte*)bmpData.Scan0;
 
                 for (int i = 0; i < bmp.Height * bmpData.Stride; i += bytesPerPixel)
                 {
-                    planes[0][i / bytesPerPixel] = inputData[i];
-                    planes[1][i / bytesPerPixel] = inputData[i + 1];
-                    planes[2][i / bytesPerPixel] = inputData[i + 2];
-                    planes[3][i / bytesPerPixel] = inputData[i + 3];
+                    for (int j = 0; j < bytesPerPixel; j++)
+                        planes[j][i / bytesPerPixel] = inputData[i + j];
                 }
             }
 
 
-            int[] outtextures = new int[4];
-            for (int i = 0; i < 4; i++)
+            int[] outtextures = new int[bytesPerPixel];
+            for (int i = 0; i < bytesPerPixel; i++)
             {
                 int tex = GL.GenTexture();
-                outtextures[3 - i] = tex;
+                outtextures[bytesPerPixel - 1 - i] = tex;
 
                 GL.BindTexture(TextureTarget.Texture2D, tex);
 

@@ -63,7 +63,15 @@ namespace _8beatMap
 
         private static bool IsImageOpaqueGrayscale(string path)
         {
-            System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(path);
+            System.Drawing.Bitmap bmp;
+            try
+            {
+                bmp = new System.Drawing.Bitmap(path);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
 
             bool foundDifference = false;
 

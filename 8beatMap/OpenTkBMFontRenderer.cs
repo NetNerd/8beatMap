@@ -72,6 +72,8 @@ namespace _8beatMap
                     {
                         int[] channelTextures = OpenTkTextureLoadFuncs.LoadTextureToSplitChannels(texpath);
 
+                        if (channelTextures.Length < 4) throw new Exception("not enough channels in image");
+
                         if (!textures.ContainsKey(texkey + "A"))
                             textures.Add(texkey + "A", channelTextures[0]);
                         else
