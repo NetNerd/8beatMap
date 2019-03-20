@@ -9,7 +9,7 @@ Windows上Monoではコピー・ペーストが機能しないみたい。（他
 
 自動ビルドはAppVeyorで：https://ci.appveyor.com/project/ntnd/8beatmap/branch/master/artifacts  
 8beatMap.1.0….zipをダウンロードと解凍して、そして8beatMap.exeを実行してください。  
-skins.zipは追加のスキンだけ（任意）。追加のスキンが欲しいの場合で両zipファイルをダウンロードと解凍して、さらにskinsフォルダを8beatMapフォルダまでコーピーしてください。
+skins.zipは追加のスキンだけ（任意）。追加のスキンが欲しいの場合では両zipファイルをダウンロードと解凍して、さらにskinsフォルダを8beatMapフォルダまでコーピーしてください。
 
 　
 
