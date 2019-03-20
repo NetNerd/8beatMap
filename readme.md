@@ -22,6 +22,13 @@ Automated builds are on AppVeyor: https://ci.appveyor.com/project/ntnd/8beatmap/
 
 　
 
+### スクリーンショット　(Screenshots):
+
+![メインウィンドウ　(Main Window)](https://raw.githubusercontent.com/NetNerd/8beatMap/master/screenshots/mainwindow-fs8.png =320x270)
+![プレビューウィンドウ　(Preview Window)](https://raw.githubusercontent.com/NetNerd/8beatMap/master/screenshots/previewwindow-fs8.png =434x259)
+
+　
+
 ### 使い方について　(Usage Notes):
 
 ノードを置くのは左マウスボタンで。　消すは右ボタンで。
