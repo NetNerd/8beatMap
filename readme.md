@@ -47,12 +47,12 @@ skins.zip is just additional skins (optional). If you want the additional skins,
 7：GBSフリック　　　U：同時にGBSフリック  
 8：GBS時計　　　I：同時にGBS時計
 
-特別なノードタイプ：
-・「同時に～」はピンク色のノード。　オート機能がありますので手動の置くのは要らない。
-・「同時に長い押すの最初」は長い押すのファースト音符のピンク色版。　「同時に長い押すの最後」は長い押すのラスト音符のピンク色版。　　　※普通の長い押す（緑／同時じゃない）場合では特別なノードタイプは必要ない。
-・「フリック」は一つのノードだけ、「スワイプ」は2つ以上のノードで。
-・「スワイプの端」とはスワイプの最初や最後のノード、「スワイプの真ん中で」とは他のスワイプノード。
-・「長い押すの最後でフリック」はフリックのためだけ。スワイプは普通のノードタイプで。
+特別なノードタイプ：  
+・「同時に～」はピンク色のノード。　オート機能がありますので手動の置くのは要らない。  
+・「同時に長い押すの最初」は長い押すのファースト音符のピンク色版。　「同時に長い押すの最後」は長い押すのラスト音符のピンク色版。　　　※普通の長い押す（緑／同時じゃない）場合では特別なノードタイプは必要ない。  
+・「フリック」は一つのノードだけ、「スワイプ」は2つ以上のノードで。  
+・「スワイプの端」とはスワイプの最初や最後のノード、「スワイプの真ん中で」とは他のスワイプノード。  
+・「長い押すの最後でフリック」はフリックのためだけ。スワイプは普通のノードタイプで。  
 ・本物のGBSではフリックやスワイプはありません。本物のエビストでは「GBS～」のタイプはありません。  
 　
 
@@ -85,7 +85,7 @@ Ctrl+I：譜面作品情報（Iはインフォメーション）
 
 Use the left mouse button to place notes and the right one to delete them.
 
-Note types can be selected with keyboard shortcuts too:
+Note types can be selected with keyboard shortcuts too:  
 1: Tap　　　Q: SimulTap  
 2: Hold　　　W: SimulHoldStart　　　S: SimulHoldRelease  
 3: FlickLeft　　　E: HoldEndFlickLeft  
