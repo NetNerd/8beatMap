@@ -38,6 +38,7 @@ namespace _8beatMap
             SwipeMid,
             SwipeDirChange,
             Flick,
+            HoldEndFlick,
             GbsFlick,
             GbsClock
         }
@@ -82,13 +83,13 @@ namespace _8beatMap
             public static readonly NoteTypeDef SimulHoldRelease = new NoteTypeDef() { TypeName = "SimulHoldRelease", TypeId = 8, RenderMode = RenderMode.Icon, OGLTextureName = "spr_SimulIcon", IconType = IconType.None, DetectType = DetectType.Hold, DetectDir = DetectDir.None, NotNode = false, IsSimul = true };
 
             public static readonly NoteTypeDef FlickLeft = new NoteTypeDef() { TypeName = "FlickLeft", TypeId = 13, RenderMode = RenderMode.Icon, OGLTextureName = "spr_SwipeLeftIcon", IconType = IconType.LeftArrow, DetectType = DetectType.Flick, DetectDir = DetectDir.Left, NotNode = false, IsSimul = false };
-            public static readonly NoteTypeDef HoldEndFlickLeft = new NoteTypeDef() { TypeName = "HoldEndFlickLeft", TypeId = 11, RenderMode = RenderMode.Icon, OGLTextureName = "spr_SwipeLeftIcon", IconType = IconType.LeftArrow, DetectType = DetectType.Flick, DetectDir = DetectDir.Left, NotNode = false, IsSimul = false };
+            public static readonly NoteTypeDef HoldEndFlickLeft = new NoteTypeDef() { TypeName = "HoldEndFlickLeft", TypeId = 11, RenderMode = RenderMode.Icon, OGLTextureName = "spr_SwipeLeftIcon", IconType = IconType.LeftArrow, DetectType = DetectType.HoldEndFlick, DetectDir = DetectDir.Left, NotNode = false, IsSimul = false };
             public static readonly NoteTypeDef SwipeLeftStartEnd = new NoteTypeDef() { TypeName = "SwipeLeftStartEnd", TypeId = 6, RenderMode = RenderMode.Icon, OGLTextureName = "spr_SwipeLeftIcon", IconType = IconType.LeftArrow, DetectType = DetectType.SwipeEndPoint, DetectDir = DetectDir.Left, NotNode = false, IsSimul = false };
             public static readonly NoteTypeDef SwipeLeftMid = new NoteTypeDef() { TypeName = "SwipeLeftMid", TypeId = 7, RenderMode = RenderMode.Icon, OGLTextureName = "spr_SwipeLeftIcon", IconType = IconType.LeftArrow, DetectType = DetectType.SwipeMid, DetectDir = DetectDir.Left, NotNode = false, IsSimul = false };
             public static readonly NoteTypeDef SwipeChangeDirR2L = new NoteTypeDef() { TypeName = "SwipeChangeDirR2L", TypeId = 14, RenderMode = RenderMode.Icon, OGLTextureName = "spr_SwipeLeftIcon", IconType = IconType.LeftArrow, DetectType = DetectType.SwipeDirChange, DetectDir = DetectDir.Left, NotNode = false, IsSimul = false };
 
             public static readonly NoteTypeDef FlickRight = new NoteTypeDef() { TypeName = "FlickRight", TypeId = 12, RenderMode = RenderMode.Icon, OGLTextureName = "spr_SwipeRightIcon", IconType = IconType.RightArrow, DetectType = DetectType.Flick, DetectDir = DetectDir.Right, NotNode = false, IsSimul = false };
-            public static readonly NoteTypeDef HoldEndFlickRight = new NoteTypeDef() { TypeName = "HoldEndFlickRight", TypeId = 10, RenderMode = RenderMode.Icon, OGLTextureName = "spr_SwipeRightIcon", IconType = IconType.RightArrow, DetectType = DetectType.Flick, DetectDir = DetectDir.Right, NotNode = false, IsSimul = false };
+            public static readonly NoteTypeDef HoldEndFlickRight = new NoteTypeDef() { TypeName = "HoldEndFlickRight", TypeId = 10, RenderMode = RenderMode.Icon, OGLTextureName = "spr_SwipeRightIcon", IconType = IconType.RightArrow, DetectType = DetectType.HoldEndFlick, DetectDir = DetectDir.Right, NotNode = false, IsSimul = false };
             public static readonly NoteTypeDef SwipeRightStartEnd = new NoteTypeDef() { TypeName = "SwipeRightStartEnd", TypeId = 4, RenderMode = RenderMode.Icon, OGLTextureName = "spr_SwipeRightIcon", IconType = IconType.RightArrow, DetectType = DetectType.SwipeEndPoint, DetectDir = DetectDir.Right, NotNode = false, IsSimul = false };
             public static readonly NoteTypeDef SwipeRightMid = new NoteTypeDef() { TypeName = "SwipeRightMid", TypeId = 5, RenderMode = RenderMode.Icon, OGLTextureName = "spr_SwipeRightIcon", IconType = IconType.RightArrow, DetectType = DetectType.SwipeMid, DetectDir = DetectDir.Right, NotNode = false, IsSimul = false };
             public static readonly NoteTypeDef SwipeChangeDirL2R = new NoteTypeDef() { TypeName = "SwipeChangeDirL2R", TypeId = 15, RenderMode = RenderMode.Icon, OGLTextureName = "spr_SwipeRightIcon", IconType = IconType.RightArrow, DetectType = DetectType.SwipeDirChange, DetectDir = DetectDir.Right, NotNode = false, IsSimul = false };

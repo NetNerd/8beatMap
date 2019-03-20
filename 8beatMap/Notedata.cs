@@ -167,7 +167,7 @@ namespace _8beatMap
                                 {
                                     metric_numswipes += 1;
                                 }
-                                else if (thisticknotes[j].NoteType.DetectType == NoteTypes.DetectType.Flick || thisticknotes[j].NoteType.DetectType == NoteTypes.DetectType.GbsFlick)
+                                else if (thisticknotes[j].NoteType.DetectType == NoteTypes.DetectType.Flick || thisticknotes[j].NoteType.DetectType == NoteTypes.DetectType.HoldEndFlick || thisticknotes[j].NoteType.DetectType == NoteTypes.DetectType.GbsFlick)
                                 {
                                     metric_numflicks += 1;
                                 }
@@ -372,9 +372,14 @@ namespace _8beatMap
                 if (Ticks[tick].Notes[lane].NoteType.DetectType == NoteTypes.DetectType.Hold)
                 {
                     if (tick == 0 | tick == Length - 1) return Ticks[tick].Notes[lane].NoteType;
-                    if ((Ticks[tick - 1].Notes[lane].NoteType.DetectType == NoteTypes.DetectType.Hold |
-                        Ticks[tick - 1].Notes[lane].NoteType.DetectType == NoteTypes.DetectType.SwipeEndPoint) &&
-                        Ticks[tick + 1].Notes[lane].NoteType.DetectType != NoteTypes.DetectType.None)
+                    if ((Ticks[tick - 1].Notes[lane].NoteType.DetectType == NoteTypes.DetectType.Hold
+                        | Ticks[tick - 1].Notes[lane].NoteType.DetectType == NoteTypes.DetectType.SwipeEndPoint)
+                        &&
+                        (Ticks[tick + 1].Notes[lane].NoteType.DetectType == NoteTypes.DetectType.Hold
+                        || Ticks[tick + 1].Notes[lane].NoteType.DetectType == NoteTypes.DetectType.HoldEndFlick
+                        || Ticks[tick + 1].Notes[lane].NoteType.DetectType == NoteTypes.DetectType.GbsFlick // not sure about this, but adding it at least means compatibility with official charts will be kept
+                        || Ticks[tick + 1].Notes[lane].NoteType.DetectType == NoteTypes.DetectType.SwipeEndPoint)
+                        )
                         return NoteTypes.NoteTypeDefs.ExtendHoldMid;
                 }
                 return Ticks[tick].Notes[lane].NoteType;
