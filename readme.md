@@ -7,7 +7,9 @@
 他のOSで動作のはNAudioによって制限されています。多分Wineで動作出来る。  
 Windows上Monoではコピー・ペーストが機能しないみたい。（他のOSで機能するかどうか分からない）
 
-自動ビルドはAppVeyorで：https://ci.appveyor.com/project/ntnd/8beatmap/branch/master/artifacts （両zipファイルをダウンロードと解凍して、さらにskinsフォルダを8beatMapフォルダにコーピーしてください）
+自動ビルドはAppVeyorで：https://ci.appveyor.com/project/ntnd/8beatmap/branch/master/artifacts  
+8beatMap.1.0….zipをダウンロードと解凍そして8beatMap.exeを実行してください。  
+skins.zipは追加のスキンだけ（任意）。追加のスキンが欲しいの場合で両zipファイルをダウンロードと解凍して、さらにskinsフォルダを8beatMapフォルダまでコーピーしてください。
 
 　
 
@@ -18,7 +20,9 @@ It doesn't have a lot of features, but I think it's pretty easy to use.
 Cross-platform support is limited by NAudio. It will probably work using Wine.  
 Copy and paste seems broken in Mono on Windows (might work on other platforms).
 
-Automated builds are on AppVeyor: https://ci.appveyor.com/project/ntnd/8beatmap/branch/master/artifacts (Download and extract both zip files, then copy the skins folder into the 8beatMap folder)
+Automated builds are on AppVeyor: https://ci.appveyor.com/project/ntnd/8beatmap/branch/master/artifacts  
+Download and extract 8beatMap.1.0….zip, then run 8beatMap.exe.  
+skins.zip is just additional skins (optional). If you want the additional skins, download and extract both zip files, then copy the skins folder into the 8beatMap folder.
 
 　
 
