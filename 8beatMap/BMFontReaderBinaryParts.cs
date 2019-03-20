@@ -15,9 +15,9 @@ namespace _8beatMap
 
         private static int ReadBinaryInt(byte[] data)
         {
-            if (data.Length < 2) return data[0];
-            else if (data.Length < 4) return BitConverter.ToInt16(data, 0);
-            else return BitConverter.ToInt32(data, 0);
+            if (data.Length < 2) return data[0]; // all one-byte ints are uint, so this is fine
+            else if (data.Length < 4) return BitConverter.ToInt16(data, 0); // some of the two-byte ints are uint, but I don't think overflow is an issue for any real font metrics or usable texture size
+            else return BitConverter.ToInt32(data, 0); // four-byte ints are only for character ids. the spec says they're uint, but the missing character glyph is -1 not 0xFFFFFFFF in text based formats and max unicode length is only 21 bits...
         }
         private static Func<byte[], int> ReadBinaryIntDelegate = ReadBinaryInt;
 

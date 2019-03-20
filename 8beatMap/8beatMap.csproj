@@ -27,6 +27,7 @@
       .pdb;
       .pri
     </AllowedReferenceRelatedFileExtensions>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -40,6 +41,7 @@
       .pdb;
       .pri
     </AllowedReferenceRelatedFileExtensions>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>8beatMap.ico</ApplicationIcon>

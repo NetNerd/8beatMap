@@ -65,24 +65,35 @@ namespace _8beatMap
         {
             System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(path);
 
+            bool foundDifference = false;
+
             System.Drawing.Imaging.BitmapData bmpData = bmp.LockBits(new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height),
                 System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
-            byte[] dataBytes = new byte[bmp.Width * bmp.Height * 4];
-            System.Runtime.InteropServices.Marshal.Copy(bmpData.Scan0, dataBytes, 0, bmp.Width * bmp.Height * 4);
-
-            bool foundDifference = false;
-            for (int i = 0; i < bmp.Height * bmp.Width * 4; i += 4)
+            int bytesPerPixel = bmpData.Stride / bmp.Width;
+            if (bytesPerPixel < 4)
             {
-                if ((dataBytes[i] != dataBytes[i + 1]) // B != G
-                    | (dataBytes[i] != dataBytes[i + 2]) // | B != R
-                    | (dataBytes[i + 3] != 255)) // | A != 255
-                {
-                    foundDifference = true;
-                    break;
-                }
+                bmp.UnlockBits(bmpData);
+                bmp.Dispose();
+                return false;
             }
             
+            unsafe
+            {
+                byte* inputData = (byte*)bmpData.Scan0;
+
+                for (int i = 0; i < bmp.Height * bmpData.Stride; i += 4)
+                {
+                    if ((inputData[i] != inputData[i + 1]) // B != G
+                        | (inputData[i] != inputData[i + 2]) // | B != R
+                        | (inputData[i + 3] != 255)) // | A != 255
+                    {
+                        foundDifference = true;
+                        break;
+                    }
+                }
+            }
+
             bmp.UnlockBits(bmpData);
             bmp.Dispose();
 

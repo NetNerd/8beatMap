@@ -65,13 +65,21 @@ namespace _8beatMap
             System.Drawing.Imaging.BitmapData bmpData = bmp.LockBits(new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height),
                 System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
-            byte[] dataBytes = new byte[bmp.Width * bmp.Height * 4];
-            System.Runtime.InteropServices.Marshal.Copy(bmpData.Scan0, dataBytes, 0, bmp.Width * bmp.Height * 4);
+            int bytesPerPixel = bmpData.Stride / bmp.Width;
+            //if (bytesPerPixel < 4) return 0;
+            //(don't actually need to check when just accessing one byte from each pixel anyway)
 
-            byte[] monodata = new byte[bmp.Width * bmp.Height];
-            for (int i = 0; i < bmp.Height * bmp.Width * 4; i += 4)
+
+            IntPtr monoDataScan = System.Runtime.InteropServices.Marshal.AllocHGlobal(bmp.Width * bmp.Height); // allocate as 8bpp
+
+            unsafe
             {
-                monodata[i / 4] = dataBytes[i]; // just sample blue because it's easiest
+                byte* inputData = (byte*)bmpData.Scan0;
+                byte* outputData = (byte*)monoDataScan;
+                for (int i = 0; i < bmp.Height * bmpData.Stride; i += bytesPerPixel)
+                {
+                    outputData[i / bytesPerPixel] = inputData[i]; // just sample blue because it's easiest
+                }
             }
 
 
@@ -86,18 +94,11 @@ namespace _8beatMap
 
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)All.ClampToBorder);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)All.ClampToBorder);
+            
 
+            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Alpha, bmp.Width, bmp.Height, 0, PixelFormat.Alpha, PixelType.UnsignedByte, monoDataScan);
 
-            System.Drawing.Imaging.BitmapData bmpDataJustChannel = new System.Drawing.Imaging.BitmapData()
-            { PixelFormat = System.Drawing.Imaging.PixelFormat.DontCare, Width = bmp.Width, Height = bmp.Height };
-
-            bmpDataJustChannel.Scan0 = System.Runtime.InteropServices.Marshal.AllocHGlobal(monodata.Length);
-            System.Runtime.InteropServices.Marshal.Copy(monodata, 0, bmpDataJustChannel.Scan0, monodata.Length);
-
-            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Alpha, bmp.Width, bmp.Height, 0, PixelFormat.Alpha, PixelType.UnsignedByte, bmpDataJustChannel.Scan0);
-
-            bmpDataJustChannel.Scan0 = IntPtr.Zero;
-            System.Runtime.InteropServices.Marshal.FreeHGlobal(bmpDataJustChannel.Scan0);
+            System.Runtime.InteropServices.Marshal.FreeHGlobal(monoDataScan);
 
             GL.Enable(EnableCap.Texture2D); // this is needed because an ATI bug apparently (not sure how recently)
             GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
@@ -128,17 +129,36 @@ namespace _8beatMap
             System.Drawing.Imaging.BitmapData bmpData = bmp.LockBits(new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height),
                 System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
-            byte[] dataBytes = new byte[bmp.Width * bmp.Height * 4];
-            System.Runtime.InteropServices.Marshal.Copy(bmpData.Scan0, dataBytes, 0, bmp.Width * bmp.Height * 4);
-
-            byte[][] planes = new byte[4][]
-            { new byte[bmp.Width * bmp.Height], new byte[bmp.Width * bmp.Height], new byte[bmp.Width * bmp.Height], new byte[bmp.Width * bmp.Height] };
-            for (int i = 0; i < bmp.Height * bmp.Width * 4; i += 4)
+            int bytesPerPixel = bmpData.Stride / bmp.Width;
+            if (bytesPerPixel < 4)
             {
-                planes[0][i / 4] = dataBytes[i];
-                planes[1][i / 4] = dataBytes[i + 1];
-                planes[2][i / 4] = dataBytes[i + 2];
-                planes[3][i / 4] = dataBytes[i + 3];
+                bmp.UnlockBits(bmpData);
+                bmp.Dispose();
+                return new int[] { 0, 0, 0, 0 }; ;
+            }
+
+
+            IntPtr[] monoDataScans = new IntPtr[]
+                {
+                    System.Runtime.InteropServices.Marshal.AllocHGlobal(bmp.Width * bmp.Height), // allocate as 8bpp
+                    System.Runtime.InteropServices.Marshal.AllocHGlobal(bmp.Width * bmp.Height),
+                    System.Runtime.InteropServices.Marshal.AllocHGlobal(bmp.Width * bmp.Height),
+                    System.Runtime.InteropServices.Marshal.AllocHGlobal(bmp.Width * bmp.Height),
+                };
+
+            unsafe
+            {
+                byte*[] planes = new byte*[4]
+                { (byte*)monoDataScans[0], (byte*)monoDataScans[1], (byte*)monoDataScans[2], (byte*)monoDataScans[3] };
+                byte* inputData = (byte*)bmpData.Scan0;
+
+                for (int i = 0; i < bmp.Height * bmpData.Stride; i += bytesPerPixel)
+                {
+                    planes[0][i / bytesPerPixel] = inputData[i];
+                    planes[1][i / bytesPerPixel] = inputData[i + 1];
+                    planes[2][i / bytesPerPixel] = inputData[i + 2];
+                    planes[3][i / bytesPerPixel] = inputData[i + 3];
+                }
             }
 
 
@@ -159,21 +179,16 @@ namespace _8beatMap
                 GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)All.ClampToBorder);
 
 
-                System.Drawing.Imaging.BitmapData bmpDataJustChannel = new System.Drawing.Imaging.BitmapData()
-                { PixelFormat = System.Drawing.Imaging.PixelFormat.DontCare, Width = bmp.Width, Height = bmp.Height };
-
-                bmpDataJustChannel.Scan0 = System.Runtime.InteropServices.Marshal.AllocHGlobal(planes[i].Length);
-                System.Runtime.InteropServices.Marshal.Copy(planes[i], 0, bmpDataJustChannel.Scan0, planes[i].Length);
-
-                GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Alpha, bmp.Width, bmp.Height, 0, PixelFormat.Alpha, PixelType.UnsignedByte, bmpDataJustChannel.Scan0);
-
-                bmpDataJustChannel.Scan0 = IntPtr.Zero;
-                System.Runtime.InteropServices.Marshal.FreeHGlobal(bmpDataJustChannel.Scan0);
+                GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Alpha, bmp.Width, bmp.Height, 0, PixelFormat.Alpha, PixelType.UnsignedByte, monoDataScans[i]);
 
                 GL.Enable(EnableCap.Texture2D); // this is needed because an ATI bug apparently (not sure how recently)
                 GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
             }
 
+            foreach (IntPtr scan in monoDataScans)
+            {
+                System.Runtime.InteropServices.Marshal.FreeHGlobal(scan);
+            }
 
             bmp.UnlockBits(bmpData);
             bmp.Dispose();
