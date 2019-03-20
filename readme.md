@@ -73,7 +73,6 @@ Ctrl+I：譜面作品情報（Iはインフォメーション）
 （海外キーボードでは異なる可能性があります）  
 　
 
-※ズームと長さと全ノードを動かすの機能にはちょっとバグがあります。用いるの前に保存してください。  
 ※今、絵を保存のはプログラムのフォルダーで「imgout.png」に書いてます。  
 ※ノード音のタイミングは違う場合があります（でもたいていはいいと思います）。  
 　
@@ -120,8 +119,7 @@ Ctrl+B: Quickly set BPM
 Ctrl+I: Chart Info  
 (may differ with international keyboard layouts)  
 　
-
---The zoom, length, and note shift functions are a bit buggy. Please save before using them.  
+  
 --Currently, the "save image" button saves to "imgout.png" in the same folder as the program.  
 --Note sound timing may be a little wrong (though it seems mostly good to me).  
 　
