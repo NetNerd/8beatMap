@@ -93,8 +93,7 @@ Note types can be selected with keyboard shortcuts too:
 5: SwipeLeftStartEnd　　　T: SwipeLeftMid　　　G: SwipeChangeDirR2L  
 6: SwipeRightStartEnd　　　Y: SwipeRightMid　　　H: SwipeChangeDirL2R  
 7: GBSFlick　　　U: GBSSimulFlick  
-8: GBSClock　　　I: GBSSimulClock  
-　
+8: GBSClock　　　I: GBSSimulClock
 
 Special note types:  
 -"Simul-" notes are the pink ones (at the same time as others). There's an auto feature, so you don't need to place them manually.  
