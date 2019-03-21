@@ -24,8 +24,7 @@ namespace _8beatMap
         private static string ReadBinaryString(byte[] data)
         {
             data = data.TakeWhile((x) => x != 0).ToArray();
-            string output = Encoding.UTF8.GetString(data);
-            return output;
+            return Encoding.UTF8.GetString(data);
         }
         private static Func<byte[], string> ReadBinaryStringDelegate = ReadBinaryString;
 

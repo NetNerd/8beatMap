@@ -31,8 +31,8 @@ namespace _8beatMap
                 if (rawparams[i] == null || !rawparams[i].Contains("=")) continue;
 
                 string[] paramsplit = rawparams[i].Split("=".ToCharArray(), 2);
-                if (outdict.ContainsKey(paramsplit[0])) outdict[paramsplit[0]] = paramsplit[1];
-                else outdict.Add(paramsplit[0], paramsplit[1]); 
+                if (outdict.ContainsKey(paramsplit[0])) outdict[paramsplit[0]] = EscapeString(RemoveQuotes(paramsplit[1]));
+                else outdict.Add(paramsplit[0], EscapeString(RemoveQuotes(paramsplit[1]))); 
             }
 
             return outdict;
@@ -48,6 +48,11 @@ namespace _8beatMap
         {
             string[] strsplit = str.Split(',');
             return new System.Drawing.Point(int.Parse(strsplit[0]), int.Parse(strsplit[1]));
+        }
+
+        private static string EscapeString(string str)
+        {
+            return str.Replace("\\\"", "\"").Replace("\\\\", "\\").Replace("&quot;", "\""); // unescape quotes and slashes -- replacing escaped quotes before slashes will avoid making quotes after slashes in the original input remove slashes from intended output
         }
 
         private static string RemoveQuotes(string str)
@@ -211,7 +216,7 @@ namespace _8beatMap
                     case "info":
                         {
                             if (tag.ContainsKey("face"))
-                                GenInfo.FontFace = RemoveQuotes(tag["face"]);
+                                GenInfo.FontFace = tag["face"];
                             if (tag.ContainsKey("size"))
                                 GenInfo.Size = int.Parse(tag["size"]);
                             if (tag.ContainsKey("bold"))
@@ -219,7 +224,7 @@ namespace _8beatMap
                             if (tag.ContainsKey("italic"))
                                 GenInfo.Italic = int.Parse(tag["italic"]) == 1 ? true : false;
                             if (tag.ContainsKey("charset"))
-                                GenInfo.Charset = RemoveQuotes(tag["charset"]);
+                                GenInfo.Charset = tag["charset"];
                             if (tag.ContainsKey("unicode"))
                                 GenInfo.IsUnicode = int.Parse(tag["unicode"]) == 1 ? true : false;
                             if (tag.ContainsKey("stretchH"))
@@ -264,7 +269,7 @@ namespace _8beatMap
                         {
                             int texId = int.Parse(tag["id"]);
                             if (PageTexPaths.Length <= texId) Array.Resize(ref PageTexPaths, texId + 1);
-                            PageTexPaths[texId] = baseDir + "/" + RemoveQuotes(tag["file"]);
+                            PageTexPaths[texId] = baseDir + "/" + tag["file"];
                             break;
                         }
                     case "char":
@@ -314,7 +319,13 @@ namespace _8beatMap
 
                 for (int i = 0; i < infoLines.Length; i++)
                 {
-                    Dictionary<string, string> tag = getTextTagParams(infoLines[i]);
+                    string line = infoLines[i].Trim();
+                    if (line.StartsWith("<") && line.EndsWith("/>"))
+                    {
+                        line = line.Remove(0, 1);
+                        line = line.Remove(line.Length - 2, 2);
+                    };
+                    Dictionary<string, string> tag = getTextTagParams(line);
                     if (!tag.ContainsKey("tagtype")) continue;
                     ApplyTag(tag);
                 }
