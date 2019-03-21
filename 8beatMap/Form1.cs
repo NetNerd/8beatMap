@@ -358,6 +358,7 @@ namespace _8beatMap
         {
             ChartScrollBar.Minimum = 0;
             ChartScrollBar.Maximum = (int)(chart.Length * TickHeight + IconHeight / 2 + 110);
+            ChartScrollBar.Value = (int)(chart.Length * TickHeight - CurrentTick * TickHeight);
         }
 
 
