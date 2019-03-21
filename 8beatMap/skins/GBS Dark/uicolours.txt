@@ -1,0 +1,11 @@
+Chart_BG:          Black
+# if desired, you can use Chart_BG_Lane1~8 to override this per-lane
+Chart_BG_Lane8:    #80ff4000
+Chart_LaneLine:    DimGray
+Chart_BarLine:     White
+Chart_BarText:     White
+Chart_QuarterLine: LightGray
+Chart_EigthLine:   DimGray
+Chart_Playhead:    WhiteSmoke
+Form_BG:           #202020
+Form_Text:         WhiteSmoke
