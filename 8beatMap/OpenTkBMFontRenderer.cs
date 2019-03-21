@@ -511,29 +511,60 @@ namespace _8beatMap
                 }
                 else // broke mid-word
                 {
-                    if (maxlines > 0 && totallines + 1 >= maxlines) // if going to stop draw ellipsis instead
+                    bool isJustOneCharLeftInWord = false;
+                    bool wasNextCharHighSurrogate = false;
+                    if (char.IsHighSurrogate(str[0]))
                     {
-                        // disable because moved
-                        //DrawCharacters(maxchrs[1], y - totallines*(height+linespacing), height, font, "...", 0, chrtracking);
+                        if (str.Length > 2)
+                        {
+                            isJustOneCharLeftInWord = char.IsWhiteSpace(str, 2);
+                            wasNextCharHighSurrogate = true;
+                        }
                     }
-                    else if (smartFlow)
+                    else if (str.Length > 1)
                     {
-                        DrawCharacters(maxchrs[1], y - totallines * (height + linespacing), height, "-", 0, chrtracking);
+                        isJustOneCharLeftInWord = char.IsWhiteSpace(str, 1);
+                    }
+
+                    if (isJustOneCharLeftInWord) // avoid awkwardly breaking by adding the character instead of a dash
+                    {
+                        int[] newchrs = DrawCharacters(maxchrs[1], y - totallines * (height + linespacing), height, char.ConvertFromUtf32(char.ConvertToUtf32(str, 0)), 0, chrtracking);
+                        maxchrs[1] += newchrs[1];
+                        if (wasNextCharHighSurrogate) str = str.Remove(0, 2);
+                        else str = str.Remove(0, 1);
+
+                        if (char.IsHighSurrogate(str[0])) str = str.Remove(0, 2); // remove the whitespace too
+                        else str = str.Remove(0, 1);
+                    }
+                    else
+                    {
+                        if (maxlines > 0 && totallines + 1 >= maxlines) // if going to stop draw ellipsis instead
+                        {
+                            // disable because moved
+                            //DrawCharacters(maxchrs[1], y - totallines*(height+linespacing), height, font, "...", 0, chrtracking);
+                        }
+                        else if (smartFlow)
+                        {
+                            DrawCharacters(maxchrs[1], y - totallines * (height + linespacing), height, "-", 0, chrtracking);
+                        }
                     }
                 }
 
-                if (maxlines > 0 && totallines + 1 >= maxlines) // +1 because 1 will be added after
+                if (str.Length > 0) // check again because some may have been consumed
                 {
-                    // draw ellipsis when breaking early
-                    if (smartFlow)
+                    if (maxlines > 0 && totallines + 1 >= maxlines) // +1 because 1 will be added after
                     {
-                        if (font.Characters.ContainsKey('…')) DrawCharacters(maxchrs[1], y - totallines * (height + linespacing), height, "…", 0, chrtracking);
-                        else DrawCharacters(maxchrs[1], y - totallines * (height + linespacing), height, "...", 0, chrtracking - 1);
+                        // draw ellipsis when breaking early
+                        if (smartFlow)
+                        {
+                            if (font.Characters.ContainsKey('…')) DrawCharacters(maxchrs[1], y - totallines * (height + linespacing), height, "…", 0, chrtracking);
+                            else DrawCharacters(maxchrs[1], y - totallines * (height + linespacing), height, "...", 0, chrtracking - 1);
+                        }
+                        break;
                     }
-                    break;
+                    totallines += 1;
+                    maxchrs = DrawCharactersAligned(x, y - totallines * (height + linespacing), height, str, maxwidth, align, chrtracking, smartFlow);
                 }
-                totallines += 1;
-                maxchrs = DrawCharactersAligned(x, y - totallines * (height + linespacing), height, str, maxwidth, align, chrtracking, smartFlow);
             }
 
             return new int[] { str.Length, totallines + 1 };
