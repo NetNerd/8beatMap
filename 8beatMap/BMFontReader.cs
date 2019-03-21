@@ -201,6 +201,7 @@ namespace _8beatMap
             public Dictionary<Tuple<int, int>, KerningInfo> KernPairs = new Dictionary<Tuple<int, int>, KerningInfo>();
             public string[] PageTexPaths = { };
             public bool CanLoad8Bit;
+            public bool AreAllGylphsSingleChannel;
             private string baseDir;
             
             private void ApplyTag(Dictionary<string, string> tag)
@@ -318,9 +319,9 @@ namespace _8beatMap
                     ApplyTag(tag);
                 }
             }
-            
 
-            public BMFont(string path)
+
+            public BMFont(string path, bool do8BitCheck = true)
             {
                 try
                 {
@@ -343,15 +344,35 @@ namespace _8beatMap
                 }
 
 
-                if (PageTexPaths.Length > 0)
+                if (do8BitCheck)
                 {
-                    try
+                    if (PageTexPaths.Length > 0)
                     {
-                        CanLoad8Bit = IsImageOpaqueGrayscale(PageTexPaths[0]);
+                        try
+                        {
+                            CanLoad8Bit = IsImageOpaqueGrayscale(PageTexPaths[0]);
+                        }
+                        catch
+                        { }
                     }
-                    catch
-                    { }
                 }
+                else
+                {
+                    CanLoad8Bit = false; // default is already false, but being explicit doesn't hurt;
+                }
+
+
+                bool foundMultichannelGlyph = false;
+
+                foreach (CharacterInfo charinfo in Characters.Values)
+                {
+                    if (!Enum.IsDefined(typeof(CharacterChannels), charinfo.Channels))
+                    {
+                        foundMultichannelGlyph = true;
+                        break;
+                    }
+                }
+                AreAllGylphsSingleChannel = !foundMultichannelGlyph;
             }
         }
     }

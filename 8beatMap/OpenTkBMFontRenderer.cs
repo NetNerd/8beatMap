@@ -60,7 +60,8 @@ namespace _8beatMap
                         else
                             textures[texkey] = OpenTkTextureLoadFuncs.LoadTexture8BitGrayscale(texpath);
                     }
-                    else
+                    else if (!font.CommonInfo.Packed | !font.AreAllGylphsSingleChannel) // if not packed, should always load normally.
+                                                                                        // if packed but some glyphs use multiple channels, should load a normal copy too
                     {
                         if (!textures.ContainsKey(texkey))
                             textures.Add(texkey, OpenTkTextureLoadFuncs.LoadTexture(texpath));
