@@ -502,8 +502,8 @@ namespace _8beatMap
                         if (char.IsHighSurrogate(str[0])) str = str.Remove(0, 2);
                         else str = str.Remove(0, 1);
                     }
-
-                    if (str.Length > 0 && char.IsWhiteSpace(str, 0)) // remove whitespace from start of line
+                    
+                    while (str.Length > 0 && char.IsWhiteSpace(str, 0)) // remove whitespace from start of line
                     {
                         if (char.IsHighSurrogate(str[0])) str = str.Remove(0, 2);
                         else str = str.Remove(0, 1);
@@ -511,30 +511,41 @@ namespace _8beatMap
                 }
                 else // broke mid-word
                 {
-                    bool isJustOneCharLeftInWord = false;
-                    bool wasNextCharHighSurrogate = false;
+                    bool isJustOneCharLeftInWord = false; // use this to avoid awkwardly breaking by adding the character instead of a hyphen
+                    bool isCharHighSurrogate = false;
                     if (char.IsHighSurrogate(str[0]))
                     {
                         if (str.Length > 2)
                         {
                             isJustOneCharLeftInWord = char.IsWhiteSpace(str, 2);
-                            wasNextCharHighSurrogate = true;
                         }
+                        else if (str.Length == 2) // only has one character left in whole string...
+                        {
+                            isJustOneCharLeftInWord = true;
+                        }
+                        isCharHighSurrogate = true;
                     }
                     else if (str.Length > 1)
                     {
                         isJustOneCharLeftInWord = char.IsWhiteSpace(str, 1);
                     }
+                    else if (str.Length == 1) // only has one character left in whole string...
+                    {
+                        isJustOneCharLeftInWord = true;
+                    }
 
-                    if (isJustOneCharLeftInWord) // avoid awkwardly breaking by adding the character instead of a dash
+                    if (isJustOneCharLeftInWord)
                     {
                         int[] newchrs = DrawCharacters(maxchrs[1], y - totallines * (height + linespacing), height, char.ConvertFromUtf32(char.ConvertToUtf32(str, 0)), 0, chrtracking);
                         maxchrs[1] += newchrs[1];
-                        if (wasNextCharHighSurrogate) str = str.Remove(0, 2);
+                        if (isCharHighSurrogate) str = str.Remove(0, 2);
                         else str = str.Remove(0, 1);
 
-                        if (char.IsHighSurrogate(str[0])) str = str.Remove(0, 2); // remove the whitespace too
-                        else str = str.Remove(0, 1);
+                        while (str.Length > 0 && char.IsWhiteSpace(str, 0)) // remove whitespace from start of line
+                        {
+                            if (char.IsHighSurrogate(str[0])) str = str.Remove(0, 2);
+                            else str = str.Remove(0, 1);
+                        }
                     }
                     else
                     {
