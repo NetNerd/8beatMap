@@ -286,7 +286,7 @@
     <value>6, 80</value>
   </data>
   <data name="PauseOnSeek.Size" type="System.Drawing.Size, System.Drawing">
-    <value>113, 19</value>
+    <value>104, 18</value>
   </data>
   <data name="PauseOnSeek.TabIndex" type="System.Int32, mscorlib">
     <value>70</value>
@@ -721,7 +721,7 @@
     <value>6, 56</value>
   </data>
   <data name="NoteSoundBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>128, 19</value>
+    <value>121, 18</value>
   </data>
   <data name="NoteSoundBox.TabIndex" type="System.Int32, mscorlib">
     <value>60</value>
@@ -964,7 +964,7 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="editorToolsTab.Size" type="System.Drawing.Size, System.Drawing">
-    <value>311, 361</value>
+    <value>312, 363</value>
   </data>
   <data name="editorToolsTab.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1048,7 +1048,7 @@
     <value>4, 23</value>
   </data>
   <data name="editorSettingsTab.Size" type="System.Drawing.Size, System.Drawing">
-    <value>311, 361</value>
+    <value>312, 363</value>
   </data>
   <data name="editorSettingsTab.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -1099,7 +1099,7 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="chartSettingsTab.Size" type="System.Drawing.Size, System.Drawing">
-    <value>311, 361</value>
+    <value>312, 363</value>
   </data>
   <data name="chartSettingsTab.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -1243,7 +1243,7 @@
     <value>4, 23</value>
   </data>
   <data name="audioSettingsTab.Size" type="System.Drawing.Size, System.Drawing">
-    <value>311, 365</value>
+    <value>312, 363</value>
   </data>
   <data name="audioSettingsTab.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -1273,7 +1273,7 @@
     <value>6, 5</value>
   </data>
   <data name="ShowComboNumBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>129, 19</value>
+    <value>147, 18</value>
   </data>
   <data name="ShowComboNumBox.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -1300,7 +1300,7 @@
     <value>4, 23</value>
   </data>
   <data name="previewSettingsTab.Size" type="System.Drawing.Size, System.Drawing">
-    <value>312, 369</value>
+    <value>312, 363</value>
   </data>
   <data name="previewSettingsTab.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -1327,7 +1327,7 @@
     <value>0, 0</value>
   </data>
   <data name="tabControl1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>319, 388</value>
+    <value>320, 390</value>
   </data>
   <data name="tabControl1.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -1387,7 +1387,7 @@
     <value>320, 502</value>
   </data>
   <data name="splitContainer1.SplitterDistance" type="System.Int32, mscorlib">
-    <value>388</value>
+    <value>390</value>
   </data>
   <data name="splitContainer1.SplitterWidth" type="System.Int32, mscorlib">
     <value>2</value>
@@ -1415,6 +1415,9 @@
   </metadata>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>624, 502</value>
+  </data>
+  <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Meiryo UI, 8pt</value>
   </data>
   <data name="$this.Icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>8beatMap.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

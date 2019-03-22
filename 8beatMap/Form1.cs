@@ -986,6 +986,8 @@ namespace _8beatMap
             SuspendLayout();
             ComponentResourceManager resources = new ComponentResourceManager(typeof(Form1));
             resources.ApplyResources(this, "$this");
+            this.Font = new Font(SystemFonts.MessageBoxFont.FontFamily, 8.8f);
+            //this.Font = new System.Drawing.Font(System.Drawing.SystemFonts.MessageBoxFont.FontFamily, System.Drawing.SystemFonts.MessageBoxFont.SizeInPoints);
             UpdateWindowTitle();
             foreach (Control Ctrl in Controls)
                 resources.ApplyResources(Ctrl, Ctrl.Name);
