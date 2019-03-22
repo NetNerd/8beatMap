@@ -423,7 +423,18 @@ namespace _8beatMap
                         }
 
                         float icnDist = (float)(numTicksVisible - i + currentTick-timingAdjust) / numTicksVisible;
+                        if (Type.DetectType == NoteTypes.DetectType.GbsClock)
+                        {
+                            // in actual game enters view at about right timing (a little ahead), slows down to be ~ 1/8 slow, then speeds up to reach normal timing
+                            // icnDist is up to ~1.0, one cycle is about 6.3(2*pi) so want ~3.2 total for good effect (returns to original position for tap)
+                            // subtract a little (~0.05) from icnDist for this calculation so it'll start ahead of real point as intended. use ~3.2/0.95 instead of ~3.2 because of this
+                            // because allowing the icon to drift back fully by midpoint looks weird (can disappear off screen even), multiply the amount of effect by icnDist
+                            // original game has the icon behind by ~1/8 note at icnDist=0.5, so use 12 as fixed multiplication... but a little less (9) looks better here...
+                            // subtract to invert direction (should decrease to look delayed)
+                            icnDist -= (float)Math.Sin(((double)icnDist - 0.05) * 3.36) * 9*icnDist / numTicksVisible;
+                        }
                         if (icnDist < 0) icnDist = 0;
+
                         PointF icnPoint = GetPointAlongLineF(NodeStartLocs[j], NodeEndLocs[j], icnDist);
                         float icnSize = iconSize * icnDist;
                         DrawFilledRect(icnPoint.X - icnSize / 2, icnPoint.Y - icnSize / 2, icnSize, icnSize, NoteTex);
