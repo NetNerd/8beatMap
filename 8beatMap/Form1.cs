@@ -562,6 +562,7 @@ namespace _8beatMap
             VolumeBar.Value = Properties.Settings.Default.Volume;
             UseBeepNoteSounds = Properties.Settings.Default.UseBeepNoteSounds;
             ShowComboNumBox.Checked = Properties.Settings.Default.ShowComboInPreview;
+            ChangeFormLanguage(Properties.Settings.Default.Language);
 
             SetSkin(Properties.Settings.Default.Skin);
 
@@ -921,6 +922,7 @@ namespace _8beatMap
                 Properties.Settings.Default.Volume = VolumeBar.Value;
                 Properties.Settings.Default.UseBeepNoteSounds = UseBeepNoteSounds;
                 Properties.Settings.Default.ShowComboInPreview = ShowComboNumBox.Checked;
+                Properties.Settings.Default.Language = System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
 
                 Properties.Settings.Default.Save();
             }
@@ -974,13 +976,9 @@ namespace _8beatMap
             UpdateChart();
         }
 
-        private void LangChangeBtn_Click(object sender, EventArgs e)
+        private void ChangeFormLanguage(string culture)
         {
-            if (System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName == "ja")
-                System.Threading.Thread.CurrentThread.CurrentUICulture = System.Globalization.CultureInfo.GetCultureInfo("en");
-            else
-                System.Threading.Thread.CurrentThread.CurrentUICulture = System.Globalization.CultureInfo.GetCultureInfo("ja");
-
+            System.Threading.Thread.CurrentThread.CurrentUICulture = System.Globalization.CultureInfo.GetCultureInfo(culture);
 
             SuspendLayout();
             ComponentResourceManager resources = new ComponentResourceManager(typeof(Form1));
@@ -1007,6 +1005,14 @@ namespace _8beatMap
             PerformLayout();
 
             AddNoteTypes();
+        }
+
+        private void LangChangeBtn_Click(object sender, EventArgs e)
+        {
+            if (System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName == "ja")
+                ChangeFormLanguage("en");
+            else
+                ChangeFormLanguage("ja");
         }
         
     
