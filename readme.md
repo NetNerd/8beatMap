@@ -1,6 +1,6 @@
 ﻿# <img alt="8beatMap Icon" src="https://raw.githubusercontent.com/NetNerd/8beatMap/master/icon/icon-96x96-fs8.png" width="48" height="48" align="top" /> 8beatMap
 
-8beatMapとはスマホ音楽ゲーム「8 beat Story♪」の譜面エディタープログラム。「Girls Beat Stage!」の譜面も対応しています。  
+8beatMapとはスマホ音楽ゲーム「8 beat Story♪」の譜面に対応エディタープログラム。「Girls Beat Stage!」の譜面も対応しています。  
 多い機能がありませんだけどかなり易しと思います。
 
 　
