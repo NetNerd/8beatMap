@@ -204,4 +204,10 @@
   <data name="ChartDifficultyBtn.Text" xml:space="preserve">
     <value>譜面難易度</value>
   </data>
+  <data name="previewSettingsTab.Text" xml:space="preserve">
+    <value>プレビュー設定</value>
+  </data>
+  <data name="ShowComboNumBox.Text" xml:space="preserve">
+    <value>コンボ数を示す</value>
+  </data>
 </root>
