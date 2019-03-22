@@ -205,7 +205,7 @@
     <value>Bottom, Right</value>
   </data>
   <data name="PlayBtn.Location" type="System.Drawing.Point, System.Drawing">
-    <value>127, 15</value>
+    <value>131, 11</value>
   </data>
   <data name="PlayBtn.Size" type="System.Drawing.Size, System.Drawing">
     <value>87, 23</value>
@@ -232,7 +232,7 @@
     <value>Bottom, Right</value>
   </data>
   <data name="StopBtn.Location" type="System.Drawing.Point, System.Drawing">
-    <value>220, 15</value>
+    <value>224, 11</value>
   </data>
   <data name="StopBtn.Size" type="System.Drawing.Size, System.Drawing">
     <value>87, 23</value>
@@ -451,7 +451,7 @@
     <value>Bottom, Right</value>
   </data>
   <data name="OpenBtn.Location" type="System.Drawing.Point, System.Drawing">
-    <value>220, 55</value>
+    <value>224, 51</value>
   </data>
   <data name="OpenBtn.Size" type="System.Drawing.Size, System.Drawing">
     <value>87, 23</value>
@@ -484,7 +484,7 @@
     <value>Bottom, Right</value>
   </data>
   <data name="OpenMusicButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>220, 84</value>
+    <value>224, 80</value>
   </data>
   <data name="OpenMusicButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>87, 23</value>
@@ -517,7 +517,7 @@
     <value>Bottom, Right</value>
   </data>
   <data name="SaveChartBtn.Location" type="System.Drawing.Point, System.Drawing">
-    <value>127, 55</value>
+    <value>131, 51</value>
   </data>
   <data name="SaveChartBtn.Size" type="System.Drawing.Size, System.Drawing">
     <value>87, 23</value>
@@ -550,7 +550,7 @@
     <value>Bottom, Right</value>
   </data>
   <data name="ImgSaveBtn.Location" type="System.Drawing.Point, System.Drawing">
-    <value>127, 84</value>
+    <value>131, 80</value>
   </data>
   <data name="ImgSaveBtn.Size" type="System.Drawing.Size, System.Drawing">
     <value>87, 23</value>
@@ -799,7 +799,7 @@
     <value>Bottom, Right</value>
   </data>
   <data name="LangChangeBtn.Location" type="System.Drawing.Point, System.Drawing">
-    <value>34, 84</value>
+    <value>38, 80</value>
   </data>
   <data name="LangChangeBtn.Size" type="System.Drawing.Size, System.Drawing">
     <value>87, 23</value>
