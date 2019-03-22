@@ -984,6 +984,66 @@
   <data name="&gt;&gt;editorToolsTab.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="SkinLbl.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="SkinLbl.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="SkinLbl.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 127</value>
+  </data>
+  <data name="SkinLbl.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>70, 0</value>
+  </data>
+  <data name="SkinLbl.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>70, 0</value>
+  </data>
+  <data name="SkinLbl.Size" type="System.Drawing.Size, System.Drawing">
+    <value>70, 14</value>
+  </data>
+  <data name="SkinLbl.TabIndex" type="System.Int32, mscorlib">
+    <value>80</value>
+  </data>
+  <data name="SkinLbl.Text" xml:space="preserve">
+    <value>Skin:</value>
+  </data>
+  <data name="SkinLbl.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;SkinLbl.Name" xml:space="preserve">
+    <value>SkinLbl</value>
+  </data>
+  <data name="&gt;&gt;SkinLbl.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SkinLbl.Parent" xml:space="preserve">
+    <value>editorSettingsTab</value>
+  </data>
+  <data name="&gt;&gt;SkinLbl.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="SkinSelector.Location" type="System.Drawing.Point, System.Drawing">
+    <value>79, 123</value>
+  </data>
+  <data name="SkinSelector.Size" type="System.Drawing.Size, System.Drawing">
+    <value>160, 22</value>
+  </data>
+  <data name="SkinSelector.TabIndex" type="System.Int32, mscorlib">
+    <value>81</value>
+  </data>
+  <data name="&gt;&gt;SkinSelector.Name" xml:space="preserve">
+    <value>SkinSelector</value>
+  </data>
+  <data name="&gt;&gt;SkinSelector.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SkinSelector.Parent" xml:space="preserve">
+    <value>editorSettingsTab</value>
+  </data>
+  <data name="&gt;&gt;SkinSelector.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
   <data name="editorSettingsTab.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 23</value>
   </data>
@@ -1203,6 +1263,63 @@
   <data name="&gt;&gt;audioSettingsTab.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
+  <data name="ShowComboNumBox.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="ShowComboNumBox.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="ShowComboNumBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 5</value>
+  </data>
+  <data name="ShowComboNumBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>129, 19</value>
+  </data>
+  <data name="ShowComboNumBox.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="ShowComboNumBox.Text" xml:space="preserve">
+    <value>Show Combo Number</value>
+  </data>
+  <data name="ShowComboNumBox.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleRight</value>
+  </data>
+  <data name="&gt;&gt;ShowComboNumBox.Name" xml:space="preserve">
+    <value>ShowComboNumBox</value>
+  </data>
+  <data name="&gt;&gt;ShowComboNumBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ShowComboNumBox.Parent" xml:space="preserve">
+    <value>previewSettingsTab</value>
+  </data>
+  <data name="&gt;&gt;ShowComboNumBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="previewSettingsTab.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 23</value>
+  </data>
+  <data name="previewSettingsTab.Size" type="System.Drawing.Size, System.Drawing">
+    <value>312, 369</value>
+  </data>
+  <data name="previewSettingsTab.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="previewSettingsTab.Text" xml:space="preserve">
+    <value>Preview Settings</value>
+  </data>
+  <data name="&gt;&gt;previewSettingsTab.Name" xml:space="preserve">
+    <value>previewSettingsTab</value>
+  </data>
+  <data name="&gt;&gt;previewSettingsTab.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;previewSettingsTab.Parent" xml:space="preserve">
+    <value>tabControl1</value>
+  </data>
+  <data name="&gt;&gt;previewSettingsTab.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
   <data name="tabControl1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
@@ -1226,66 +1343,6 @@
   </data>
   <data name="&gt;&gt;tabControl1.ZOrder" xml:space="preserve">
     <value>0</value>
-  </data>
-  <data name="SkinLbl.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="SkinLbl.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="SkinLbl.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 127</value>
-  </data>
-  <data name="SkinLbl.MaximumSize" type="System.Drawing.Size, System.Drawing">
-    <value>70, 0</value>
-  </data>
-  <data name="SkinLbl.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>70, 0</value>
-  </data>
-  <data name="SkinLbl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>70, 14</value>
-  </data>
-  <data name="SkinLbl.TabIndex" type="System.Int32, mscorlib">
-    <value>80</value>
-  </data>
-  <data name="SkinLbl.Text" xml:space="preserve">
-    <value>Skin:</value>
-  </data>
-  <data name="SkinLbl.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
-  <data name="&gt;&gt;SkinLbl.Name" xml:space="preserve">
-    <value>SkinLbl</value>
-  </data>
-  <data name="&gt;&gt;SkinLbl.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;SkinLbl.Parent" xml:space="preserve">
-    <value>editorSettingsTab</value>
-  </data>
-  <data name="&gt;&gt;SkinLbl.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="SkinSelector.Location" type="System.Drawing.Point, System.Drawing">
-    <value>79, 123</value>
-  </data>
-  <data name="SkinSelector.Size" type="System.Drawing.Size, System.Drawing">
-    <value>160, 22</value>
-  </data>
-  <data name="SkinSelector.TabIndex" type="System.Int32, mscorlib">
-    <value>81</value>
-  </data>
-  <data name="&gt;&gt;SkinSelector.Name" xml:space="preserve">
-    <value>SkinSelector</value>
-  </data>
-  <data name="&gt;&gt;SkinSelector.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;SkinSelector.Parent" xml:space="preserve">
-    <value>editorSettingsTab</value>
-  </data>
-  <data name="&gt;&gt;SkinSelector.ZOrder" xml:space="preserve">
-    <value>1</value>
   </data>
   <data name="splitContainer1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Right</value>

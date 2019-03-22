@@ -1248,5 +1248,10 @@ namespace _8beatMap
 
             UpdateWindowTitle();
         }
+
+        private void ShowComboNumBox_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

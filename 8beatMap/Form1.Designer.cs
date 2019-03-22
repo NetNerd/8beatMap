@@ -64,6 +64,7 @@
             this.CopyLengthBox = new System.Windows.Forms.NumericUpDown();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.editorToolsTab = new System.Windows.Forms.TabPage();
+            this.ChartDifficultyBtn = new System.Windows.Forms.Button();
             this.editorSettingsTab = new System.Windows.Forms.TabPage();
             this.SkinLbl = new System.Windows.Forms.Label();
             this.SkinSelector = new System.Windows.Forms.ComboBox();
@@ -74,9 +75,10 @@
             this.VolumeLbl = new System.Windows.Forms.Label();
             this.AudioDelayLbl = new System.Windows.Forms.Label();
             this.AudioDelayBox = new System.Windows.Forms.NumericUpDown();
+            this.previewSettingsTab = new System.Windows.Forms.TabPage();
+            this.ShowComboNumBox = new System.Windows.Forms.CheckBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.ChartDifficultyBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.BPMbox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.newplayhead)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ZoomBox)).BeginInit();
@@ -91,6 +93,7 @@
             this.audioSettingsTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.VolumeBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.AudioDelayBox)).BeginInit();
+            this.previewSettingsTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -384,6 +387,7 @@
             this.tabControl1.Controls.Add(this.editorSettingsTab);
             this.tabControl1.Controls.Add(this.chartSettingsTab);
             this.tabControl1.Controls.Add(this.audioSettingsTab);
+            this.tabControl1.Controls.Add(this.previewSettingsTab);
             resources.ApplyResources(this.tabControl1, "tabControl1");
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -403,6 +407,13 @@
             this.editorToolsTab.Controls.Add(this.NoteShiftLbl);
             resources.ApplyResources(this.editorToolsTab, "editorToolsTab");
             this.editorToolsTab.Name = "editorToolsTab";
+            // 
+            // ChartDifficultyBtn
+            // 
+            resources.ApplyResources(this.ChartDifficultyBtn, "ChartDifficultyBtn");
+            this.ChartDifficultyBtn.Name = "ChartDifficultyBtn";
+            this.ChartDifficultyBtn.UseVisualStyleBackColor = true;
+            this.ChartDifficultyBtn.Click += new System.EventHandler(this.ChartDifficultyBtn_Click);
             // 
             // editorSettingsTab
             // 
@@ -494,6 +505,21 @@
             this.AudioDelayBox.Name = "AudioDelayBox";
             this.AudioDelayBox.ValueChanged += new System.EventHandler(this.AudioDelayBox_ValueChanged);
             // 
+            // previewSettingsTab
+            // 
+            this.previewSettingsTab.Controls.Add(this.ShowComboNumBox);
+            resources.ApplyResources(this.previewSettingsTab, "previewSettingsTab");
+            this.previewSettingsTab.Name = "previewSettingsTab";
+            // 
+            // ShowComboNumBox
+            // 
+            resources.ApplyResources(this.ShowComboNumBox, "ShowComboNumBox");
+            this.ShowComboNumBox.Checked = true;
+            this.ShowComboNumBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ShowComboNumBox.Name = "ShowComboNumBox";
+            this.ShowComboNumBox.UseVisualStyleBackColor = true;
+            this.ShowComboNumBox.CheckedChanged += new System.EventHandler(this.ShowComboNumBox_CheckedChanged);
+            // 
             // splitContainer1
             // 
             resources.ApplyResources(this.splitContainer1, "splitContainer1");
@@ -517,13 +543,6 @@
             // toolTip1
             // 
             this.toolTip1.ShowAlways = true;
-            // 
-            // ChartDifficultyBtn
-            // 
-            resources.ApplyResources(this.ChartDifficultyBtn, "ChartDifficultyBtn");
-            this.ChartDifficultyBtn.Name = "ChartDifficultyBtn";
-            this.ChartDifficultyBtn.UseVisualStyleBackColor = true;
-            this.ChartDifficultyBtn.Click += new System.EventHandler(this.ChartDifficultyBtn_Click);
             // 
             // Form1
             // 
@@ -556,6 +575,8 @@
             this.audioSettingsTab.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.VolumeBar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.AudioDelayBox)).EndInit();
+            this.previewSettingsTab.ResumeLayout(false);
+            this.previewSettingsTab.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
@@ -613,6 +634,8 @@
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Button ChartInfoButton;
         private System.Windows.Forms.Button ChartDifficultyBtn;
+        private System.Windows.Forms.TabPage previewSettingsTab;
+        private System.Windows.Forms.CheckBox ShowComboNumBox;
     }
 }
 
