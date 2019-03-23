@@ -7,6 +7,23 @@ namespace _8beatMap
 {
     static class OpenTkTextureLoadFuncs
     {
+        public static int GenNewTexture()
+        {
+            int tex = GL.GenTexture();
+
+            GL.BindTexture(TextureTarget.Texture2D, tex);
+
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)All.LinearMipmapLinear);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)All.Linear);
+
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureLodBias, -0.33f);
+
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)All.ClampToBorder);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)All.ClampToBorder);
+
+            return tex;
+        }
+
         public static int LoadTexture(string path)
         {
             Bitmap bmp;
@@ -23,18 +40,7 @@ namespace _8beatMap
                 System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
 
 
-            int tex = GL.GenTexture();
-
-            GL.BindTexture(TextureTarget.Texture2D, tex);
-
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)All.LinearMipmapLinear);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)All.Linear);
-
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureLodBias, -0.33f);
-
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)All.ClampToBorder);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)All.ClampToBorder);
-
+            int tex = GenNewTexture();
 
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, bmp.Width, bmp.Height, 0, PixelFormat.Bgra, PixelType.UnsignedByte, bmpData.Scan0);
 
@@ -94,19 +100,8 @@ namespace _8beatMap
             }
 
 
-            int tex = GL.GenTexture();
-
-            GL.BindTexture(TextureTarget.Texture2D, tex);
-
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)All.LinearMipmapLinear);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)All.Linear);
-
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureLodBias, -0.33f);
-
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)All.ClampToBorder);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)All.ClampToBorder);
+            int tex = GenNewTexture();
             
-
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Alpha, bmp.Width, bmp.Height, 0, PixelFormat.Alpha, PixelType.UnsignedByte, monoDataScan);
 
             System.Runtime.InteropServices.Marshal.FreeHGlobal(monoDataScan);
@@ -180,19 +175,8 @@ namespace _8beatMap
             int[] outtextures = new int[bytesPerPixel];
             for (int i = 0; i < bytesPerPixel; i++)
             {
-                int tex = GL.GenTexture();
+                int tex = GenNewTexture();
                 outtextures[bytesPerPixel - 1 - i] = tex;
-
-                GL.BindTexture(TextureTarget.Texture2D, tex);
-
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)All.LinearMipmapLinear);
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)All.Linear);
-
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureLodBias, -0.33f);
-
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)All.ClampToBorder);
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)All.ClampToBorder);
-
 
                 GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Alpha, bmp.Width, bmp.Height, 0, PixelFormat.Alpha, PixelType.UnsignedByte, monoDataScans[i]);
 
@@ -204,6 +188,7 @@ namespace _8beatMap
             {
                 System.Runtime.InteropServices.Marshal.FreeHGlobal(scan);
             }
+
 
             bmp.UnlockBits(bmpData);
             bmp.Dispose();
