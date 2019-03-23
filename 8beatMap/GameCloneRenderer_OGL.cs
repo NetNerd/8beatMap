@@ -116,6 +116,7 @@ namespace _8beatMap
             this.mainform = mainform;
             this.skin = skin;
             this.showcombo = showcombo;
+            numLanes = skin.NumLanes;
             NodeStartLocs = (Point[])skin.NodeStartLocs.Clone();
             NodeEndLocs = (Point[])skin.NodeEndLocs.Clone();
             SetupNodeLocs(wndWidth, wndHeight);
