@@ -74,6 +74,13 @@ namespace _8beatMap
                 set { ChartAuthor = value.Trim(); }
             }
 
+            private string ChartFilePath;
+            public string FilePath
+            {
+                get { return ChartFilePath; }
+                set { ChartFilePath = value.Trim(); }
+            }
+
             public Tick[] Ticks;
 
             private int ChartLen;
@@ -514,6 +521,7 @@ namespace _8beatMap
                 ChartLen = Length;
                 this.BPM = BPM;
                 UsedSwipes = null;
+                ChartFilePath = null;
             }
         }
 

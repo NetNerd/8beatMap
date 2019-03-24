@@ -400,6 +400,8 @@ namespace _8beatMap
                 try {
                     chart = Notedata.ConvertJsonToChart(System.IO.File.ReadAllText(Path));
 
+                    chart.FilePath = Path;
+
                     if (chart.SongName == "")
                     {
                         string name = System.IO.Path.GetFileNameWithoutExtension(Path);
@@ -819,12 +821,24 @@ namespace _8beatMap
 
         private void OpenBtn_Click(object sender, EventArgs e)
         {
+            if (chart.FilePath != null)
+            {
+                openFileDialog1.InitialDirectory = System.IO.Path.GetDirectoryName(chart.FilePath);
+                openFileDialog1.FileName = System.IO.Path.GetFileName(chart.FilePath);
+            }
+
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
              LoadChart(openFileDialog1.FileName);
         }
 
         private void SaveChartBtn_Click(object sender, EventArgs e)
         {
+            if (chart.FilePath != null)
+            {
+                saveFileDialog1.InitialDirectory = System.IO.Path.GetDirectoryName(chart.FilePath);
+                saveFileDialog1.FileName = System.IO.Path.GetFileName(chart.FilePath);
+            }
+
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                 if (System.IO.File.Exists(saveFileDialog1.FileName))
                 {
@@ -839,6 +853,12 @@ namespace _8beatMap
 
         private void OpenMusicButton_Click(object sender, EventArgs e)
         {
+            if (Sound.MusicReader != null && Sound.MusicReader.FileName != null)
+            {
+                openFileDialog2.InitialDirectory = System.IO.Path.GetDirectoryName(Sound.MusicReader.FileName);
+                openFileDialog2.FileName = System.IO.Path.GetFileName(Sound.MusicReader.FileName);
+            }
+
             if (openFileDialog2.ShowDialog() == DialogResult.OK)
             {
                 StopPlayback();
