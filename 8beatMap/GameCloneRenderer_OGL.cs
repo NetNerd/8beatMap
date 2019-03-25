@@ -498,13 +498,18 @@ namespace _8beatMap
             //combofontrenderer.DrawCharactersAligned(640, 16, 32, "😃☺😃☺😃⁉⬆", 0, 0, 0);
 
             FrameStopwatch.Stop();
-            int sleeptime = (int)(1000*1f/DisplayDevice.Default.RefreshRate) - (int)FrameStopwatch.ElapsedMilliseconds - 3;
+
+            int refreshMs = (int)(1000 * 1f / DisplayDevice.Default.RefreshRate);
 
             //only render at 30fps if not playing and we would otherwise be rendering faster
             if (!mainform.IsPlaying && DisplayDevice.Default.RefreshRate > 30)
             {
-                sleeptime = (int)(1000*1f/30) - (int)FrameStopwatch.ElapsedMilliseconds - 3;
+                refreshMs = (int)(1000 * 1f / 30);
             }
+
+
+            int sleeptime = refreshMs - (int)FrameStopwatch.ElapsedMilliseconds - 4;
+
             
             if (sleeptime > 0)
             {
@@ -529,6 +534,7 @@ namespace _8beatMap
             //GL.Finish();
 
             //Console.WriteLine(myWindow.RenderFrequency);
+            //Console.WriteLine(myWindow.RenderPeriod);
         }
 
         Point GetPointAlongLine(Point start, Point end, float distance)
