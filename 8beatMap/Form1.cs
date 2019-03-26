@@ -172,7 +172,9 @@ namespace _8beatMap
                 if (i >= chart.Length) break;
                 if (i < 0) i = 0;
 
-                if (i % 48 == 0)
+                Notedata.TimeSigChange timesig = chart.GetTimeSigForTick(i);
+
+                if ((i - timesig.StartTick) % (timesig.Numerator * 48 / timesig.Denominator) == 0)
                 {
                     Grfx.FillRectangle(BarLineBrush, 0, height - (float)(i - startTick + ShiftYTicks) * tickHeight - 2, width, 1);
                 }
@@ -225,16 +227,16 @@ namespace _8beatMap
 
                 if (!NoGrid)
                 {
-                    if (i % 48 == 0)
+                    if ((i - timesig.StartTick) % (timesig.Numerator * 48 / timesig.Denominator) == 0) // bars
                     {
                         Grfx.FillRectangle(BarLineBrush, 0, height - (float)(i - startTick + ShiftYTicks) * tickHeight - 3, width, 3);
-                        if (!DrawBarNumsAfter) Grfx.DrawString((i / 48 + 1).ToString(), BarNumFont, BarTextBrush, 0, height - (float)(i - startTick + ShiftYTicks) * tickHeight - 4 - (int)Math.Round(BarNumSize));
+                        if (!DrawBarNumsAfter) Grfx.DrawString((timesig.StartBar + (i - timesig.StartTick) / (timesig.Numerator * 48 / timesig.Denominator) + 1).ToString(), BarNumFont, BarTextBrush, 0, height - (float)(i - startTick + ShiftYTicks) * tickHeight - 4 - (int)Math.Round(BarNumSize));
                     }
-                    else if (i % 12 == 0)
+                    else if ((i - timesig.StartTick) % (48 / timesig.Denominator) == 0) // notes of denominator length -- 48 = one whole note (four quarters)
                     {
                         Grfx.FillRectangle(QuarterLineBrush, 0, height - (float)(i - startTick + ShiftYTicks) * tickHeight - 2, width, 1);
                     }
-                    else if (i % 6 == 0)
+                    else if ((i - timesig.StartTick) % (24 / timesig.Denominator) == 0) // notes of half denominator length
                     {
                         Grfx.FillRectangle(EigthLineBrush, 0, height - (float)(i - startTick + ShiftYTicks) * tickHeight - 2, width, 1);
                     }
@@ -248,10 +250,12 @@ namespace _8beatMap
                     if (i >= chart.Length) break;
                     if (i < 0) i = 0;
 
-                    if (i % 48 == 0)
+                    Notedata.TimeSigChange timesig = chart.GetTimeSigForTick(i);
+
+                    if ((i - timesig.StartTick) % (timesig.Numerator * 48 / timesig.Denominator) == 0)
                     {
                         // draw bar number after all notes to avoid rendering issue when over holds
-                        Grfx.DrawString((i / 48 + 1).ToString(), BarNumFont, BarTextBrush, 0, height - (float)(i - startTick + ShiftYTicks) * tickHeight - 4 - (int)Math.Round(BarNumSize));
+                        Grfx.DrawString((timesig.StartBar + (i - timesig.StartTick) / (timesig.Numerator * 48 / timesig.Denominator) + 1).ToString(), BarNumFont, BarTextBrush, 0, height - (float)(i - startTick + ShiftYTicks) * tickHeight - 4 - (int)Math.Round(BarNumSize));
                     }
                 }
             }
@@ -357,7 +361,11 @@ namespace _8beatMap
         {
             ChartScrollBar.Minimum = 0;
             ChartScrollBar.Maximum = (int)(chart.Length * TickHeight + IconHeight / 2 + 110);
-            ChartScrollBar.Value = (int)(chart.Length * TickHeight - CurrentTick * TickHeight);
+
+            int newval = (int)(chart.Length * TickHeight - CurrentTick * TickHeight);
+            if (newval < ChartScrollBar.Minimum) newval = ChartScrollBar.Minimum;
+            else if (newval > ChartScrollBar.Maximum) newval = ChartScrollBar.Maximum;
+            ChartScrollBar.Value = newval;
         }
 
 
@@ -366,6 +374,11 @@ namespace _8beatMap
             chart.Length = NewLen;
             ResizeScrollbar();
             SetCurrTick(CurrentTick);
+
+            Notedata.TimeSigChange lastticktimesig = chart.GetTimeSigForTick(chart.Length - 1);
+            //ResizeBox.Value = chart.Length / 48;
+            ResizeBox.Value = lastticktimesig.StartBar + (chart.Length - lastticktimesig.StartTick) / (lastticktimesig.Numerator * 48 / lastticktimesig.Denominator); // bar of last timesig change + ticks left in chart / ticks in a bar
+
             UpdateChart();
         }
 
@@ -419,7 +432,11 @@ namespace _8beatMap
                     SkinnedMessageBox.Show(skin, DialogResMgr.GetString("ChartLoadNoBPM"), "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     chart.BPM = 120;
                 }
-                ResizeBox.Value = chart.Length / 48;
+
+                Notedata.TimeSigChange lastticktimesig = chart.GetTimeSigForTick(chart.Length - 1);
+                //ResizeBox.Value = chart.Length / 48;
+                ResizeBox.Value = lastticktimesig.StartBar + (chart.Length - lastticktimesig.StartTick) / (lastticktimesig.Numerator * 48 / lastticktimesig.Denominator); // bar of last timesig change + ticks left in chart / ticks in a bar
+
                 BPMbox.Value = (decimal)chart.BPM;
                 ResizeScrollbar();
                 SetCurrTick(0);
@@ -815,7 +832,22 @@ namespace _8beatMap
 
         private void ResizeBtn_Click(object sender, EventArgs e)
         {
-            ResizeChart((int)ResizeBox.Value * 48);
+            int tries = 6; // using a fixed number of iterations saves us from having to check somehow, and ensures we won't hang from rounding errors
+            int newlen = chart.Length;
+            while (tries > 0)
+            {
+                Notedata.TimeSigChange lastticktimesig = chart.GetTimeSigForTick(newlen);
+                while (lastticktimesig.StartBar > (int)ResizeBox.Value) // just skip bars we don't care about
+                {
+                    lastticktimesig = chart.GetTimeSigForTick(lastticktimesig.StartTick - 1);
+                }
+
+                newlen = lastticktimesig.StartTick + ((int)ResizeBox.Value - lastticktimesig.StartBar) * (lastticktimesig.Numerator * 48 / lastticktimesig.Denominator); // tick last timesig change is at + how many extra bars after that * bar length
+                tries--;
+            }
+
+            //ResizeChart((int)ResizeBox.Value * 48);
+            ResizeChart(newlen);
             UpdateChart();
         }
 
@@ -1046,7 +1078,8 @@ namespace _8beatMap
                 {
                     if (key == Keys.C)
                     {
-                        int copylen = (int)(48 * CopyLengthBox.Value);
+                        Notedata.TimeSigChange timesig = chart.GetTimeSigForTick((int)CurrentTick);
+                        int copylen = (int)((timesig.Numerator * 48 / timesig.Denominator) * CopyLengthBox.Value);
                         if ((int)CurrentTick + copylen >= chart.Length) copylen = chart.Length - (int)CurrentTick;
 
                         Notedata.Tick[] copydata = new Notedata.Tick[copylen];
