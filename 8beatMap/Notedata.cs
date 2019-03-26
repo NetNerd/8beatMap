@@ -382,9 +382,9 @@ namespace _8beatMap
 
             public TimeSigChange GetTimeSigForTick(int tick)
             {
-                if (TimeSigChanges != null)
+                if (TimeSigChanges != null && TimeSigChanges.Length > 0)
                 {
-                    foreach (TimeSigChange sig in TimeSigChanges)
+                    foreach (TimeSigChange sig in TimeSigChanges.Reverse())
                     {
                         if (sig.StartTick <= tick) return sig;
                     }
@@ -619,6 +619,38 @@ namespace _8beatMap
             return i;
         }
 
+        private static string GetTimesigChangeString(TimeSigChange[] timesigs)
+        {
+            string ret = "";
+
+            if (timesigs == null) return ret;
+            
+            foreach (TimeSigChange timesig in timesigs)
+            {
+                ret += timesig.StartBar.ToString() + "," + timesig.StartTick.ToString() + "," + timesig.Numerator.ToString() + "," + timesig.Denominator.ToString() + ";";
+            }
+
+            if (ret.Length > 0) ret = ret.Remove(ret.Length - 1); // remove trailing semicolon
+
+            return ret;
+        }
+
+        private static TimeSigChange[] GetTimesigChangesFromString(string str)
+        {
+            if (str.Length == 0) return null;
+
+            List<TimeSigChange> retlist = new List<TimeSigChange>();
+
+            foreach (string def in str.Split(';'))
+            {
+                string[] defsplit = def.Split(',');
+
+                retlist.Add(new TimeSigChange { StartBar = SafeParseInt(defsplit[0]), StartTick = SafeParseInt(defsplit[1]), Numerator = SafeParseInt(defsplit[2]), Denominator = SafeParseInt(defsplit[3]) });
+            }
+
+            return retlist.ToArray();
+        }
+
         public static Chart ConvertJsonToChart(string json)
         {
             var tickObj = JsonConvert.DeserializeObject<JsonTick_Import[]>(json);
@@ -641,11 +673,29 @@ namespace _8beatMap
             {
                 if(tickObj[0].BUTTON1.Length > 0) chart.SongName = tickObj[0].BUTTON1;
                 if (tickObj[0].BUTTON2.Length > 0) chart.Author = tickObj[0].BUTTON2;
+                if (tickObj[0].BUTTON3.Length > 0)
+                {
+                    try
+                    {
+                        chart.TimeSigChanges = GetTimesigChangesFromString(tickObj[0].BUTTON3);
+                    }
+                    catch
+                    { }
+                }
             }
             else if (gotBPM && tickObj[0].B1 != null)
             {
                 if (tickObj[0].B1.Length > 0) chart.SongName = tickObj[0].B1;
                 if (tickObj[0].B2.Length > 0) chart.Author = tickObj[0].B2;
+                if (tickObj[0].B3.Length > 0)
+                {
+                    try
+                    {
+                        chart.TimeSigChanges = GetTimesigChangesFromString(tickObj[0].B3);
+                    }
+                    catch
+                    { }
+                }
             }
 
             if (!gotBPM) // there may be data in tick 0
