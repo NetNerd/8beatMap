@@ -81,6 +81,7 @@ Ctrl+I：譜面作品情報（Iはインフォメーション）
 
 ※今、絵を保存のはプログラムのフォルダーで「imgout.png」に書いてます。  
 ※ノード音のタイミングは違う場合があります（でもたいていはいいと思います）。  
+※拍子を設定の説明はこちら→[拍子を変わる (Using non 4:4 time signatures)](https://github.com/NetNerd/8beatMap/wiki/拍子を変わる-%28Using-non-4:4-time-signatures%29)。 （あいにく、英語だけで書いた）  
 　
 
 譜面のファイルフォーマットは「.dec.json」。　ゲームと同じなんだけど復号したです（「dec」は「decrypt／デクリプト」から）。
@@ -127,7 +128,8 @@ Ctrl+I: Chart Info
 　
   
 --Currently, the "save image" button saves to "imgout.png" in the same folder as the program.  
---Note sound timing may be a little wrong (though it seems mostly good to me).  
+--Note sound timing may be a little wrong (though it seems mostly good to me).    
+--Intructions to change the time signature are here: [拍子を変わる (Using non 4:4 time signatures)](https://github.com/NetNerd/8beatMap/wiki/拍子を変わる-%28Using-non-4:4-time-signatures%29).  
 　
 
 The file format for charts is ".dec.json". It's the same type as the game but decrypted (the "dec" comes from "decrypt").
