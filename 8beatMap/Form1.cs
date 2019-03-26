@@ -832,14 +832,22 @@ namespace _8beatMap
 
         private void ResizeBtn_Click(object sender, EventArgs e)
         {
-            Notedata.TimeSigChange lastticktimesig = chart.GetTimeSigForTick(chart.Length - 1);
-            while (lastticktimesig.StartBar > (int)ResizeBox.Value) // just skip bars we don't care about
+            int tries = 6; // using a fixed number of iterations saves us from having to check somehow, and ensures we won't hang from rounding errors
+            int newlen = chart.Length;
+            while (tries > 0)
             {
-                lastticktimesig = chart.GetTimeSigForTick(lastticktimesig.StartTick - 1);
+                Notedata.TimeSigChange lastticktimesig = chart.GetTimeSigForTick(newlen);
+                while (lastticktimesig.StartBar > (int)ResizeBox.Value) // just skip bars we don't care about
+                {
+                    lastticktimesig = chart.GetTimeSigForTick(lastticktimesig.StartTick - 1);
+                }
+
+                newlen = lastticktimesig.StartTick + ((int)ResizeBox.Value - lastticktimesig.StartBar) * (lastticktimesig.Numerator * 48 / lastticktimesig.Denominator); // tick last timesig change is at + how many extra bars after that * bar length
+                tries--;
             }
 
             //ResizeChart((int)ResizeBox.Value * 48);
-            ResizeChart(lastticktimesig.StartTick + ((int)ResizeBox.Value - lastticktimesig.StartBar) * (lastticktimesig.Numerator * 48 / lastticktimesig.Denominator)); // tick last timesig change is at + how many extra bars after that * bar length
+            ResizeChart(newlen);
             UpdateChart();
         }
 
