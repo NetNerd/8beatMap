@@ -681,9 +681,9 @@ namespace _8beatMap
                 tickObj.Add(NewTick);
             }
 
-            return JsonConvert.SerializeObject(tickObj).Replace("null", "\"\"").Replace(":0", ":\"\"")
-                .Replace("R\":\"\"", "R\":0").Replace("T\":\"\"", "T\":0")
-                .ReplaceFirst("\"BUTTON1\":\"\"", "\"BUTTON1\":\"" + chart.SongName + "\"").ReplaceFirst("\"BUTTON2\":\"\"", "\"BUTTON2\":\"" + chart.Author + "\"");
+            return JsonConvert.SerializeObject(tickObj).Replace("null", "\"\"").Replace(":0", ":\"\"") // empty/null should be stored as empty string
+                .Replace("R\":\"\"", "R\":0").Replace("T\":\"\"", "T\":0") // convert baR/beaT 0 back to integer
+                .ReplaceFirst("\"BUTTON1\":\"\"", "\"BUTTON1\":\"" + chart.SongName + "\"").ReplaceFirst("\"BUTTON2\":\"\"", "\"BUTTON2\":\"" + chart.Author + "\""); // metadata
         }
 
         public static String ConvertChartToJson_Small(Chart chart)
@@ -697,7 +697,11 @@ namespace _8beatMap
                 bool TickHasNote = false;
                 for (int j = 0; j < 8; j++)
                 {
-                    if (chart.Ticks[i].Notes[j].NoteType.TypeId > 0) TickHasNote = true;
+                    if (chart.Ticks[i].Notes[j].NoteType.TypeId > 0)
+                    {
+                        TickHasNote = true;
+                        break;
+                    }
                 }
 
                 if (TickHasNote)
@@ -718,9 +722,9 @@ namespace _8beatMap
                 }
             }
 
-            return JsonConvert.SerializeObject(tickObj).Replace("null", "\"\"").Replace(":0", ":\"\"")
-                .Replace("R\":\"\"", "R\":0").Replace("T\":\"\"", "T\":0")
-                .ReplaceFirst("\"BUTTON1\":\"\"", "\"BUTTON1\":\"" + chart.SongName + "\"").ReplaceFirst("\"BUTTON2\":\"\"", "\"BUTTON2\":\"" + chart.Author + "\"");
+            return JsonConvert.SerializeObject(tickObj).Replace("null", "\"\"").Replace(":0", ":\"\"") // empty/null should be stored as empty string
+                .Replace("R\":\"\"", "R\":0").Replace("T\":\"\"", "T\":0") // convert baR/beaT 0 back to integer
+                .ReplaceFirst("\"BUTTON1\":\"\"", "\"BUTTON1\":\"" + chart.SongName + "\"").ReplaceFirst("\"BUTTON2\":\"\"", "\"BUTTON2\":\"" + chart.Author + "\""); // metadata
         }
     }
 }
