@@ -423,7 +423,11 @@ namespace _8beatMap
                     SkinnedMessageBox.Show(skin, DialogResMgr.GetString("ChartLoadNoBPM"), "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     chart.BPM = 120;
                 }
-                ResizeBox.Value = chart.Length / 48;
+
+                Notedata.TimeSigChange lastticktimesig = chart.GetTimeSigForTick(chart.Length - 1);
+                //ResizeBox.Value = chart.Length / 48;
+                ResizeBox.Value = lastticktimesig.StartBar + (chart.Length - lastticktimesig.StartTick) / (lastticktimesig.Numerator * 48 / lastticktimesig.Denominator); // bar of last timesig change + ticks left in chart / ticks in a bar
+
                 BPMbox.Value = (decimal)chart.BPM;
                 ResizeScrollbar();
                 SetCurrTick(0);
@@ -819,7 +823,14 @@ namespace _8beatMap
 
         private void ResizeBtn_Click(object sender, EventArgs e)
         {
-            ResizeChart((int)ResizeBox.Value * 48);
+            Notedata.TimeSigChange lastticktimesig = chart.GetTimeSigForTick(chart.Length - 1);
+            while (lastticktimesig.StartBar > (int)ResizeBox.Value) // just skip bars we don't care about
+            {
+                lastticktimesig = chart.GetTimeSigForTick(lastticktimesig.StartTick - 1);
+            }
+
+            //ResizeChart((int)ResizeBox.Value * 48);
+            ResizeChart(lastticktimesig.StartTick + ((int)ResizeBox.Value - lastticktimesig.StartBar) * (lastticktimesig.Numerator * 48 / lastticktimesig.Denominator)); // tick last timesig change is at + how many extra bars after that * bar length
             UpdateChart();
         }
 
