@@ -230,7 +230,11 @@ namespace _8beatMap
                     if ((i - timesig.StartTick) % (timesig.Numerator * 48 / timesig.Denominator) == 0) // bars
                     {
                         Grfx.FillRectangle(BarLineBrush, 0, height - (float)(i - startTick + ShiftYTicks) * tickHeight - 3, width, 3);
-                        if (!DrawBarNumsAfter) Grfx.DrawString((timesig.StartBar + (i - timesig.StartTick) / (timesig.Numerator * 48 / timesig.Denominator) + 1).ToString(), BarNumFont, BarTextBrush, 0, height - (float)(i - startTick + ShiftYTicks) * tickHeight - 4 - (int)Math.Round(BarNumSize));
+                        if (!DrawBarNumsAfter)
+                        {
+                            Grfx.DrawString((timesig.StartBar + (i - timesig.StartTick) / (timesig.Numerator * 48 / timesig.Denominator) + 1).ToString(), BarNumFont, BarTextBrush, 0, height - (float)(i - startTick + ShiftYTicks) * tickHeight - 4 - (int)Math.Round(BarNumSize));
+                            if (ShowTypeIdsOnNotes) Grfx.DrawString(i.ToString(), BarNumFont, BarTextBrush, width - (int)(BarNumSize*3.5), height - (float)(i - startTick + ShiftYTicks) * tickHeight - 4 - (int)Math.Round(BarNumSize));
+                        }
                     }
                     else if ((i - timesig.StartTick) % (48 / timesig.Denominator) == 0) // notes of denominator length -- 48 = one whole note (four quarters)
                     {
@@ -256,6 +260,7 @@ namespace _8beatMap
                     {
                         // draw bar number after all notes to avoid rendering issue when over holds
                         Grfx.DrawString((timesig.StartBar + (i - timesig.StartTick) / (timesig.Numerator * 48 / timesig.Denominator) + 1).ToString(), BarNumFont, BarTextBrush, 0, height - (float)(i - startTick + ShiftYTicks) * tickHeight - 4 - (int)Math.Round(BarNumSize));
+                        if (ShowTypeIdsOnNotes) Grfx.DrawString(i.ToString(), BarNumFont, BarTextBrush, width - (int)(BarNumSize * 3.5), height - (float)(i - startTick + ShiftYTicks) * tickHeight - 4 - (int)Math.Round(BarNumSize));
                     }
                 }
             }
