@@ -619,7 +619,7 @@ namespace _8beatMap
             return i;
         }
 
-        private static string GetTimesigChangeString(TimeSigChange[] timesigs)
+        private static string MakeTimesigChangesString(TimeSigChange[] timesigs)
         {
             string ret = "";
 
@@ -635,7 +635,7 @@ namespace _8beatMap
             return ret;
         }
 
-        private static TimeSigChange[] GetTimesigChangesFromString(string str)
+        private static TimeSigChange[] ReadTimesigChangesFromString(string str)
         {
             if (str.Length == 0) return null;
 
@@ -677,7 +677,7 @@ namespace _8beatMap
                 {
                     try
                     {
-                        chart.TimeSigChanges = GetTimesigChangesFromString(tickObj[0].BUTTON3);
+                        chart.TimeSigChanges = ReadTimesigChangesFromString(tickObj[0].BUTTON3);
                     }
                     catch
                     { }
@@ -691,7 +691,7 @@ namespace _8beatMap
                 {
                     try
                     {
-                        chart.TimeSigChanges = GetTimesigChangesFromString(tickObj[0].B3);
+                        chart.TimeSigChanges = ReadTimesigChangesFromString(tickObj[0].B3);
                     }
                     catch
                     { }
@@ -756,7 +756,7 @@ namespace _8beatMap
 
             return JsonConvert.SerializeObject(tickObj).Replace("null", "\"\"").Replace(":0", ":\"\"") // empty/null should be stored as empty string
                 .Replace("R\":\"\"", "R\":0").Replace("T\":\"\"", "T\":0") // convert baR/beaT 0 back to integer
-                .ReplaceFirst("\"BUTTON1\":\"\"", "\"BUTTON1\":\"" + chart.SongName + "\"").ReplaceFirst("\"BUTTON2\":\"\"", "\"BUTTON2\":\"" + chart.Author + "\""); // metadata
+                .ReplaceFirst("\"BUTTON1\":\"\"", "\"BUTTON1\":\"" + chart.SongName + "\"").ReplaceFirst("\"BUTTON2\":\"\"", "\"BUTTON2\":\"" + chart.Author + "\"").ReplaceFirst("\"BUTTON3\":\"\"", "\"BUTTON3\":\"" + MakeTimesigChangesString(chart.TimeSigChanges) + "\""); // metadata
         }
 
         public static String ConvertChartToJson_Small(Chart chart)
@@ -797,7 +797,7 @@ namespace _8beatMap
 
             return JsonConvert.SerializeObject(tickObj).Replace("null", "\"\"").Replace(":0", ":\"\"") // empty/null should be stored as empty string
                 .Replace("R\":\"\"", "R\":0").Replace("T\":\"\"", "T\":0") // convert baR/beaT 0 back to integer
-                .ReplaceFirst("\"BUTTON1\":\"\"", "\"BUTTON1\":\"" + chart.SongName + "\"").ReplaceFirst("\"BUTTON2\":\"\"", "\"BUTTON2\":\"" + chart.Author + "\""); // metadata
+                .ReplaceFirst("\"BUTTON1\":\"\"", "\"BUTTON1\":\"" + chart.SongName + "\"").ReplaceFirst("\"BUTTON2\":\"\"", "\"BUTTON2\":\"" + chart.Author + "\"").ReplaceFirst("\"BUTTON3\":\"\"", "\"BUTTON3\":\"" + MakeTimesigChangesString(chart.TimeSigChanges) + "\""); // metadata
         }
     }
 }
