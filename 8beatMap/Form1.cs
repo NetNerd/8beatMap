@@ -230,7 +230,7 @@ namespace _8beatMap
                     if ((i - timesig.StartTick) % (timesig.Numerator * 48 / timesig.Denominator) == 0) // bars
                     {
                         Grfx.FillRectangle(BarLineBrush, 0, height - (float)(i - startTick + ShiftYTicks) * tickHeight - 3, width, 3);
-                        if (!DrawBarNumsAfter) Grfx.DrawString((i / 48 + 1).ToString(), BarNumFont, BarTextBrush, 0, height - (float)(i - startTick + ShiftYTicks) * tickHeight - 4 - (int)Math.Round(BarNumSize));
+                        if (!DrawBarNumsAfter) Grfx.DrawString((timesig.StartBar + (i - timesig.StartTick) / (timesig.Numerator * 48 / timesig.Denominator) + 1).ToString(), BarNumFont, BarTextBrush, 0, height - (float)(i - startTick + ShiftYTicks) * tickHeight - 4 - (int)Math.Round(BarNumSize));
                     }
                     else if ((i - timesig.StartTick) % (48 / timesig.Denominator) == 0) // notes of denominator length -- 48 = one whole note (four quarters)
                     {
@@ -255,7 +255,7 @@ namespace _8beatMap
                     if ((i - timesig.StartTick) % (timesig.Numerator * 48 / timesig.Denominator) == 0)
                     {
                         // draw bar number after all notes to avoid rendering issue when over holds
-                        Grfx.DrawString((i / 48 + 1).ToString(), BarNumFont, BarTextBrush, 0, height - (float)(i - startTick + ShiftYTicks) * tickHeight - 4 - (int)Math.Round(BarNumSize));
+                        Grfx.DrawString((timesig.StartBar + (i - timesig.StartTick) / (timesig.Numerator * 48 / timesig.Denominator) + 1).ToString(), BarNumFont, BarTextBrush, 0, height - (float)(i - startTick + ShiftYTicks) * tickHeight - 4 - (int)Math.Round(BarNumSize));
                     }
                 }
             }
@@ -1050,7 +1050,8 @@ namespace _8beatMap
                 {
                     if (key == Keys.C)
                     {
-                        int copylen = (int)(48 * CopyLengthBox.Value);
+                        Notedata.TimeSigChange timesig = chart.GetTimeSigForTick((int)CurrentTick);
+                        int copylen = (int)((timesig.Numerator * 48 / timesig.Denominator) * CopyLengthBox.Value);
                         if ((int)CurrentTick + copylen >= chart.Length) copylen = chart.Length - (int)CurrentTick;
 
                         Notedata.Tick[] copydata = new Notedata.Tick[copylen];

@@ -61,8 +61,9 @@ namespace _8beatMap
         public struct TimeSigChange
         {
             public int StartTick;
+            public int StartBar;
             public int Numerator; // numerator: number of notes (length = 1/denominator) in a bar
-            public int Denominator; // denominator: base note length (remember that 12 ticks is always a quarter note)
+            public int Denominator; // denominator: base note length (remember that 12 ticks is always a quarter note) -- denominators above 48 will cause crashes, and ones that aren't a factor of 48 will be weird
         }
 
         public struct Chart
@@ -389,7 +390,7 @@ namespace _8beatMap
                     }
                 }
 
-                return new TimeSigChange { StartTick = 0, Numerator = 4, Denominator = 4 }; // fallback
+                return new TimeSigChange { StartTick = 0, StartBar = 0, Numerator = 4, Denominator = 4 }; // fallback
             }
 
 
