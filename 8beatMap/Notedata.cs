@@ -58,6 +58,14 @@ namespace _8beatMap
         }
 
 
+        public struct TimeSigChange
+        {
+            public int StartTick;
+            public int StartBar;
+            public int Numerator; // numerator: number of notes (length = 1/denominator) in a bar
+            public int Denominator; // denominator: base note length (remember that 12 ticks is always a quarter note) -- denominators above 48 will cause crashes, and ones that aren't a factor of 48 will be weird
+        }
+
         public struct Chart
         {
             private string ChartName;
@@ -266,6 +274,7 @@ namespace _8beatMap
 
             public double BPM;
 
+            public TimeSigChange[] TimeSigChanges;
 
 
             private bool[,] UsedSwipes;
@@ -369,6 +378,19 @@ namespace _8beatMap
             public double ConvertTimeToTicks(TimeSpan time)
             {
                 return time.TotalSeconds / (double)(5 / BPM);
+            }
+
+            public TimeSigChange GetTimeSigForTick(int tick)
+            {
+                if (TimeSigChanges != null && TimeSigChanges.Length > 0)
+                {
+                    foreach (TimeSigChange sig in TimeSigChanges.Reverse())
+                    {
+                        if (sig.StartTick <= tick) return sig;
+                    }
+                }
+
+                return new TimeSigChange { StartTick = 0, StartBar = 0, Numerator = 4, Denominator = 4 }; // fallback
             }
 
 
@@ -522,6 +544,7 @@ namespace _8beatMap
                 this.BPM = BPM;
                 UsedSwipes = null;
                 ChartFilePath = null;
+                TimeSigChanges = null;
             }
         }
 
@@ -596,6 +619,38 @@ namespace _8beatMap
             return i;
         }
 
+        private static string MakeTimesigChangesString(TimeSigChange[] timesigs)
+        {
+            string ret = "";
+
+            if (timesigs == null) return ret;
+            
+            foreach (TimeSigChange timesig in timesigs)
+            {
+                ret += timesig.StartBar.ToString() + "," + timesig.StartTick.ToString() + "," + timesig.Numerator.ToString() + "," + timesig.Denominator.ToString() + ";";
+            }
+
+            if (ret.Length > 0) ret = ret.Remove(ret.Length - 1); // remove trailing semicolon
+
+            return ret;
+        }
+
+        private static TimeSigChange[] ReadTimesigChangesFromString(string str)
+        {
+            if (str.Length == 0) return null;
+
+            List<TimeSigChange> retlist = new List<TimeSigChange>();
+
+            foreach (string def in str.Split(';'))
+            {
+                string[] defsplit = def.Split(',');
+
+                retlist.Add(new TimeSigChange { StartBar = SafeParseInt(defsplit[0]), StartTick = SafeParseInt(defsplit[1]), Numerator = SafeParseInt(defsplit[2]), Denominator = SafeParseInt(defsplit[3]) });
+            }
+
+            return retlist.ToArray();
+        }
+
         public static Chart ConvertJsonToChart(string json)
         {
             var tickObj = JsonConvert.DeserializeObject<JsonTick_Import[]>(json);
@@ -618,11 +673,29 @@ namespace _8beatMap
             {
                 if(tickObj[0].BUTTON1.Length > 0) chart.SongName = tickObj[0].BUTTON1;
                 if (tickObj[0].BUTTON2.Length > 0) chart.Author = tickObj[0].BUTTON2;
+                if (tickObj[0].BUTTON3.Length > 0)
+                {
+                    try
+                    {
+                        chart.TimeSigChanges = ReadTimesigChangesFromString(tickObj[0].BUTTON3);
+                    }
+                    catch
+                    { }
+                }
             }
             else if (gotBPM && tickObj[0].B1 != null)
             {
                 if (tickObj[0].B1.Length > 0) chart.SongName = tickObj[0].B1;
                 if (tickObj[0].B2.Length > 0) chart.Author = tickObj[0].B2;
+                if (tickObj[0].B3.Length > 0)
+                {
+                    try
+                    {
+                        chart.TimeSigChanges = ReadTimesigChangesFromString(tickObj[0].B3);
+                    }
+                    catch
+                    { }
+                }
             }
 
             if (!gotBPM) // there may be data in tick 0
@@ -683,7 +756,7 @@ namespace _8beatMap
 
             return JsonConvert.SerializeObject(tickObj).Replace("null", "\"\"").Replace(":0", ":\"\"") // empty/null should be stored as empty string
                 .Replace("R\":\"\"", "R\":0").Replace("T\":\"\"", "T\":0") // convert baR/beaT 0 back to integer
-                .ReplaceFirst("\"BUTTON1\":\"\"", "\"BUTTON1\":\"" + chart.SongName + "\"").ReplaceFirst("\"BUTTON2\":\"\"", "\"BUTTON2\":\"" + chart.Author + "\""); // metadata
+                .ReplaceFirst("\"BUTTON1\":\"\"", "\"BUTTON1\":\"" + chart.SongName + "\"").ReplaceFirst("\"BUTTON2\":\"\"", "\"BUTTON2\":\"" + chart.Author + "\"").ReplaceFirst("\"BUTTON3\":\"\"", "\"BUTTON3\":\"" + MakeTimesigChangesString(chart.TimeSigChanges) + "\""); // metadata
         }
 
         public static String ConvertChartToJson_Small(Chart chart)
@@ -724,7 +797,7 @@ namespace _8beatMap
 
             return JsonConvert.SerializeObject(tickObj).Replace("null", "\"\"").Replace(":0", ":\"\"") // empty/null should be stored as empty string
                 .Replace("R\":\"\"", "R\":0").Replace("T\":\"\"", "T\":0") // convert baR/beaT 0 back to integer
-                .ReplaceFirst("\"BUTTON1\":\"\"", "\"BUTTON1\":\"" + chart.SongName + "\"").ReplaceFirst("\"BUTTON2\":\"\"", "\"BUTTON2\":\"" + chart.Author + "\""); // metadata
+                .ReplaceFirst("\"BUTTON1\":\"\"", "\"BUTTON1\":\"" + chart.SongName + "\"").ReplaceFirst("\"BUTTON2\":\"\"", "\"BUTTON2\":\"" + chart.Author + "\"").ReplaceFirst("\"BUTTON3\":\"\"", "\"BUTTON3\":\"" + MakeTimesigChangesString(chart.TimeSigChanges) + "\""); // metadata
         }
     }
 }
