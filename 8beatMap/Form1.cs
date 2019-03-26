@@ -370,6 +370,11 @@ namespace _8beatMap
             chart.Length = NewLen;
             ResizeScrollbar();
             SetCurrTick(CurrentTick);
+
+            Notedata.TimeSigChange lastticktimesig = chart.GetTimeSigForTick(chart.Length - 1);
+            //ResizeBox.Value = chart.Length / 48;
+            ResizeBox.Value = lastticktimesig.StartBar + (chart.Length - lastticktimesig.StartTick) / (lastticktimesig.Numerator * 48 / lastticktimesig.Denominator); // bar of last timesig change + ticks left in chart / ticks in a bar
+
             UpdateChart();
         }
 
