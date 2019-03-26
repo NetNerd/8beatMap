@@ -172,7 +172,9 @@ namespace _8beatMap
                 if (i >= chart.Length) break;
                 if (i < 0) i = 0;
 
-                if (i % 48 == 0)
+                Notedata.TimeSigChange timesig = chart.GetTimeSigForTick(i);
+
+                if ((i - timesig.StartTick) % (timesig.Numerator * 48 / timesig.Denominator) == 0)
                 {
                     Grfx.FillRectangle(BarLineBrush, 0, height - (float)(i - startTick + ShiftYTicks) * tickHeight - 2, width, 1);
                 }
@@ -225,16 +227,16 @@ namespace _8beatMap
 
                 if (!NoGrid)
                 {
-                    if (i % 48 == 0)
+                    if ((i - timesig.StartTick) % (timesig.Numerator * 48 / timesig.Denominator) == 0) // bars
                     {
                         Grfx.FillRectangle(BarLineBrush, 0, height - (float)(i - startTick + ShiftYTicks) * tickHeight - 3, width, 3);
                         if (!DrawBarNumsAfter) Grfx.DrawString((i / 48 + 1).ToString(), BarNumFont, BarTextBrush, 0, height - (float)(i - startTick + ShiftYTicks) * tickHeight - 4 - (int)Math.Round(BarNumSize));
                     }
-                    else if (i % 12 == 0)
+                    else if ((i - timesig.StartTick) % (48 / timesig.Denominator) == 0) // notes of denominator length -- 48 = one whole note (four quarters)
                     {
                         Grfx.FillRectangle(QuarterLineBrush, 0, height - (float)(i - startTick + ShiftYTicks) * tickHeight - 2, width, 1);
                     }
-                    else if (i % 6 == 0)
+                    else if ((i - timesig.StartTick) % (24 / timesig.Denominator) == 0) // notes of half denominator length
                     {
                         Grfx.FillRectangle(EigthLineBrush, 0, height - (float)(i - startTick + ShiftYTicks) * tickHeight - 2, width, 1);
                     }
@@ -248,7 +250,9 @@ namespace _8beatMap
                     if (i >= chart.Length) break;
                     if (i < 0) i = 0;
 
-                    if (i % 48 == 0)
+                    Notedata.TimeSigChange timesig = chart.GetTimeSigForTick(i);
+
+                    if ((i - timesig.StartTick) % (timesig.Numerator * 48 / timesig.Denominator) == 0)
                     {
                         // draw bar number after all notes to avoid rendering issue when over holds
                         Grfx.DrawString((i / 48 + 1).ToString(), BarNumFont, BarTextBrush, 0, height - (float)(i - startTick + ShiftYTicks) * tickHeight - 4 - (int)Math.Round(BarNumSize));

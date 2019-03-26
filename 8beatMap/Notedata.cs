@@ -58,6 +58,13 @@ namespace _8beatMap
         }
 
 
+        public struct TimeSigChange
+        {
+            public int StartTick;
+            public int Numerator; // numerator: number of notes (length = 1/denominator) in a bar
+            public int Denominator; // denominator: base note length (remember that 12 ticks is always a quarter note)
+        }
+
         public struct Chart
         {
             private string ChartName;
@@ -266,6 +273,7 @@ namespace _8beatMap
 
             public double BPM;
 
+            public TimeSigChange[] TimeSigChanges;
 
 
             private bool[,] UsedSwipes;
@@ -369,6 +377,19 @@ namespace _8beatMap
             public double ConvertTimeToTicks(TimeSpan time)
             {
                 return time.TotalSeconds / (double)(5 / BPM);
+            }
+
+            public TimeSigChange GetTimeSigForTick(int tick)
+            {
+                if (TimeSigChanges != null)
+                {
+                    foreach (TimeSigChange sig in TimeSigChanges)
+                    {
+                        if (sig.StartTick <= tick) return sig;
+                    }
+                }
+
+                return new TimeSigChange { StartTick = 0, Numerator = 4, Denominator = 4 }; // fallback
             }
 
 
@@ -522,6 +543,7 @@ namespace _8beatMap
                 this.BPM = BPM;
                 UsedSwipes = null;
                 ChartFilePath = null;
+                TimeSigChanges = null;
             }
         }
 
