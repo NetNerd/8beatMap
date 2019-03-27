@@ -648,6 +648,8 @@ namespace _8beatMap
         static int DefaultMusicDelayMs = 10;
         int MusicDelayMs = DefaultMusicDelayMs;
         bool UseBeepNoteSounds = false;
+        DateTime LastSwipeSoundTime = DateTime.UtcNow;
+        TimeSpan ConnectedSwipeSoundTimeout = TimeSpan.FromMilliseconds(165);
 
         private void playtimer_Tick(object sender, EventArgs e)
         {
@@ -692,8 +694,9 @@ namespace _8beatMap
                                 }
 
                                 else if ((note.DetectType == NoteTypes.DetectType.SwipeEndPoint & !chart.Ticks[i].Notes[j].IsSwipeEnd) ||
-                                         note.DetectType == NoteTypes.DetectType.SwipeDirChange || note.DetectType == NoteTypes.DetectType.Flick ||
-                                         note.DetectType == NoteTypes.DetectType.HoldEndFlick || note.DetectType == NoteTypes.DetectType.GbsFlick)
+                                         note.DetectType == NoteTypes.DetectType.Flick || note.DetectType == NoteTypes.DetectType.HoldEndFlick ||
+                                         note.DetectType == NoteTypes.DetectType.GbsFlick ||
+                                         (note.DetectType == NoteTypes.DetectType.SwipeDirChange && LastSwipeSoundTime + ConnectedSwipeSoundTimeout < DateTime.UtcNow))
                                 {
                                     //Sound.PlayNoteSound(Sound.NoteSoundWave_Swipe);
                                     Sound.NoteSoundTrim = new NAudio.Wave.SampleProviders.OffsetSampleProvider(new Sound.CachedSoundSampleProvider(Sound.NoteSoundWave_Swipe));
@@ -707,6 +710,8 @@ namespace _8beatMap
                                        Sound.NoteSoundTrim.SkipOver = TimeSpan.FromMilliseconds(30 - DefaultMusicDelayMs);
 
                                     Sound.PlayNoteSound(Sound.NoteSoundTrim);
+
+                                    LastSwipeSoundTime = DateTime.UtcNow;
                                 }
                             }
 
