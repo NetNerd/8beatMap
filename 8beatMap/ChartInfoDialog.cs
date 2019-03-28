@@ -25,6 +25,10 @@ namespace _8beatMap
             this.Font = new Font(SystemFonts.MessageBoxFont.FontFamily, 8.8f);
             //this.Font = new System.Drawing.Font(System.Drawing.SystemFonts.MessageBoxFont.FontFamily, System.Drawing.SystemFonts.MessageBoxFont.SizeInPoints);
             this.AutoScaleMode = AutoScaleMode.None;
+            this.TimesigStartBarColumn.ValueType = typeof(int);
+            this.TimesigStartTickColumn.ValueType = typeof(int);
+            this.TimesigNumeratorColumn.ValueType = typeof(int);
+            this.TimesigDenominatorColumn.ValueType = typeof(int);
             this.ResumeLayout(false);
             this.PerformLayout();
         }

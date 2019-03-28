@@ -38,10 +38,10 @@
             this.TimesigsBox = new System.Windows.Forms.TextBox();
             this.TimesigsLbl = new System.Windows.Forms.Label();
             this.TimesigsGrid = new System.Windows.Forms.DataGridView();
-            this.StartBarColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.StartTickColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SigNumeratorColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SigDenominatorColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TimesigStartBarColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TimesigStartTickColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TimesigNumeratorColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TimesigDenominatorColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.TimesigsGrid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -95,43 +95,39 @@
             // 
             this.TimesigsGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.TimesigsGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.StartBarColumn,
-            this.StartTickColumn,
-            this.SigNumeratorColumn,
-            this.SigDenominatorColumn});
+            this.TimesigStartBarColumn,
+            this.TimesigStartTickColumn,
+            this.TimesigNumeratorColumn,
+            this.TimesigDenominatorColumn});
             this.TimesigsGrid.EnableHeadersVisualStyles = false;
             resources.ApplyResources(this.TimesigsGrid, "TimesigsGrid");
             this.TimesigsGrid.Name = "TimesigsGrid";
             this.TimesigsGrid.RowHeadersVisible = false;
             this.TimesigsGrid.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.TimesigsGrid_DataError);
             // 
-            // StartBarColumn
+            // TimesigStartBarColumn
             // 
-            resources.ApplyResources(this.StartBarColumn, "StartBarColumn");
-            this.StartBarColumn.Name = "StartBarColumn";
-            this.StartBarColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.StartBarColumn.ValueType = typeof(int);
+            resources.ApplyResources(this.TimesigStartBarColumn, "TimesigStartBarColumn");
+            this.TimesigStartBarColumn.Name = "TimesigStartBarColumn";
+            this.TimesigStartBarColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
-            // StartTickColumn
+            // TimesigStartTickColumn
             // 
-            resources.ApplyResources(this.StartTickColumn, "StartTickColumn");
-            this.StartTickColumn.Name = "StartTickColumn";
-            this.StartTickColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.StartTickColumn.ValueType = typeof(int);
+            resources.ApplyResources(this.TimesigStartTickColumn, "TimesigStartTickColumn");
+            this.TimesigStartTickColumn.Name = "TimesigStartTickColumn";
+            this.TimesigStartTickColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
-            // SigNumeratorColumn
+            // TimesigNumeratorColumn
             // 
-            resources.ApplyResources(this.SigNumeratorColumn, "SigNumeratorColumn");
-            this.SigNumeratorColumn.Name = "SigNumeratorColumn";
-            this.SigNumeratorColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.SigNumeratorColumn.ValueType = typeof(int);
+            resources.ApplyResources(this.TimesigNumeratorColumn, "TimesigNumeratorColumn");
+            this.TimesigNumeratorColumn.Name = "TimesigNumeratorColumn";
+            this.TimesigNumeratorColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
-            // SigDenominatorColumn
+            // TimesigDenominatorColumn
             // 
-            resources.ApplyResources(this.SigDenominatorColumn, "SigDenominatorColumn");
-            this.SigDenominatorColumn.Name = "SigDenominatorColumn";
-            this.SigDenominatorColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.SigDenominatorColumn.ValueType = typeof(int);
+            resources.ApplyResources(this.TimesigDenominatorColumn, "TimesigDenominatorColumn");
+            this.TimesigDenominatorColumn.Name = "TimesigDenominatorColumn";
+            this.TimesigDenominatorColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // ChartInfoDialog
             // 
@@ -170,9 +166,9 @@
         private System.Windows.Forms.TextBox TimesigsBox;
         private System.Windows.Forms.Label TimesigsLbl;
         private System.Windows.Forms.DataGridView TimesigsGrid;
-        private System.Windows.Forms.DataGridViewTextBoxColumn StartBarColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn StartTickColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn SigNumeratorColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn SigDenominatorColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TimesigStartBarColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TimesigStartTickColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TimesigNumeratorColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TimesigDenominatorColumn;
     }
 }

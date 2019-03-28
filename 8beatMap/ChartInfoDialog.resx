@@ -150,7 +150,7 @@
     <value>126, 14</value>
   </data>
   <data name="SongNameBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>216, 20</value>
+    <value>266, 21</value>
   </data>
   <data name="SongNameBox.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -171,7 +171,7 @@
     <value>126, 41</value>
   </data>
   <data name="AuthorBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>216, 20</value>
+    <value>266, 21</value>
   </data>
   <data name="AuthorBox.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -223,13 +223,13 @@
     <value>Bottom, Right</value>
   </data>
   <data name="OKBtn.Location" type="System.Drawing.Point, System.Drawing">
-    <value>186, 247</value>
+    <value>236, 247</value>
   </data>
   <data name="OKBtn.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
   </data>
   <data name="OKBtn.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="OKBtn.Text" xml:space="preserve">
     <value>&amp;OK</value>
@@ -253,13 +253,13 @@
     <value>NoControl</value>
   </data>
   <data name="CancelBtn.Location" type="System.Drawing.Point, System.Drawing">
-    <value>267, 247</value>
+    <value>317, 247</value>
   </data>
   <data name="CancelBtn.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
   </data>
   <data name="CancelBtn.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="CancelBtn.Text" xml:space="preserve">
     <value>&amp;Cancel</value>
@@ -280,7 +280,7 @@
     <value>126, 67</value>
   </data>
   <data name="TimesigsBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>216, 20</value>
+    <value>266, 21</value>
   </data>
   <data name="TimesigsBox.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -330,26 +330,50 @@
   <data name="&gt;&gt;TimesigsLbl.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <metadata name="StartBarColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <metadata name="TimesigStartBarColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <metadata name="StartTickColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="TimesigStartBarColumn.HeaderText" xml:space="preserve">
+    <value>Start Bar</value>
+  </data>
+  <data name="TimesigStartBarColumn.Width" type="System.Int32, mscorlib">
+    <value>45</value>
+  </data>
+  <metadata name="TimesigStartTickColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <metadata name="SigNumeratorColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="TimesigStartTickColumn.HeaderText" xml:space="preserve">
+    <value>Start Tick</value>
+  </data>
+  <data name="TimesigStartTickColumn.Width" type="System.Int32, mscorlib">
+    <value>45</value>
+  </data>
+  <metadata name="TimesigNumeratorColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <metadata name="SigDenominatorColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="TimesigNumeratorColumn.HeaderText" xml:space="preserve">
+    <value>Numerator</value>
+  </data>
+  <data name="TimesigNumeratorColumn.Width" type="System.Int32, mscorlib">
+    <value>75</value>
+  </data>
+  <metadata name="TimesigDenominatorColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <data name="TimesigDenominatorColumn.HeaderText" xml:space="preserve">
+    <value>Denominator</value>
+  </data>
+  <data name="TimesigDenominatorColumn.Width" type="System.Int32, mscorlib">
+    <value>83</value>
+  </data>
   <data name="TimesigsGrid.Location" type="System.Drawing.Point, System.Drawing">
     <value>126, 91</value>
   </data>
   <data name="TimesigsGrid.Size" type="System.Drawing.Size, System.Drawing">
-    <value>216, 150</value>
+    <value>266, 150</value>
   </data>
   <data name="TimesigsGrid.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
+    <value>6</value>
   </data>
   <data name="&gt;&gt;TimesigsGrid.Name" xml:space="preserve">
     <value>TimesigsGrid</value>
@@ -363,47 +387,11 @@
   <data name="&gt;&gt;TimesigsGrid.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <metadata name="StartBarColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <data name="StartBarColumn.HeaderText" xml:space="preserve">
-    <value>Start Bar</value>
-  </data>
-  <data name="StartBarColumn.Width" type="System.Int32, mscorlib">
-    <value>38</value>
-  </data>
-  <metadata name="StartTickColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <data name="StartTickColumn.HeaderText" xml:space="preserve">
-    <value>Start Tick</value>
-  </data>
-  <data name="StartTickColumn.Width" type="System.Int32, mscorlib">
-    <value>38</value>
-  </data>
-  <metadata name="SigNumeratorColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <data name="SigNumeratorColumn.HeaderText" xml:space="preserve">
-    <value>Numerator</value>
-  </data>
-  <data name="SigNumeratorColumn.Width" type="System.Int32, mscorlib">
-    <value>63</value>
-  </data>
-  <metadata name="SigDenominatorColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <data name="SigDenominatorColumn.HeaderText" xml:space="preserve">
-    <value>Denominator</value>
-  </data>
-  <data name="SigDenominatorColumn.Width" type="System.Int32, mscorlib">
-    <value>74</value>
-  </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>354, 282</value>
+    <value>404, 282</value>
   </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterScreen</value>
@@ -411,28 +399,28 @@
   <data name="$this.Text" xml:space="preserve">
     <value>8beatMap Chart Info</value>
   </data>
-  <data name="&gt;&gt;StartBarColumn.Name" xml:space="preserve">
-    <value>StartBarColumn</value>
+  <data name="&gt;&gt;TimesigStartBarColumn.Name" xml:space="preserve">
+    <value>TimesigStartBarColumn</value>
   </data>
-  <data name="&gt;&gt;StartBarColumn.Type" xml:space="preserve">
+  <data name="&gt;&gt;TimesigStartBarColumn.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;StartTickColumn.Name" xml:space="preserve">
-    <value>StartTickColumn</value>
+  <data name="&gt;&gt;TimesigStartTickColumn.Name" xml:space="preserve">
+    <value>TimesigStartTickColumn</value>
   </data>
-  <data name="&gt;&gt;StartTickColumn.Type" xml:space="preserve">
+  <data name="&gt;&gt;TimesigStartTickColumn.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;SigNumeratorColumn.Name" xml:space="preserve">
-    <value>SigNumeratorColumn</value>
+  <data name="&gt;&gt;TimesigNumeratorColumn.Name" xml:space="preserve">
+    <value>TimesigNumeratorColumn</value>
   </data>
-  <data name="&gt;&gt;SigNumeratorColumn.Type" xml:space="preserve">
+  <data name="&gt;&gt;TimesigNumeratorColumn.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;SigDenominatorColumn.Name" xml:space="preserve">
-    <value>SigDenominatorColumn</value>
+  <data name="&gt;&gt;TimesigDenominatorColumn.Name" xml:space="preserve">
+    <value>TimesigDenominatorColumn</value>
   </data>
-  <data name="&gt;&gt;SigDenominatorColumn.Type" xml:space="preserve">
+  <data name="&gt;&gt;TimesigDenominatorColumn.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
