@@ -107,6 +107,7 @@
             this.TimesigsGrid.Name = "TimesigsGrid";
             this.TimesigsGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.TimesigsGrid.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.TimesigsGrid_DataError);
+            this.TimesigsGrid.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TimesigsGrid_KeyDown);
             // 
             // TimesigStartBarColumn
             // 

@@ -95,5 +95,41 @@ namespace _8beatMap
         {
             e.Cancel = false; // suppress the error message and use last value
         }
+
+        private void TimesigsGrid_KeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                Keys key = e.KeyCode;
+
+                if (ModifierKeys == Keys.Control)
+                {
+                    if (key == Keys.V)
+                    {
+                        string pastestr = Clipboard.GetText();
+                        string[] pastelines = pastestr.Split('\n');
+
+                        int currrow = TimesigsGrid.CurrentCell.RowIndex;
+                        int currcol = TimesigsGrid.CurrentCell.ColumnIndex;
+
+                        if (pastelines.Length + currrow >= TimesigsGrid.Rows.Count)
+                            TimesigsGrid.Rows.Add(1 + pastelines.Length + currrow - TimesigsGrid.Rows.Count);
+
+                        for (int i = 0; i < pastelines.Length; i++)
+                        {
+                            string[] pastelinecells = pastelines[i].Split('\t');
+                            
+                            for (int j = 0; j < pastelinecells.Length && j < TimesigsGrid.Rows[i + currrow].Cells.Count - currcol; j++)
+                                TimesigsGrid.Rows[i + currrow].Cells[j + currcol].Value = pastelinecells[j];
+                        }
+
+                        e.Handled = true;
+                        e.SuppressKeyPress = true;
+                    }
+                }
+            }
+            catch
+            { }
+        }
     }
 }
