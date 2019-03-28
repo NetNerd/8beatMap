@@ -135,4 +135,28 @@
   <data name="TimesigsLbl.Text" xml:space="preserve">
     <value>拍子：</value>
   </data>
+  <data name="TimesigDenominatorColumn.HeaderText" xml:space="preserve">
+    <value>分</value>
+  </data>
+  <data name="TimesigNumeratorColumn.HeaderText" xml:space="preserve">
+    <value>拍子</value>
+  </data>
+  <data name="TimesigStartBarColumn.HeaderText" xml:space="preserve">
+    <value>小節数</value>
+  </data>
+  <data name="TimesigStartTickColumn.HeaderText" xml:space="preserve">
+    <value>開始ティック(時間)</value>
+  </data>
+  <data name="TimesigDenominatorColumn.Width" type="System.Int32, mscorlib">
+    <value>40</value>
+  </data>
+  <data name="TimesigNumeratorColumn.Width" type="System.Int32, mscorlib">
+    <value>50</value>
+  </data>
+  <data name="TimesigStartBarColumn.Width" type="System.Int32, mscorlib">
+    <value>65</value>
+  </data>
+  <data name="TimesigStartTickColumn.Width" type="System.Int32, mscorlib">
+    <value>120</value>
+  </data>
 </root>
