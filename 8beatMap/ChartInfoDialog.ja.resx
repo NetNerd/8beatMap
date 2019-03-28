@@ -129,4 +129,10 @@
   <data name="OKBtn.Text" xml:space="preserve">
     <value>&amp;OK</value>
   </data>
+  <data name="TimesigsBox.Text" xml:space="preserve">
+    <value>このページを読んでください： https://github.com/NetNerd/8beatMap/wiki/%E6%8B%8D%E5%AD%90%E3%82%92%E5%A4%89%E3%82%8F%E3%82%8B-(Using-non-4:4-time-signatures)</value>
+  </data>
+  <data name="TimesigsLbl.Text" xml:space="preserve">
+    <value>拍子：</value>
+  </data>
 </root>
