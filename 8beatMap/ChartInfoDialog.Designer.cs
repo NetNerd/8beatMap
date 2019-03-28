@@ -93,6 +93,9 @@
             // 
             // TimesigsGrid
             // 
+            this.TimesigsGrid.AllowUserToResizeColumns = false;
+            this.TimesigsGrid.AllowUserToResizeRows = false;
+            this.TimesigsGrid.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
             this.TimesigsGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.TimesigsGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.TimesigStartBarColumn,
@@ -102,7 +105,7 @@
             this.TimesigsGrid.EnableHeadersVisualStyles = false;
             resources.ApplyResources(this.TimesigsGrid, "TimesigsGrid");
             this.TimesigsGrid.Name = "TimesigsGrid";
-            this.TimesigsGrid.RowHeadersVisible = false;
+            this.TimesigsGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.TimesigsGrid.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.TimesigsGrid_DataError);
             // 
             // TimesigStartBarColumn

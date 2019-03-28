@@ -150,7 +150,7 @@
     <value>126, 14</value>
   </data>
   <data name="SongNameBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>266, 21</value>
+    <value>326, 21</value>
   </data>
   <data name="SongNameBox.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -171,7 +171,7 @@
     <value>126, 41</value>
   </data>
   <data name="AuthorBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>266, 21</value>
+    <value>326, 21</value>
   </data>
   <data name="AuthorBox.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -223,13 +223,13 @@
     <value>Bottom, Right</value>
   </data>
   <data name="OKBtn.Location" type="System.Drawing.Point, System.Drawing">
-    <value>236, 247</value>
+    <value>296, 247</value>
   </data>
   <data name="OKBtn.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
   </data>
   <data name="OKBtn.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
+    <value>6</value>
   </data>
   <data name="OKBtn.Text" xml:space="preserve">
     <value>&amp;OK</value>
@@ -253,13 +253,13 @@
     <value>NoControl</value>
   </data>
   <data name="CancelBtn.Location" type="System.Drawing.Point, System.Drawing">
-    <value>317, 247</value>
+    <value>377, 247</value>
   </data>
   <data name="CancelBtn.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
   </data>
   <data name="CancelBtn.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
+    <value>7</value>
   </data>
   <data name="CancelBtn.Text" xml:space="preserve">
     <value>&amp;Cancel</value>
@@ -280,7 +280,7 @@
     <value>126, 67</value>
   </data>
   <data name="TimesigsBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>266, 21</value>
+    <value>326, 21</value>
   </data>
   <data name="TimesigsBox.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -337,7 +337,7 @@
     <value>Start Bar</value>
   </data>
   <data name="TimesigStartBarColumn.Width" type="System.Int32, mscorlib">
-    <value>45</value>
+    <value>50</value>
   </data>
   <metadata name="TimesigStartTickColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -346,7 +346,7 @@
     <value>Start Tick</value>
   </data>
   <data name="TimesigStartTickColumn.Width" type="System.Int32, mscorlib">
-    <value>45</value>
+    <value>50</value>
   </data>
   <metadata name="TimesigNumeratorColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -355,7 +355,7 @@
     <value>Numerator</value>
   </data>
   <data name="TimesigNumeratorColumn.Width" type="System.Int32, mscorlib">
-    <value>75</value>
+    <value>85</value>
   </data>
   <metadata name="TimesigDenominatorColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -364,16 +364,19 @@
     <value>Denominator</value>
   </data>
   <data name="TimesigDenominatorColumn.Width" type="System.Int32, mscorlib">
-    <value>83</value>
+    <value>90</value>
   </data>
   <data name="TimesigsGrid.Location" type="System.Drawing.Point, System.Drawing">
-    <value>126, 91</value>
+    <value>126, 92</value>
+  </data>
+  <data name="TimesigsGrid.RowHeadersWidth" type="System.Int32, mscorlib">
+    <value>30</value>
   </data>
   <data name="TimesigsGrid.Size" type="System.Drawing.Size, System.Drawing">
-    <value>266, 150</value>
+    <value>326, 148</value>
   </data>
   <data name="TimesigsGrid.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
+    <value>8</value>
   </data>
   <data name="&gt;&gt;TimesigsGrid.Name" xml:space="preserve">
     <value>TimesigsGrid</value>
@@ -391,7 +394,7 @@
     <value>True</value>
   </metadata>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>404, 282</value>
+    <value>464, 282</value>
   </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterScreen</value>

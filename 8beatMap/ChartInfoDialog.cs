@@ -40,6 +40,9 @@ namespace _8beatMap
             Skinning.SetForeCol(this, skin.UIColours[UIColours.UIColourDefs.Form_Text.TypeName]);
             Skinning.SetUIStyle(this, skin.UIStyle);
 
+            TimesigsGrid.DefaultCellStyle.ForeColor = SystemColors.ControlText; // reset these because they inherit incorrectly
+            TimesigsGrid.DefaultCellStyle.BackColor = SystemColors.Window;
+
             SongNameBox.Text = songname;
             AuthorBox.Text = author;
 
@@ -49,13 +52,6 @@ namespace _8beatMap
                 foreach (Notedata.TimeSigChange sig in timesigsconverted)
                 {
                     TimesigsGrid.Rows.Add(new object[] { sig.StartBar, sig.StartTick, sig.Numerator, sig.Denominator });
-                    //DataGridViewRow row = new DataGridViewRow();
-                    //row.Cells.Add(new DataGridViewTextBoxCell() { ValueType = typeof(int), Value = sig.StartBar });
-                    //row.Cells.Add(new DataGridViewTextBoxCell() { ValueType = typeof(int), Value = sig.StartTick });
-                    //row.Cells.Add(new DataGridViewTextBoxCell() { ValueType = typeof(int), Value = sig.Numerator });
-                    //row.Cells.Add(new DataGridViewTextBoxCell() { ValueType = typeof(int), Value = sig.Denominator });
-
-                    //TimesigsGrid.Rows.Add(row);
                 }
             }
         }
