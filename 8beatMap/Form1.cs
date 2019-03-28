@@ -1315,6 +1315,8 @@ namespace _8beatMap
                 chart.Author = chartInfo.result[1];
                 if (chartInfo.result[2] != "nochange")
                     chart.TimeSigChanges = Notedata.ReadTimesigChangesFromString(chartInfo.result[2]);
+
+                UpdateChart();
             }
             chartInfo.Dispose();
 
