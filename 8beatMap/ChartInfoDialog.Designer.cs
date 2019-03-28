@@ -37,6 +37,12 @@
             this.CancelBtn = new System.Windows.Forms.Button();
             this.TimesigsBox = new System.Windows.Forms.TextBox();
             this.TimesigsLbl = new System.Windows.Forms.Label();
+            this.TimesigsGrid = new System.Windows.Forms.DataGridView();
+            this.StartBarColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.StartTickColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SigNumeratorColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SigDenominatorColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            ((System.ComponentModel.ISupportInitialize)(this.TimesigsGrid)).BeginInit();
             this.SuspendLayout();
             // 
             // SongNameLbl
@@ -78,17 +84,61 @@
             // 
             resources.ApplyResources(this.TimesigsBox, "TimesigsBox");
             this.TimesigsBox.Name = "TimesigsBox";
+            this.TimesigsBox.ReadOnly = true;
             // 
             // TimesigsLbl
             // 
             resources.ApplyResources(this.TimesigsLbl, "TimesigsLbl");
             this.TimesigsLbl.Name = "TimesigsLbl";
             // 
+            // TimesigsGrid
+            // 
+            this.TimesigsGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.TimesigsGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.StartBarColumn,
+            this.StartTickColumn,
+            this.SigNumeratorColumn,
+            this.SigDenominatorColumn});
+            this.TimesigsGrid.EnableHeadersVisualStyles = false;
+            resources.ApplyResources(this.TimesigsGrid, "TimesigsGrid");
+            this.TimesigsGrid.Name = "TimesigsGrid";
+            this.TimesigsGrid.RowHeadersVisible = false;
+            this.TimesigsGrid.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.TimesigsGrid_DataError);
+            // 
+            // StartBarColumn
+            // 
+            resources.ApplyResources(this.StartBarColumn, "StartBarColumn");
+            this.StartBarColumn.Name = "StartBarColumn";
+            this.StartBarColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.StartBarColumn.ValueType = typeof(int);
+            // 
+            // StartTickColumn
+            // 
+            resources.ApplyResources(this.StartTickColumn, "StartTickColumn");
+            this.StartTickColumn.Name = "StartTickColumn";
+            this.StartTickColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.StartTickColumn.ValueType = typeof(int);
+            // 
+            // SigNumeratorColumn
+            // 
+            resources.ApplyResources(this.SigNumeratorColumn, "SigNumeratorColumn");
+            this.SigNumeratorColumn.Name = "SigNumeratorColumn";
+            this.SigNumeratorColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.SigNumeratorColumn.ValueType = typeof(int);
+            // 
+            // SigDenominatorColumn
+            // 
+            resources.ApplyResources(this.SigDenominatorColumn, "SigDenominatorColumn");
+            this.SigDenominatorColumn.Name = "SigDenominatorColumn";
+            this.SigDenominatorColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.SigDenominatorColumn.ValueType = typeof(int);
+            // 
             // ChartInfoDialog
             // 
             this.AcceptButton = this.OKBtn;
             this.CancelButton = this.CancelBtn;
             resources.ApplyResources(this, "$this");
+            this.Controls.Add(this.TimesigsGrid);
             this.Controls.Add(this.TimesigsBox);
             this.Controls.Add(this.TimesigsLbl);
             this.Controls.Add(this.CancelBtn);
@@ -103,6 +153,7 @@
             this.Name = "ChartInfoDialog";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
+            ((System.ComponentModel.ISupportInitialize)(this.TimesigsGrid)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -118,5 +169,10 @@
         private System.Windows.Forms.Button CancelBtn;
         private System.Windows.Forms.TextBox TimesigsBox;
         private System.Windows.Forms.Label TimesigsLbl;
+        private System.Windows.Forms.DataGridView TimesigsGrid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn StartBarColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn StartTickColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SigNumeratorColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SigDenominatorColumn;
     }
 }

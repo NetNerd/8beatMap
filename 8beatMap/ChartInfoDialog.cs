@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 
 namespace _8beatMap
 {
@@ -37,7 +38,22 @@ namespace _8beatMap
 
             SongNameBox.Text = songname;
             AuthorBox.Text = author;
-            if (timesigs.Length > 0) TimesigsBox.Text = timesigs;
+
+            Notedata.TimeSigChange[] timesigsconverted = Notedata.ReadTimesigChangesFromString(timesigs);
+            if (timesigsconverted != null)
+            {
+                foreach (Notedata.TimeSigChange sig in timesigsconverted)
+                {
+                    TimesigsGrid.Rows.Add(new object[] { sig.StartBar, sig.StartTick, sig.Numerator, sig.Denominator });
+                    //DataGridViewRow row = new DataGridViewRow();
+                    //row.Cells.Add(new DataGridViewTextBoxCell() { ValueType = typeof(int), Value = sig.StartBar });
+                    //row.Cells.Add(new DataGridViewTextBoxCell() { ValueType = typeof(int), Value = sig.StartTick });
+                    //row.Cells.Add(new DataGridViewTextBoxCell() { ValueType = typeof(int), Value = sig.Numerator });
+                    //row.Cells.Add(new DataGridViewTextBoxCell() { ValueType = typeof(int), Value = sig.Denominator });
+
+                    //TimesigsGrid.Rows.Add(row);
+                }
+            }
         }
 
         public ChartInfoDialog()
@@ -49,11 +65,23 @@ namespace _8beatMap
 
         private void OKBtn_Click(object sender, EventArgs e)
         {
-            result = new string[3] { SongNameBox.Text, AuthorBox.Text, TimesigsBox.Text };
+            result = new string[3] { SongNameBox.Text, AuthorBox.Text, "nochange" };
             
             try
             {
-                Notedata.ReadTimesigChangesFromString(TimesigsBox.Text);
+                List<Notedata.TimeSigChange> timesigs = new List<Notedata.TimeSigChange>();
+                foreach (DataGridViewRow row in TimesigsGrid.Rows) //DataGridViewRowCollection
+                {
+                    try
+                    {
+                        Notedata.TimeSigChange sig = new Notedata.TimeSigChange { StartBar = int.Parse(row.Cells[0].Value.ToString()), StartTick = int.Parse(row.Cells[1].Value.ToString()), Numerator = int.Parse(row.Cells[2].Value.ToString()), Denominator = int.Parse(row.Cells[3].Value.ToString()) };
+                        timesigs.Add(sig);
+                    }
+                    catch
+                    { }
+
+                }
+                result[2] = Notedata.MakeTimesigChangesString(timesigs.ToArray());
             }
             catch
             {
@@ -61,6 +89,11 @@ namespace _8beatMap
             }
 
             this.Close();
+        }
+
+        private void TimesigsGrid_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            e.Cancel = false; // suppress the error message and use last value
         }
     }
 }
