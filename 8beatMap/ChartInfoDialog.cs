@@ -107,7 +107,19 @@ namespace _8beatMap
                     if (key == Keys.V)
                     {
                         string pastestr = Clipboard.GetText();
-                        string[] pastelines = pastestr.Split('\n');
+                        string[] pastelines;
+                        bool tsvmode;
+
+                        if (pastestr.Contains(";"))
+                        {
+                            pastelines = pastestr.Split(';');
+                            tsvmode = false;
+                        }
+                        else
+                        {
+                            pastelines = pastestr.Split('\n');
+                            tsvmode = true;
+                        }
 
                         int currrow = TimesigsGrid.CurrentCell.RowIndex;
                         int currcol = TimesigsGrid.CurrentCell.ColumnIndex;
@@ -117,8 +129,11 @@ namespace _8beatMap
 
                         for (int i = 0; i < pastelines.Length; i++)
                         {
-                            string[] pastelinecells = pastelines[i].Split('\t');
+                            string[] pastelinecells;
                             
+                            if (tsvmode) pastelinecells = pastelines[i].Split('\t');
+                            else pastelinecells = pastelines[i].Split(',');
+
                             for (int j = 0; j < pastelinecells.Length && j < TimesigsGrid.Rows[i + currrow].Cells.Count - currcol; j++)
                                 TimesigsGrid.Rows[i + currrow].Cells[j + currcol].Value = pastelinecells[j];
                         }
