@@ -35,6 +35,8 @@
             this.AuthorLbl = new System.Windows.Forms.Label();
             this.OKBtn = new System.Windows.Forms.Button();
             this.CancelBtn = new System.Windows.Forms.Button();
+            this.TimesigsBox = new System.Windows.Forms.TextBox();
+            this.TimesigsLbl = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // SongNameLbl
@@ -59,24 +61,36 @@
             // 
             // OKBtn
             // 
-            this.OKBtn.DialogResult = System.Windows.Forms.DialogResult.OK;
             resources.ApplyResources(this.OKBtn, "OKBtn");
+            this.OKBtn.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.OKBtn.Name = "OKBtn";
             this.OKBtn.UseVisualStyleBackColor = true;
             this.OKBtn.Click += new System.EventHandler(this.OKBtn_Click);
             // 
             // CancelBtn
             // 
-            this.CancelBtn.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             resources.ApplyResources(this.CancelBtn, "CancelBtn");
+            this.CancelBtn.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.CancelBtn.Name = "CancelBtn";
             this.CancelBtn.UseVisualStyleBackColor = true;
+            // 
+            // TimesigsBox
+            // 
+            resources.ApplyResources(this.TimesigsBox, "TimesigsBox");
+            this.TimesigsBox.Name = "TimesigsBox";
+            // 
+            // TimesigsLbl
+            // 
+            resources.ApplyResources(this.TimesigsLbl, "TimesigsLbl");
+            this.TimesigsLbl.Name = "TimesigsLbl";
             // 
             // ChartInfoDialog
             // 
             this.AcceptButton = this.OKBtn;
             this.CancelButton = this.CancelBtn;
             resources.ApplyResources(this, "$this");
+            this.Controls.Add(this.TimesigsBox);
+            this.Controls.Add(this.TimesigsLbl);
             this.Controls.Add(this.CancelBtn);
             this.Controls.Add(this.OKBtn);
             this.Controls.Add(this.AuthorBox);
@@ -102,5 +116,7 @@
         private System.Windows.Forms.Label AuthorLbl;
         private System.Windows.Forms.Button OKBtn;
         private System.Windows.Forms.Button CancelBtn;
+        private System.Windows.Forms.TextBox TimesigsBox;
+        private System.Windows.Forms.Label TimesigsLbl;
     }
 }

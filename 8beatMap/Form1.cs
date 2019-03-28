@@ -1308,11 +1308,13 @@ namespace _8beatMap
 
         private void ChartInfoButton_Click(object sender, EventArgs e)
         {
-            ChartInfoDialog chartInfo = new ChartInfoDialog(skin, chart.SongName, chart.Author);
+            ChartInfoDialog chartInfo = new ChartInfoDialog(skin, chart.SongName, chart.Author, Notedata.MakeTimesigChangesString(chart.TimeSigChanges));
             if (chartInfo.ShowDialog() == DialogResult.OK)
             {
                 chart.SongName = chartInfo.result[0];
                 chart.Author = chartInfo.result[1];
+                if (chartInfo.result[2] != "nochange")
+                    chart.TimeSigChanges = Notedata.ReadTimesigChangesFromString(chartInfo.result[2]);
             }
             chartInfo.Dispose();
 

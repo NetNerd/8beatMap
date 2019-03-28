@@ -28,7 +28,7 @@ namespace _8beatMap
             this.PerformLayout();
         }
 
-        public ChartInfoDialog(Skinning.Skin skin, string songname, string author)
+        public ChartInfoDialog(Skinning.Skin skin, string songname, string author, string timesigs)
         {
             InitComponentNew();
             Skinning.SetBackCol(this, skin.UIColours[UIColours.UIColourDefs.Form_BG.TypeName]);
@@ -37,6 +37,7 @@ namespace _8beatMap
 
             SongNameBox.Text = songname;
             AuthorBox.Text = author;
+            if (timesigs.Length > 0) TimesigsBox.Text = timesigs;
         }
 
         public ChartInfoDialog()
@@ -44,11 +45,21 @@ namespace _8beatMap
             InitComponentNew();
         }
 
-        public string[] result = {"", ""};
+        public string[] result = { "", "", "nochange" };
 
         private void OKBtn_Click(object sender, EventArgs e)
         {
-            result = new string[2] { SongNameBox.Text, AuthorBox.Text};
+            result = new string[3] { SongNameBox.Text, AuthorBox.Text, TimesigsBox.Text };
+            
+            try
+            {
+                Notedata.ReadTimesigChangesFromString(TimesigsBox.Text);
+            }
+            catch
+            {
+                result[2] = "nochange"; // don't change if not valid
+            }
+
             this.Close();
         }
     }

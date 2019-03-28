@@ -619,7 +619,7 @@ namespace _8beatMap
             return i;
         }
 
-        private static string MakeTimesigChangesString(TimeSigChange[] timesigs)
+        public static string MakeTimesigChangesString(TimeSigChange[] timesigs)
         {
             string ret = "";
 
@@ -635,7 +635,7 @@ namespace _8beatMap
             return ret;
         }
 
-        private static TimeSigChange[] ReadTimesigChangesFromString(string str)
+        public static TimeSigChange[] ReadTimesigChangesFromString(string str)
         {
             if (str.Length == 0) return null;
 

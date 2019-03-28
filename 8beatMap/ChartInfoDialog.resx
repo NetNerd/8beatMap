@@ -126,7 +126,7 @@
     <value>14, 17</value>
   </data>
   <data name="SongNameLbl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 13</value>
+    <value>66, 13</value>
   </data>
   <data name="SongNameLbl.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -144,13 +144,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;SongNameLbl.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>7</value>
   </data>
   <data name="SongNameBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>94, 14</value>
+    <value>126, 14</value>
   </data>
   <data name="SongNameBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>228, 21</value>
+    <value>216, 21</value>
   </data>
   <data name="SongNameBox.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -165,13 +165,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;SongNameBox.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>6</value>
   </data>
   <data name="AuthorBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>94, 41</value>
+    <value>126, 41</value>
   </data>
   <data name="AuthorBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>228, 21</value>
+    <value>216, 21</value>
   </data>
   <data name="AuthorBox.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -186,7 +186,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;AuthorBox.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>4</value>
   </data>
   <data name="AuthorLbl.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -199,7 +199,7 @@
     <value>14, 45</value>
   </data>
   <data name="AuthorLbl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 13</value>
+    <value>41, 13</value>
   </data>
   <data name="AuthorLbl.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -217,16 +217,19 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;AuthorLbl.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>5</value>
+  </data>
+  <data name="OKBtn.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
   </data>
   <data name="OKBtn.Location" type="System.Drawing.Point, System.Drawing">
-    <value>166, 87</value>
+    <value>186, 107</value>
   </data>
   <data name="OKBtn.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
   </data>
   <data name="OKBtn.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
+    <value>6</value>
   </data>
   <data name="OKBtn.Text" xml:space="preserve">
     <value>&amp;OK</value>
@@ -241,19 +244,22 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;OKBtn.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>3</value>
+  </data>
+  <data name="CancelBtn.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
   </data>
   <data name="CancelBtn.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="CancelBtn.Location" type="System.Drawing.Point, System.Drawing">
-    <value>247, 87</value>
+    <value>267, 107</value>
   </data>
   <data name="CancelBtn.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
   </data>
   <data name="CancelBtn.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
+    <value>7</value>
   </data>
   <data name="CancelBtn.Text" xml:space="preserve">
     <value>&amp;Cancel</value>
@@ -268,13 +274,67 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CancelBtn.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="TimesigsBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>126, 67</value>
+  </data>
+  <data name="TimesigsBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>216, 21</value>
+  </data>
+  <data name="TimesigsBox.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="TimesigsBox.Text" xml:space="preserve">
+    <value>Please read https://github.com/NetNerd/8beatMap/wiki/%E6%8B%8D%E5%AD%90%E3%82%92%E5%A4%89%E3%82%8F%E3%82%8B-(Using-non-4:4-time-signatures)</value>
+  </data>
+  <data name="&gt;&gt;TimesigsBox.Name" xml:space="preserve">
+    <value>TimesigsBox</value>
+  </data>
+  <data name="&gt;&gt;TimesigsBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TimesigsBox.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;TimesigsBox.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <data name="TimesigsLbl.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="TimesigsLbl.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="TimesigsLbl.Location" type="System.Drawing.Point, System.Drawing">
+    <value>14, 71</value>
+  </data>
+  <data name="TimesigsLbl.Size" type="System.Drawing.Size, System.Drawing">
+    <value>86, 13</value>
+  </data>
+  <data name="TimesigsLbl.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="TimesigsLbl.Text" xml:space="preserve">
+    <value>Time Signatures:</value>
+  </data>
+  <data name="&gt;&gt;TimesigsLbl.Name" xml:space="preserve">
+    <value>TimesigsLbl</value>
+  </data>
+  <data name="&gt;&gt;TimesigsLbl.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TimesigsLbl.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;TimesigsLbl.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>334, 122</value>
+    <value>354, 142</value>
   </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterScreen</value>
