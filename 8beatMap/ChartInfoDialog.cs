@@ -113,6 +113,17 @@ namespace _8beatMap
                         int firstcol = 9999;
                         int lastcol = 0;
 
+                        if (TimesigsGrid.SelectedRows.Count > 0) // fix for wrong behaviour in mono
+                        {
+                            foreach (DataGridViewRow row in TimesigsGrid.SelectedRows)
+                            {
+                                foreach (DataGridViewCell cell in row.Cells)
+                                {
+                                    cell.Selected = true;
+                                }
+                            }
+                        }
+
                         foreach (DataGridViewCell cell in TimesigsGrid.SelectedCells)
                         {
                             if (cell.RowIndex < firstrow) firstrow = cell.RowIndex;
@@ -147,7 +158,7 @@ namespace _8beatMap
                         string[] pastelines;
                         bool tsvmode;
 
-                        if (pastestr.Contains(";"))
+                        if (pastestr.Contains(","))
                         {
                             pastelines = pastestr.Split(';');
                             tsvmode = false;
@@ -160,6 +171,23 @@ namespace _8beatMap
 
                         int currrow = TimesigsGrid.CurrentCell.RowIndex;
                         int currcol = TimesigsGrid.CurrentCell.ColumnIndex;
+
+
+                        if (TimesigsGrid.SelectedRows.Count > 0 && !TimesigsGrid.CurrentCell.Selected) // fix for wrong behaviour in mono
+                        {
+                            currrow = 999;
+                            currcol = 0;
+
+                            foreach (DataGridViewRow row in TimesigsGrid.SelectedRows)
+                            {
+                                if (row.Index < currrow)
+                                {
+                                    currrow = row.Index;
+                                    TimesigsGrid.CurrentCell = row.Cells[0];
+                                }
+                            }
+                        }
+
 
                         if (pastelines.Length + currrow >= TimesigsGrid.Rows.Count)
                             TimesigsGrid.Rows.Add(1 + pastelines.Length + currrow - TimesigsGrid.Rows.Count);
