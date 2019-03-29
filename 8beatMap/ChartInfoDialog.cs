@@ -104,7 +104,44 @@ namespace _8beatMap
 
                 if (ModifierKeys == Keys.Control)
                 {
-                    if (key == Keys.V)
+                    if (key == Keys.C)
+                    {
+                        string copystr = "";
+
+                        int firstrow = 9999;
+                        int lastrow = 0;
+                        int firstcol = 9999;
+                        int lastcol = 0;
+
+                        foreach (DataGridViewCell cell in TimesigsGrid.SelectedCells)
+                        {
+                            if (cell.RowIndex < firstrow) firstrow = cell.RowIndex;
+                            if (cell.RowIndex > lastrow) lastrow = cell.RowIndex;
+                            if (cell.ColumnIndex < firstcol) firstcol = cell.ColumnIndex;
+                            if (cell.ColumnIndex > lastcol) lastcol = cell.ColumnIndex;
+                        }
+                        
+                        if (TimesigsGrid.Rows[lastrow].IsNewRow) lastrow -= 1;
+
+                        for (int i = firstrow; i <= lastrow; i++)
+                        {
+                            for (int j = firstcol; j <= lastcol; j++)
+                            {
+                                copystr += TimesigsGrid.Rows[i].Cells[j].Value.ToString() + ",";
+                            }
+                            copystr = copystr.Remove(copystr.Length - 1) + "; "; // replace last comma with semicolon
+                        }
+
+                        if (copystr.Length > 1)
+                        {
+                            copystr = copystr.Remove(copystr.Length - 2); // remove semicolon from end
+                            Clipboard.SetText(copystr);
+                        }
+
+                        e.Handled = true;
+                        e.SuppressKeyPress = true;
+                    }
+                    else if (key == Keys.V)
                     {
                         string pastestr = Clipboard.GetText();
                         string[] pastelines;
@@ -135,7 +172,7 @@ namespace _8beatMap
                             else pastelinecells = pastelines[i].Split(',');
 
                             for (int j = 0; j < pastelinecells.Length && j < TimesigsGrid.Rows[i + currrow].Cells.Count - currcol; j++)
-                                TimesigsGrid.Rows[i + currrow].Cells[j + currcol].Value = pastelinecells[j];
+                                TimesigsGrid.Rows[i + currrow].Cells[j + currcol].Value = pastelinecells[j].Trim();
                         }
 
                         e.Handled = true;
