@@ -223,10 +223,10 @@
     <value>Bottom, Right</value>
   </data>
   <data name="OKBtn.Location" type="System.Drawing.Point, System.Drawing">
-    <value>296, 247</value>
+    <value>276, 247</value>
   </data>
   <data name="OKBtn.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
+    <value>85, 23</value>
   </data>
   <data name="OKBtn.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -253,10 +253,10 @@
     <value>NoControl</value>
   </data>
   <data name="CancelBtn.Location" type="System.Drawing.Point, System.Drawing">
-    <value>377, 247</value>
+    <value>367, 247</value>
   </data>
   <data name="CancelBtn.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
+    <value>85, 23</value>
   </data>
   <data name="CancelBtn.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>

@@ -46,7 +46,7 @@ namespace _8beatMap
             }
 
 
-            private readonly int btnWidth = 75;
+            private readonly int btnWidth = 85;
             private readonly int btnHeight = 23;
             private readonly int btnPadding = 12;
 
