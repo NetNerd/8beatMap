@@ -387,9 +387,20 @@ namespace _8beatMap
             UpdateChart();
         }
 
+        [System.Runtime.InteropServices.DllImport("winmm.dll", EntryPoint = "timeBeginPeriod")]
+        public static extern uint MM_timeBeginPeriod(uint uMilliseconds);
+        [System.Runtime.InteropServices.DllImport("winmm.dll", EntryPoint = "timeEndPeriod")]
+        public static extern uint MM_timeEndPeriod(uint uMilliseconds);
 
         private void StartPlayback()
         {
+            try
+            {
+                MM_timeBeginPeriod(2);
+            }
+            catch
+            { }
+
             PlaybackVideoTickStartTime = DateTime.UtcNow - chart.ConvertTicksToTime(CurrentTick);
             playTimer.Enabled = true;
             Sound.PlayMusic();
@@ -397,7 +408,17 @@ namespace _8beatMap
 
         private void StopPlayback()
         {
-            playTimer.Enabled = false;
+            if (playTimer.Enabled) // check this because timeEndPeriod calls should match with timeBeginPeriod calls
+            {
+                playTimer.Enabled = false;
+                
+                try
+                {
+                    MM_timeEndPeriod(2);
+                }
+                catch
+                { }
+            }
             Sound.StopMusic();
             UpdateChart();
         }
@@ -1004,6 +1025,8 @@ namespace _8beatMap
                     OGLrenderer = null;
                 }
 
+                StopPlayback();
+
                 SaveConfig();
                 return;
             }
@@ -1017,6 +1040,8 @@ namespace _8beatMap
                     OGLrenderer.Stop();
                     OGLrenderer = null;
                 }
+
+                StopPlayback();
 
                 SaveConfig();
             }
