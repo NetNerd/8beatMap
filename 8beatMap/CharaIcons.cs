@@ -52,9 +52,9 @@ namespace _8beatMap
             
             foreach (CharaIconInfo info in defs)
             {
-                outstr += info.ImagePath;
-                outstr += info.Type.ToString();
-                outstr += info.Rarity.ToString();
+                outstr += info.ImagePath + ",";
+                outstr += info.Type.ToString() + ",";
+                outstr += info.Rarity.ToString() + ",";
                 outstr += info.IconSize.ToString();
                 outstr += "\n";
             }

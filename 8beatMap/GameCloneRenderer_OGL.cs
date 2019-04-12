@@ -111,6 +111,27 @@ namespace _8beatMap
                     Stop();
                 }
             }
+
+            for (int i = 0; i < charaicons.Length; i++)
+            {
+                string key = "spr_Charaicon" + i.ToString();
+                string tex = charaicons[i].ImagePath;
+
+                if (tex == null || tex.Length == 0) continue;
+
+                try
+                {
+                    if (!textures.ContainsKey(key))
+                        textures.Add(key, OpenTkTextureLoadFuncs.LoadTexture(tex));
+                    else
+                        textures[key] = OpenTkTextureLoadFuncs.LoadTexture(tex);
+                }
+                catch
+                {
+                    SkinnedMessageBox.Show(skin, DialogResMgr.GetString("MissingTextureError") + "\n(" + tex + ")", "", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                    Stop();
+                }
+            }
         }
 
         public GameCloneRenderer_OGL(int wndWidth, int wndHeight, int wndX, int wndY, WindowState wndState, Form1 mainform, Skinning.Skin skin, CharaIcons.CharaIconInfo[] charaicons, bool showcombo)
@@ -255,6 +276,19 @@ namespace _8beatMap
 
             GL.Color4(1f, 1f, 1f, 1f);
 
+            for (int i = 0; i < charaicons.Length; i++)
+            {
+                string key = "spr_Charaicon" + i.ToString();
+
+                if (textures.ContainsKey(key))
+                {
+                    int charaiconsize = charaicons[i].IconSize;
+                    int halfcharaiconsize = charaiconsize / 2;
+
+                    DrawFilledRect(NodeEndLocs[i].X - halfcharaiconsize, NodeEndLocs[i].Y - halfcharaiconsize, charaiconsize, charaiconsize, key);
+                }
+            }
+
             DrawFilledRect(NodeEndLocs[0].X - halfIconSize, NodeEndLocs[0].Y - halfIconSize, iconSize, iconSize, "spr_Chara1");
             DrawFilledRect(NodeEndLocs[1].X - halfIconSize, NodeEndLocs[1].Y - halfIconSize, iconSize, iconSize, "spr_Chara2");
             DrawFilledRect(NodeEndLocs[2].X - halfIconSize, NodeEndLocs[2].Y - halfIconSize, iconSize, iconSize, "spr_Chara3");
@@ -263,7 +297,7 @@ namespace _8beatMap
             DrawFilledRect(NodeEndLocs[5].X - halfIconSize, NodeEndLocs[5].Y - halfIconSize, iconSize, iconSize, "spr_Chara6");
             DrawFilledRect(NodeEndLocs[6].X - halfIconSize, NodeEndLocs[6].Y - halfIconSize, iconSize, iconSize, "spr_Chara7");
             DrawFilledRect(NodeEndLocs[7].X - halfIconSize, NodeEndLocs[7].Y - halfIconSize, iconSize, iconSize, "spr_Chara8");
-
+            
 
 
             GL.Color4(0.65f, 0.65f, 0.65f, 0.65f); //transparency
