@@ -540,7 +540,7 @@ namespace _8beatMap
                 OGLrenderer = null;
             }
 
-            OGLrenderer = new GameCloneRenderer_OGL(wndWidth, wndHeight, wndX, wndY, wndState, this, skin, ShowComboNumBox.Checked);
+            OGLrenderer = new GameCloneRenderer_OGL(wndWidth, wndHeight, wndX, wndY, wndState, this, skin, charaicons, ShowComboNumBox.Checked);
             isOpeningPreview = false;
         }
 
@@ -576,6 +576,7 @@ namespace _8beatMap
                 OpenPreviewWindow();
         }
 
+        private CharaIcons.CharaIconInfo[] charaicons = new CharaIcons.CharaIconInfo[8];
 
         public Form1()
         {
@@ -608,6 +609,7 @@ namespace _8beatMap
             UseBeepNoteSounds = Properties.Settings.Default.UseBeepNoteSounds;
             ShowComboNumBox.Checked = Properties.Settings.Default.ShowComboInPreview;
             ChangeFormLanguage(Properties.Settings.Default.Language);
+            charaicons = CharaIcons.LoadCharaIconsDef(Properties.Settings.Default.CharaIcons);
 
             SetSkin(Properties.Settings.Default.Skin);
 
@@ -1006,6 +1008,7 @@ namespace _8beatMap
                 Properties.Settings.Default.UseBeepNoteSounds = UseBeepNoteSounds;
                 Properties.Settings.Default.ShowComboInPreview = ShowComboNumBox.Checked;
                 Properties.Settings.Default.Language = System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
+                Properties.Settings.Default.CharaIcons = CharaIcons.GenCharaIconsDef(charaicons);
 
                 Properties.Settings.Default.Save();
             }

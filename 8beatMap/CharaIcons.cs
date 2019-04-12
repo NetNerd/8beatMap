@@ -19,7 +19,7 @@ namespace _8beatMap
 
         }
 
-        private static CharaIconInfo[] LoadCharaIconsDef(string defs)
+        public static CharaIconInfo[] LoadCharaIconsDef(string defs)
         {
             CharaIconInfo[] outinfo = new CharaIconInfo[maxlanes];
 
@@ -39,7 +39,7 @@ namespace _8beatMap
             return outinfo;
         }
 
-        private static string GenCharaIconsDef(CharaIconInfo[] defs)
+        public static string GenCharaIconsDef(CharaIconInfo[] defs)
         {
             string outstr = "";
             

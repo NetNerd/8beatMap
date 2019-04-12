@@ -20,6 +20,8 @@ namespace _8beatMap
 
         private Skinning.Skin skin = Skinning.DefaultSkin;
 
+        private CharaIcons.CharaIconInfo[] charaicons = new CharaIcons.CharaIconInfo[8];
+
         private OpenTkBMFontRenderer combofontrenderer = null;
 
         public bool showcombo = true;
@@ -111,10 +113,11 @@ namespace _8beatMap
             }
         }
 
-        public GameCloneRenderer_OGL(int wndWidth, int wndHeight, int wndX, int wndY, WindowState wndState, Form1 mainform, Skinning.Skin skin, bool showcombo)
+        public GameCloneRenderer_OGL(int wndWidth, int wndHeight, int wndX, int wndY, WindowState wndState, Form1 mainform, Skinning.Skin skin, CharaIcons.CharaIconInfo[] charaicons, bool showcombo)
         {
             this.mainform = mainform;
             this.skin = skin;
+            this.charaicons = charaicons;
             this.showcombo = showcombo;
             numLanes = skin.NumLanes;
             NodeStartLocs = (Point[])skin.NodeStartLocs.Clone();
