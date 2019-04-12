@@ -1355,5 +1355,10 @@ namespace _8beatMap
         {
             OGLrenderer.showcombo = ShowComboNumBox.Checked;
         }
+
+        private void CharaIconsBtn_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

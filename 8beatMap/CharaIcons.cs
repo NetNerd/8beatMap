@@ -36,6 +36,13 @@ namespace _8beatMap
                 outinfo[i].Rarity = int.Parse(defsplit[2]);
                 outinfo[i].IconSize = int.Parse(defsplit[3]);
             }
+
+            for (int i = 0; i < maxlanes; i++)
+            {
+                if (outinfo[i].IconSize == 0)
+                    outinfo[i].IconSize = 127;
+            }
+
             return outinfo;
         }
 

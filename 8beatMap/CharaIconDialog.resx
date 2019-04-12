@@ -133,7 +133,7 @@
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="CancelBtn.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
+    <value>11</value>
   </data>
   <data name="CancelBtn.Text" xml:space="preserve">
     <value>&amp;Cancel</value>
@@ -163,7 +163,7 @@
     <value>85, 23</value>
   </data>
   <data name="OKBtn.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
+    <value>10</value>
   </data>
   <data name="OKBtn.Text" xml:space="preserve">
     <value>&amp;OK</value>
@@ -187,7 +187,7 @@
     <value>235, 20</value>
   </data>
   <data name="ImagePathBox.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
+    <value>2</value>
   </data>
   <data name="&gt;&gt;ImagePathBox.Name" xml:space="preserve">
     <value>ImagePathBox</value>
@@ -214,7 +214,7 @@
     <value>64, 13</value>
   </data>
   <data name="ImagePathLbl.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
+    <value>1</value>
   </data>
   <data name="ImagePathLbl.Text" xml:space="preserve">
     <value>Image Path:</value>
@@ -241,7 +241,7 @@
     <value>85, 23</value>
   </data>
   <data name="ImagePathButton.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
+    <value>3</value>
   </data>
   <data name="ImagePathButton.Text" xml:space="preserve">
     <value>Browse</value>
@@ -277,7 +277,7 @@
     <value>34, 13</value>
   </data>
   <data name="TypeLbl.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
+    <value>4</value>
   </data>
   <data name="TypeLbl.Text" xml:space="preserve">
     <value>Type:</value>
@@ -310,7 +310,7 @@
     <value>121, 21</value>
   </data>
   <data name="TypeBox.TabIndex" type="System.Int32, mscorlib">
-    <value>14</value>
+    <value>5</value>
   </data>
   <data name="&gt;&gt;TypeBox.Name" xml:space="preserve">
     <value>TypeBox</value>
@@ -343,7 +343,7 @@
     <value>121, 21</value>
   </data>
   <data name="RarityBox.TabIndex" type="System.Int32, mscorlib">
-    <value>16</value>
+    <value>7</value>
   </data>
   <data name="&gt;&gt;RarityBox.Name" xml:space="preserve">
     <value>RarityBox</value>
@@ -370,7 +370,7 @@
     <value>37, 13</value>
   </data>
   <data name="RarityLbl.TabIndex" type="System.Int32, mscorlib">
-    <value>15</value>
+    <value>6</value>
   </data>
   <data name="RarityLbl.Text" xml:space="preserve">
     <value>Rarity:</value>
@@ -400,7 +400,7 @@
     <value>30, 13</value>
   </data>
   <data name="SizeLbl.TabIndex" type="System.Int32, mscorlib">
-    <value>17</value>
+    <value>8</value>
   </data>
   <data name="SizeLbl.Text" xml:space="preserve">
     <value>Size:</value>
@@ -424,7 +424,7 @@
     <value>121, 20</value>
   </data>
   <data name="SizeBox.TabIndex" type="System.Int32, mscorlib">
-    <value>18</value>
+    <value>9</value>
   </data>
   <data name="&gt;&gt;SizeBox.Name" xml:space="preserve">
     <value>SizeBox</value>
