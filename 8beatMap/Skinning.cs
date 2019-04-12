@@ -330,6 +330,15 @@ namespace _8beatMap
             return outinfo;
         }
 
+        public struct CharaIconDef
+        {
+            public string ImagePath;
+            public int Type;
+            public int Rarity;
+            public int IconSize;
+
+        }
+
         public static Skin LoadSkin(string rootdir)
         {
             try
