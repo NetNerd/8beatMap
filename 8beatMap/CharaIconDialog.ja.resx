@@ -117,103 +117,37 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="PlayBtn.Text" xml:space="preserve">
-    <value>再生</value>
+  <data name="CancelBtn.Text" xml:space="preserve">
+    <value>キャンセル(&amp;C)</value>
   </data>
-  <data name="StopBtn.Text" xml:space="preserve">
-    <value>停止</value>
+  <data name="ImagePathButton.Text" xml:space="preserve">
+    <value>参照</value>
   </data>
-  <data name="PauseOnSeek.Text" xml:space="preserve">
-    <value>スクロール中時で停止</value>
+  <data name="ImagePathLbl.Text" xml:space="preserve">
+    <value>絵ファイル：</value>
   </data>
-  <data name="ZoomBtn.Text" xml:space="preserve">
-    <value>アプライ</value>
+  <data name="OKBtn.Text" xml:space="preserve">
+    <value>&amp;OK</value>
   </data>
-  <data name="ZoomLbl.Text" xml:space="preserve">
-    <value>ズーム：</value>
+  <data name="openFileDialog1.Filter" xml:space="preserve">
+    <value>すべての絵ファイル|*.bmp;*.gif;*.jpg;*.jpeg;*.png;*.tif;*.tiff|BMP|*.bmp|GIF|*.gif|JPEG|*.jpg;*.jpeg|PNG|*.png|TIFF|*.tif;*.tiff|すべてのファイル|*.*</value>
   </data>
-  <data name="ResizeLbl.Text" xml:space="preserve">
-    <value>長さ（小節）：</value>
+  <data name="RarityLbl.Text" xml:space="preserve">
+    <value>レア度：</value>
   </data>
-  <data name="ResizeBtn.Text" xml:space="preserve">
-    <value>アプライ</value>
+  <data name="SizeLbl.Text" xml:space="preserve">
+    <value>サイズ：</value>
   </data>
-  <data name="OpenBtn.Text" xml:space="preserve">
-    <value>譜面を開く</value>
+  <data name="TypeBox.Items" xml:space="preserve">
+    <value>キュート</value>
   </data>
-  <data name="OpenMusicButton.Text" xml:space="preserve">
-    <value>音楽を開く</value>
+  <data name="TypeBox.Items1" xml:space="preserve">
+    <value>クール</value>
   </data>
-  <data name="SaveChartBtn.Text" xml:space="preserve">
-    <value>譜面を保存</value>
+  <data name="TypeBox.Items2" xml:space="preserve">
+    <value>ファイン</value>
   </data>
-  <data name="ImgSaveBtn.Text" xml:space="preserve">
-    <value>絵を保存</value>
-  </data>
-  <data name="NoteTypeLbl.Text" xml:space="preserve">
-    <value>ノードタイプ：</value>
-  </data>
-  <data name="NoteShiftLbl.Text" xml:space="preserve">
-    <value>全ノードを動かす：</value>
-  </data>
-  <data name="NoteShiftBtn.Text" xml:space="preserve">
-    <value>アプライ</value>
-  </data>
-  <data name="NoteSoundBox.Text" xml:space="preserve">
-    <value>ノード音</value>
-  </data>
-  <data name="NoteCountButton.Text" xml:space="preserve">
-    <value>ノードを数える</value>
-  </data>
-  <data name="AutoSimulBtn.Text" xml:space="preserve">
-    <value>オート 同時風ノード</value>
-  </data>
-  <data name="LangChangeBtn.Text" xml:space="preserve">
-    <value>English</value>
-  </data>
-  <data name="PreviewWndBtn.Text" xml:space="preserve">
-    <value>プレビューウィンドウ</value>
-  </data>
-  <data name="AudioDelayLbl.Text" xml:space="preserve">
-    <value>音楽タイミング（ms）：</value>
-  </data>
-  <data name="audioSettingsTab.Text" xml:space="preserve">
-    <value>サウンド設定</value>
-  </data>
-  <data name="chartSettingsTab.Text" xml:space="preserve">
-    <value>譜面設定</value>
-  </data>
-  <data name="CopyLengthLabel.Text" xml:space="preserve">
-    <value>コピー長さ（小節）：</value>
-  </data>
-  <data name="editorSettingsTab.Text" xml:space="preserve">
-    <value>エディター設定</value>
-  </data>
-  <data name="editorToolsTab.Text" xml:space="preserve">
-    <value>エディター・ツール</value>
-  </data>
-  <data name="SkinLbl.Text" xml:space="preserve">
-    <value>スキン：</value>
-  </data>
-  <data name="VolumeLbl.Text" xml:space="preserve">
-    <value>ボーリューム：</value>
-  </data>
-  <data name="ChartInfoButton.Text" xml:space="preserve">
-    <value>譜面作品情報</value>
-  </data>
-  <data name="ChartDifficultyBtn.Text" xml:space="preserve">
-    <value>譜面難易度</value>
-  </data>
-  <data name="previewSettingsTab.Text" xml:space="preserve">
-    <value>プレビュー設定</value>
-  </data>
-  <data name="ShowComboNumBox.Text" xml:space="preserve">
-    <value>コンボ数を示す</value>
-  </data>
-  <data name="CharaIconsCopyBtn.Text" xml:space="preserve">
-    <value>1を全部にコピー</value>
-  </data>
-  <data name="CharaIconsLbl.Text" xml:space="preserve">
-    <value>キャラアイコン：</value>
+  <data name="TypeLbl.Text" xml:space="preserve">
+    <value>タイプ：</value>
   </data>
 </root>

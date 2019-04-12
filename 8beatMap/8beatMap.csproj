@@ -114,6 +114,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Skinning.cs" />
     <Compile Include="Sound.cs" />
+    <EmbeddedResource Include="CharaIconDialog.ja.resx">
+      <DependentUpon>CharaIconDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CharaIconDialog.resx">
       <DependentUpon>CharaIconDialog.cs</DependentUpon>
     </EmbeddedResource>
