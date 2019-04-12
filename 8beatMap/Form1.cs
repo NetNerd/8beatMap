@@ -1091,6 +1091,10 @@ namespace _8beatMap
                     resources.ApplyResources(Ctrl, Ctrl.Name);
             }
 
+            resources.ApplyResources(openFileDialog1, "openFileDialog1");
+            resources.ApplyResources(openFileDialog2, "openFileDialog2");
+            resources.ApplyResources(saveFileDialog1, "saveFileDialog1");
+
             ResumeLayout(false);
             PerformLayout();
 

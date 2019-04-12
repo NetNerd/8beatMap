@@ -474,9 +474,9 @@
   <data name="&gt;&gt;OpenBtn.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
-  <metadata name="openFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <data name="openFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>17, 17</value>
-  </metadata>
+  </data>
   <data name="openFileDialog1.Filter" xml:space="preserve">
     <value>Decrypted JSON|*.dec.json|JSON|*.json|All Files|*.*</value>
   </data>
@@ -507,11 +507,11 @@
   <data name="&gt;&gt;OpenMusicButton.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <metadata name="openFileDialog2.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <data name="openFileDialog2.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>158, 17</value>
-  </metadata>
+  </data>
   <data name="openFileDialog2.Filter" xml:space="preserve">
-    <value>Wav Files|*.wav|All Files|*.*</value>
+    <value>WAV Files|*.wav|All Files|*.*</value>
   </data>
   <data name="SaveChartBtn.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
@@ -540,9 +540,9 @@
   <data name="&gt;&gt;SaveChartBtn.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
-  <metadata name="saveFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <data name="saveFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>299, 17</value>
-  </metadata>
+  </data>
   <data name="saveFileDialog1.Filter" xml:space="preserve">
     <value>Decrypted JSON|*.dec.json|All Files|*.*</value>
   </data>
@@ -1692,12 +1692,12 @@
   <data name="&gt;&gt;splitContainer1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <data name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>436, 17</value>
-  </metadata>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  </data>
+  <data name="$this.Localizable" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
+  </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>624, 502</value>
   </data>

@@ -216,4 +216,13 @@
   <data name="CharaIconsLbl.Text" xml:space="preserve">
     <value>キャラアイコン：</value>
   </data>
+  <data name="openFileDialog1.Filter" xml:space="preserve">
+    <value>復号されたJSON|*.dec.json|JSON|*.json|すべてのファイル|*.*</value>
+  </data>
+  <data name="openFileDialog2.Filter" xml:space="preserve">
+    <value>WAVファイル|*.wav|すべてのファイル|*.*</value>
+  </data>
+  <data name="saveFileDialog1.Filter" xml:space="preserve">
+    <value>復号されたJSON|*.dec.json|すべてのファイル|*.*</value>
+  </data>
 </root>
