@@ -214,5 +214,14 @@ namespace _8beatMap {
                 return ResourceManager.GetString("SkinLoadError", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warning: skin is made for a different version of 8beatMap. It may not load correctly..
+        /// </summary>
+        internal static string SkinVersionWarning {
+            get {
+                return ResourceManager.GetString("SkinVersionWarning", resourceCulture);
+            }
+        }
     }
 }

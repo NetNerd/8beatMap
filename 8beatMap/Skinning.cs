@@ -188,15 +188,6 @@ namespace _8beatMap
 
                 {"spr_HitEffect", rootdir + "/nodeimg/node_effect.png"},
 
-                {"spr_Chara1", rootdir + "/charaimg/1.png"},
-                {"spr_Chara2", rootdir + "/charaimg/2.png"},
-                {"spr_Chara3", rootdir + "/charaimg/3.png"},
-                {"spr_Chara4", rootdir + "/charaimg/4.png"},
-                {"spr_Chara5", rootdir + "/charaimg/5.png"},
-                {"spr_Chara6", rootdir + "/charaimg/6.png"},
-                {"spr_Chara7", rootdir + "/charaimg/7.png"},
-                {"spr_Chara8", rootdir + "/charaimg/8.png"},
-
                 {"spr_ComboText", rootdir + "/font/txt_combo.png"},
             };
 
@@ -330,6 +321,24 @@ namespace _8beatMap
             return outinfo;
         }
 
+
+        private static readonly int currentskinversion = 394;
+
+        private static bool IsSkinVersionGood(string versionstr)
+        {
+            int version;
+            try
+            {
+                version = int.Parse(versionstr);
+            }
+            catch
+            {
+                version = 0;
+            }
+
+            return version == currentskinversion;
+        }
+
         public static Skin LoadSkin(string rootdir)
         {
             try
@@ -345,6 +354,12 @@ namespace _8beatMap
                 {
                     ShowUnskinnedErrorMessage("skin \"" + skinname + "\" does not exist.");
                     skinname = "?";
+                }
+
+
+                if (!IsSkinVersionGood(ReadFile_EmptyStringIfException(rootdir + "/compatversion.txt")))
+                {
+                    ShowUnskinnedErrorMessage(DialogResMgr.GetString("SkinVersionWarning"));
                 }
 
                 string buttonsfile = ReadFile_EmptyStringIfException(rootdir + "/buttons.txt");

@@ -170,4 +170,7 @@ Set it in the BPM box for notes to move at the right speed.</value>
     <value>Unable to load skin: {0}
 Please ensure it exists then run the program again.</value>
   </data>
+  <data name="SkinVersionWarning" xml:space="preserve">
+    <value>Warning: skin is made for a different version of 8beatMap. It may not load correctly.</value>
+  </data>
 </root>
