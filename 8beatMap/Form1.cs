@@ -1358,7 +1358,15 @@ namespace _8beatMap
 
         private void CharaIconsBtn_Click(object sender, EventArgs e)
         {
+            int charanum = int.Parse(((Button)sender).Text.ToString());
 
+            CharaIconDialog iconDialog = new CharaIconDialog(skin, charaicons[charanum]);
+            if (iconDialog.ShowDialog() == DialogResult.OK)
+            {
+                charaicons[charanum] = iconDialog.result;
+                //OpenPreviewWindow();
+            }
+            iconDialog.Dispose();
         }
     }
 }

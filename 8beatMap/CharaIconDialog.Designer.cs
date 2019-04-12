@@ -71,10 +71,10 @@
             // 
             // ImagePathButton
             // 
-            this.ImagePathButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             resources.ApplyResources(this.ImagePathButton, "ImagePathButton");
             this.ImagePathButton.Name = "ImagePathButton";
             this.ImagePathButton.UseVisualStyleBackColor = true;
+            this.ImagePathButton.Click += new System.EventHandler(this.ImagePathButton_Click);
             // 
             // openFileDialog1
             // 

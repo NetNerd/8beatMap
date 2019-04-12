@@ -57,7 +57,22 @@ namespace _8beatMap
             result.Rarity = RarityBox.SelectedIndex;
             result.IconSize = (int)SizeBox.Value;
 
+            if (result.IconSize <= 0)
+                result.IconSize = 127;
+
             this.Close();
+        }
+
+        private void ImagePathButton_Click(object sender, EventArgs e)
+        {
+            if (ImagePathBox.Text != null && ImagePathBox.Text.Length > 0)
+            {
+                openFileDialog1.InitialDirectory = System.IO.Path.GetDirectoryName(ImagePathBox.Text);
+                openFileDialog1.FileName = System.IO.Path.GetFileName(ImagePathBox.Text);
+            }
+
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                ImagePathBox.Text = openFileDialog1.FileName;
         }
     }
 }

@@ -295,13 +295,13 @@
     <value>5</value>
   </data>
   <data name="TypeBox.Items" xml:space="preserve">
-    <value>Cute:1</value>
+    <value>Cute</value>
   </data>
   <data name="TypeBox.Items1" xml:space="preserve">
-    <value>Cool:2</value>
+    <value>Cool</value>
   </data>
   <data name="TypeBox.Items2" xml:space="preserve">
-    <value>Fine:3</value>
+    <value>Fine</value>
   </data>
   <data name="TypeBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>106, 44</value>

@@ -39,7 +39,7 @@ namespace _8beatMap
 
             for (int i = 0; i < maxlanes; i++)
             {
-                if (outinfo[i].IconSize == 0)
+                if (outinfo[i].IconSize <= 0)
                     outinfo[i].IconSize = 127;
             }
 
