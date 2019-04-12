@@ -1368,5 +1368,11 @@ namespace _8beatMap
             }
             iconDialog.Dispose();
         }
+
+        private void CharaIconsCopyBtn_Click(object sender, EventArgs e)
+        {
+            for (int i = 1; i < charaicons.Length; i++)
+                charaicons[i] = charaicons[0];
+        }
     }
 }
