@@ -181,7 +181,7 @@ namespace _8beatMap.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute(",0,2,127\r\n,0,2,127\r\n,0,2,127\r\n,0,2,127\r\n,0,2,127\r\n,0,2,127\r\n,0,2,127\r\n,0,2,127\r\n")]
         public string CharaIcons {
             get {
                 return ((string)(this["CharaIcons"]));

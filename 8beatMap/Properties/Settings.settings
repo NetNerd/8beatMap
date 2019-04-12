@@ -42,7 +42,15 @@
       <Value Profile="(Default)">ja</Value>
     </Setting>
     <Setting Name="CharaIcons" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">,0,2,127
+,0,2,127
+,0,2,127
+,0,2,127
+,0,2,127
+,0,2,127
+,0,2,127
+,0,2,127
+</Value>
     </Setting>
   </Settings>
 </SettingsFile>
