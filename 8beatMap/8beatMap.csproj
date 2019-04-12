@@ -81,6 +81,7 @@
     <Compile Include="CharaIconDialog.Designer.cs">
       <DependentUpon>CharaIconDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="CharaIcons.cs" />
     <Compile Include="OpenTkBMFontRenderer.cs" />
     <Compile Include="OpenTkTextureFuncs.cs" />
     <Compile Include="SkinnedMessageBox.cs" />

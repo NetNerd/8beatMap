@@ -28,7 +28,7 @@ namespace _8beatMap
             this.PerformLayout();
         }
 
-        public CharaIconDialog(Skinning.Skin skin, Skinning.CharaIconDef icondef)
+        public CharaIconDialog(Skinning.Skin skin, CharaIcons.CharaIconInfo icondef)
         {
             InitComponentNew();
             Skinning.SetBackCol(this, skin.UIColours[UIColours.UIColourDefs.Form_BG.TypeName]);
@@ -48,7 +48,7 @@ namespace _8beatMap
             InitComponentNew();
         }
 
-        public Skinning.CharaIconDef result;
+        public CharaIcons.CharaIconInfo result;
 
         private void OKBtn_Click(object sender, EventArgs e)
         {
