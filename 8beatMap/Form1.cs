@@ -159,7 +159,7 @@ namespace _8beatMap
             
 
 
-            float laneWidth = width / 8;
+            float laneWidth = width / 8f;
             int halfIconWidth = iconWidth / 2;
             int halfIconHeight = iconHeight / 2;
 
@@ -774,17 +774,25 @@ namespace _8beatMap
         private void Form1_Resize(object sender, EventArgs e)
         {
             //SuspendLayout();
-            if (pictureBox1.Height != Height)
+            if (pictureBox1.Height != ClientSize.Height)
             {
                 if (ClientSize.Height == 0)
                     pictureBox1.Height = 1;
                 else
                     pictureBox1.Height = ClientSize.Height;
-                Image bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
-                pictureBox1.Image = bmp;
-                UpdateChart();
             }
-            splitContainer1.Width = ClientSize.Width - (ChartScrollBar.Left + ChartScrollBar.Width) - 1;
+            //splitContainer1.Width = ClientSize.Width - (ChartScrollBar.Left + ChartScrollBar.Width) - 1;
+            //splitContainer1.Width = (int)(ClientSize.Width * 0.513); // 0.513 is percentage of default width the split container takes (320/624)
+            //splitContainer1.Width = (int)(Math.Pow(ClientSize.Width, 1.2) * (320 / Math.Pow(624, 1.2))); // this works a bit better (raising the available width to a power first), but at very large sizes it could engulf the whole window
+            splitContainer1.Width = ClientSize.Width - (int)(Math.Pow(ClientSize.Width, 1/1.2) * (304 / Math.Pow(624, 1/1.2))); // subtracting from a yroot'd version of remaining portion's width avoids the bad edge case
+            ChartScrollBar.Left = splitContainer1.Left - 16;
+            pictureBox1.Width = ChartScrollBar.Left;
+            newplayhead.Width = pictureBox1.Width;
+
+            IconWidth = (int)(0.56 * pictureBox1.Width / 8); // 20/36
+
+            UpdateChart();
+
             //ResumeLayout();
         }
 
@@ -1009,7 +1017,7 @@ namespace _8beatMap
                 Properties.Settings.Default.ShowComboInPreview = ShowComboNumBox.Checked;
                 Properties.Settings.Default.Language = System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
                 Properties.Settings.Default.CharaIcons = CharaIcons.GenCharaIconsDef(charaicons);
-
+                
                 Properties.Settings.Default.Save();
             }
             catch
