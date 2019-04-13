@@ -474,9 +474,9 @@
   <data name="&gt;&gt;OpenBtn.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
-  <metadata name="openFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <data name="openFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>17, 17</value>
-  </metadata>
+  </data>
   <data name="openFileDialog1.Filter" xml:space="preserve">
     <value>Decrypted JSON|*.dec.json|JSON|*.json|All Files|*.*</value>
   </data>
@@ -507,11 +507,11 @@
   <data name="&gt;&gt;OpenMusicButton.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <metadata name="openFileDialog2.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <data name="openFileDialog2.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>158, 17</value>
-  </metadata>
+  </data>
   <data name="openFileDialog2.Filter" xml:space="preserve">
-    <value>Wav Files|*.wav|All Files|*.*</value>
+    <value>WAV Files|*.wav|All Files|*.*</value>
   </data>
   <data name="SaveChartBtn.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
@@ -540,9 +540,9 @@
   <data name="&gt;&gt;SaveChartBtn.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
-  <metadata name="saveFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <data name="saveFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>299, 17</value>
-  </metadata>
+  </data>
   <data name="saveFileDialog1.Filter" xml:space="preserve">
     <value>Decrypted JSON|*.dec.json|All Files|*.*</value>
   </data>
@@ -1263,6 +1263,288 @@
   <data name="&gt;&gt;audioSettingsTab.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
+  <data name="CharaIconsCopyBtn.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CharaIconsCopyBtn.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 91</value>
+  </data>
+  <data name="CharaIconsCopyBtn.Size" type="System.Drawing.Size, System.Drawing">
+    <value>115, 23</value>
+  </data>
+  <data name="CharaIconsCopyBtn.TabIndex" type="System.Int32, mscorlib">
+    <value>29</value>
+  </data>
+  <data name="CharaIconsCopyBtn.Text" xml:space="preserve">
+    <value>Copy 1 to All</value>
+  </data>
+  <data name="&gt;&gt;CharaIconsCopyBtn.Name" xml:space="preserve">
+    <value>CharaIconsCopyBtn</value>
+  </data>
+  <data name="&gt;&gt;CharaIconsCopyBtn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CharaIconsCopyBtn.Parent" xml:space="preserve">
+    <value>previewSettingsTab</value>
+  </data>
+  <data name="&gt;&gt;CharaIconsCopyBtn.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="CharaIconsBtn8.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CharaIconsBtn8.Location" type="System.Drawing.Point, System.Drawing">
+    <value>265, 62</value>
+  </data>
+  <data name="CharaIconsBtn8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>31, 23</value>
+  </data>
+  <data name="CharaIconsBtn8.TabIndex" type="System.Int32, mscorlib">
+    <value>28</value>
+  </data>
+  <data name="CharaIconsBtn8.Text" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;CharaIconsBtn8.Name" xml:space="preserve">
+    <value>CharaIconsBtn8</value>
+  </data>
+  <data name="&gt;&gt;CharaIconsBtn8.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CharaIconsBtn8.Parent" xml:space="preserve">
+    <value>previewSettingsTab</value>
+  </data>
+  <data name="&gt;&gt;CharaIconsBtn8.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="CharaIconsBtn7.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CharaIconsBtn7.Location" type="System.Drawing.Point, System.Drawing">
+    <value>228, 62</value>
+  </data>
+  <data name="CharaIconsBtn7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>31, 23</value>
+  </data>
+  <data name="CharaIconsBtn7.TabIndex" type="System.Int32, mscorlib">
+    <value>27</value>
+  </data>
+  <data name="CharaIconsBtn7.Text" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;CharaIconsBtn7.Name" xml:space="preserve">
+    <value>CharaIconsBtn7</value>
+  </data>
+  <data name="&gt;&gt;CharaIconsBtn7.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CharaIconsBtn7.Parent" xml:space="preserve">
+    <value>previewSettingsTab</value>
+  </data>
+  <data name="&gt;&gt;CharaIconsBtn7.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="CharaIconsBtn6.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CharaIconsBtn6.Location" type="System.Drawing.Point, System.Drawing">
+    <value>191, 62</value>
+  </data>
+  <data name="CharaIconsBtn6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>31, 23</value>
+  </data>
+  <data name="CharaIconsBtn6.TabIndex" type="System.Int32, mscorlib">
+    <value>26</value>
+  </data>
+  <data name="CharaIconsBtn6.Text" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;CharaIconsBtn6.Name" xml:space="preserve">
+    <value>CharaIconsBtn6</value>
+  </data>
+  <data name="&gt;&gt;CharaIconsBtn6.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CharaIconsBtn6.Parent" xml:space="preserve">
+    <value>previewSettingsTab</value>
+  </data>
+  <data name="&gt;&gt;CharaIconsBtn6.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="CharaIconsBtn5.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CharaIconsBtn5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>154, 62</value>
+  </data>
+  <data name="CharaIconsBtn5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>31, 23</value>
+  </data>
+  <data name="CharaIconsBtn5.TabIndex" type="System.Int32, mscorlib">
+    <value>25</value>
+  </data>
+  <data name="CharaIconsBtn5.Text" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;CharaIconsBtn5.Name" xml:space="preserve">
+    <value>CharaIconsBtn5</value>
+  </data>
+  <data name="&gt;&gt;CharaIconsBtn5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CharaIconsBtn5.Parent" xml:space="preserve">
+    <value>previewSettingsTab</value>
+  </data>
+  <data name="&gt;&gt;CharaIconsBtn5.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="CharaIconsBtn4.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CharaIconsBtn4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>117, 62</value>
+  </data>
+  <data name="CharaIconsBtn4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>31, 23</value>
+  </data>
+  <data name="CharaIconsBtn4.TabIndex" type="System.Int32, mscorlib">
+    <value>24</value>
+  </data>
+  <data name="CharaIconsBtn4.Text" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;CharaIconsBtn4.Name" xml:space="preserve">
+    <value>CharaIconsBtn4</value>
+  </data>
+  <data name="&gt;&gt;CharaIconsBtn4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CharaIconsBtn4.Parent" xml:space="preserve">
+    <value>previewSettingsTab</value>
+  </data>
+  <data name="&gt;&gt;CharaIconsBtn4.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="CharaIconsBtn3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CharaIconsBtn3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>80, 62</value>
+  </data>
+  <data name="CharaIconsBtn3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>31, 23</value>
+  </data>
+  <data name="CharaIconsBtn3.TabIndex" type="System.Int32, mscorlib">
+    <value>23</value>
+  </data>
+  <data name="CharaIconsBtn3.Text" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;CharaIconsBtn3.Name" xml:space="preserve">
+    <value>CharaIconsBtn3</value>
+  </data>
+  <data name="&gt;&gt;CharaIconsBtn3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CharaIconsBtn3.Parent" xml:space="preserve">
+    <value>previewSettingsTab</value>
+  </data>
+  <data name="&gt;&gt;CharaIconsBtn3.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="CharaIconsBtn2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CharaIconsBtn2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>43, 62</value>
+  </data>
+  <data name="CharaIconsBtn2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>31, 23</value>
+  </data>
+  <data name="CharaIconsBtn2.TabIndex" type="System.Int32, mscorlib">
+    <value>22</value>
+  </data>
+  <data name="CharaIconsBtn2.Text" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;CharaIconsBtn2.Name" xml:space="preserve">
+    <value>CharaIconsBtn2</value>
+  </data>
+  <data name="&gt;&gt;CharaIconsBtn2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CharaIconsBtn2.Parent" xml:space="preserve">
+    <value>previewSettingsTab</value>
+  </data>
+  <data name="&gt;&gt;CharaIconsBtn2.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="CharaIconsBtn1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CharaIconsBtn1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 62</value>
+  </data>
+  <data name="CharaIconsBtn1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>31, 23</value>
+  </data>
+  <data name="CharaIconsBtn1.TabIndex" type="System.Int32, mscorlib">
+    <value>21</value>
+  </data>
+  <data name="CharaIconsBtn1.Text" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;CharaIconsBtn1.Name" xml:space="preserve">
+    <value>CharaIconsBtn1</value>
+  </data>
+  <data name="&gt;&gt;CharaIconsBtn1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CharaIconsBtn1.Parent" xml:space="preserve">
+    <value>previewSettingsTab</value>
+  </data>
+  <data name="&gt;&gt;CharaIconsBtn1.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="CharaIconsLbl.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CharaIconsLbl.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CharaIconsLbl.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 45</value>
+  </data>
+  <data name="CharaIconsLbl.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>110, 0</value>
+  </data>
+  <data name="CharaIconsLbl.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>110, 0</value>
+  </data>
+  <data name="CharaIconsLbl.Size" type="System.Drawing.Size, System.Drawing">
+    <value>110, 14</value>
+  </data>
+  <data name="CharaIconsLbl.TabIndex" type="System.Int32, mscorlib">
+    <value>20</value>
+  </data>
+  <data name="CharaIconsLbl.Text" xml:space="preserve">
+    <value>Character Icons:</value>
+  </data>
+  <data name="CharaIconsLbl.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;CharaIconsLbl.Name" xml:space="preserve">
+    <value>CharaIconsLbl</value>
+  </data>
+  <data name="&gt;&gt;CharaIconsLbl.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CharaIconsLbl.Parent" xml:space="preserve">
+    <value>previewSettingsTab</value>
+  </data>
+  <data name="&gt;&gt;CharaIconsLbl.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
   <data name="ShowComboNumBox.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -1294,7 +1576,7 @@
     <value>previewSettingsTab</value>
   </data>
   <data name="&gt;&gt;ShowComboNumBox.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>10</value>
   </data>
   <data name="previewSettingsTab.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 23</value>
@@ -1410,12 +1692,12 @@
   <data name="&gt;&gt;splitContainer1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <data name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>436, 17</value>
-  </metadata>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  </data>
+  <data name="$this.Localizable" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
+  </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>624, 502</value>
   </data>

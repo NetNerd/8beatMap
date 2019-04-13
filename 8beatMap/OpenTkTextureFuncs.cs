@@ -57,6 +57,18 @@ namespace _8beatMap
         }
 
 
+        public static int LoadTransparentRGBATexture(int width=1, int height=1)
+        {
+            int tex = GenNewTexture();
+
+            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, width, height, 0, PixelFormat.Bgra, PixelType.UnsignedByte, new byte[width*height*4]);
+
+            GL.BindTexture(TextureTarget.Texture2D, 0);
+
+            return tex;
+        }
+
+
         public static int LoadTexture8BitGrayscale(string path)
         {
             Bitmap bmp;

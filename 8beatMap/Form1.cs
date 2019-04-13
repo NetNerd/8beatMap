@@ -540,7 +540,7 @@ namespace _8beatMap
                 OGLrenderer = null;
             }
 
-            OGLrenderer = new GameCloneRenderer_OGL(wndWidth, wndHeight, wndX, wndY, wndState, this, skin, ShowComboNumBox.Checked);
+            OGLrenderer = new GameCloneRenderer_OGL(wndWidth, wndHeight, wndX, wndY, wndState, this, skin, charaicons, ShowComboNumBox.Checked);
             isOpeningPreview = false;
         }
 
@@ -576,6 +576,7 @@ namespace _8beatMap
                 OpenPreviewWindow();
         }
 
+        private CharaIcons.CharaIconInfo[] charaicons = new CharaIcons.CharaIconInfo[8];
 
         public Form1()
         {
@@ -608,6 +609,7 @@ namespace _8beatMap
             UseBeepNoteSounds = Properties.Settings.Default.UseBeepNoteSounds;
             ShowComboNumBox.Checked = Properties.Settings.Default.ShowComboInPreview;
             ChangeFormLanguage(Properties.Settings.Default.Language);
+            charaicons = CharaIcons.LoadCharaIconsDef(Properties.Settings.Default.CharaIcons);
 
             SetSkin(Properties.Settings.Default.Skin);
 
@@ -1006,6 +1008,7 @@ namespace _8beatMap
                 Properties.Settings.Default.UseBeepNoteSounds = UseBeepNoteSounds;
                 Properties.Settings.Default.ShowComboInPreview = ShowComboNumBox.Checked;
                 Properties.Settings.Default.Language = System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
+                Properties.Settings.Default.CharaIcons = CharaIcons.GenCharaIconsDef(charaicons);
 
                 Properties.Settings.Default.Save();
             }
@@ -1087,6 +1090,10 @@ namespace _8beatMap
                 foreach (Control Ctrl in Tab.Controls)
                     resources.ApplyResources(Ctrl, Ctrl.Name);
             }
+
+            resources.ApplyResources(openFileDialog1, "openFileDialog1");
+            resources.ApplyResources(openFileDialog2, "openFileDialog2");
+            resources.ApplyResources(saveFileDialog1, "saveFileDialog1");
 
             ResumeLayout(false);
             PerformLayout();
@@ -1351,6 +1358,27 @@ namespace _8beatMap
         private void ShowComboNumBox_CheckedChanged(object sender, EventArgs e)
         {
             OGLrenderer.showcombo = ShowComboNumBox.Checked;
+        }
+
+        private void CharaIconsBtn_Click(object sender, EventArgs e)
+        {
+            int charanum = int.Parse(((Button)sender).Text.ToString()) - 1;
+
+            CharaIconDialog iconDialog = new CharaIconDialog(skin, charaicons[charanum]);
+            if (iconDialog.ShowDialog() == DialogResult.OK)
+            {
+                charaicons[charanum] = iconDialog.result;
+                OpenPreviewWindow(); // make textures load
+            }
+            iconDialog.Dispose();
+        }
+
+        private void CharaIconsCopyBtn_Click(object sender, EventArgs e)
+        {
+            for (int i = 1; i < charaicons.Length; i++)
+                charaicons[i] = charaicons[0];
+
+            OpenPreviewWindow(); // make textures load
         }
     }
 }

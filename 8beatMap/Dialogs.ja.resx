@@ -170,4 +170,7 @@ BPMの設定するを忘れないください</value>
     <value>スキンを読み込んでエラーが会った：{0}
 このスキンは存在するのをチェックしてもう一度8beatMapを実行してください。</value>
   </data>
+  <data name="SkinVersionWarning" xml:space="preserve">
+    <value>警告：このスキンは他の8beatMapバージョンで作った。ローディングできない場合がある。</value>
+  </data>
 </root>

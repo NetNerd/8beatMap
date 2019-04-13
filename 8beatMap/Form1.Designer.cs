@@ -76,9 +76,19 @@
             this.AudioDelayLbl = new System.Windows.Forms.Label();
             this.AudioDelayBox = new System.Windows.Forms.NumericUpDown();
             this.previewSettingsTab = new System.Windows.Forms.TabPage();
+            this.CharaIconsBtn8 = new System.Windows.Forms.Button();
+            this.CharaIconsBtn7 = new System.Windows.Forms.Button();
+            this.CharaIconsBtn6 = new System.Windows.Forms.Button();
+            this.CharaIconsBtn5 = new System.Windows.Forms.Button();
+            this.CharaIconsBtn4 = new System.Windows.Forms.Button();
+            this.CharaIconsBtn3 = new System.Windows.Forms.Button();
+            this.CharaIconsBtn2 = new System.Windows.Forms.Button();
+            this.CharaIconsBtn1 = new System.Windows.Forms.Button();
+            this.CharaIconsLbl = new System.Windows.Forms.Label();
             this.ShowComboNumBox = new System.Windows.Forms.CheckBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.CharaIconsCopyBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.BPMbox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.newplayhead)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ZoomBox)).BeginInit();
@@ -507,9 +517,80 @@
             // 
             // previewSettingsTab
             // 
+            this.previewSettingsTab.Controls.Add(this.CharaIconsCopyBtn);
+            this.previewSettingsTab.Controls.Add(this.CharaIconsBtn8);
+            this.previewSettingsTab.Controls.Add(this.CharaIconsBtn7);
+            this.previewSettingsTab.Controls.Add(this.CharaIconsBtn6);
+            this.previewSettingsTab.Controls.Add(this.CharaIconsBtn5);
+            this.previewSettingsTab.Controls.Add(this.CharaIconsBtn4);
+            this.previewSettingsTab.Controls.Add(this.CharaIconsBtn3);
+            this.previewSettingsTab.Controls.Add(this.CharaIconsBtn2);
+            this.previewSettingsTab.Controls.Add(this.CharaIconsBtn1);
+            this.previewSettingsTab.Controls.Add(this.CharaIconsLbl);
             this.previewSettingsTab.Controls.Add(this.ShowComboNumBox);
             resources.ApplyResources(this.previewSettingsTab, "previewSettingsTab");
             this.previewSettingsTab.Name = "previewSettingsTab";
+            // 
+            // CharaIconsBtn8
+            // 
+            resources.ApplyResources(this.CharaIconsBtn8, "CharaIconsBtn8");
+            this.CharaIconsBtn8.Name = "CharaIconsBtn8";
+            this.CharaIconsBtn8.UseVisualStyleBackColor = true;
+            this.CharaIconsBtn8.Click += new System.EventHandler(this.CharaIconsBtn_Click);
+            // 
+            // CharaIconsBtn7
+            // 
+            resources.ApplyResources(this.CharaIconsBtn7, "CharaIconsBtn7");
+            this.CharaIconsBtn7.Name = "CharaIconsBtn7";
+            this.CharaIconsBtn7.UseVisualStyleBackColor = true;
+            this.CharaIconsBtn7.Click += new System.EventHandler(this.CharaIconsBtn_Click);
+            // 
+            // CharaIconsBtn6
+            // 
+            resources.ApplyResources(this.CharaIconsBtn6, "CharaIconsBtn6");
+            this.CharaIconsBtn6.Name = "CharaIconsBtn6";
+            this.CharaIconsBtn6.UseVisualStyleBackColor = true;
+            this.CharaIconsBtn6.Click += new System.EventHandler(this.CharaIconsBtn_Click);
+            // 
+            // CharaIconsBtn5
+            // 
+            resources.ApplyResources(this.CharaIconsBtn5, "CharaIconsBtn5");
+            this.CharaIconsBtn5.Name = "CharaIconsBtn5";
+            this.CharaIconsBtn5.UseVisualStyleBackColor = true;
+            this.CharaIconsBtn5.Click += new System.EventHandler(this.CharaIconsBtn_Click);
+            // 
+            // CharaIconsBtn4
+            // 
+            resources.ApplyResources(this.CharaIconsBtn4, "CharaIconsBtn4");
+            this.CharaIconsBtn4.Name = "CharaIconsBtn4";
+            this.CharaIconsBtn4.UseVisualStyleBackColor = true;
+            this.CharaIconsBtn4.Click += new System.EventHandler(this.CharaIconsBtn_Click);
+            // 
+            // CharaIconsBtn3
+            // 
+            resources.ApplyResources(this.CharaIconsBtn3, "CharaIconsBtn3");
+            this.CharaIconsBtn3.Name = "CharaIconsBtn3";
+            this.CharaIconsBtn3.UseVisualStyleBackColor = true;
+            this.CharaIconsBtn3.Click += new System.EventHandler(this.CharaIconsBtn_Click);
+            // 
+            // CharaIconsBtn2
+            // 
+            resources.ApplyResources(this.CharaIconsBtn2, "CharaIconsBtn2");
+            this.CharaIconsBtn2.Name = "CharaIconsBtn2";
+            this.CharaIconsBtn2.UseVisualStyleBackColor = true;
+            this.CharaIconsBtn2.Click += new System.EventHandler(this.CharaIconsBtn_Click);
+            // 
+            // CharaIconsBtn1
+            // 
+            resources.ApplyResources(this.CharaIconsBtn1, "CharaIconsBtn1");
+            this.CharaIconsBtn1.Name = "CharaIconsBtn1";
+            this.CharaIconsBtn1.UseVisualStyleBackColor = true;
+            this.CharaIconsBtn1.Click += new System.EventHandler(this.CharaIconsBtn_Click);
+            // 
+            // CharaIconsLbl
+            // 
+            resources.ApplyResources(this.CharaIconsLbl, "CharaIconsLbl");
+            this.CharaIconsLbl.Name = "CharaIconsLbl";
             // 
             // ShowComboNumBox
             // 
@@ -543,6 +624,13 @@
             // toolTip1
             // 
             this.toolTip1.ShowAlways = true;
+            // 
+            // CharaIconsCopyBtn
+            // 
+            resources.ApplyResources(this.CharaIconsCopyBtn, "CharaIconsCopyBtn");
+            this.CharaIconsCopyBtn.Name = "CharaIconsCopyBtn";
+            this.CharaIconsCopyBtn.UseVisualStyleBackColor = true;
+            this.CharaIconsCopyBtn.Click += new System.EventHandler(this.CharaIconsCopyBtn_Click);
             // 
             // Form1
             // 
@@ -636,6 +724,16 @@
         private System.Windows.Forms.Button ChartDifficultyBtn;
         private System.Windows.Forms.TabPage previewSettingsTab;
         private System.Windows.Forms.CheckBox ShowComboNumBox;
+        private System.Windows.Forms.Button CharaIconsBtn8;
+        private System.Windows.Forms.Button CharaIconsBtn7;
+        private System.Windows.Forms.Button CharaIconsBtn6;
+        private System.Windows.Forms.Button CharaIconsBtn5;
+        private System.Windows.Forms.Button CharaIconsBtn4;
+        private System.Windows.Forms.Button CharaIconsBtn3;
+        private System.Windows.Forms.Button CharaIconsBtn2;
+        private System.Windows.Forms.Button CharaIconsBtn1;
+        private System.Windows.Forms.Label CharaIconsLbl;
+        private System.Windows.Forms.Button CharaIconsCopyBtn;
     }
 }
 

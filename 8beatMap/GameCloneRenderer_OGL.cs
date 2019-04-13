@@ -20,6 +20,8 @@ namespace _8beatMap
 
         private Skinning.Skin skin = Skinning.DefaultSkin;
 
+        private CharaIcons.CharaIconInfo[] charaicons = new CharaIcons.CharaIconInfo[8];
+
         private OpenTkBMFontRenderer combofontrenderer = null;
 
         public bool showcombo = true;
@@ -100,8 +102,11 @@ namespace _8beatMap
                 {
                     if (!textures.ContainsKey(tex.Key))
                         textures.Add(tex.Key, OpenTkTextureLoadFuncs.LoadTexture(tex.Value));
-                    else
-                        textures[tex.Key] = OpenTkTextureLoadFuncs.LoadTexture(tex.Value);
+                    //else
+                    //{
+                    //    OpenTkTextureLoadFuncs.UnloadTexture(textures[tex.Key]);
+                    //    textures[tex.Key] = OpenTkTextureLoadFuncs.LoadTexture(tex.Value);
+                    //}
                 }
                 catch
                 {
@@ -109,12 +114,100 @@ namespace _8beatMap
                     Stop();
                 }
             }
+
+
+            // create an empty texture for using in otherwise unloaded chara icon textures
+            // this avoids needing to check for their existence in the rendering loop
+            int emptytex = OpenTkTextureLoadFuncs.LoadTransparentRGBATexture();
+
+            for (int i = 0; i < charaicons.Length; i++)
+            {
+                string iconkey = "spr_Charaicon" + i.ToString();
+                string icontex = charaicons[i].ImagePath;
+
+                string typestr = (charaicons[i].Type + 1).ToString();
+                string raritystr = (charaicons[i].Rarity + 1).ToString();
+
+                string frontkey = "sprCharafront" + typestr + raritystr;
+                string fronttex = skin.RootDir + "/charaimg/icon" + typestr + "_rare" + raritystr + "_front.png";
+
+                string backkey = "sprCharaback" + typestr + raritystr;
+                string backtex = skin.RootDir + "/charaimg/icon" + typestr + "_rare" + raritystr + "_bg.png";
+                
+
+                if (icontex != null && icontex.Length > 0)
+                {
+                    try
+                    {
+                        if (!textures.ContainsKey(iconkey))
+                            textures.Add(iconkey, OpenTkTextureLoadFuncs.LoadTexture(icontex));
+                    }
+                    catch
+                    {
+                        SkinnedMessageBox.Show(skin, DialogResMgr.GetString("MissingTextureError") + "\n(" + icontex + ")", "", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                        Stop();
+                    }
+                }
+                else
+                {
+                    // load an empty texture if no icon is specified
+                    if (!textures.ContainsKey(iconkey))
+                        textures.Add(iconkey, emptytex);
+                }
+
+
+                try
+                {
+                    if (!textures.ContainsKey(frontkey))
+                        textures.Add(frontkey, OpenTkTextureLoadFuncs.LoadTexture(fronttex));
+                }
+                catch
+                {
+                    SkinnedMessageBox.Show(skin, DialogResMgr.GetString("MissingTextureError") + "\n(" + fronttex + ")", "", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                    Stop();
+                }
+
+                try
+                {
+                    if (!textures.ContainsKey(backkey))
+                        textures.Add(backkey, OpenTkTextureLoadFuncs.LoadTexture(backtex));
+                }
+                catch
+                {
+                    SkinnedMessageBox.Show(skin, DialogResMgr.GetString("MissingTextureError") + "\n(" + backtex + ")", "", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                    Stop();
+                }
+            }
+
+
+            // load empty textures for all unused front and back textures
+            // not necessary, so commented (can be restored later if needed)
+            //for (int i = 1; i < 4; i++)
+            //{
+            //    string typestr = i.ToString();
+
+            //    for (int j = 1; j < 4; j++)
+            //    {
+            //        string raritystr = j.ToString();
+
+            //        string frontkey = "sprCharafront" + typestr + raritystr;
+            //        string backkey = "sprCharaback" + typestr + raritystr;
+
+            //        if (!textures.ContainsKey(frontkey))
+            //            textures.Add(frontkey, emptytex);
+
+            //        if (!textures.ContainsKey(backkey))
+            //            textures.Add(backkey, emptytex);
+            //    }
+            //}
+
         }
 
-        public GameCloneRenderer_OGL(int wndWidth, int wndHeight, int wndX, int wndY, WindowState wndState, Form1 mainform, Skinning.Skin skin, bool showcombo)
+        public GameCloneRenderer_OGL(int wndWidth, int wndHeight, int wndX, int wndY, WindowState wndState, Form1 mainform, Skinning.Skin skin, CharaIcons.CharaIconInfo[] charaicons, bool showcombo)
         {
             this.mainform = mainform;
             this.skin = skin;
+            this.charaicons = (CharaIcons.CharaIconInfo[])charaicons.Clone();
             this.showcombo = showcombo;
             numLanes = skin.NumLanes;
             NodeStartLocs = (Point[])skin.NodeStartLocs.Clone();
@@ -252,15 +345,34 @@ namespace _8beatMap
 
             GL.Color4(1f, 1f, 1f, 1f);
 
-            DrawFilledRect(NodeEndLocs[0].X - halfIconSize, NodeEndLocs[0].Y - halfIconSize, iconSize, iconSize, "spr_Chara1");
-            DrawFilledRect(NodeEndLocs[1].X - halfIconSize, NodeEndLocs[1].Y - halfIconSize, iconSize, iconSize, "spr_Chara2");
-            DrawFilledRect(NodeEndLocs[2].X - halfIconSize, NodeEndLocs[2].Y - halfIconSize, iconSize, iconSize, "spr_Chara3");
-            DrawFilledRect(NodeEndLocs[3].X - halfIconSize, NodeEndLocs[3].Y - halfIconSize, iconSize, iconSize, "spr_Chara4");
-            DrawFilledRect(NodeEndLocs[4].X - halfIconSize, NodeEndLocs[4].Y - halfIconSize, iconSize, iconSize, "spr_Chara5");
-            DrawFilledRect(NodeEndLocs[5].X - halfIconSize, NodeEndLocs[5].Y - halfIconSize, iconSize, iconSize, "spr_Chara6");
-            DrawFilledRect(NodeEndLocs[6].X - halfIconSize, NodeEndLocs[6].Y - halfIconSize, iconSize, iconSize, "spr_Chara7");
-            DrawFilledRect(NodeEndLocs[7].X - halfIconSize, NodeEndLocs[7].Y - halfIconSize, iconSize, iconSize, "spr_Chara8");
+            for (int i = 0; i < charaicons.Length; i++)
+            {
+                string key = "spr_Charaicon" + i.ToString();
 
+                string typestr = (charaicons[i].Type + 1).ToString();
+                string raritystr = (charaicons[i].Rarity + 1).ToString();
+
+                string frontkey = "sprCharafront" + typestr + raritystr;
+                string backkey = "sprCharaback" + typestr + raritystr;
+
+                int charaiconsize = charaicons[i].IconSize;
+                int halfcharaiconsize = charaiconsize / 2;
+
+
+                DrawFilledRect(NodeEndLocs[i].X - halfIconSize, NodeEndLocs[i].Y - halfIconSize, iconSize, iconSize, backkey);
+                DrawFilledRect(NodeEndLocs[i].X - halfcharaiconsize, NodeEndLocs[i].Y - halfcharaiconsize, charaiconsize, charaiconsize, key);
+                DrawFilledRect(NodeEndLocs[i].X - halfIconSize, NodeEndLocs[i].Y - halfIconSize, iconSize, iconSize, frontkey);
+            }
+
+            //DrawFilledRect(NodeEndLocs[0].X - halfIconSize, NodeEndLocs[0].Y - halfIconSize, iconSize, iconSize, "spr_Chara1");
+            //DrawFilledRect(NodeEndLocs[1].X - halfIconSize, NodeEndLocs[1].Y - halfIconSize, iconSize, iconSize, "spr_Chara2");
+            //DrawFilledRect(NodeEndLocs[2].X - halfIconSize, NodeEndLocs[2].Y - halfIconSize, iconSize, iconSize, "spr_Chara3");
+            //DrawFilledRect(NodeEndLocs[3].X - halfIconSize, NodeEndLocs[3].Y - halfIconSize, iconSize, iconSize, "spr_Chara4");
+            //DrawFilledRect(NodeEndLocs[4].X - halfIconSize, NodeEndLocs[4].Y - halfIconSize, iconSize, iconSize, "spr_Chara5");
+            //DrawFilledRect(NodeEndLocs[5].X - halfIconSize, NodeEndLocs[5].Y - halfIconSize, iconSize, iconSize, "spr_Chara6");
+            //DrawFilledRect(NodeEndLocs[6].X - halfIconSize, NodeEndLocs[6].Y - halfIconSize, iconSize, iconSize, "spr_Chara7");
+            //DrawFilledRect(NodeEndLocs[7].X - halfIconSize, NodeEndLocs[7].Y - halfIconSize, iconSize, iconSize, "spr_Chara8");
+            
 
 
             GL.Color4(0.65f, 0.65f, 0.65f, 0.65f); //transparency
