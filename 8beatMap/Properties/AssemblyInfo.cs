@@ -5,10 +5,10 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("8beatMap")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("8beatMap - 8 beat Story♪ Chart Editor")]
+[assembly: AssemblyDescription("Open Source Chart Editor for 8 beat Story♪ and Girls Beat Stage!")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("8beatMap")]
 [assembly: AssemblyProduct("8beatMap")]
 [assembly: AssemblyCopyright("Copyright © 2019")]
 [assembly: AssemblyTrademark("")]
