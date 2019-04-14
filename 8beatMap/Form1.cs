@@ -165,6 +165,9 @@ namespace _8beatMap
 
             int iconXOffset = 0;
 
+            int swipeLineWeight = iconWidth / 3;
+            if (swipeLineWeight > iconHeight) swipeLineWeight = iconHeight;
+
             if ((laneWidth - iconWidth) % 2 == 1) iconXOffset = 1; // fix spacing if odd number of padding pixels (impossible for even number)
 
             for (int i = (int)startTick - 24; i < startTick + height / tickHeight; i++)
@@ -188,7 +191,7 @@ namespace _8beatMap
                         Point swipeEndPoint = chart.Ticks[i].Notes[j].SwipeEndPoint;
 
                         if (swipeEndPoint.X > i)
-                            Grfx.DrawLine(new Pen(skin.EditorNoteColours[NoteTypes.NoteTypeDefs.ExtendHoldMid.TypeName][0], iconWidth / 3), (float)(j + 0.5) * laneWidth, height - (float)(i - startTick + ShiftYTicks + 0.5) * tickHeight - 2, (float)(swipeEndPoint.Y + 0.5) * laneWidth + iconXOffset, height - (float)(swipeEndPoint.X - startTick + ShiftYTicks + 0.5) * tickHeight - 2);
+                            Grfx.DrawLine(new Pen(skin.EditorNoteColours[NoteTypes.NoteTypeDefs.ExtendHoldMid.TypeName][0], swipeLineWeight), (float)(j + 0.5) * laneWidth, height - (float)(i - startTick + ShiftYTicks + 0.5) * tickHeight - 2, (float)(swipeEndPoint.Y + 0.5) * laneWidth + iconXOffset, height - (float)(swipeEndPoint.X - startTick + ShiftYTicks + 0.5) * tickHeight - 2);
                             
                     }
 
