@@ -21,8 +21,6 @@ namespace _8beatMap
         static public CachedSound NoteSoundWave;
         static public CachedSound NoteSoundWave_Swipe;
 
-        public static NAudio.Wave.SampleProviders.OffsetSampleProvider NoteSoundTrim;
-
 
         static System.Resources.ResourceManager DialogResMgr = new System.Resources.ResourceManager("_8beatMap.Dialogs", System.Reflection.Assembly.GetEntryAssembly());
 
@@ -130,13 +128,23 @@ namespace _8beatMap
             WaveOut.Play();
         }
 
-        static public void PlayNoteSound(CachedSound sound)
+        static public void PlayNoteSound(CachedSound snd, int skipMs = 0, int takeMs = 0)
         {
-            WaveMixer.AddMixerInput(new CachedSoundSampleProvider(sound));
+            PlayNoteSound(new CachedSoundSampleProvider(snd), skipMs, takeMs);
         }
-        static public void PlayNoteSound(ISampleProvider sound)
+        static public void PlayNoteSound(ISampleProvider snd, int skipMs = 0, int takeMs = 0)
         {
-            WaveMixer.AddMixerInput(sound);
+            NAudio.Wave.SampleProviders.OffsetSampleProvider NoteSoundTrim = new NAudio.Wave.SampleProviders.OffsetSampleProvider(snd);
+
+            if (skipMs < 0)
+                NoteSoundTrim.DelayBy = TimeSpan.FromMilliseconds(-skipMs);
+            else
+                NoteSoundTrim.SkipOver = TimeSpan.FromMilliseconds(skipMs);
+
+            if (takeMs > 0)
+                NoteSoundTrim.Take = TimeSpan.FromMilliseconds(takeMs);
+
+            WaveMixer.AddMixerInput(NoteSoundTrim);
         }
 
         static public void SetVolume(float vol)

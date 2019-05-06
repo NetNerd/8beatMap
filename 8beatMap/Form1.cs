@@ -705,18 +705,7 @@ namespace _8beatMap
                             {
                                 if (note.DetectType == NoteTypes.DetectType.Tap | note.DetectType == NoteTypes.DetectType.Hold | note.DetectType == NoteTypes.DetectType.GbsClock)
                                 {
-                                    //Sound.PlayNoteSound(Sound.NoteSoundWave);
-                                    Sound.NoteSoundTrim = new NAudio.Wave.SampleProviders.OffsetSampleProvider(new Sound.CachedSoundSampleProvider(Sound.NoteSoundWave));
-                                    //if (MusicDelayMs > 30)
-                                    //    Sound.NoteSoundTrim.DelayBy = TimeSpan.FromMilliseconds(MusicDelayMs - 30);
-                                    //else
-                                    //    Sound.NoteSoundTrim.SkipOver = TimeSpan.FromMilliseconds(30 - MusicDelayMs);
-                                    if (DefaultMusicDelayMs > 30)
-                                        Sound.NoteSoundTrim.DelayBy = TimeSpan.FromMilliseconds(DefaultMusicDelayMs - 30);
-                                    else
-                                        Sound.NoteSoundTrim.SkipOver = TimeSpan.FromMilliseconds(30 - DefaultMusicDelayMs);
-
-                                    Sound.PlayNoteSound(Sound.NoteSoundTrim);
+                                    Sound.PlayNoteSound(Sound.NoteSoundWave, 30 - DefaultMusicDelayMs);
                                 }
 
                                 else if ((note.DetectType == NoteTypes.DetectType.SwipeEndPoint & !chart.Ticks[i].Notes[j].IsSwipeEnd) ||
@@ -724,18 +713,8 @@ namespace _8beatMap
                                          note.DetectType == NoteTypes.DetectType.GbsFlick ||
                                          (note.DetectType == NoteTypes.DetectType.SwipeDirChange && LastSwipeSoundTime + ConnectedSwipeSoundTimeout < DateTime.UtcNow))
                                 {
-                                    //Sound.PlayNoteSound(Sound.NoteSoundWave_Swipe);
-                                    Sound.NoteSoundTrim = new NAudio.Wave.SampleProviders.OffsetSampleProvider(new Sound.CachedSoundSampleProvider(Sound.NoteSoundWave_Swipe));
-                                    //if (MusicDelayMs > 30)
-                                    //    Sound.NoteSoundTrim.DelayBy = TimeSpan.FromMilliseconds(MusicDelayMs - 30);
-                                    //else
-                                    //    Sound.NoteSoundTrim.SkipOver = TimeSpan.FromMilliseconds(30 - MusicDelayMs);
-                                    if (DefaultMusicDelayMs > 30)
-                                        Sound.NoteSoundTrim.DelayBy = TimeSpan.FromMilliseconds(DefaultMusicDelayMs - 30);
-                                    else
-                                       Sound.NoteSoundTrim.SkipOver = TimeSpan.FromMilliseconds(30 - DefaultMusicDelayMs);
 
-                                    Sound.PlayNoteSound(Sound.NoteSoundTrim);
+                                    Sound.PlayNoteSound(Sound.NoteSoundWave_Swipe, 30 - DefaultMusicDelayMs);
 
                                     LastSwipeSoundTime = DateTime.UtcNow;
                                 }
@@ -743,11 +722,7 @@ namespace _8beatMap
 
                             else if (note.NotNode != true & note.DetectType != NoteTypes.DetectType.SwipeMid)
                             {
-                                Sound.NoteSoundTrim = new NAudio.Wave.SampleProviders.OffsetSampleProvider(Sound.NoteSoundSig);
-                                Sound.NoteSoundTrim.Take = TimeSpan.FromMilliseconds(20);
-                                //Sound.NoteSoundTrim.DelayBy = TimeSpan.FromMilliseconds(MusicDelayMs + 5);
-                                Sound.NoteSoundTrim.DelayBy = TimeSpan.FromMilliseconds(DefaultMusicDelayMs + 5);
-                                Sound.PlayNoteSound(Sound.NoteSoundTrim);
+                                Sound.PlayNoteSound(Sound.NoteSoundSig, -(DefaultMusicDelayMs + 5), 20);
                             }
                         }
                     }
