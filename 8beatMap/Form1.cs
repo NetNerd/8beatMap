@@ -675,7 +675,7 @@ namespace _8beatMap
         int MusicDelayMs = DefaultMusicDelayMs;
         bool UseBeepNoteSounds = false;
         DateTime LastSwipeSoundTime = DateTime.UtcNow;
-        TimeSpan ConnectedSwipeSoundTimeout = TimeSpan.FromMilliseconds(165);
+        TimeSpan ConnectedSwipeSoundTimeout = TimeSpan.FromMilliseconds(160);
 
         private void playtimer_Tick(object sender, EventArgs e)
         {
