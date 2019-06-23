@@ -16,18 +16,18 @@ namespace _8beatMap
     {
         System.Resources.ResourceManager DialogResMgr = new System.Resources.ResourceManager("_8beatMap.Dialogs", System.Reflection.Assembly.GetEntryAssembly());
         System.Resources.ResourceManager NotetypeNamesResMgr = new System.Resources.ResourceManager("_8beatMap.NotetypeNames", System.Reflection.Assembly.GetEntryAssembly());
-        
+
         public Notedata.Chart chart = new Notedata.Chart(32 * 48, 120, "New Chart");
         private int TickHeight = 10;
         private int IconWidth = 20;
         private int IconHeight = 10;
         private double CurrentTick = 0;
         private double LastTick = 0;
-        
+
         private DateTime PlaybackVideoTickStartTime = DateTime.UtcNow;
 
 
-        private System.Timers.Timer playTimer = new System.Timers.Timer(1000/120d);
+        private MultimediaTimer playTimer = new MultimediaTimer() { Interval = (int)(1000 / 240d) };
         public bool IsPlaying
         {
             get { return playTimer.Enabled; }
@@ -36,7 +36,7 @@ namespace _8beatMap
 
         private double lastTickForSmoothing = 0;
         private DateTime lastTickChange = DateTime.UtcNow;
-        
+
         private double getSmoothedPlayTickTime(double rawtick)
         {
             //rawtick = getAveragedPlayTickTime(rawtick);
@@ -149,14 +149,14 @@ namespace _8beatMap
             Brush QuarterLineBrush = new SolidBrush(skin.UIColours[UIColours.UIColourDefs.Chart_QuarterLine.TypeName]);
             Brush EigthLineBrush = new SolidBrush(skin.UIColours[UIColours.UIColourDefs.Chart_EigthLine.TypeName]);
 
-            
+
             for (int i = 0; i < 8; i++)
             {
                 Color col = skin.UIColours[UIColours.UIColourDefs.Chart_BG_Lane1.TypeName.Replace("1", (i + 1).ToString())];
-                if (col.A > 0) Grfx.FillRectangle(new SolidBrush(skin.UIColours[UIColours.UIColourDefs.Chart_BG_Lane1.TypeName.Replace("1", (i+1).ToString())]), i * width / 8, 0, width / 8, height);
+                if (col.A > 0) Grfx.FillRectangle(new SolidBrush(skin.UIColours[UIColours.UIColourDefs.Chart_BG_Lane1.TypeName.Replace("1", (i + 1).ToString())]), i * width / 8, 0, width / 8, height);
                 if (i > 0 & !NoGrid) Grfx.FillRectangle(LaneLineBrush, i * width / 8, 0, 1, height);
             }
-            
+
 
 
             float laneWidth = width / 8f;
@@ -192,7 +192,7 @@ namespace _8beatMap
 
                         if (swipeEndPoint.X > i)
                             Grfx.DrawLine(new Pen(skin.EditorNoteColours[NoteTypes.NoteTypeDefs.ExtendHoldMid.TypeName][0], swipeLineWeight), (float)(j + 0.5) * laneWidth, height - (float)(i - startTick + ShiftYTicks + 0.5) * tickHeight - 2, (float)(swipeEndPoint.Y + 0.5) * laneWidth + iconXOffset, height - (float)(swipeEndPoint.X - startTick + ShiftYTicks + 0.5) * tickHeight - 2);
-                            
+
                     }
 
 
@@ -236,7 +236,7 @@ namespace _8beatMap
                         if (!DrawBarNumsAfter)
                         {
                             Grfx.DrawString((timesig.StartBar + (i - timesig.StartTick) / (timesig.Numerator * 48 / timesig.Denominator) + 1).ToString(), BarNumFont, BarTextBrush, 0, height - (float)(i - startTick + ShiftYTicks) * tickHeight - 4 - (int)Math.Round(BarNumSize));
-                            if (ShowTypeIdsOnNotes) Grfx.DrawString(i.ToString(), BarNumFont, BarTextBrush, width - (int)(BarNumSize*3.5), height - (float)(i - startTick + ShiftYTicks) * tickHeight - 4 - (int)Math.Round(BarNumSize));
+                            if (ShowTypeIdsOnNotes) Grfx.DrawString(i.ToString(), BarNumFont, BarTextBrush, width - (int)(BarNumSize * 3.5), height - (float)(i - startTick + ShiftYTicks) * tickHeight - 4 - (int)Math.Round(BarNumSize));
                         }
                     }
                     else if ((i - timesig.StartTick) % (48 / timesig.Denominator) == 0) // notes of denominator length -- 48 = one whole note (four quarters)
@@ -270,7 +270,7 @@ namespace _8beatMap
 
             Grfx.Dispose();
             return Bmp;
-        }        
+        }
 
 
         private void SetCurrTick(double tick)
@@ -316,7 +316,7 @@ namespace _8beatMap
 
         int VideoDelayMs = 110;
         int GameCloneOffsetMs = -20;
-        
+
         public void UpdateChart()
         {
             double tick = CurrentTick;
@@ -342,7 +342,7 @@ namespace _8beatMap
             {
                 // derive ticks from time if in playback (if not use current tick)
                 tick = chart.ConvertTimeToTicks(DateTime.UtcNow - PlaybackVideoTickStartTime);
-                tick -= chart.ConvertTimeToTicks(TimeSpan.FromMilliseconds(VideoDelayMs+GameCloneOffsetMs));
+                tick -= chart.ConvertTimeToTicks(TimeSpan.FromMilliseconds(VideoDelayMs + GameCloneOffsetMs));
                 //tick -= chart.ConvertTimeToTicks(TimeSpan.FromMilliseconds(MusicDelayMs));
             }
 
@@ -353,12 +353,12 @@ namespace _8beatMap
 
         private int ConvertXCoordToNote(int X)
         {
-            return ((X - pictureBox1.Location.X) / (pictureBox1.Width/8));
+            return ((X - pictureBox1.Location.X) / (pictureBox1.Width / 8));
         }
 
         private double ConvertYCoordToTick(int Y)
         {
-            return (pictureBox1.Location.Y + pictureBox1.Height - Y - 2 + CurrentTick%1 - TickHeight/2) / TickHeight + CurrentTick;
+            return (pictureBox1.Location.Y + pictureBox1.Height - Y - 2 + CurrentTick % 1 - TickHeight / 2) / TickHeight + CurrentTick;
         }
 
 
@@ -390,21 +390,9 @@ namespace _8beatMap
             UpdateChart();
         }
 
-        [System.Runtime.InteropServices.DllImport("winmm.dll", EntryPoint = "timeBeginPeriod")]
-        public static extern uint MM_timeBeginPeriod(uint uMilliseconds);
-        [System.Runtime.InteropServices.DllImport("winmm.dll", EntryPoint = "timeEndPeriod")]
-        public static extern uint MM_timeEndPeriod(uint uMilliseconds);
 
         private void StartPlayback()
-        {
-            try
-            {
-                MM_timeBeginPeriod(2);
-            }
-            catch
-            { }
-
-            PlaybackVideoTickStartTime = DateTime.UtcNow - chart.ConvertTicksToTime(CurrentTick);
+        {PlaybackVideoTickStartTime = DateTime.UtcNow - chart.ConvertTicksToTime(CurrentTick);
             playTimer.Enabled = true;
             Sound.PlayMusic();
         }
@@ -414,13 +402,6 @@ namespace _8beatMap
             if (playTimer.Enabled) // check this because timeEndPeriod calls should match with timeBeginPeriod calls
             {
                 playTimer.Enabled = false;
-                
-                try
-                {
-                    MM_timeEndPeriod(2);
-                }
-                catch
-                { }
             }
             Sound.StopMusic();
             UpdateChart();
@@ -489,7 +470,7 @@ namespace _8beatMap
                 currentNoteTypes.Add(NotetypeNamesResMgr.GetString(type.Key), type.Value);
                 NoteTypeSelector.Items.Add(new KeyValuePair<string, int>(NotetypeNamesResMgr.GetString(type.Key), type.Value));
             }
-            
+
             NoteTypeSelector.SelectedIndex = oldindex;
         }
 
@@ -553,7 +534,7 @@ namespace _8beatMap
             System.Threading.Thread thread = new System.Threading.Thread(OpenPreviewWindow_Int);
             thread.Start();
         }
-        
+
 
         private Skinning.Skin skin = Skinning.DefaultSkin;
         private void SetSkin(string skin)
@@ -624,7 +605,7 @@ namespace _8beatMap
             toolTip1.SetToolTip(VolumeBar, VolumeBar.Value.ToString());
 
             ZoomBox.Value = TickHeight;
-            
+
             ActiveControl = ZoomLbl;
 
             Sound.InitWaveOut();
@@ -633,7 +614,8 @@ namespace _8beatMap
             SetCurrTick(0);
             UpdateChart();
 
-            playTimer.SynchronizingObject = this;
+            //playTimer.SynchronizingObject = this;
+
             playTimer.Elapsed += playtimer_Tick;
         }
 
@@ -664,7 +646,7 @@ namespace _8beatMap
         {
             StopPlayback();
         }
-        
+
 
         private void LogMissedTick(object sender, EventArgs e)
         {
@@ -677,8 +659,24 @@ namespace _8beatMap
         DateTime LastSwipeSoundTime = DateTime.UtcNow;
         TimeSpan ConnectedSwipeSoundTimeout = TimeSpan.FromMilliseconds(160);
 
+        private delegate void playtimer_Tick_Delegate(object sender, EventArgs e);
+
         private void playtimer_Tick(object sender, EventArgs e)
         {
+            if (InvokeRequired)
+            {
+                playtimer_Tick_Delegate playtimer_Tick_Handler = playtimer_Tick;
+                try
+                {
+                    Invoke(playtimer_Tick_Handler, new object[] { sender, e });
+                }
+                catch (ObjectDisposedException)
+                {
+                    return; // checking for Disposed before calling didn't help, so just catch this
+                }
+                return;
+            }
+
             playTimer.Elapsed -= playtimer_Tick; //avoid being called again if still running, but don't interrupt timing
             playTimer.Elapsed += LogMissedTick;
 
