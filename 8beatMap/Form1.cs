@@ -34,89 +34,7 @@ namespace _8beatMap
         }
 
 
-        private double lastTickForSmoothing = 0;
-        private DateTime lastTickChange = DateTime.UtcNow;
-
-        private double getSmoothedPlayTickTime(double rawtick)
-        {
-            //rawtick = getAveragedPlayTickTime(rawtick);
-
-            TimeSpan timeDelta = DateTime.UtcNow - lastTickChange;
-            double interpTick = lastTickForSmoothing + chart.ConvertTimeToTicks(timeDelta);
-            double absdiff = Math.Abs(rawtick - interpTick);
-
-            if (!this.IsPlaying || timeDelta > TimeSpan.FromMilliseconds(1000) || absdiff > 0.75)
-            {
-                lastTickForSmoothing = rawtick;
-                lastTickChange = DateTime.UtcNow;
-                return lastTickForSmoothing;
-            }
-
-
-            if (absdiff > 1) absdiff = 1;
-            int tenAbsdiff = (int)(absdiff * 10);
-
-            if (absdiff > 0.2)
-            {
-                lastTickForSmoothing = (interpTick * (10 - tenAbsdiff) + rawtick) / (11 - tenAbsdiff);
-                lastTickChange = DateTime.UtcNow;
-
-                return lastTickForSmoothing;
-            }
-            else
-            {
-                return interpTick;
-            }
-        }
-
-
-        private double[] prevPlayTicks = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
-
-        private double getAveragedPlayTickTime(double rawtick)
-        {
-            //return getSmoothedPlayTickTime(rawtick);
-            rawtick = (rawtick + getSmoothedPlayTickTime(rawtick) * 2) / 3d;
-
-            double avgTickDelta = 0;
-            int numentries = 0;
-            for (int i = 1; i < prevPlayTicks.Length; i++)
-            {
-                if (prevPlayTicks[i] >= 0)
-                {
-                    avgTickDelta += prevPlayTicks[i - 1] - prevPlayTicks[i];
-                    numentries++;
-                }
-            }
-            if (numentries > 0)
-                avgTickDelta /= numentries;
-            else
-                avgTickDelta = 0;
-
-            double averagedTick = prevPlayTicks[0] + avgTickDelta;
-
-            if (Math.Abs(rawtick - averagedTick) > 2 | !this.IsPlaying) // averaged tick is too different to raw tick or playtimer isn't enabled -- reset all to default state
-            {
-                prevPlayTicks[0] = rawtick;
-                for (int i = 1; i < prevPlayTicks.Length; i++)
-                {
-                    prevPlayTicks[i] = -1;
-                }
-            }
-            else
-            {
-                for (int i = prevPlayTicks.Length - 1; i > 0; --i)
-                {
-                    prevPlayTicks[i] = prevPlayTicks[i - 1];
-                }
-                if (numentries > 0)
-                    prevPlayTicks[0] = (averagedTick * 2 + rawtick) / 3; // add some portion of rawtick to help avoid drifting
-                else
-                    prevPlayTicks[0] = rawtick; // if there was no valid average made, it's necessary to just use the raw value provided
-            }
-
-            if (prevPlayTicks[0] < 0) prevPlayTicks[0] = 0;
-            return (prevPlayTicks[0] + rawtick) / 2;
-        }
+        TickSmoothing TickSmoother;
 
 
         GameCloneRenderer_OGL OGLrenderer = null;
@@ -278,7 +196,7 @@ namespace _8beatMap
             if (tick < 0) tick = 0;
             if (tick >= chart.Length) tick = chart.Length - 1;
 
-            CurrentTick = getAveragedPlayTickTime(tick);
+            CurrentTick = TickSmoother.getAveragedPlayTickTime(tick);
             if (CurrentTick < 0) CurrentTick = 0;
             if (CurrentTick >= chart.Length) CurrentTick = chart.Length - 1;
 
@@ -566,6 +484,8 @@ namespace _8beatMap
         {
             InitializeComponent();
             UpdateWindowTitle();
+
+            TickSmoother = new TickSmoothing() { form = this };
 
             this.SuspendLayout();
             this.Font = new Font(SystemFonts.MessageBoxFont.FontFamily, 8.8f);

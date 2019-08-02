@@ -97,6 +97,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Dialogs.resx</DependentUpon>
     </Compile>
+    <Compile Include="TickSmoothing.cs" />
     <Compile Include="UIColours.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
