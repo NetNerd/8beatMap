@@ -85,7 +85,7 @@ namespace _8beatMap
             System.Drawing.Imaging.BitmapData bmpData = bmp.LockBits(new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height),
                 System.Drawing.Imaging.ImageLockMode.ReadOnly, bmp.PixelFormat);
 
-            int bytesPerPixel = bmpData.Stride / bmp.Width;
+            int bytesPerPixel = (Image.GetPixelFormatSize(bmpData.PixelFormat) + 7) / 8;
 
 
             IntPtr monoDataScan = IntPtr.Zero;
@@ -105,9 +105,23 @@ namespace _8beatMap
             {
                 byte* inputData = (byte*)bmpData.Scan0;
                 byte* outputData = (byte*)monoDataScan;
-                for (int i = 0; i < bmp.Height * bmpData.Stride; i += bytesPerPixel)
+
+                if (bmp.Width * bytesPerPixel == bmpData.Stride) // fast path if possible (stride == width)
                 {
-                    outputData[i / bytesPerPixel] = inputData[i]; // just sample blue because it's easiest
+                    for (int i = 0; i < bmp.Height * bmpData.Stride; i += bytesPerPixel)
+                    {
+                        outputData[i / bytesPerPixel] = inputData[i]; // just sample blue because it's easiest
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < bmp.Height; i++)
+                    {
+                        for (int j = 0; j < bmp.Width; j++)
+                        {
+                            outputData[i * bmp.Width + j] = inputData[i * bmpData.Stride + j * bytesPerPixel]; // just sample blue because it's easiest
+                        }
+                    }
                 }
             }
 
@@ -148,7 +162,7 @@ namespace _8beatMap
             System.Drawing.Imaging.BitmapData bmpData = bmp.LockBits(new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height),
                 System.Drawing.Imaging.ImageLockMode.ReadOnly, bmp.PixelFormat);
 
-            int bytesPerPixel = bmpData.Stride / bmp.Width;
+            int bytesPerPixel = (Image.GetPixelFormatSize(bmpData.PixelFormat) + 7) / 8;
 
 
             IntPtr[] monoDataScans = new IntPtr[bytesPerPixel];
@@ -176,10 +190,28 @@ namespace _8beatMap
 
                 byte* inputData = (byte*)bmpData.Scan0;
 
-                for (int i = 0; i < bmp.Height * bmpData.Stride; i += bytesPerPixel)
+                if (bmp.Width * bytesPerPixel == bmpData.Stride) // fast path if possible (stride == width)
                 {
-                    for (int j = 0; j < bytesPerPixel; j++)
-                        planes[j][i / bytesPerPixel] = inputData[i + j];
+                    for (int i = 0; i < bmp.Height * bmpData.Stride; i += bytesPerPixel)
+                    {
+                        for (int j = 0; j < bytesPerPixel; j++)
+                        {
+                            planes[j][i / bytesPerPixel] = inputData[i + j];
+                        }
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < bmp.Height; i++)
+                    {
+                        for (int j = 0; j < bmp.Width; j++)
+                        {
+                            for (int k = 0; k < bytesPerPixel; k++)
+                            {
+                                planes[k][i * bmp.Width + j] = inputData[i * bmpData.Stride + j * bytesPerPixel + k];
+                            }
+                        }
+                    }
                 }
             }
 
