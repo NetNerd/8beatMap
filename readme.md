@@ -54,7 +54,7 @@ skins.zip is just additional skins (optional). If you want the additional skins,
 8：GBS時計　　　I：同時にGBS時計
 
 特別なノードタイプ：  
-・「同時に～」はピンク色のノード。　オート機能がありますので手動の置くのは要らない。  
+・「同時に～」はピンク色のノード。　オート機能がありますので手動の置きは要らない。　　　※色はスキンで違えます  
 ・「同時に長い押すの最初」は長い押すのファースト音符のピンク色版。　「同時に長い押すの最後」は長い押すのラスト音符のピンク色版。　　　※普通の長い押す（緑／同時じゃない）場合では特別なノードタイプは必要ない。  
 ・「フリック」は一つのノードだけ、「スワイプ」は2つ以上のノードで。  
 ・「スワイプの端」とはスワイプの最初や最後のノード、「スワイプの真ん中で」とは他のスワイプノード。  
@@ -102,7 +102,7 @@ Note types can be selected with keyboard shortcuts too:
 8: GBSClock　　　I: GBSSimulClock
 
 Special note types:  
--"Simul-" notes are the pink ones (at the same time as others). There's an auto feature, so you don't need to place them manually.  
+-"Simul-" notes are the pink ones (at the same time as others). There's an auto feature, so you don't need to place them manually.    --Note: colours may change depending on skin.  
 -"SimulHoldStart" is the pink version of the first note in a hold.  "SimulHoldRelease" is the pink version of the last note in a hold.    --You don't need a special note type for normal (green/non-simul) holds.  
 -Flicks are just single notes and holds are when there's more than one.  
 -"Swipe__StartEnd" notes are used at the start and end of swipes. "Swipe__Mid" notes are used for the other notes in them.  
