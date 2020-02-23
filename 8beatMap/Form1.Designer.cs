@@ -207,7 +207,7 @@
             // 
             resources.ApplyResources(this.ResizeBox, "ResizeBox");
             this.ResizeBox.Maximum = new decimal(new int[] {
-            300,
+            500,
             0,
             0,
             0});
