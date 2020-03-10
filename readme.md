@@ -1,10 +1,11 @@
 ﻿# <img alt="8beatMap Icon" src="https://raw.githubusercontent.com/NetNerd/8beatMap/master/icon/icon-96x96-fs8.png" width="48" height="48" align="top" /> 8beatMap
 
-8beatMapはスマホ音楽ゲーム「8 beat Story♪」の譜面に対応したエディタープログラムです。「Girls Beat Stage!」の譜面にも対応しています。  
+8beatMapはスマホ音楽ゲーム「8 beat Story♪」の譜面に対応したエディターです。  
+「Girls Beat Stage!」の譜面にも対応しています。  
 多くの機能はありませんが、誰でも簡単に扱えると思います。
-
-　
-
+ 
+ 
+ 
 8beatMap is a chart editor for the mobile rhythm game "8 beat Story♪". It also supports "Girls Beat Stage!" charts.  
 It doesn't have a lot of features, but I think it's pretty easy to use.
 
@@ -19,7 +20,8 @@ It doesn't have a lot of features, but I think it's pretty easy to use.
 
 ### ダウンロード　(Download):
 
-自動ビルド済みファイル は こちらから(AppVeyor)：https://ci.appveyor.com/project/ntnd/8beatmap/branch/master/artifacts  
+自動ビルド済みファイル は こちらから (AppVeyor)：  
+https://ci.appveyor.com/project/ntnd/8beatmap/branch/master/artifacts  
 
 8beatMapは Windows上の .NET Framework 4.5またはMonoで動作します。  
 他のOSでの動作はNAudioによって制限されています。恐らくWineで動作可能です。  
@@ -28,9 +30,9 @@ Windows上Monoではコピー・ペーストが機能しないようです。（
 
 8beatMap.1.0….zip をダウンロード、解凍し8beatMap.exeを実行してください。  
 skins.zip は追加のスキンです（任意）。
-追加のスキンが欲しい場合は両zipファイルをダウンロードし、解凍して、skinsフォルダを8beatMapフォルダへコピーしてください。
-  
-  
+スキンを追加したい場合は両zipファイルをダウンロードし、解凍して、skinsフォルダを8beatMapフォルダへコピーしてください。
+
+<br>
 
 Automated builds are on AppVeyor: https://ci.appveyor.com/project/ntnd/8beatmap/branch/master/artifacts  
 
@@ -40,8 +42,9 @@ Copy and paste seems broken in Mono on Windows (might work on other platforms).
 
 Download and extract 8beatMap.1.0….zip, then run 8beatMap.exe.  
 skins.zip is just additional skins (optional). If you want the additional skins, download and extract both zip files, then copy the skins folder into the 8beatMap folder.
-
-　
+  
+　<br>
+  
 
 ### 使い方について　(Usage Notes):
 
@@ -58,8 +61,10 @@ skins.zip is just additional skins (optional). If you want the additional skins,
 |7：GBSフリック    |U：同時にGBSフリック||
 |8：GBS時計        |I：同時にGBS時計||
 ||||
+  
 
-特別なノードタイプ：  
+
+#### 特別なノードタイプ ：  
 - 「同時～」はピンク色のノード。自動でノードを置換する機能があるので手動でのセットは不要。※色はスキンで変更可能です
 - 「同時に長押しの最初」は長押しのファースト音符のピンク色版。  
 「同時に長押しの最後」は長押しのラスト音符のピンク色版。  
@@ -70,7 +75,7 @@ skins.zip is just additional skins (optional). If you want the additional skins,
 - 本家GBSではフリックやスワイプはありません。本家エビストでは「GBS～」は利用されていません。
 　
 
-他のショートカットキー：  
+#### 他のショートカットキー：  
 P：プレビューウィンドウ  
 /：譜面のノードIDを示す（デバッグのため）  
 M：プレビューウィンドウの背景色を黒にする  
@@ -94,10 +99,14 @@ Ctrl+I：譜面作品情報（Iはインフォメーション）
 
 譜面のファイルフォーマットは「.dec.json」。　ゲームと同じ形式ですが復号しました（「dec」は「decrypt／デクリプト」から）。
 復号プログラムについては含みません。
+  
+<br><br>
 
 　
+### Usage Notes:
 
 Use the left mouse button to place notes and the right one to delete them.
+
 
 Note types can be selected with keyboard shortcuts too:  
 ||||
@@ -114,7 +123,7 @@ Note types can be selected with keyboard shortcuts too:
 
 
 
-Special note types:  
+#### Special note types:  
 - "Simul-" notes are the pink ones (at the same time as others). There's an auto feature, so you don't need to place them manually.    --Note: colours may change depending on skin.  
 - "SimulHoldStart" is the pink version of the first note in a hold.  "SimulHoldRelease" is the pink version of the last note in a hold.    --You don't need a special note type for normal (green/non-simul) holds.  
 -Flicks are just single notes and holds are when there's more than one.  
@@ -123,7 +132,7 @@ Special note types:
 - In the actual game GBS, there are no flicks or swipes. In 8bs, the "GBS" types don't exist.  
 　
 
-Other shortcut keys:  
+#### Other shortcut keys:  
 P: Preview window  
 /: Show note IDs on chart (for debugging)  
 M: Make preview window background black  
