@@ -124,13 +124,13 @@
     <value>参照</value>
   </data>
   <data name="ImagePathLbl.Text" xml:space="preserve">
-    <value>絵ファイル：</value>
+    <value>画像ファイル：</value>
   </data>
   <data name="OKBtn.Text" xml:space="preserve">
     <value>&amp;OK</value>
   </data>
   <data name="openFileDialog1.Filter" xml:space="preserve">
-    <value>すべての絵ファイル|*.bmp;*.gif;*.jpg;*.jpeg;*.png;*.tif;*.tiff|BMP|*.bmp|GIF|*.gif|JPEG|*.jpg;*.jpeg|PNG|*.png|TIFF|*.tif;*.tiff|すべてのファイル|*.*</value>
+    <value>すべての画像ファイル|*.bmp;*.gif;*.jpg;*.jpeg;*.png;*.tif;*.tiff|BMP|*.bmp|GIF|*.gif|JPEG|*.jpg;*.jpeg|PNG|*.png|TIFF|*.tif;*.tiff|すべてのファイル|*.*</value>
   </data>
   <data name="RarityLbl.Text" xml:space="preserve">
     <value>レア度：</value>
