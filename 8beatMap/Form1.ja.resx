@@ -124,10 +124,10 @@
     <value>停止</value>
   </data>
   <data name="PauseOnSeek.Text" xml:space="preserve">
-    <value>スクロール中時で停止</value>
+    <value>スクロール中に停止</value>
   </data>
   <data name="ZoomBtn.Text" xml:space="preserve">
-    <value>アプライ</value>
+    <value>適用</value>
   </data>
   <data name="ZoomLbl.Text" xml:space="preserve">
     <value>ズーム：</value>
@@ -136,7 +136,7 @@
     <value>長さ（小節）：</value>
   </data>
   <data name="ResizeBtn.Text" xml:space="preserve">
-    <value>アプライ</value>
+    <value>適用</value>
   </data>
   <data name="OpenBtn.Text" xml:space="preserve">
     <value>譜面を開く</value>
@@ -148,16 +148,16 @@
     <value>譜面を保存</value>
   </data>
   <data name="ImgSaveBtn.Text" xml:space="preserve">
-    <value>絵を保存</value>
+    <value>譜面の画像出力</value>
   </data>
   <data name="NoteTypeLbl.Text" xml:space="preserve">
     <value>ノードタイプ：</value>
   </data>
   <data name="NoteShiftLbl.Text" xml:space="preserve">
-    <value>全ノードを動かす：</value>
+    <value>全ノードを移動する：</value>
   </data>
   <data name="NoteShiftBtn.Text" xml:space="preserve">
-    <value>アプライ</value>
+    <value>適用</value>
   </data>
   <data name="NoteSoundBox.Text" xml:space="preserve">
     <value>ノード音</value>
@@ -166,7 +166,7 @@
     <value>ノードを数える</value>
   </data>
   <data name="AutoSimulBtn.Text" xml:space="preserve">
-    <value>オート 同時風ノード</value>
+    <value>自動で同時押しノードに置換</value>
   </data>
   <data name="LangChangeBtn.Text" xml:space="preserve">
     <value>English</value>
@@ -184,7 +184,7 @@
     <value>譜面設定</value>
   </data>
   <data name="CopyLengthLabel.Text" xml:space="preserve">
-    <value>コピー長さ（小節）：</value>
+    <value>コピーする小節の長さ：</value>
   </data>
   <data name="editorSettingsTab.Text" xml:space="preserve">
     <value>エディター設定</value>
@@ -196,7 +196,7 @@
     <value>スキン：</value>
   </data>
   <data name="VolumeLbl.Text" xml:space="preserve">
-    <value>ボーリューム：</value>
+    <value>ボリューム：</value>
   </data>
   <data name="ChartInfoButton.Text" xml:space="preserve">
     <value>譜面作品情報</value>
@@ -208,7 +208,7 @@
     <value>プレビュー設定</value>
   </data>
   <data name="ShowComboNumBox.Text" xml:space="preserve">
-    <value>コンボ数を示す</value>
+    <value>コンボ数を表示</value>
   </data>
   <data name="CharaIconsCopyBtn.Text" xml:space="preserve">
     <value>1を全部にコピー</value>

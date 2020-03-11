@@ -139,38 +139,38 @@
     <value>はい(&amp;Y)</value>
   </data>
   <data name="ChartDifficultyMessage" xml:space="preserve">
-    <value>譜面の難易度はやく{0}</value>
+    <value>譜面の推定難易度 {0}</value>
   </data>
   <data name="ChartLoadError" xml:space="preserve">
-    <value>譜面を読み込みでエラーが会った</value>
+    <value>譜面の読み込みでエラー発生</value>
   </data>
   <data name="ChartLoadNoBPM" xml:space="preserve">
-    <value>譜面にBPMがありません（ゲームの元譜面で、この情報がありません）
-BPMの設定するを忘れないください</value>
+    <value>譜面のBPM設定がありません（ゲームの元譜面で、この情報がありません）
+BPMの設定を忘れないでください</value>
   </data>
   <data name="ExitCaption" xml:space="preserve">
     <value>確認</value>
   </data>
   <data name="ExitMessage" xml:space="preserve">
-    <value>本当に終了しますか？前に、譜面を保存してください。</value>
+    <value>本当に終了しますか？ 既に譜面は保存しましたか？</value>
   </data>
   <data name="MissingTextureError" xml:space="preserve">
-    <value>プレビュー表示のテクスチャイメージは読み込めなかった</value>
+    <value>プレビュー表示のテクスチャイメージが読み込めませんでした</value>
   </data>
   <data name="MusicLoadError" xml:space="preserve">
-    <value>音楽を読み込みでエラーが会った</value>
+    <value>音楽の読み込みでエラーが発生</value>
   </data>
   <data name="NoteCountMessage" xml:space="preserve">
-    <value>譜面に、{0}ノードがある</value>
+    <value>この譜面には、{0}ノードあります</value>
   </data>
   <data name="PlaybackNoMusicError" xml:space="preserve">
-    <value>再生のために、音楽を読み込んでください</value>
+    <value>プレイするために、音楽を読み込んでください</value>
   </data>
   <data name="SkinLoadError" xml:space="preserve">
-    <value>スキンを読み込んでエラーが会った：{0}
-このスキンは存在するのをチェックしてもう一度8beatMapを実行してください。</value>
+    <value>スキン読み込み時にエラー発生：{0}
+このスキンが存在するか確認してもう一度8beatMapを実行してください。</value>
   </data>
   <data name="SkinVersionWarning" xml:space="preserve">
-    <value>警告：このスキンは他の8beatMapバージョンで作った。ローディングできない場合がある。</value>
+    <value>警告：このスキンは他の8beatMapバージョンで作られました。正常に読み込めない場合があります。</value>
   </data>
 </root>

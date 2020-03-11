@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="FlickLeft" xml:space="preserve">
-    <value>左へフリック</value>
+    <value>左フリック</value>
   </data>
   <data name="FlickRight" xml:space="preserve">
-    <value>右へフリック</value>
+    <value>右フリック</value>
   </data>
   <data name="GbsClock" xml:space="preserve">
     <value>GBS時計</value>
@@ -136,42 +136,42 @@
     <value>同時にGBSフリック</value>
   </data>
   <data name="Hold" xml:space="preserve">
-    <value>長い押す</value>
+    <value>長押し</value>
   </data>
   <data name="HoldEndFlickLeft" xml:space="preserve">
-    <value>長い押すの最後で左へフリック</value>
+    <value>長押しの最後で左フリック</value>
   </data>
   <data name="HoldEndFlickRight" xml:space="preserve">
-    <value>長い押すの最後で右へフリック</value>
+    <value>長押しの最後で右フリック</value>
   </data>
   <data name="SimulHoldRelease" xml:space="preserve">
-    <value>同時に長い押すの最後</value>
+    <value>同時に長押しの最後</value>
   </data>
   <data name="SimulHoldStart" xml:space="preserve">
-    <value>同時に長い押すの最初</value>
+    <value>同時に長押しの最初</value>
   </data>
   <data name="SimulTap" xml:space="preserve">
-    <value>同時に押す</value>
+    <value>同時押し</value>
   </data>
   <data name="SwipeChangeDirL2R" xml:space="preserve">
-    <value>左へスワイプから右に変わる</value>
+    <value>左スワイプから右に切替え</value>
   </data>
   <data name="SwipeChangeDirR2L" xml:space="preserve">
-    <value>右へスワイプから左に変わる</value>
+    <value>右スワイプから左に切替え</value>
   </data>
   <data name="SwipeLeftMid" xml:space="preserve">
-    <value>左へスワイプの真ん中で</value>
+    <value>左スワイプの真ん中</value>
   </data>
   <data name="SwipeLeftStartEnd" xml:space="preserve">
-    <value>左へスワイプの端</value>
+    <value>左スワイプの端</value>
   </data>
   <data name="SwipeRightMid" xml:space="preserve">
-    <value>右へスワイプの真ん中で</value>
+    <value>右スワイプの真ん中</value>
   </data>
   <data name="SwipeRightStartEnd" xml:space="preserve">
-    <value>右へスワイプの端</value>
+    <value>右スワイプの端</value>
   </data>
   <data name="Tap" xml:space="preserve">
-    <value>押す</value>
+    <value>通常タップ</value>
   </data>
 </root>
