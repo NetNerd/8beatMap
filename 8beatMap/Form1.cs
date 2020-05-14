@@ -516,6 +516,7 @@ namespace _8beatMap
             ShowComboNumBox.Checked = Properties.Settings.Default.ShowComboInPreview;
             ChangeFormLanguage(Properties.Settings.Default.Language);
             charaicons = CharaIcons.LoadCharaIconsDef(Properties.Settings.Default.CharaIcons);
+            previewBgPath = Properties.Settings.Default.PreviewBackground;
 
             SetSkin(Properties.Settings.Default.Skin);
 
@@ -915,7 +916,8 @@ namespace _8beatMap
                 Properties.Settings.Default.ShowComboInPreview = ShowComboNumBox.Checked;
                 Properties.Settings.Default.Language = System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
                 Properties.Settings.Default.CharaIcons = CharaIcons.GenCharaIconsDef(charaicons);
-                
+                Properties.Settings.Default.PreviewBackground = previewBgPath;
+
                 Properties.Settings.Default.Save();
             }
             catch

@@ -52,5 +52,8 @@
 ,0,2,127
 </Value>
     </Setting>
+    <Setting Name="PreviewBackground" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

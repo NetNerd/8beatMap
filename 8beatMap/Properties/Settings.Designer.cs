@@ -190,5 +190,17 @@ namespace _8beatMap.Properties {
                 this["CharaIcons"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string PreviewBackground {
+            get {
+                return ((string)(this["PreviewBackground"]));
+            }
+            set {
+                this["PreviewBackground"] = value;
+            }
+        }
     }
 }
