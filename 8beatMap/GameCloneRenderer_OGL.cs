@@ -376,11 +376,34 @@ namespace _8beatMap
             ProjMatrix = Matrix4.CreateOrthographicOffCenter(0, 1136, 0, viewHeight, 0, 2);
             GL.LoadMatrix(ref ProjMatrix);
 
+            float viewAspect = 1136f / viewHeight;
+
 
             GL.Color4(1f, 1f, 1f, 1f);
 
 
-            DrawFilledRect(0, 0, 1136, viewHeight, "spr_Bg");
+            if (bgSize.Height > 0)
+            {
+                float bgAspect = (float)bgSize.Width / bgSize.Height;
+
+                if (bgAspect == viewAspect)
+                {
+                    DrawFilledRect(0, 0, 1136, viewHeight, "spr_Bg");
+                }
+                else if (bgAspect > viewAspect) // bg is wider
+                {
+                    int bgWidth = (int)(1136 * (bgAspect / viewAspect));
+                    int bgOffset = (bgWidth - 1136) / 2;
+                    DrawFilledRect(-bgOffset, 0, bgWidth, viewHeight, "spr_Bg");
+                }
+                else // bg is taller
+                {
+                    int bgHeight = (int)(viewHeight * (viewAspect / bgAspect));
+                    int bgOffset = (bgHeight - viewHeight) / 2;
+                    DrawFilledRect(0, -bgOffset, 1136, bgHeight, "spr_Bg");
+                }
+            }
+
 
 
             for (int i = 0; i < charaicons.Length; i++)
