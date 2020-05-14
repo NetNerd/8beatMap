@@ -89,6 +89,7 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.CharaIconsCopyBtn = new System.Windows.Forms.Button();
+            this.PreviewBackgroundBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.BPMbox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.newplayhead)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ZoomBox)).BeginInit();
@@ -517,6 +518,7 @@
             // 
             // previewSettingsTab
             // 
+            this.previewSettingsTab.Controls.Add(this.PreviewBackgroundBtn);
             this.previewSettingsTab.Controls.Add(this.CharaIconsCopyBtn);
             this.previewSettingsTab.Controls.Add(this.CharaIconsBtn8);
             this.previewSettingsTab.Controls.Add(this.CharaIconsBtn7);
@@ -632,6 +634,13 @@
             this.CharaIconsCopyBtn.UseVisualStyleBackColor = true;
             this.CharaIconsCopyBtn.Click += new System.EventHandler(this.CharaIconsCopyBtn_Click);
             // 
+            // PreviewBackgroundBtn
+            // 
+            resources.ApplyResources(this.PreviewBackgroundBtn, "PreviewBackgroundBtn");
+            this.PreviewBackgroundBtn.Name = "PreviewBackgroundBtn";
+            this.PreviewBackgroundBtn.UseVisualStyleBackColor = true;
+            this.PreviewBackgroundBtn.Click += new System.EventHandler(this.PreviewBackgroundBtn_Click);
+            // 
             // Form1
             // 
             resources.ApplyResources(this, "$this");
@@ -734,6 +743,7 @@
         private System.Windows.Forms.Button CharaIconsBtn1;
         private System.Windows.Forms.Label CharaIconsLbl;
         private System.Windows.Forms.Button CharaIconsCopyBtn;
+        private System.Windows.Forms.Button PreviewBackgroundBtn;
     }
 }
 

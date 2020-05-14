@@ -1263,6 +1263,33 @@
   <data name="&gt;&gt;audioSettingsTab.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
+  <data name="PreviewBackgroundBtn.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="PreviewBackgroundBtn.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 144</value>
+  </data>
+  <data name="PreviewBackgroundBtn.Size" type="System.Drawing.Size, System.Drawing">
+    <value>115, 23</value>
+  </data>
+  <data name="PreviewBackgroundBtn.TabIndex" type="System.Int32, mscorlib">
+    <value>30</value>
+  </data>
+  <data name="PreviewBackgroundBtn.Text" xml:space="preserve">
+    <value>Background</value>
+  </data>
+  <data name="&gt;&gt;PreviewBackgroundBtn.Name" xml:space="preserve">
+    <value>PreviewBackgroundBtn</value>
+  </data>
+  <data name="&gt;&gt;PreviewBackgroundBtn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;PreviewBackgroundBtn.Parent" xml:space="preserve">
+    <value>previewSettingsTab</value>
+  </data>
+  <data name="&gt;&gt;PreviewBackgroundBtn.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="CharaIconsCopyBtn.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -1288,7 +1315,7 @@
     <value>previewSettingsTab</value>
   </data>
   <data name="&gt;&gt;CharaIconsCopyBtn.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="CharaIconsBtn8.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1315,7 +1342,7 @@
     <value>previewSettingsTab</value>
   </data>
   <data name="&gt;&gt;CharaIconsBtn8.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="CharaIconsBtn7.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1342,7 +1369,7 @@
     <value>previewSettingsTab</value>
   </data>
   <data name="&gt;&gt;CharaIconsBtn7.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="CharaIconsBtn6.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1369,7 +1396,7 @@
     <value>previewSettingsTab</value>
   </data>
   <data name="&gt;&gt;CharaIconsBtn6.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="CharaIconsBtn5.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1396,7 +1423,7 @@
     <value>previewSettingsTab</value>
   </data>
   <data name="&gt;&gt;CharaIconsBtn5.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="CharaIconsBtn4.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1423,7 +1450,7 @@
     <value>previewSettingsTab</value>
   </data>
   <data name="&gt;&gt;CharaIconsBtn4.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="CharaIconsBtn3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1450,7 +1477,7 @@
     <value>previewSettingsTab</value>
   </data>
   <data name="&gt;&gt;CharaIconsBtn3.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="CharaIconsBtn2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1477,7 +1504,7 @@
     <value>previewSettingsTab</value>
   </data>
   <data name="&gt;&gt;CharaIconsBtn2.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="CharaIconsBtn1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1504,7 +1531,7 @@
     <value>previewSettingsTab</value>
   </data>
   <data name="&gt;&gt;CharaIconsBtn1.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="CharaIconsLbl.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1543,7 +1570,7 @@
     <value>previewSettingsTab</value>
   </data>
   <data name="&gt;&gt;CharaIconsLbl.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>10</value>
   </data>
   <data name="ShowComboNumBox.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1576,7 +1603,7 @@
     <value>previewSettingsTab</value>
   </data>
   <data name="&gt;&gt;ShowComboNumBox.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>11</value>
   </data>
   <data name="previewSettingsTab.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 23</value>

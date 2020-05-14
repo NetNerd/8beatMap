@@ -442,7 +442,7 @@ namespace _8beatMap
                 OGLrenderer = null;
             }
 
-            OGLrenderer = new GameCloneRenderer_OGL(wndWidth, wndHeight, wndX, wndY, wndState, this, skin, charaicons, ShowComboNumBox.Checked);
+            OGLrenderer = new GameCloneRenderer_OGL(wndWidth, wndHeight, wndX, wndY, wndState, this, skin, charaicons, ShowComboNumBox.Checked, previewBgPath);
             isOpeningPreview = false;
         }
 
@@ -479,6 +479,8 @@ namespace _8beatMap
         }
 
         private CharaIcons.CharaIconInfo[] charaicons = new CharaIcons.CharaIconInfo[8];
+
+        private string previewBgPath;
 
         public Form1()
         {
@@ -1276,7 +1278,7 @@ namespace _8beatMap
             if (iconDialog.ShowDialog() == DialogResult.OK)
             {
                 charaicons[charanum] = iconDialog.result;
-                OpenPreviewWindow(); // make textures load
+                OpenPreviewWindow(); // make textures reload
             }
             iconDialog.Dispose();
         }
@@ -1286,7 +1288,18 @@ namespace _8beatMap
             for (int i = 1; i < charaicons.Length; i++)
                 charaicons[i] = charaicons[0];
 
-            OpenPreviewWindow(); // make textures load
+            OpenPreviewWindow(); // make textures reload
+        }
+
+        private void PreviewBackgroundBtn_Click(object sender, EventArgs e)
+        {
+            PreviewBackgroundDialog bgDialog = new PreviewBackgroundDialog(skin, previewBgPath);
+            if (bgDialog.ShowDialog() == DialogResult.OK)
+            {
+                previewBgPath = bgDialog.result;
+                OpenPreviewWindow(); // make textures reload
+            }
+            bgDialog.Dispose();
         }
     }
 }

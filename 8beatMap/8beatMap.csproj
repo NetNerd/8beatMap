@@ -85,6 +85,12 @@
     <Compile Include="MMTimer.cs" />
     <Compile Include="OpenTkBMFontRenderer.cs" />
     <Compile Include="OpenTkTextureFuncs.cs" />
+    <Compile Include="PreviewBackgroundDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PreviewBackgroundDialog.designer.cs">
+      <DependentUpon>PreviewBackgroundDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="SkinnedMessageBox.cs" />
     <Compile Include="ChartInfoDialog.cs">
       <SubType>Form</SubType>
@@ -151,6 +157,12 @@
     <EmbeddedResource Include="NotetypeNames.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>NotetypeNames.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PreviewBackgroundDialog.ja.resx">
+      <DependentUpon>PreviewBackgroundDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PreviewBackgroundDialog.resx">
+      <DependentUpon>PreviewBackgroundDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

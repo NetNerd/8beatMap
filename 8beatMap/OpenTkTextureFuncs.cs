@@ -7,6 +7,12 @@ namespace _8beatMap
 {
     static class OpenTkTextureLoadFuncs
     {
+        public struct TextureWithSizeInfo
+        {
+            public int TexId;
+            public Size Size;
+        }
+
         public static int GenNewTexture()
         {
             int tex = GL.GenTexture();
@@ -24,7 +30,7 @@ namespace _8beatMap
             return tex;
         }
 
-        public static int LoadTexture(string path)
+        public static TextureWithSizeInfo LoadTextureWithSizeInfo(string path)
         {
             Bitmap bmp;
             try
@@ -40,7 +46,9 @@ namespace _8beatMap
                 System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
 
 
-            int tex = GenNewTexture();
+            TextureWithSizeInfo output;
+            output.TexId = GenNewTexture();
+            output.Size = new Size(bmp.Width, bmp.Height);
 
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, bmp.Width, bmp.Height, 0, PixelFormat.Bgra, PixelType.UnsignedByte, bmpData.Scan0);
 
@@ -53,7 +61,12 @@ namespace _8beatMap
 
             GL.BindTexture(TextureTarget.Texture2D, 0);
 
-            return tex;
+            return output;
+        }
+
+        public static int LoadTexture(string path)
+        {
+            return LoadTextureWithSizeInfo(path).TexId;
         }
 
 

@@ -22,6 +22,9 @@ namespace _8beatMap
 
         private CharaIcons.CharaIconInfo[] charaicons = new CharaIcons.CharaIconInfo[8];
 
+        private string bgPath;
+        private Size bgSize;
+
         private OpenTkBMFontRenderer combofontrenderer = null;
 
         public bool showcombo = true;
@@ -201,14 +204,45 @@ namespace _8beatMap
             //    }
             //}
 
+
+            string bgkey = "spr_Bg";
+
+            if (bgPath != null && bgPath.Length > 0)
+            {
+                try
+                {
+                    if (!textures.ContainsKey(bgkey))
+                    {
+                        OpenTkTextureLoadFuncs.TextureWithSizeInfo tex = OpenTkTextureLoadFuncs.LoadTextureWithSizeInfo(bgPath);
+                        textures.Add(bgkey, tex.TexId);
+                        bgSize = tex.Size;
+                    }
+                }
+                catch
+                {
+                    SkinnedMessageBox.Show(skin, DialogResMgr.GetString("MissingTextureError") + "\n(" + bgPath + ")", "", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                    Stop();
+                }
+            }
+            else
+            {
+                // load an empty texture if no icon is specified
+                if (!textures.ContainsKey(bgkey))
+                {
+                    textures.Add(bgkey, emptytex);
+                    bgSize = new Size(0, 0);
+                }
+            }
+
         }
 
-        public GameCloneRenderer_OGL(int wndWidth, int wndHeight, int wndX, int wndY, WindowState wndState, Form1 mainform, Skinning.Skin skin, CharaIcons.CharaIconInfo[] charaicons, bool showcombo)
+        public GameCloneRenderer_OGL(int wndWidth, int wndHeight, int wndX, int wndY, WindowState wndState, Form1 mainform, Skinning.Skin skin, CharaIcons.CharaIconInfo[] charaicons, bool showcombo, string bgPath)
         {
             this.mainform = mainform;
             this.skin = skin;
             this.charaicons = (CharaIcons.CharaIconInfo[])charaicons.Clone();
             this.showcombo = showcombo;
+            this.bgPath = bgPath;
             numLanes = skin.NumLanes;
             NodeStartLocs = (Point[])skin.NodeStartLocs.Clone();
             NodeEndLocs = (Point[])skin.NodeEndLocs.Clone();
@@ -344,6 +378,10 @@ namespace _8beatMap
 
 
             GL.Color4(1f, 1f, 1f, 1f);
+
+
+            DrawFilledRect(0, 0, 1136, viewHeight, "spr_Bg");
+
 
             for (int i = 0; i < charaicons.Length; i++)
             {
