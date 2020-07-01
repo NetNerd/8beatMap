@@ -177,7 +177,7 @@
             // 
             resources.ApplyResources(this.ZoomBox, "ZoomBox");
             this.ZoomBox.Maximum = new decimal(new int[] {
-            16,
+            28,
             0,
             0,
             0});
