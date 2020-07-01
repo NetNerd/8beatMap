@@ -246,7 +246,8 @@ namespace _8beatMap
                 //tick -= chart.ConvertTimeToTicks(TimeSpan.FromMilliseconds(MusicDelayMs));
             }
 
-            pictureBox1.Image.Dispose();
+            if (pictureBox1.Image != null)
+                pictureBox1.Image.Dispose();
             pictureBox1.Image = GetChartImage(tick, TickHeight, IconWidth, IconHeight, SystemColors.ControlLight, false, pictureBox1.Width, pictureBox1.Height);
         }
 
@@ -492,9 +493,12 @@ namespace _8beatMap
             this.SuspendLayout();
             this.Font = new Font(SystemFonts.MessageBoxFont.FontFamily, 8.8f);
             //this.Font = new System.Drawing.Font(System.Drawing.SystemFonts.MessageBoxFont.FontFamily, System.Drawing.SystemFonts.MessageBoxFont.SizeInPoints);
-            this.AutoScaleMode = AutoScaleMode.None;
+            splitContainer1.Panel2MinSize = (int)(splitContainer1.Panel2MinSize * this.AutoScaleFactor.Height); // fix high DPI
             this.ResumeLayout(false);
             this.PerformLayout();
+
+            // trigger resize handler to fix hi-dpi issues
+            Form1_Resize(this, new EventArgs());
 
             pictureBox1.Image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
 
@@ -987,6 +991,8 @@ namespace _8beatMap
             foreach (Control Ctrl in Controls)
                 resources.ApplyResources(Ctrl, Ctrl.Name);
 
+            splitContainer1.Panel2MinSize = (int)(splitContainer1.Panel2MinSize * this.AutoScaleFactor.Height); // fix high DPI
+
             foreach (Control Ctrl in splitContainer1.Panel1.Controls)
                 resources.ApplyResources(Ctrl, Ctrl.Name);
             foreach (Control Ctrl in splitContainer1.Panel2.Controls)
@@ -1007,6 +1013,9 @@ namespace _8beatMap
             PerformLayout();
 
             AddNoteTypes();
+
+            // trigger resize handler to fix hi-dpi issues
+            Form1_Resize(this, new EventArgs());
         }
 
         private void LangChangeBtn_Click(object sender, EventArgs e)
