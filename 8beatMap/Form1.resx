@@ -775,7 +775,7 @@
     <value>119, 31</value>
   </data>
   <data name="AutoSimulBtn.Size" type="System.Drawing.Size, System.Drawing">
-    <value>115, 23</value>
+    <value>160, 23</value>
   </data>
   <data name="AutoSimulBtn.TabIndex" type="System.Int32, mscorlib">
     <value>61</value>
