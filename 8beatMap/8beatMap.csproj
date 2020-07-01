@@ -273,15 +273,15 @@
     <PostBuildEvent>echo Removing old dirty build outputs...
 echo (Move previous build of current version to a temp directory)
 mkdir "$(ZipfileDir)/tmp"
-mv $(ZipfileDir)/$(ZipfileName) $(ZipfileDir)/tmp/
+ren $(ZipfileDir)/$(ZipfileName) $(ZipfileDir)/tmp/
 echo (Delete old files)
-rm $(ZipfileDir)/8beatMap*-dirty-$(ConfigurationName).zip
+del $(ZipfileDir)/8beatMap*-dirty-$(ConfigurationName).zip
 echo (Move build from temp directory back to zips directory)
-mv $(ZipfileDir)/tmp/$(ZipfileName) $(ZipfileDir)/
+ren $(ZipfileDir)/tmp/$(ZipfileName) $(ZipfileDir)/
 rmdir "$(ZipfileDir)/tmp"
 echo Copying readme and license to output directory...
-cp ../../../readme.md readme.txt
-cp ../../../license.txt license.txt
+copy ../../../readme.md readme.txt
+copy ../../../license.txt license.txt
 echo Updating zip files...
 7z u "$(ZipfileDir)/$(ZipfileName)" 8beatMap.exe 8beatMap.pdb NAudio.dll Newtonsoft.Json.dll OpenTK.dll OpenTK.dll.config ja readme.txt license.txt ../../skin*/8bs -xr!*.psd
 7z u "$(ZipfileDir)/skins.zip" ../../skins -xr!*.psd</PostBuildEvent>
