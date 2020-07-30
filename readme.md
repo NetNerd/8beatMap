@@ -48,7 +48,7 @@ skins.zip is just additional skins (optional). If you want the additional skins,
 
 ### 使い方について　(Usage Notes):
 
-ノードを置く際はマウス 左ボタン。　消す際はマウス右ボタン。  
+ノードを置く際はマウス 左ボタン。　消す際はマウス右ボタン（Ctrl+左ボタンも機能）。  
 ノードタイプの選択はキーボードショートカットでも出来ます：  
 ||||
 |:----|:---- |:----|
@@ -105,7 +105,7 @@ Ctrl+I：譜面作品情報（Iはインフォメーション）
 　
 ### Usage Notes:
 
-Use the left mouse button to place notes and the right one to delete them.
+Use the left mouse button to place notes and the right one to delete them (Ctrl+left click works too).
 
 
 Note types can be selected with keyboard shortcuts too:  

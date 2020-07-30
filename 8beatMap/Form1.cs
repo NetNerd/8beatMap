@@ -745,7 +745,10 @@ namespace _8beatMap
             int Lane = ConvertXCoordToNote(e.X);
             int Tick = (int)ConvertYCoordToTick(e.Y);
 
-            ProcessClick(Tick, Lane, e.Button, NoteTypes.NoteTypeDefs.gettypebyid(((KeyValuePair<string, int>)NoteTypeSelector.SelectedItem).Value));
+            MouseButtons button = e.Button;
+            if (button == MouseButtons.Left && ModifierKeys == Keys.Control) button = MouseButtons.Right;
+
+            ProcessClick(Tick, Lane, button, NoteTypes.NoteTypeDefs.gettypebyid(((KeyValuePair<string, int>)NoteTypeSelector.SelectedItem).Value));
         }
 
         private void Chart_MouseMove(object sender, MouseEventArgs e)
@@ -755,7 +758,10 @@ namespace _8beatMap
                 int Lane = ConvertXCoordToNote(e.X);
                 int Tick = (int)ConvertYCoordToTick(e.Y);
 
-                ProcessClick(Tick, Lane, e.Button, NoteTypes.NoteTypeDefs.gettypebyid(((KeyValuePair<string, int>)NoteTypeSelector.SelectedItem).Value));
+                MouseButtons button = e.Button;
+                if (button == MouseButtons.Left && ModifierKeys == Keys.Control) button = MouseButtons.Right;
+
+                ProcessClick(Tick, Lane, button, NoteTypes.NoteTypeDefs.gettypebyid(((KeyValuePair<string, int>)NoteTypeSelector.SelectedItem).Value));
             }
         }
 
